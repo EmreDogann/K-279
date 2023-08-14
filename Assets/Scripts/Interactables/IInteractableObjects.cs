@@ -1,8 +1,9 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "InteractableObject")]
-public abstract class InteractableObjects: ScriptableObject
+
+public interface IInteractableObjects
 {
+    public abstract void RegisterInteractable();
     public abstract void InteractionStart();
 
     public abstract void InteractionContinues(bool isInteractionKeyDown);
