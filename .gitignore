@@ -33,7 +33,6 @@ Builds.meta
 Logs.meta
 Bin.meta
 
-
 # Never ignore Asset meta data
 ![Aa]ssets/**/*.meta
 

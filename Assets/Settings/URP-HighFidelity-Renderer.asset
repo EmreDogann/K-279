@@ -19,9 +19,9 @@ MonoBehaviour:
     AfterOpaque: 0
     Source: 1
     NormalSamples: 1
-    Intensity: 0.5
-    DirectLightingStrength: 0.25
-    Radius: 0.25
+    Intensity: 102.08
+    DirectLightingStrength: 0.447
+    Radius: 0.3
     Samples: 0
     BlurQuality: 0
     Falloff: 100
@@ -52,8 +52,10 @@ MonoBehaviour:
       type: 3}
     hdrDebugViewPS: {fileID: 4800000, guid: 573620ae32aec764abd4d728906d2587, type: 3}
   m_RendererFeatures:
+  - {fileID: 6310368705445960933}
   - {fileID: -1878332245247344467}
-  m_RendererFeatureMap: adc0de57c6d2eee5
+  - {fileID: 9135710460360896709}
+  m_RendererFeatureMap: e51cd961e7ee9257adc0de57c6d2eee5c5b0a1b84290c87e
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -82,7 +84,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 0
@@ -96,3 +98,68 @@ MonoBehaviour:
   m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
+--- !u!114 &6310368705445960933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
+  m_Name: RenderObjects
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    passTag: RenderObjects
+    Event: 550
+    filterSettings:
+      RenderQueueType: 1
+      LayerMask:
+        serializedVersion: 2
+        m_Bits: 8
+      PassNames: []
+    overrideMaterial: {fileID: 2100000, guid: 28fce81de77ff1245b57c297da285dd6, type: 2}
+    overrideMaterialPassIndex: 0
+    overrideShader: {fileID: 0}
+    overrideShaderPassIndex: 0
+    overrideMode: 1
+    overrideDepthState: 0
+    depthCompareFunction: 4
+    enableWrite: 1
+    stencilSettings:
+      overrideStencilState: 0
+      stencilReference: 0
+      stencilCompareFunction: 8
+      passOperation: 0
+      failOperation: 0
+      zFailOperation: 0
+    cameraSettings:
+      overrideCamera: 0
+      restoreCamera: 1
+      offset: {x: 0, y: 0, z: 0, w: 0}
+      cameraFieldOfView: 60
+--- !u!114 &9135710460360896709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f8fe2f320d945740b00157de6a13b69, type: 3}
+  m_Name: Screen Dither
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  copyToCameraFramebuffer: 0
+  showInSceneView: 1
+  ditherTex: {fileID: 2800000, guid: a45b2a91af8cf4948ab789d3525bd528, type: 3}
+  rampTex: {fileID: 2800000, guid: 61c403a28df7add438e2336c5bc90252, type: 3}
+  sharpenIntensity: 0.18
+  threshold: 1
+  tiling: 800
+  useScrolling: 1
+  filterMode: 1
+  renderPassEvent: 500
