@@ -1,11 +1,11 @@
-using UnityEngine;
-
-
-public interface IInteractableObjects
+namespace Interactables
 {
-    public abstract void RegisterInteractable();
-    public abstract void InteractionStart();
+    public interface IInteractableObjects
+    {
+        public void RegisterInteractable();
+        public void InteractionStart();
 
-    public abstract void InteractionContinues(bool isInteractionKeyDown);
-    public abstract void InteractionEnd();
+        public void InteractionContinues(bool isInteractionKeyDown);
+        public void InteractionEnd();
+    }
 }

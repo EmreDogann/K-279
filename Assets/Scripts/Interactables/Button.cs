@@ -1,40 +1,40 @@
+using System;
 using System.Collections.Generic;
-using UnityEngine;
 using TNRD;
+using UnityEngine;
 
-public class Button : MonoBehaviour, IInteractableObjects
+namespace Interactables
 {
-    [SerializeField] private List<SerializableInterface<IReactableObjects>> reactables = null;
-
-    private bool isButtonOn = false;
-    public void InteractionContinues(bool isInteractionKeyDown)
+    public class Button : MonoBehaviour, IInteractableObjects
     {
-        if (isInteractionKeyDown)
+        [SerializeField] private List<SerializableInterface<IReactableObjects>> reactables;
+
+        private bool isButtonOn;
+
+        public void InteractionContinues(bool isInteractionKeyDown)
         {
-            if (isButtonOn)
+            if (isInteractionKeyDown)
             {
-                reactables.ForEach(c =>  c.Value?.ReactionEventStart());
-            } else
-            {
-                reactables.ForEach(c => c.Value?.ReactionEventEnd());
+                if (isButtonOn)
+                {
+                    reactables.ForEach(c => c.Value?.ReactionEventStart());
+                }
+                else
+                {
+                    reactables.ForEach(c => c.Value?.ReactionEventEnd());
+                }
+
+                isButtonOn = !isButtonOn;
             }
-            
-            isButtonOn = !isButtonOn;
-        } 
-    }
+        }
 
-    public void InteractionEnd()
-    {
-        return;
-    }
+        public void InteractionEnd() {}
 
-    public void InteractionStart()
-    {
-        return;
-    }
+        public void InteractionStart() {}
 
-    public void RegisterInteractable()
-    {
-        throw new System.NotImplementedException();
+        public void RegisterInteractable()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

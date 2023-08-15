@@ -1,8 +1,12 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public abstract class InputController : ScriptableObject
+namespace Controllers
 {
-    public abstract float RetrieveMoveInput();
-    public abstract bool RetrieveJumpInput();
-    public abstract bool RetrieveInteractInput();
+    public abstract class InputController : ScriptableObject
+    {
+        public abstract void SetPlayerInput(PlayerInput playerInput);
+        public abstract float RetrieveMoveInput();
+        public abstract bool RetrieveInteractInput();
+    }
 }

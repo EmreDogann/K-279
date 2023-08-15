@@ -1,30 +1,32 @@
-using UnityEngine;
+using System;
 using System.Collections.Generic;
 using TNRD;
+using UnityEngine;
 
-public class PressureSwitch : MonoBehaviour, IInteractableObjects
+namespace Interactables
 {
-
-    [SerializeField] private List<SerializableInterface<IReactableObjects>> reactables = null;
-    public void InteractionContinues(bool isInteractionKeyDown)
+    public class PressureSwitch : MonoBehaviour, IInteractableObjects
     {
-        //if (isInteractionKeyDown) Debug.Log("Button Pressed");
-        return;
-    }
+        [SerializeField] private List<SerializableInterface<IReactableObjects>> reactables;
 
-    public void InteractionEnd()
-    {
-        reactables.ForEach(c => c.Value?.ReactionEventStart());
-    }
-    
-    public void InteractionStart()
-    {
+        public void InteractionContinues(bool isInteractionKeyDown)
+        {
+            //if (isInteractionKeyDown) Debug.Log("Button Pressed");
+        }
 
-        reactables.ForEach(c => c.Value?.ReactionEventEnd());
-    }
+        public void InteractionEnd()
+        {
+            reactables.ForEach(c => c.Value?.ReactionEventStart());
+        }
 
-    public void RegisterInteractable()
-    {
-        throw new System.NotImplementedException();
+        public void InteractionStart()
+        {
+            reactables.ForEach(c => c.Value?.ReactionEventEnd());
+        }
+
+        public void RegisterInteractable()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
