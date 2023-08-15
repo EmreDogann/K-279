@@ -8,14 +8,18 @@ public class PlayerController : InputController
         return Input.GetButtonDown("Jump");
     }
 
-    public override float RetrieveMoveInput()
+    public override float RetrieveMoveInput(GameObject gameObject)
     {
-        Debug.Log("Moving");
         return Input.GetAxisRaw("Horizontal");
     }
 
     public override bool RetrieveInteractInput()
     {
         return Input.GetButtonDown("Interact");
+    }
+
+    public override bool RetrieveShootInput()
+    {
+        return Input.GetButtonDown("Shoot");
     }
 }

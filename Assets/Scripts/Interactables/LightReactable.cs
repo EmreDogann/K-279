@@ -16,7 +16,6 @@ public class LightReactable : MonoBehaviour, IReactableObjects
 
     public void ReactionEventStart()
     {
-        Debug.Log("End");
         activeAtStart = !activeAtStart;
         gameObject.SetActive(activeAtStart);
     }
