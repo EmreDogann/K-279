@@ -1,22 +1,26 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-[CreateAssetMenu(fileName = "AIController", menuName = "InputController/AIController")]
-public class AIController : InputController
+namespace Controllers
 {
-    public override bool RetrieveInteractInput()
+    [CreateAssetMenu(fileName = "AIController", menuName = "InputController/AIController")]
+    public class AIController : InputController
     {
-        return true;
-    }
+        private PlayerInput _playerInput;
 
-    public override bool RetrieveJumpInput()
-    {
-        return true;
-    }
+        public override void SetPlayerInput(PlayerInput playerInput)
+        {
+            _playerInput = playerInput;
+        }
 
-    public override float RetrieveMoveInput()
-    {
-        return 1f;
-    }
+        public override bool RetrieveInteractInput()
+        {
+            return true;
+        }
 
-    
+        public override float RetrieveMoveInput()
+        {
+            return 1f;
+        }
+    }
 }

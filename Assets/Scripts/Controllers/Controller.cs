@@ -1,8 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class Controller : MonoBehaviour
+namespace Controllers
 {
-    public InputController input = null;
+    [RequireComponent(typeof(PlayerInput))]
+    public class Controller : MonoBehaviour
+    {
+        private PlayerInput _playerInput;
+        public InputController input;
+
+        private void Awake()
+        {
+            input.SetPlayerInput(GetComponent<PlayerInput>());
+        }
+    }
 }

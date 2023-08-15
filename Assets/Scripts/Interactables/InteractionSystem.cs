@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InteractionSystem : MonoBehaviour
+namespace Interactables
 {
-    
+    public class InteractionSystem : MonoBehaviour {}
 }

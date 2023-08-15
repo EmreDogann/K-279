@@ -1,9 +1,9 @@
-using UnityEngine;
-
-
-public interface IReactableObjects
+namespace Interactables
 {
-    public abstract void RegisterReactable();
-    public abstract void ReactionEventStart();
-    public abstract void ReactionEventEnd();
+    public interface IReactableObjects
+    {
+        public void RegisterReactable();
+        public void ReactionEventStart();
+        public void ReactionEventEnd();
+    }
 }
