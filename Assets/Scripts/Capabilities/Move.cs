@@ -21,9 +21,11 @@ namespace Capabilities
 
         private void Awake()
         {
+            _facingRight = true;
             _body = GetComponent<Rigidbody>();
             _ground = GetComponent<Ground>();
             _controller = GetComponent<Controller>();
+            _sprite = GetComponentInChildren<SpriteRenderer>();
         }
 
         private void Update()
@@ -52,7 +54,8 @@ namespace Capabilities
 
         private void FlipPlayer()
         {
-            _sprite.flipX = !_sprite.flipX;
+            //_sprite.flipX = !_sprite.flipX;
+            _sprite.gameObject.transform.Rotate(0, -180, 0, Space.Self);
             _facingRight = !_facingRight;
         }
     }

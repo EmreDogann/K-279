@@ -1,68 +1,74 @@
 
+using Controllers;
 using UnityEngine;
 
-[RequireComponent(typeof(Controller))]
-public class Shoot : MonoBehaviour
+namespace Capabilities
 {
-    [SerializeField] Vector3 spawnOffset = new Vector2(0.6f, 0);
-    [SerializeField, Range(0, 5f)] private float coolDown = 0.2f;
-
-    private Vector2 _direction = Vector2.zero;
-    private bool facingRight = true;
-    private bool gunActive;
-    private float timeBetweenShots;
-    private Controller _controller;
-
-    public Quaternion gunDirection;
-
-    private void Awake()
+    [RequireComponent(typeof(Controller))]
+    public class Shoot : MonoBehaviour
     {
-        _controller = GetComponent<Controller>();
+        [SerializeField] Vector3 spawnOffset = new Vector2(0.6f, 0);
+        [SerializeField, Range(0, 5f)] private float coolDown = 0.2f;
 
-        gunActive = true;
-        timeBetweenShots = 0f;
-        gunDirection = Quaternion.identity;
-    }
-    private void Update()
-    {
-        timeBetweenShots += Time.deltaTime;
-        
-        if (gunActive && timeBetweenShots >= coolDown) 
+        private Vector2 _direction = Vector2.zero;
+        private bool facingRight = true;
+        private bool gunActive;
+        private float timeBetweenShots;
+        private Controller _controller;
+
+        public Quaternion gunDirection;
+
+        private void Awake()
         {
-            if (_controller.input.RetrieveShootInput())
+            _controller = GetComponent<Controller>();
+
+            gunActive = true;
+            timeBetweenShots = 0f;
+            gunDirection = Quaternion.identity;
+        }
+        private void Update()
+        {
+            timeBetweenShots += Time.deltaTime;
+
+            if (gunActive && timeBetweenShots >= coolDown)
             {
-                Vector2 bulletSpawnPosition = gameObject.transform.position + spawnOffset;
-                ObjectPooler.Generate("Bullet", bulletSpawnPosition, gunDirection);
+                if (_controller.input.RetrieveShootInput())
+                {
+                    Vector2 bulletSpawnPosition = gameObject.transform.position + spawnOffset;
+                    ObjectPooler.Generate("Bullet", bulletSpawnPosition, gunDirection);
+                }
+            }
+
+        }
+
+        private void FixedUpdate()
+        {
+            _direction.x = _controller.input.RetrieveMoveInput(gameObject);
+            if (_direction.x > 0f && !facingRight)
+            {
+                FlipGun();
+            }
+            else if (_direction.x < 0f && facingRight)
+            {
+                FlipGun();
             }
         }
-        
-    }
 
-    private void FixedUpdate()
-    {
-        _direction.x = _controller.input.RetrieveMoveInput(gameObject);
-        if (_direction.x > 0f && !facingRight)
+        private void FlipGun()
         {
-            FlipGun();
+            spawnOffset.x *= -1;
+
+            if (facingRight)
+            {
+                gunDirection.eulerAngles = new Vector3(0, 0, 180);
+            }
+            else
+            {
+                gunDirection.eulerAngles = new Vector3(0, 0, 0);
+            }
+            facingRight = !facingRight;
+
         }
-        else if (_direction.x < 0f && facingRight)
-        {
-            FlipGun();
-        }
-    }
-
-    private void FlipGun()
-    {
-        spawnOffset.x *= -1;
-
-        if (facingRight)
-        {
-            gunDirection.eulerAngles = new Vector3(0, 0, 180);
-        } else
-        {
-            gunDirection.eulerAngles = new Vector3(0, 0, 0);
-        }
-        facingRight = !facingRight;
-
     }
 }
+

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
 namespace Controllers
@@ -13,8 +14,8 @@ namespace Controllers
         [SerializeField] private float _topDistance = 1f;
         [SerializeField] private float _xOffset = 1f;
 
-        private RaycastHit2D _groundInfoBottom;
-        private RaycastHit2D _groundInfoTop;
+        private RaycastHit _groundInfoBottom;
+        private RaycastHit _groundInfoTop;
 
         private PlayerInput _playerInput;
         private InputAction _moveAction;
@@ -24,11 +25,6 @@ namespace Controllers
 
         public override void SetPlayerInput(PlayerInput playerInput)
         {
-            _playerInput = playerInput;
-            _moveAction = _playerInput.actions["Move"];
-            _fireAction = _playerInput.actions["Fire"];
-            _aimAction = _playerInput.actions["Aim"];
-            _interactAction = _playerInput.actions["Interact"];
         }
         public override bool RetrieveInteractInput()
         {
@@ -37,21 +33,16 @@ namespace Controllers
 
         public override float RetrieveMoveInput(GameObject gameObject)
         {
-            _groundInfoBottom = Physics2D.Raycast(new Vector2(gameObject.transform.position.x + (_xOffset + gameObject.transform.localScale.x),
-            gameObject.transform.position.y), Vector2.down, _bottomDistance, _layerMask);
-            Debug.DrawRay(new Vector2(gameObject.transform.position.x + (_xOffset + gameObject.transform.localScale.x), gameObject.transform.position.y),
-                Vector2.down * _bottomDistance, Color.black);
+            NavMeshAgent agent = gameObject.GetComponent<NavMeshAgent>();
 
-            _groundInfoTop = Physics2D.Raycast(new Vector2(gameObject.transform.position.x + (_xOffset + gameObject.transform.localScale.x),
-                gameObject.transform.position.y), Vector2.right * gameObject.transform.localScale.x, _topDistance, _layerMask);
-            Debug.DrawRay(new Vector2(gameObject.transform.position.x + (_xOffset + gameObject.transform.localScale.x), gameObject.transform.position.y),
-                Vector2.right * _topDistance * gameObject.transform.localScale, Color.black);
-            if (_groundInfoTop.collider == true || _groundInfoBottom.collider == false)
+            
+            if (agent.isActiveAndEnabled)
             {
-                gameObject.transform.localScale = new Vector2(gameObject.transform.localScale.x * -1, gameObject.transform.localScale.y);
+                //agent.SetDestination();
+                return agent.velocity.x;
             }
-
-            return gameObject.transform.localScale.x;
+            return 0f;
+            
         }
 
         public override bool RetrieveShootInput()

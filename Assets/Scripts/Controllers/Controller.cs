@@ -3,15 +3,17 @@ using UnityEngine.InputSystem;
 
 namespace Controllers
 {
-    [RequireComponent(typeof(PlayerInput))]
     public class Controller : MonoBehaviour
     {
-        private PlayerInput _playerInput;
         public InputController input;
 
         private void Awake()
         {
-            input.SetPlayerInput(GetComponent<PlayerInput>());
+            if (input.GetType() == typeof(PlayerController) && GetComponent<PlayerInput>() != null)
+            {
+                input.SetPlayerInput(GetComponent<PlayerInput>());
+            }
+            
         }
     }
 }

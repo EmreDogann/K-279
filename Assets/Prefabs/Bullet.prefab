@@ -145,4 +145,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxTimeActive: 4
-  speed: 10
+  speed: 100

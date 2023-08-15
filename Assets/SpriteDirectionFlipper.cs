@@ -16,7 +16,7 @@ public class SpriteDirectionFlipper : MonoBehaviour
 
     private void Update()
     {
-        float direction = controller.RetrieveMoveInput();
+        float direction = controller.RetrieveMoveInput(gameObject);
 
         if (direction > 0)
         {
