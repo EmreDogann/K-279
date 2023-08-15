@@ -21,14 +21,19 @@ namespace Controllers
             _interactAction = _playerInput.actions["Interact"];
         }
 
-        public override float RetrieveMoveInput()
-        {
-            return _moveAction.ReadValue<Vector2>().x;
-        }
+    public override float RetrieveMoveInput()
+    {
+        return _moveAction.ReadValue<Vector2>().x;
+    }
 
         public override bool RetrieveInteractInput()
         {
             return _interactAction.WasPressedThisFrame();
         }
+    }
+
+    public override bool RetrieveShootInput()
+    {
+        return _fireAction.WasPressedThisFrame();
     }
 }
