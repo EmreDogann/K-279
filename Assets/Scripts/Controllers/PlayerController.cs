@@ -21,7 +21,7 @@ namespace Controllers
             _interactAction = _playerInput.actions["Interact"];
         }
 
-    public override float RetrieveMoveInput()
+    public override float RetrieveMoveInput(GameObject gameObject)
     {
         return _moveAction.ReadValue<Vector2>().x;
     }
@@ -30,10 +30,15 @@ namespace Controllers
         {
             return _interactAction.WasPressedThisFrame();
         }
-    }
 
-    public override bool RetrieveShootInput()
-    {
-        return _fireAction.WasPressedThisFrame();
+        public override bool RetrieveShootInput()
+        {
+            return _fireAction.WasPressedThisFrame();
+        }
+
+        public override bool RetrieveJumpInput()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

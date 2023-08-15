@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-using namespace Controllers
+namespace Controllers
 {
     [CreateAssetMenu(fileName = "AIController", menuName = "InputController/AIController")]
     public class AIController : InputController
@@ -15,12 +15,22 @@ using namespace Controllers
 
         private RaycastHit2D _groundInfoBottom;
         private RaycastHit2D _groundInfoTop;
-        public override bool RetrieveInteractInput()
-        {
-            return true;
-        }
 
-        public override bool RetrieveJumpInput()
+        private PlayerInput _playerInput;
+        private InputAction _moveAction;
+        private InputAction _fireAction;
+        private InputAction _aimAction;
+        private InputAction _interactAction;
+
+        public override void SetPlayerInput(PlayerInput playerInput)
+        {
+            _playerInput = playerInput;
+            _moveAction = _playerInput.actions["Move"];
+            _fireAction = _playerInput.actions["Fire"];
+            _aimAction = _playerInput.actions["Aim"];
+            _interactAction = _playerInput.actions["Interact"];
+        }
+        public override bool RetrieveInteractInput()
         {
             return true;
         }
@@ -44,7 +54,15 @@ using namespace Controllers
             return gameObject.transform.localScale.x;
         }
 
+        public override bool RetrieveShootInput()
+        {
+            return false;
+        }
 
+        public override bool RetrieveJumpInput()
+        {
+            return false;
+        }
     }
 }
 
