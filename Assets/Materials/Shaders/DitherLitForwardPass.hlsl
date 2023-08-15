@@ -196,11 +196,22 @@ Varyings DitherLitPassVertex(Attributes input)
 	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
 	VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
+	half3 viewDirWS = GetWorldSpaceNormalizeViewDir(vertexInput.positionWS);
 
 	// normalWS and tangentWS already normalize.
 	// this is required to avoid skewing the direction during interpolation
 	// also required for per-vertex lighting and SH evaluation
 	VertexNormalInputs normalInput = GetVertexNormalInputs(input.normalOS, input.tangentOS);
+
+	// Fix normal to always face towards negative z (to camera).
+	normalInput.normalWS = float3(0, 0, -1);
+
+	// Alternative solution, takes rotation into account, but keeps normal facing towards negative z.
+	// float normalDir = dot(normalInput.normalWS, viewDirWS);
+	// if (normalDir < 0)
+	// {
+	// 	normalInput.normalWS *= float3(1, 1, -1);
+	// }
 
 	half3 vertexLight = VertexLighting(vertexInput.positionWS, normalInput.normalWS);
 
@@ -225,7 +236,6 @@ Varyings DitherLitPassVertex(Attributes input)
 	#endif
 
 	#if defined(REQUIRES_TANGENT_SPACE_VIEW_DIR_INTERPOLATOR)
-	half3 viewDirWS = GetWorldSpaceNormalizeViewDir(vertexInput.positionWS);
 	half3 viewDirTS = GetViewDirectionTangentSpace(tangentWS, output.normalWS, viewDirWS);
 	output.viewDirTS = viewDirTS;
 	#endif
@@ -256,8 +266,8 @@ Varyings DitherLitPassVertex(Attributes input)
 
 // Used in Standard (Physically Based) shader
 void DitherLitPassFragment(
-	Varyings input
-	, out half4 outColor : SV_Target0
+	Varyings input,
+	out half4 outColor : SV_Target0
 	#ifdef _WRITE_RENDERING_LAYERS
     , out float4 outRenderingLayers : SV_Target1
 	#endif
