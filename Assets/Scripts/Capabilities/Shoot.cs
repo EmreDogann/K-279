@@ -1,5 +1,5 @@
-
 using Controllers;
+using Misc_;
 using UnityEngine;
 
 namespace Capabilities
@@ -7,8 +7,8 @@ namespace Capabilities
     [RequireComponent(typeof(Controller))]
     public class Shoot : MonoBehaviour
     {
-        [SerializeField] Vector3 spawnOffset = new Vector2(0.6f, 0);
-        [SerializeField, Range(0, 5f)] private float coolDown = 0.2f;
+        [SerializeField] private Vector3 spawnOffset = new Vector2(0.6f, 0);
+        [SerializeField] [Range(0, 5f)] private float coolDown = 0.2f;
 
         private Vector2 _direction = Vector2.zero;
         private bool facingRight = true;
@@ -26,6 +26,7 @@ namespace Capabilities
             timeBetweenShots = 0f;
             gunDirection = Quaternion.identity;
         }
+
         private void Update()
         {
             timeBetweenShots += Time.deltaTime;
@@ -38,7 +39,6 @@ namespace Capabilities
                     ObjectPooler.Generate("Bullet", bulletSpawnPosition, gunDirection);
                 }
             }
-
         }
 
         private void FixedUpdate()
@@ -66,9 +66,8 @@ namespace Capabilities
             {
                 gunDirection.eulerAngles = new Vector3(0, 0, 0);
             }
-            facingRight = !facingRight;
 
+            facingRight = !facingRight;
         }
     }
 }
-

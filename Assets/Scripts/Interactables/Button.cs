@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using TNRD;
 using UnityEngine;
@@ -31,10 +30,5 @@ namespace Interactables
         public void InteractionEnd() {}
 
         public void InteractionStart() {}
-
-        public void RegisterInteractable()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

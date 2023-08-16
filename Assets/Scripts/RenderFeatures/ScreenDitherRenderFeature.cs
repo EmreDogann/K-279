@@ -5,15 +5,14 @@ namespace RenderFeatures
 {
     public class ScreenDitherRenderFeature : ScriptableRendererFeature
     {
-        [SerializeField] private bool copyToCameraFramebuffer;
+        private readonly bool copyToCameraFramebuffer = true;
         [SerializeField] private bool showInSceneView;
+        [SerializeField] private bool worldSpaceDither;
 
         [SerializeField] private Texture2D ditherTex;
         [SerializeField] private Texture2D rampTex;
-        [SerializeField] private float sharpenIntensity = 0.1f;
         [SerializeField] private float threshold = 0.1f;
         [SerializeField] private float tiling = 192.0f;
-        [SerializeField] private bool useScrolling;
         [SerializeField] private FilterMode filterMode = FilterMode.Bilinear;
 
         // Where/when the render pass should be injected during the rendering process.
@@ -28,7 +27,7 @@ namespace RenderFeatures
         {
             name = "Screen Dither";
             _activePass = new ScreenDitherRenderPass("Screen-Space Dither", renderPassEvent, ditherTex, rampTex,
-                threshold, tiling, sharpenIntensity, useScrolling, filterMode);
+                threshold, tiling, worldSpaceDither, filterMode);
         }
 
         // Injects one or multiple render passes in the renderer.
@@ -41,16 +40,12 @@ namespace RenderFeatures
 
             if (copyToCameraFramebuffer && showInSceneView)
             {
-                // _activePass.ConfigureInput(ScriptableRenderPassInput.Color);
-                // _activePass.SetTarget(renderer.cameraColorTargetHandle);
                 renderer.EnqueuePass(_activePass);
             }
             else if (renderingData.cameraData.cameraType == CameraType.Game)
             {
                 // https://forum.unity.com/threads/how-to-blit-in-urp-documentation-unity-blog-post-on-every-blit-function.1211508/#post-8375610
                 // You can use ConfigureInput(Color); to make the opaque texture available in your scriptable render pass (regardless of what the renderer asset settings are).
-                // _activePass.ConfigureInput(ScriptableRenderPassInput.Color);
-                // _activePass.SetTarget(renderer.cameraColorTargetHandle);
 
                 renderer.EnqueuePass(_activePass);
             }
@@ -60,18 +55,33 @@ namespace RenderFeatures
         {
             if (copyToCameraFramebuffer && showInSceneView)
             {
-                _activePass.ConfigureInput(ScriptableRenderPassInput.Color);
+                if (worldSpaceDither)
+                {
+                    _activePass.ConfigureInput(ScriptableRenderPassInput.Color | ScriptableRenderPassInput.Normal |
+                                               ScriptableRenderPassInput.Depth);
+                }
+                else
+                {
+                    _activePass.ConfigureInput(ScriptableRenderPassInput.Color);
+                }
+
                 _activePass.SetTarget(renderer.cameraColorTargetHandle);
-                // renderer.EnqueuePass(_activePass);
             }
             else if (renderingData.cameraData.cameraType == CameraType.Game)
             {
                 // https://forum.unity.com/threads/how-to-blit-in-urp-documentation-unity-blog-post-on-every-blit-function.1211508/#post-8375610
                 // You can use ConfigureInput(Color); to make the opaque texture available in your scriptable render pass (regardless of what the renderer asset settings are).
-                _activePass.ConfigureInput(ScriptableRenderPassInput.Color);
-                _activePass.SetTarget(renderer.cameraColorTargetHandle);
+                if (worldSpaceDither)
+                {
+                    _activePass.ConfigureInput(ScriptableRenderPassInput.Color | ScriptableRenderPassInput.Normal |
+                                               ScriptableRenderPassInput.Depth);
+                }
+                else
+                {
+                    _activePass.ConfigureInput(ScriptableRenderPassInput.Color);
+                }
 
-                // renderer.EnqueuePass(_activePass);
+                _activePass.SetTarget(renderer.cameraColorTargetHandle);
             }
         }
     }

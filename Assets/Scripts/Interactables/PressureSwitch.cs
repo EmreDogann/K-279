@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using TNRD;
 using UnityEngine;
@@ -22,11 +21,6 @@ namespace Interactables
         public void InteractionStart()
         {
             reactables.ForEach(c => c.Value?.ReactionEventEnd());
-        }
-
-        public void RegisterInteractable()
-        {
-            throw new NotImplementedException();
         }
     }
 }

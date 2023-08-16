@@ -1,3 +1,4 @@
+using System;
 using Checks;
 using Controllers;
 using UnityEngine;
@@ -7,8 +8,10 @@ namespace Capabilities
     [RequireComponent(typeof(Controller))]
     public class Move : MonoBehaviour
     {
-        [SerializeField][Range(0f, 100f)] private float _maxSpeed = 4f;
-        [SerializeField][Range(0f, 100f)] private float _maxAcceleration = 35f;
+        [SerializeField] private Animator _animator;
+
+        [SerializeField] [Range(0f, 100f)] private float _maxSpeed = 4f;
+        [SerializeField] [Range(0f, 100f)] private float _maxAcceleration = 35f;
 
         private Controller _controller;
         private SpriteRenderer _sprite;
@@ -18,6 +21,9 @@ namespace Capabilities
 
         private bool _facingRight;
         private float _maxSpeedChange;
+        private readonly int _isWalking = Animator.StringToHash("IsWalking");
+
+        public static event Action<bool> OnFlipPlayer;
 
         private void Awake()
         {
@@ -31,6 +37,8 @@ namespace Capabilities
         private void Update()
         {
             _direction.x = _controller.input.RetrieveMoveInput(gameObject);
+            _animator.SetBool(_isWalking, _direction.x != 0);
+
             if (_direction.x > 0 && !_facingRight)
             {
                 FlipPlayer();
@@ -39,6 +47,7 @@ namespace Capabilities
             {
                 FlipPlayer();
             }
+
             _desiredVelocity = new Vector2(_direction.x, 0f) * Mathf.Max(_maxSpeed - _ground.Friction, 0f);
         }
 
@@ -57,6 +66,8 @@ namespace Capabilities
             //_sprite.flipX = !_sprite.flipX;
             _sprite.gameObject.transform.Rotate(0, -180, 0, Space.Self);
             _facingRight = !_facingRight;
+
+            OnFlipPlayer?.Invoke(_facingRight);
         }
     }
 }
