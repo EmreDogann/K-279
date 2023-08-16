@@ -17,8 +17,6 @@ namespace RenderFeatures
         private readonly Texture2D _rampTexture;
         private readonly float _threshold;
         private readonly float _tiling;
-        private readonly float _sharpenIntensity;
-        private readonly bool _useScrolling;
         private readonly FilterMode _filterMode;
 
         // Render Targets
@@ -30,8 +28,6 @@ namespace RenderFeatures
         // Shader property IDs
         private readonly int NoiseTexProperty = Shader.PropertyToID("_NoiseTex");
         private readonly int ColorRampTexProperty = Shader.PropertyToID("_ColorRampTex");
-        private readonly int XOffsetProperty = Shader.PropertyToID("_XOffset");
-        private readonly int YOffsetProperty = Shader.PropertyToID("_YOffset");
         private readonly int ThresholdProperty = Shader.PropertyToID("_Threshold");
         private readonly int TilingProperty = Shader.PropertyToID("_Tiling");
 
@@ -41,20 +37,16 @@ namespace RenderFeatures
         private static readonly int TL = Shader.PropertyToID("_TL");
         private static readonly int TR = Shader.PropertyToID("_TR");
         private static readonly int BR = Shader.PropertyToID("_BR");
-        private static readonly int Intensity = Shader.PropertyToID("_Intensity");
 
         // The constructor of the pass. Here you can set any material properties that do not need to be updated on a per-frame basis.
         public ScreenDitherRenderPass(string profilerTag, RenderPassEvent renderEvent, Texture2D ditherTex,
-            Texture2D rampTex, float threshold, float tiling, float sharpenIntensity, bool useScrolling,
-            FilterMode filterMode)
+            Texture2D rampTex, float threshold, float tiling, FilterMode filterMode)
         {
             _profilerTag = profilerTag;
             renderPassEvent = renderEvent;
 
             _threshold = threshold;
             _tiling = tiling;
-            _sharpenIntensity = sharpenIntensity;
-            _useScrolling = useScrolling;
             _filterMode = filterMode;
 
             if (_ditherMaterial == null)
@@ -82,13 +74,8 @@ namespace RenderFeatures
             _halfTarget = new RenderTargetIdentifier(HalfID);
         }
 
-        // Called per-pass
-        // Same as OnCameraSetup() below.
-        // public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
-        // {
-        // ConfigureTarget(_mipUpTarget);
-        // ConfigureClear(ClearFlag.All, Color.black);
-        // }
+        // Called per-pass - Same as OnCameraSetup() below.
+        // public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor) {}
 
         // Called per-camera.
         // Gets called by the renderer before executing the pass.
@@ -111,36 +98,21 @@ namespace RenderFeatures
             // _targetsDescriptor.height >>= 2;
             cmd.GetTemporaryRT(HalfID, _targetsDescriptor, _filterMode);
 
-            float xOffset = 0.0f;
-            float yOffset = 0.0f;
-
-            if (_useScrolling)
-            {
-                Vector3 camEuler = renderingData.cameraData.camera.transform.eulerAngles;
-                xOffset = 4.0f * camEuler.y / renderingData.cameraData.camera.fieldOfView;
-                yOffset = -2.0f * renderingData.cameraData.camera.aspect * camEuler.x /
-                          renderingData.cameraData.camera.fieldOfView;
-            }
-
-            _ditherMaterial.SetFloat(XOffsetProperty, xOffset);
-            _ditherMaterial.SetFloat(YOffsetProperty, yOffset);
-
-            var corners = new Vector3[4];
-
-            renderingData.cameraData.camera.CalculateFrustumCorners(new Rect(0, 0, 1, 1),
-                renderingData.cameraData.camera.farClipPlane,
-                Camera.MonoOrStereoscopicEye.Mono, corners);
-
-            for (int i = 0; i < 4; i++)
-            {
-                corners[i] = renderingData.cameraData.camera.transform.TransformVector(corners[i]);
-                corners[i].Normalize();
-            }
-
-            _ditherMaterial.SetVector(BL, corners[0]);
-            _ditherMaterial.SetVector(TL, corners[1]);
-            _ditherMaterial.SetVector(TR, corners[2]);
-            _ditherMaterial.SetVector(BR, corners[3]);
+            // var corners = new Vector3[4];
+            // renderingData.cameraData.camera.CalculateFrustumCorners(new Rect(0, 0, 1, 1),
+            //     renderingData.cameraData.camera.farClipPlane,
+            //     Camera.MonoOrStereoscopicEye.Mono, corners);
+            //
+            // for (int i = 0; i < 4; i++)
+            // {
+            //     corners[i] = renderingData.cameraData.camera.transform.TransformVector(corners[i]);
+            //     corners[i].Normalize();
+            // }
+            //
+            // _ditherMaterial.SetVector(BL, corners[0]);
+            // _ditherMaterial.SetVector(TL, corners[1]);
+            // _ditherMaterial.SetVector(TR, corners[2]);
+            // _ditherMaterial.SetVector(BR, corners[3]);
 
             _ditherMaterial.SetFloat(ThresholdProperty, _threshold);
             _ditherMaterial.SetFloat(TilingProperty, _tiling);

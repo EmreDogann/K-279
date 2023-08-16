@@ -19,7 +19,10 @@ public class UVFromSprite : MonoBehaviour
 
     private void OnValidate()
     {
-        _spriteRenderer.sharedMaterial.SetVector(_spriteUVRange, CalcUvRange(_spriteRenderer.sprite));
+        if (_spriteRenderer)
+        {
+            _spriteRenderer.sharedMaterial.SetVector(_spriteUVRange, CalcUvRange(_spriteRenderer.sprite));
+        }
     }
 
     private void LateUpdate()
@@ -37,6 +40,12 @@ public class UVFromSprite : MonoBehaviour
         // }
 
         // spriteRenderer.sharedMaterial.SetVector(_spriteUVRange, new Vector4(minU, maxU, minV, maxV));
+
+        if (!_animator)
+        {
+            return;
+        }
+
         var animatoinClip = _animator.GetCurrentAnimatorClipInfo(0);
         int currentFrame = (int)(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime *
                                  (animatoinClip[0].clip.length * animatoinClip[0].clip.frameRate));
