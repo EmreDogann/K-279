@@ -34,7 +34,7 @@
             Varyings Vertex(Attributes input)
             {
                 Varyings output;
-                const VertexPositionInputs vertexInputs = GetVertexPositionInputs(input.positionOS);
+                VertexPositionInputs vertexInputs = GetVertexPositionInputs(input.positionOS);
                 output.positionHCS = vertexInputs.positionCS;
                 output.uv = vertexInputs.positionNDC;
                 return output;

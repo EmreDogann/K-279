@@ -154,11 +154,11 @@ float cubeProject(Texture2D tex, SamplerState texSampler, float2 texel, float3 d
 
 float2 edge(float2 uv, float2 delta)
 {
-	float3 up = _BaseMap.Sample(sampler_BaseMap, uv + float2(0.0, 1.0) * delta);
-	float3 down = _BaseMap.Sample(sampler_BaseMap, uv + float2(0.0, -1.0) * delta);
-	float3 left = _BaseMap.Sample(sampler_BaseMap, uv + float2(1.0, 0.0) * delta);
-	float3 right = _BaseMap.Sample(sampler_BaseMap, uv + float2(-1.0, 0.0) * delta);
-	float3 centre = _BaseMap.Sample(sampler_BaseMap, uv);
+	float4 up = _BaseMap.Sample(sampler_BaseMap, uv + float2(0.0, 1.0) * delta);
+	float4 down = _BaseMap.Sample(sampler_BaseMap, uv + float2(0.0, -1.0) * delta);
+	float4 left = _BaseMap.Sample(sampler_BaseMap, uv + float2(1.0, 0.0) * delta);
+	float4 right = _BaseMap.Sample(sampler_BaseMap, uv + float2(-1.0, 0.0) * delta);
+	float4 centre = _BaseMap.Sample(sampler_BaseMap, uv);
 
 	return float2(min(up.b, min(min(down.b, left.b), min(right.b, centre.b))),
 	              max(max(distance(centre.rg, up.rg), distance(centre.rg, down.rg)),
