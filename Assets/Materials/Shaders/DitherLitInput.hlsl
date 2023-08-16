@@ -17,15 +17,7 @@ CBUFFER_START(UnityPerMaterial)
 	float4 _NoiseMap_TexelSize;
 	float4 _SpriteUVRange;
 
-	float4 _BL;
-	float4 _TL;
-	float4 _TR;
-	float4 _BR;
-
 	float _Tiling;
-	float _XOffset;
-	float _YOffset;
-	float _Threshold;
 
 	// Default Params
 	float4 _BaseMap_ST;
@@ -90,7 +82,6 @@ SAMPLER(sampler_NoiseMap);
 
 TEXTURE2D(_ColorRampMap);
 SAMPLER(sampler_ColorRampMap);
-
 
 // Default Maps
 TEXTURE2D(_ParallaxMap);

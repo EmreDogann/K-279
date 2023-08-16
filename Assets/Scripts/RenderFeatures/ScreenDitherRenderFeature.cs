@@ -40,16 +40,12 @@ namespace RenderFeatures
 
             if (copyToCameraFramebuffer && showInSceneView)
             {
-                // _activePass.ConfigureInput(ScriptableRenderPassInput.Color);
-                // _activePass.SetTarget(renderer.cameraColorTargetHandle);
                 renderer.EnqueuePass(_activePass);
             }
             else if (renderingData.cameraData.cameraType == CameraType.Game)
             {
                 // https://forum.unity.com/threads/how-to-blit-in-urp-documentation-unity-blog-post-on-every-blit-function.1211508/#post-8375610
                 // You can use ConfigureInput(Color); to make the opaque texture available in your scriptable render pass (regardless of what the renderer asset settings are).
-                // _activePass.ConfigureInput(ScriptableRenderPassInput.Color);
-                // _activePass.SetTarget(renderer.cameraColorTargetHandle);
 
                 renderer.EnqueuePass(_activePass);
             }

@@ -126,57 +126,6 @@ void InitializeInputData(Varyings input, half3 normalTS, out InputData inputData
 	#endif
 }
 
-float cubeProject(Texture2D tex, SamplerState texSampler, float2 texel, float3 dir)
-{
-	float3x3 rotDirMatrix = {
-		0.9473740, -0.1985178, 0.2511438,
-		0.2511438, 0.9473740, -0.1985178,
-		-0.1985178, 0.2511438, 0.9473740
-	};
-
-	dir = mul(rotDirMatrix, dir);
-	float2 uvCoords;
-	if ((abs(dir.x) > abs(dir.y)) && (abs(dir.x) > abs(dir.z)))
-	{
-		uvCoords = dir.yz; // X axis
-	}
-	else if ((abs(dir.z) > abs(dir.x)) && (abs(dir.z) > abs(dir.y)))
-	{
-		uvCoords = dir.xy; // Z axis
-	}
-	else
-	{
-		uvCoords = dir.xz; // Y axis
-	}
-
-	return tex.Sample(texSampler, texel * _Tiling * uvCoords).r;
-}
-
-float2 edge(float2 uv, float2 delta)
-{
-	float4 up = _BaseMap.Sample(sampler_BaseMap, uv + float2(0.0, 1.0) * delta);
-	float4 down = _BaseMap.Sample(sampler_BaseMap, uv + float2(0.0, -1.0) * delta);
-	float4 left = _BaseMap.Sample(sampler_BaseMap, uv + float2(1.0, 0.0) * delta);
-	float4 right = _BaseMap.Sample(sampler_BaseMap, uv + float2(-1.0, 0.0) * delta);
-	float4 centre = _BaseMap.Sample(sampler_BaseMap, uv);
-
-	return float2(min(up.b, min(min(down.b, left.b), min(right.b, centre.b))),
-	              max(max(distance(centre.rg, up.rg), distance(centre.rg, down.rg)),
-	                  max(distance(centre.rg, left.rg), distance(centre.rg, right.rg))));
-}
-
-float4 ExtractUVs(float2 uv0)
-{
-	uv0 -= float2(1.0, 1.0);
-	float4 uv1 = uv0.xyxy;
-	if (uv1.x > 1.0)
-		uv1.x -= 1.0;
-	if (uv1.y > 1.0)
-		uv1.y -= 1.0;
-	uv1.zw -= uv1.xy;
-	return uv1; // uv1.xy = UV and uv1.zw = NormalisedUVs
-}
-
 float map(float s, float a1, float a2, float b1, float b2)
 {
 	return b1 + (s - a1) * (b2 - b1) / (a2 - a1);

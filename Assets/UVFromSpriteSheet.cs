@@ -2,7 +2,7 @@ using UnityEngine;
 
 [ExecuteInEditMode]
 [RequireComponent(typeof(SpriteRenderer), typeof(Animator))]
-public class UVFromSprite : MonoBehaviour
+public class UVFromSpriteSheet : MonoBehaviour
 {
     [SerializeField] private Vector2 spriteFixedSize = Vector2.one;
 

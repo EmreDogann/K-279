@@ -3,14 +3,11 @@ Shader "Universal Render Pipeline/Custom/DitherLit"
     Properties
     {
         // Dither Properties
-        _NoiseMap("Noise Map", 2D) = "white" {}
+        [NoScaleOffset] _NoiseMap("Noise Map", 2D) = "white" {}
         _ColorRampMap("Color Ramp Map", 2D) = "white" {}
         
         _SpriteUVRange("Sprite Bounds", Vector) = (0,1,0,1)
         _Tiling("Tiling", Float) = 1.0
-        _XOffset("X Offset", Float) = 1.0
-        _YOffset("Y Offset", Float) = 1.0
-        _Threshold("Threshold", Float) = 1.0
         
         // Specular vs Metallic workflow
         _WorkflowMode("WorkflowMode", Float) = 1.0
@@ -90,7 +87,7 @@ Shader "Universal Render Pipeline/Custom/DitherLit"
         // material work with both Universal Render Pipeline and Builtin Unity Pipeline
         Tags
         {
-            "RenderType" = "Opaque"
+            "RenderType" = "Transparent"
             "RenderPipeline" = "UniversalPipeline"
             "UniversalMaterialType" = "Lit"
             "PreviewType"="Plane"
@@ -177,15 +174,6 @@ Shader "Universal Render Pipeline/Custom/DitherLit"
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-
-   //          sampler2D _MainTex;
-   //          
-			// float4 _MainTex_TexelSize;
-   //
-			// sampler2D _NoiseTex;
-			// float4 _NoiseTex_TexelSize;
-   //
-			// sampler2D _ColorRampTex;
 
             #include "DitherLitInput.hlsl"
             #include "DitherLitForwardPass.hlsl"
@@ -499,5 +487,5 @@ Shader "Universal Render Pipeline/Custom/DitherLit"
     }
 
     FallBack "Hidden/Universal Render Pipeline/FallbackError"
-    CustomEditor "UnityEditor.Rendering.Universal.ShaderGUI.LitShader"
+    CustomEditor "Editor.DitherLitShader"
 }

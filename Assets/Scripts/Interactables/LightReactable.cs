@@ -18,12 +18,11 @@ namespace Interactables
             gameObject.SetActive(activeAtStart);
         }
 
-        public void ReactionEventStart()
-        {
-            Debug.Log("End");
-            activeAtStart = !activeAtStart;
-            gameObject.SetActive(activeAtStart);
-        }
+    public void ReactionEventStart()
+    {
+        activeAtStart = !activeAtStart;
+        gameObject.SetActive(activeAtStart);
+    }
 
         void IReactableObjects.RegisterReactable()
         {
