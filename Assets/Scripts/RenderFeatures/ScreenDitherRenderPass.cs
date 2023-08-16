@@ -13,10 +13,9 @@ namespace RenderFeatures
         // Resources
         private readonly Material _ditherMaterial;
         private readonly Material _thresholdMaterial;
-        private readonly Texture2D _blueNoiseTexture;
-        private readonly Texture2D _rampTexture;
         private readonly float _threshold;
         private readonly float _tiling;
+        private readonly bool _worldSpaceDither;
         private readonly FilterMode _filterMode;
 
         // Render Targets
@@ -26,43 +25,43 @@ namespace RenderFeatures
         private RenderTextureDescriptor _cameraDescriptor, _targetsDescriptor;
 
         // Shader property IDs
-        private readonly int NoiseTexProperty = Shader.PropertyToID("_NoiseTex");
-        private readonly int ColorRampTexProperty = Shader.PropertyToID("_ColorRampTex");
-        private readonly int ThresholdProperty = Shader.PropertyToID("_Threshold");
-        private readonly int TilingProperty = Shader.PropertyToID("_Tiling");
+        private readonly int _noiseTexProperty = Shader.PropertyToID("_NoiseTex");
+        private readonly int _colorRampTexProperty = Shader.PropertyToID("_ColorRampTex");
+        private readonly int _thresholdProperty = Shader.PropertyToID("_Threshold");
+        private readonly int _tilingProperty = Shader.PropertyToID("_Tiling");
 
-        private readonly int SuperID = Shader.PropertyToID("Super");
-        private readonly int HalfID = Shader.PropertyToID("Half");
-        private static readonly int BL = Shader.PropertyToID("_BL");
-        private static readonly int TL = Shader.PropertyToID("_TL");
-        private static readonly int TR = Shader.PropertyToID("_TR");
-        private static readonly int BR = Shader.PropertyToID("_BR");
+        private readonly int _superID = Shader.PropertyToID("Super");
+        private readonly int _halfID = Shader.PropertyToID("Half");
+        private readonly int _blID = Shader.PropertyToID("_BL");
+        private readonly int _tlID = Shader.PropertyToID("_TL");
+        private readonly int _trID = Shader.PropertyToID("_TR");
+        private readonly int _brID = Shader.PropertyToID("_BR");
 
         // The constructor of the pass. Here you can set any material properties that do not need to be updated on a per-frame basis.
         public ScreenDitherRenderPass(string profilerTag, RenderPassEvent renderEvent, Texture2D ditherTex,
-            Texture2D rampTex, float threshold, float tiling, FilterMode filterMode)
+            Texture2D rampTex, float threshold, float tiling, bool worldSpaceDither, FilterMode filterMode)
         {
             _profilerTag = profilerTag;
             renderPassEvent = renderEvent;
 
             _threshold = threshold;
             _tiling = tiling;
+            _worldSpaceDither = worldSpaceDither;
             _filterMode = filterMode;
 
             if (_ditherMaterial == null)
             {
                 _ditherMaterial = CoreUtils.CreateEngineMaterial("Hidden/Dither/ScreenSpaceDither");
-                _blueNoiseTexture = ditherTex;
-                _rampTexture = rampTex;
+                Texture2D blueNoiseTexture = ditherTex;
 
-                if (_blueNoiseTexture != null)
+                if (blueNoiseTexture != null)
                 {
-                    _ditherMaterial.SetTexture(NoiseTexProperty, _blueNoiseTexture);
+                    _ditherMaterial.SetTexture(_noiseTexProperty, blueNoiseTexture);
                 }
 
-                _ditherMaterial.SetTexture(ColorRampTexProperty, _rampTexture);
-                _ditherMaterial.SetFloat(ThresholdProperty, threshold);
-                _ditherMaterial.SetFloat(TilingProperty, tiling);
+                _ditherMaterial.SetTexture(_colorRampTexProperty, rampTex);
+                _ditherMaterial.SetFloat(_thresholdProperty, threshold);
+                _ditherMaterial.SetFloat(_tilingProperty, tiling);
             }
 
             if (_thresholdMaterial == null)
@@ -70,8 +69,18 @@ namespace RenderFeatures
                 _thresholdMaterial = CoreUtils.CreateEngineMaterial("Hidden/Dither/Threshold");
             }
 
-            _superTarget = new RenderTargetIdentifier(SuperID);
-            _halfTarget = new RenderTargetIdentifier(HalfID);
+            if (_worldSpaceDither)
+            {
+                _ditherMaterial.EnableKeyword("ENABLE_WORLD_SPACE_DITHER");
+            }
+            else
+            {
+                _ditherMaterial.DisableKeyword("ENABLE_WORLD_SPACE_DITHER");
+                _tiling = tiling + 500;
+            }
+
+            _superTarget = new RenderTargetIdentifier(_superID);
+            _halfTarget = new RenderTargetIdentifier(_halfID);
         }
 
         // Called per-pass - Same as OnCameraSetup() below.
@@ -92,30 +101,33 @@ namespace RenderFeatures
 
             // _targetsDescriptor.width <<= 1;
             // _targetsDescriptor.height <<= 1;
-            cmd.GetTemporaryRT(SuperID, _targetsDescriptor, _filterMode);
+            cmd.GetTemporaryRT(_superID, _targetsDescriptor, _filterMode);
 
             // _targetsDescriptor.width >>= 2;
             // _targetsDescriptor.height >>= 2;
-            cmd.GetTemporaryRT(HalfID, _targetsDescriptor, _filterMode);
+            cmd.GetTemporaryRT(_halfID, _targetsDescriptor, _filterMode);
 
-            // var corners = new Vector3[4];
-            // renderingData.cameraData.camera.CalculateFrustumCorners(new Rect(0, 0, 1, 1),
-            //     renderingData.cameraData.camera.farClipPlane,
-            //     Camera.MonoOrStereoscopicEye.Mono, corners);
-            //
-            // for (int i = 0; i < 4; i++)
-            // {
-            //     corners[i] = renderingData.cameraData.camera.transform.TransformVector(corners[i]);
-            //     corners[i].Normalize();
-            // }
-            //
-            // _ditherMaterial.SetVector(BL, corners[0]);
-            // _ditherMaterial.SetVector(TL, corners[1]);
-            // _ditherMaterial.SetVector(TR, corners[2]);
-            // _ditherMaterial.SetVector(BR, corners[3]);
+            if (!_worldSpaceDither)
+            {
+                var corners = new Vector3[4];
+                renderingData.cameraData.camera.CalculateFrustumCorners(new Rect(0, 0, 1, 1),
+                    renderingData.cameraData.camera.farClipPlane,
+                    Camera.MonoOrStereoscopicEye.Mono, corners);
 
-            _ditherMaterial.SetFloat(ThresholdProperty, _threshold);
-            _ditherMaterial.SetFloat(TilingProperty, _tiling);
+                for (int i = 0; i < 4; i++)
+                {
+                    corners[i] = renderingData.cameraData.camera.transform.TransformVector(corners[i]);
+                    corners[i].Normalize();
+                }
+
+                _ditherMaterial.SetVector(_blID, corners[0]);
+                _ditherMaterial.SetVector(_tlID, corners[1]);
+                _ditherMaterial.SetVector(_trID, corners[2]);
+                _ditherMaterial.SetVector(_brID, corners[3]);
+            }
+
+            _ditherMaterial.SetFloat(_thresholdProperty, _threshold);
+            _ditherMaterial.SetFloat(_tilingProperty, _tiling);
         }
 
         public void SetTarget(RenderTargetIdentifier camerColorTarget)
@@ -152,8 +164,8 @@ namespace RenderFeatures
             }
 
             // Since we created a temporary render texture in OnCameraSetup, we need to release the memory here to avoid a leak.
-            cmd.ReleaseTemporaryRT(SuperID);
-            cmd.ReleaseTemporaryRT(HalfID);
+            cmd.ReleaseTemporaryRT(_superID);
+            cmd.ReleaseTemporaryRT(_halfID);
         }
 
         public void Dispose()

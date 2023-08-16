@@ -25,6 +25,8 @@
             #pragma vertex Vertex
             #pragma fragment Fragment
 
+            #pragma shader_feature _ ENABLE_WORLD_SPACE_DITHER
+
             // #include "DecodeDepthNormals.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
@@ -123,55 +125,57 @@
             {
                 float3 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv).xyz;
 
-            	float2 UV = input.positionHCS.xy / _ScaledScreenParams.xy;
-                // Sample the depth from the Camera depth texture.
-                #if UNITY_REVERSED_Z
-					real depth = SampleSceneDepth(UV);
-                #else
-					// Adjust Z to match NDC for OpenGL ([-1, 1])
-					real depth = lerp(UNITY_NEAR_CLIP_VALUE, 1, SampleSceneDepth(UV));
-                #endif
-            	// depth = Linear01Depth(depth, _ZBufferParams);
-                
-                float3 worldPos = ComputeWorldSpacePosition(UV, depth, UNITY_MATRIX_I_VP);
-            	float3 normalWS = SampleSceneNormals(input.uv);
+            	#if ENABLE_WORLD_SPACE_DITHER
+            		float2 UV = input.positionHCS.xy / _ScaledScreenParams.xy;
+	                // Sample the depth from the Camera depth texture.
+	                #if UNITY_REVERSED_Z
+						real depth = SampleSceneDepth(UV);
+	                #else
+						// Adjust Z to match NDC for OpenGL ([-1, 1])
+						real depth = lerp(UNITY_NEAR_CLIP_VALUE, 1, SampleSceneDepth(UV));
+	                #endif
+            		// depth = Linear01Depth(depth, _ZBufferParams);
+	                
+	                float3 worldPos = ComputeWorldSpacePosition(UV, depth, UNITY_MATRIX_I_VP);
+            		float3 normalWS = SampleSceneNormals(input.uv);
 
-                // References: https://www.patreon.com/posts/quick-game-art-16714688
-                // https://catlikecoding.com/unity/tutorials/advanced-rendering/triplanar-mapping/
-                // https://bgolus.medium.com/normal-mapping-for-a-triplanar-shader-10bf39dca05a#1997
-                // https://forum.unity.com/threads/box-triplanar-mapping-following-object-rotation.501252/
-                // #if defined(ENABLE_ALIGNED_TRIPLANAR)
-                //     float3 uvScaled = input.positionOAS * _TriplanarScale;
-                //     float3 blending = abs(input.normalOS);
-                //     half3 axisSign = sign(input.normalOS); // Get the sign (-1 or 1) of the surface normal.
-                // #else
-                    float3 uvScaled = worldPos * 0.1f;
-                    float3 blending = abs(normalWS);
-                    half3 axisSign = sign(normalWS); // Get the sign (-1 or 1) of the surface normal.
-                // #endif
-                
-                // Triplanar uvs
-                float2 uvX = uvScaled.yz; // x facing plane
-                float2 uvY = uvScaled.xz; // y facing plane
-                float2 uvZ = uvScaled.xy; // z facing plane
-                
-                // Flip UVs to correct for mirroring
-                uvX.x *= axisSign.x;
-                uvY.x *= axisSign.y;
-                uvZ.x *= -axisSign.z;
-                
-                blending = saturate(blending - 0);
-                blending = pow(blending, 5);
-                blending /= dot(blending, float3(1,1,1));
-                
-                float4 color = blending.z * SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, uvZ * _NoiseTex_TexelSize.xy * _Tiling);
-                color += blending.x * SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, uvX * _NoiseTex_TexelSize.xy * _Tiling);
-                color += blending.y * SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, uvY * _NoiseTex_TexelSize.xy * _Tiling);
-            	
+	                // References: https://www.patreon.com/posts/quick-game-art-16714688
+	                // https://catlikecoding.com/unity/tutorials/advanced-rendering/triplanar-mapping/
+	                // https://bgolus.medium.com/normal-mapping-for-a-triplanar-shader-10bf39dca05a#1997
+	                // https://forum.unity.com/threads/box-triplanar-mapping-following-object-rotation.501252/
+	                // #if defined(ENABLE_ALIGNED_TRIPLANAR)
+	                //     float3 uvScaled = input.positionOAS * _TriplanarScale;
+	                //     float3 blending = abs(input.normalOS);
+	                //     half3 axisSign = sign(input.normalOS); // Get the sign (-1 or 1) of the surface normal.
+	                // #else
+	                    float3 uvScaled = worldPos * 0.1f;
+	                    float3 blending = abs(normalWS);
+	                    half3 axisSign = sign(normalWS); // Get the sign (-1 or 1) of the surface normal.
+	                // #endif
+	                
+	                // Triplanar uvs
+	                float2 uvX = uvScaled.yz; // x facing plane
+	                float2 uvY = uvScaled.xz; // y facing plane
+	                float2 uvZ = uvScaled.xy; // z facing plane
+	                
+	                // Flip UVs to correct for mirroring
+	                uvX.x *= axisSign.x;
+	                uvY.x *= axisSign.y;
+	                uvZ.x *= -axisSign.z;
+	                
+	                blending = saturate(blending - 0);
+	                blending = pow(blending, 5);
+	                blending /= dot(blending, float3(1,1,1));
+	                
+	                float4 color = blending.z * SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, uvZ * _NoiseTex_TexelSize.xy * _Tiling);
+	                color += blending.x * SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, uvX * _NoiseTex_TexelSize.xy * _Tiling);
+	                color += blending.y * SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, uvY * _NoiseTex_TexelSize.xy * _Tiling);
+            		float ditherLum = color.r;
+            	#else
+	                float3 dir = normalize(lerp(lerp(_BL, _TL, input.uv.y), lerp(_BR, _TR, input.uv.y), input.uv.x));
+	                float ditherLum = cubeProject(_NoiseTex, sampler_NoiseTex, _NoiseTex_TexelSize.xy, dir);
+            	#endif
                 float lum = col.b;
-                // float3 dir = normalize(lerp(lerp(_BL, _TL, input.uv.y), lerp(_BR, _TR, input.uv.y), input.uv.x));
-                // float ditherLum = cubeProject(_NoiseTex, sampler_NoiseTex, _NoiseTex_TexelSize.xy, dir);
-            	float ditherLum = color.r;
                 
                 float2 edgeData = edge(input.uv, _MainTex_TexelSize.xy * 1.0f);
                 lum = (edgeData.y < _Threshold) ? lum : ((edgeData.x < 0.1f) ? 1.0f : 0.0f);

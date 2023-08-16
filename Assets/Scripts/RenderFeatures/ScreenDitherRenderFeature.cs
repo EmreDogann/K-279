@@ -7,6 +7,7 @@ namespace RenderFeatures
     {
         [SerializeField] private bool copyToCameraFramebuffer;
         [SerializeField] private bool showInSceneView;
+        [SerializeField] private bool worldSpaceDither;
 
         [SerializeField] private Texture2D ditherTex;
         [SerializeField] private Texture2D rampTex;
@@ -26,7 +27,7 @@ namespace RenderFeatures
         {
             name = "Screen Dither";
             _activePass = new ScreenDitherRenderPass("Screen-Space Dither", renderPassEvent, ditherTex, rampTex,
-                threshold, tiling, filterMode);
+                threshold, tiling, worldSpaceDither, filterMode);
         }
 
         // Injects one or multiple render passes in the renderer.
@@ -58,16 +59,32 @@ namespace RenderFeatures
         {
             if (copyToCameraFramebuffer && showInSceneView)
             {
-                _activePass.ConfigureInput(ScriptableRenderPassInput.Color | ScriptableRenderPassInput.Normal |
-                                           ScriptableRenderPassInput.Depth);
+                if (worldSpaceDither)
+                {
+                    _activePass.ConfigureInput(ScriptableRenderPassInput.Color | ScriptableRenderPassInput.Normal |
+                                               ScriptableRenderPassInput.Depth);
+                }
+                else
+                {
+                    _activePass.ConfigureInput(ScriptableRenderPassInput.Color);
+                }
+
                 _activePass.SetTarget(renderer.cameraColorTargetHandle);
             }
             else if (renderingData.cameraData.cameraType == CameraType.Game)
             {
                 // https://forum.unity.com/threads/how-to-blit-in-urp-documentation-unity-blog-post-on-every-blit-function.1211508/#post-8375610
                 // You can use ConfigureInput(Color); to make the opaque texture available in your scriptable render pass (regardless of what the renderer asset settings are).
-                _activePass.ConfigureInput(ScriptableRenderPassInput.Color | ScriptableRenderPassInput.Normal |
-                                           ScriptableRenderPassInput.Depth);
+                if (worldSpaceDither)
+                {
+                    _activePass.ConfigureInput(ScriptableRenderPassInput.Color | ScriptableRenderPassInput.Normal |
+                                               ScriptableRenderPassInput.Depth);
+                }
+                else
+                {
+                    _activePass.ConfigureInput(ScriptableRenderPassInput.Color);
+                }
+
                 _activePass.SetTarget(renderer.cameraColorTargetHandle);
             }
         }
