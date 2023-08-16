@@ -5,7 +5,7 @@ namespace RenderFeatures
 {
     public class ScreenDitherRenderFeature : ScriptableRendererFeature
     {
-        private bool copyToCameraFramebuffer;
+        private readonly bool copyToCameraFramebuffer = true;
         [SerializeField] private bool showInSceneView;
         [SerializeField] private bool worldSpaceDither;
 

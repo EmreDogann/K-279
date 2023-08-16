@@ -99,12 +99,12 @@ namespace RenderFeatures
             _targetsDescriptor = _cameraDescriptor;
             _targetsDescriptor.depthBufferBits = 0;
 
-            // _targetsDescriptor.width <<= 1;
-            // _targetsDescriptor.height <<= 1;
+            _targetsDescriptor.width <<= 1;
+            _targetsDescriptor.height <<= 1;
             cmd.GetTemporaryRT(_superID, _targetsDescriptor, _filterMode);
 
-            // _targetsDescriptor.width >>= 2;
-            // _targetsDescriptor.height >>= 2;
+            _targetsDescriptor.width >>= 1;
+            _targetsDescriptor.height >>= 1;
             cmd.GetTemporaryRT(_halfID, _targetsDescriptor, _filterMode);
 
             if (!_worldSpaceDither)
@@ -141,9 +141,10 @@ namespace RenderFeatures
             CommandBuffer cmd = CommandBufferPool.Get();
             using (new ProfilingScope(cmd, new ProfilingSampler(_profilerTag)))
             {
-                Blit(cmd, _colorTarget, _superTarget, _ditherMaterial);
-                Blit(cmd, _superTarget, _halfTarget, _thresholdMaterial);
-                Blit(cmd, _halfTarget, _colorTarget);
+                Blit(cmd, _colorTarget, _superTarget);
+                Blit(cmd, _superTarget, _halfTarget, _ditherMaterial);
+                // Blit(cmd, _halfTarget, _halfTarget, _thresholdMaterial);
+                Blit(cmd, _halfTarget, _colorTarget, _thresholdMaterial);
             }
 
             // Execute the command buffer and release it.

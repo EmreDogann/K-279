@@ -1,3 +1,4 @@
+using System;
 using Checks;
 using Controllers;
 using UnityEngine;
@@ -21,6 +22,8 @@ namespace Capabilities
         private bool _facingRight;
         private float _maxSpeedChange;
         private readonly int _isWalking = Animator.StringToHash("IsWalking");
+
+        public static event Action<bool> OnFlipPlayer;
 
         private void Awake()
         {
@@ -63,6 +66,8 @@ namespace Capabilities
             //_sprite.flipX = !_sprite.flipX;
             _sprite.gameObject.transform.Rotate(0, -180, 0, Space.Self);
             _facingRight = !_facingRight;
+
+            OnFlipPlayer?.Invoke(_facingRight);
         }
     }
 }

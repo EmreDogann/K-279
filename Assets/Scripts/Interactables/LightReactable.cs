@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Interactables
@@ -18,15 +17,10 @@ namespace Interactables
             gameObject.SetActive(activeAtStart);
         }
 
-    public void ReactionEventStart()
-    {
-        activeAtStart = !activeAtStart;
-        gameObject.SetActive(activeAtStart);
-    }
-
-        void IReactableObjects.RegisterReactable()
+        public void ReactionEventStart()
         {
-            throw new NotImplementedException();
+            activeAtStart = !activeAtStart;
+            gameObject.SetActive(activeAtStart);
         }
     }
 }

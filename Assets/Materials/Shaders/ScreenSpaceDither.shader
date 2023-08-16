@@ -126,17 +126,17 @@
                 float3 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv).xyz;
 
             	#if ENABLE_WORLD_SPACE_DITHER
-            		float2 UV = input.positionHCS.xy / _ScaledScreenParams.xy;
+            		// float2 UV = input.positionHCS.xy / _ScaledScreenParams.xy;
 	                // Sample the depth from the Camera depth texture.
 	                #if UNITY_REVERSED_Z
-						real depth = SampleSceneDepth(UV);
+						real depth = SampleSceneDepth(input.uv);
 	                #else
 						// Adjust Z to match NDC for OpenGL ([-1, 1])
 						real depth = lerp(UNITY_NEAR_CLIP_VALUE, 1, SampleSceneDepth(UV));
 	                #endif
             		// depth = Linear01Depth(depth, _ZBufferParams);
 	                
-	                float3 worldPos = ComputeWorldSpacePosition(UV, depth, UNITY_MATRIX_I_VP);
+	                float3 worldPos = ComputeWorldSpacePosition(input.uv, depth, UNITY_MATRIX_I_VP);
             		float3 normalWS = SampleSceneNormals(input.uv);
 
 	                // References: https://www.patreon.com/posts/quick-game-art-16714688
