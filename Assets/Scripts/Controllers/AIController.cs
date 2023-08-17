@@ -48,10 +48,5 @@ namespace Controllers
         {
             return false;
         }
-
-        public override bool RetrieveJumpInput()
-        {
-            return false;
-        }
     }
 }

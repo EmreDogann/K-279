@@ -158,6 +158,6 @@ MonoBehaviour:
   ditherTex: {fileID: 2800000, guid: a45b2a91af8cf4948ab789d3525bd528, type: 3}
   rampTex: {fileID: 2800000, guid: a788879ca86464e4b890bde7e3280c45, type: 3}
   threshold: 0.3
-  tiling: 200
+  tiling: 300
   filterMode: 1
   renderPassEvent: 400

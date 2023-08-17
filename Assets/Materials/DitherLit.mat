@@ -134,5 +134,5 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - _SpriteUVRange: {r: 0.24414062, g: 0.43164062, b: 0.19921875, a: 0.38671875}
+    - _SpriteUVRange: {r: 0.49414062, g: 0.6816406, b: 0.4765625, a: 0.6640625}
   m_BuildTextureStacks: []

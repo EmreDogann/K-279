@@ -80,6 +80,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectingRoom: 5
   spawnPoint: {fileID: 447378574794675434}
+  turningValve: {fileID: 3780521124321776259}
+  valveTurnEulerAngle: 65
+  valveTurnDuration: 1.6
+  valveTurnEasing: 7
   openEulerAngle: 32
   openDuration: 1
   openEasing: 4

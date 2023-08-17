@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Interactables;
@@ -9,6 +10,8 @@ using UnityEngine;
 public class RoomSwitcher : MonoBehaviour
 {
     [SerializeField] private CanvasGroupFade canvasFader;
+    [SerializeField] private float blackScreenWaitTime;
+
     [SerializeField] private bool LoadStartingRoomOnAwake;
 
     [ConditionalField(nameof(LoadStartingRoomOnAwake))] [SerializeField] private RoomType startingRoom;
@@ -45,19 +48,19 @@ public class RoomSwitcher : MonoBehaviour
         return _rooms.Find(x => x.GetRoomType() == roomType);
     }
 
-    private void SwitchRoom(RoomType roomType)
+    private void SwitchRoom(RoomType roomType, Action roomSwitchedCallback)
     {
         foreach (Room room in _rooms)
         {
             if (room.GetRoomType() == roomType)
             {
-                StartCoroutine(TransitionRooms(room));
+                StartCoroutine(TransitionRooms(room, roomSwitchedCallback));
                 break;
             }
         }
     }
 
-    private IEnumerator TransitionRooms(Room newRoom)
+    private IEnumerator TransitionRooms(Room newRoom, Action roomSwitchedCallback)
     {
         if (currentRoom)
         {
@@ -75,7 +78,9 @@ public class RoomSwitcher : MonoBehaviour
             newRoom.ActivateRoom();
         }
 
-        yield return canvasFader.ToggleFade();
+        yield return canvasFader.ToggleFade(blackScreenWaitTime);
+
+        roomSwitchedCallback?.Invoke();
 
         currentRoom = newRoom;
     }

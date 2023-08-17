@@ -60,41 +60,61 @@ namespace UI
             }
         }
 
-        public Coroutine ToggleFade()
+        public Coroutine ToggleFade(float beforeWait = -1, float afterWait = -1)
         {
             if (_isCanvasActive)
             {
-                return StartCoroutine(FadeOut());
+                return StartCoroutine(FadeOut(beforeWait, afterWait));
             }
 
-            return StartCoroutine(FadeIn());
+            return StartCoroutine(FadeIn(beforeWait, afterWait));
         }
 
-        private IEnumerator FadeIn()
+        private IEnumerator FadeIn(float beforeWait = -1, float afterWait = -1)
         {
+            if (beforeWait < 0.0f)
+            {
+                beforeWait = beforeWaitTime;
+            }
+
+            if (afterWait < 0.0f)
+            {
+                afterWait = afterWaitTime;
+            }
+
             OnFadeStart?.Invoke();
 
             _canvasGroup.alpha = 0.0f;
-            yield return new WaitForSecondsRealtime(beforeWaitTime);
+            yield return new WaitForSecondsRealtime(beforeWait);
             yield return Fade(0.0f, 1.0f, duration, easingFunction.GetFunction());
             _canvasGroup.blocksRaycasts = true;
             _isCanvasActive = true;
 
-            yield return new WaitForSecondsRealtime(afterWaitTime);
+            yield return new WaitForSecondsRealtime(afterWait);
             OnFadeComplete?.Invoke();
         }
 
-        private IEnumerator FadeOut()
+        private IEnumerator FadeOut(float beforeWait = -1, float afterWait = -1)
         {
+            if (beforeWait < 0.0f)
+            {
+                beforeWait = beforeWaitTime;
+            }
+
+            if (afterWait < 0.0f)
+            {
+                afterWait = afterWaitTime;
+            }
+
             OnFadeStart?.Invoke();
 
             _canvasGroup.alpha = 1.0f;
-            yield return new WaitForSecondsRealtime(beforeWaitTime);
+            yield return new WaitForSecondsRealtime(beforeWait);
             yield return Fade(1.0f, 0.0f, duration, easingFunction.GetFunction());
             _canvasGroup.blocksRaycasts = false;
             _isCanvasActive = false;
 
-            yield return new WaitForSecondsRealtime(afterWaitTime);
+            yield return new WaitForSecondsRealtime(afterWait);
             OnFadeComplete?.Invoke();
         }
 
