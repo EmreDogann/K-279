@@ -28,17 +28,12 @@ namespace Controllers
 
         public override bool RetrieveInteractInput()
         {
-            return _interactAction.WasPressedThisFrame();
+            return _interactAction.IsPressed();
         }
 
         public override bool RetrieveShootInput()
         {
             return _fireAction.WasPressedThisFrame();
-        }
-
-        public override bool RetrieveJumpInput()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

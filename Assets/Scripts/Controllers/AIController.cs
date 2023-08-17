@@ -20,18 +20,11 @@ namespace Controllers
         {
             
             return 0f;
-            
         }
 
         public override bool RetrieveShootInput()
         {
             return false;
         }
-
-        public override bool RetrieveJumpInput()
-        {
-            return false;
-        }
     }
 }
-

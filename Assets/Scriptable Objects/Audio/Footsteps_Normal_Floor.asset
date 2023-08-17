@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762bf881f78a96948805b51818ab07d3, type: 3}
+  m_Name: Footsteps_Normal_Floor
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: b3c2051329f17c046b28f0de587ca10f, type: 3}
+  - {fileID: 8300000, guid: 744ba5bf52d56ed4ca1184a848f2a40e, type: 3}
+  - {fileID: 8300000, guid: 24f20c1eae240c04ea9c805a28372ef2, type: 3}
+  - {fileID: 8300000, guid: 4b93c6a41485dab41bce7344183d1d3b, type: 3}
+  - {fileID: 8300000, guid: 1113b1eb4b254344dbce6d01777a48b0, type: 3}
+  - {fileID: 8300000, guid: 02c948f43d4273a4196e7dd8b24068d9, type: 3}
+  audioMixer: {fileID: 24300002, guid: 7fe1db268aad06940860274baea04931, type: 2}
+  volume:
+    Min: 0.3799091
+    Max: 0.3799091
+  useSemitones: 0
+  semitones:
+    Min: 0
+    Max: 0
+  pitch:
+    Min: 1
+    Max: 1
+  Looping: 0
+  CanBePaused: 0
+  playOrder: 1
+  currentPlayIndex: 0
+  audioEvent: {fileID: 11400000, guid: 3a82661986ebc2547842647dc3405e87, type: 2}

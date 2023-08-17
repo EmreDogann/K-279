@@ -20,6 +20,13 @@ namespace Cinemachine
 
         private CinemachineFramingTransposer _framingTransposer;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            _framingTransposer = ((CinemachineVirtualCamera)VirtualCamera)
+                .GetCinemachineComponent<CinemachineFramingTransposer>();
+        }
+
         private void OnValidate()
         {
             _framingTransposer = ((CinemachineVirtualCamera)VirtualCamera)

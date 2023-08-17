@@ -8,7 +8,6 @@ namespace Controllers
         public abstract void SetPlayerInput(PlayerInput playerInput);
         public abstract float RetrieveMoveInput(GameObject game);
         public abstract bool RetrieveShootInput();
-        public abstract bool RetrieveJumpInput();
         public abstract bool RetrieveInteractInput();
     }
 }
