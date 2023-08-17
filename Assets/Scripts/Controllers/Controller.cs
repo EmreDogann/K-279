@@ -5,8 +5,8 @@ namespace Controllers
 {
     public class Controller : MonoBehaviour
     {
+        
         public InputController input;
-
         private void Awake()
         {
             if (input.GetType() == typeof(PlayerController) && GetComponent<PlayerInput>() != null)
