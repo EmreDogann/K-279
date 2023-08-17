@@ -1,0 +1,492 @@
+fileFormatVersion: 2
+guid: e32843dd8dc69a14fa2d6b8100cca456
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  textureImporterSettings:
+    alphaSource: 1
+    mipMapMode: 0
+    enableMipMap: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+    convertToNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+    swizzle: 50462976
+    isReadable: 0
+    streamingMipmaps: 0
+    streamingMipmapsPriority: 0
+    vTOnly: 0
+    ignoreMipmapLimit: 0
+    nPOTScale: 1
+    sRGBTexture: 1
+    spriteMode: 2
+    spriteExtrude: 1
+    spriteMeshType: 1
+    alignment: 0
+    spritePivot: {x: 0.5, y: 0.5}
+    spritePixelsToUnits: 12
+    spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+    spriteGenerateFallbackPhysicsShape: 0
+    generateCubemap: 6
+    cubemapConvolution: 0
+    seamlessCubemap: 0
+    alphaIsTransparency: 1
+    spriteTessellationDetail: -1
+    textureType: 8
+    textureShape: 1
+    singleChannelComponent: 0
+    flipbookRows: 0
+    flipbookColumns: 0
+    ignorePngGamma: 0
+    cookieMode: 0
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+    normalMap: 0
+    textureFormat: 0
+    maxTextureSize: 0
+    lightmap: 0
+    compressionQuality: 0
+    linearTexture: 0
+    grayScaleToAlpha: 0
+    rGBM: 0
+    cubemapConvolutionSteps: 0
+    cubemapConvolutionExponent: 0
+    maxTextureSizeSet: 0
+    compressionQualitySet: 0
+    textureFormatSet: 0
+    applyGammaDecoding: 0
+  previousAsepriteImporterSettings:
+    fileImportMode: 1
+    importHiddenLayers: 0
+    layerImportMode: 1
+    defaultPivotSpace: 0
+    defaultPivotAlignment: 7
+    customPivotPosition: {x: 0.5, y: 0.5}
+    spritePadding: 0
+    generateModelPrefab: 1
+    generateAnimationClips: 1
+    addSortingGroup: 1
+    addShadowCasters: 0
+  asepriteImporterSettings:
+    fileImportMode: 1
+    importHiddenLayers: 0
+    layerImportMode: 1
+    defaultPivotSpace: 0
+    defaultPivotAlignment: 7
+    customPivotPosition: {x: 0.5, y: 0.5}
+    spritePadding: 0
+    generateModelPrefab: 1
+    generateAnimationClips: 1
+    addSortingGroup: 1
+    addShadowCasters: 0
+  importFileNodeState: 1
+  platformSettingsDirtyTick: 638276525185991665
+  textureAssetName: 
+  singleSpriteImportData:
+  - name: 
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    spriteID: 
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  animatedSpriteImportData:
+  - name: PlayerHurtAnim_Frame_0
+    originalName: 
+    pivot: {x: 0.43749997, y: -0.90909094}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 24
+      height: 33
+    spriteID: 714251bbba6723b4ea74a20664e40870
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 4}
+  - name: PlayerHurtAnim_Frame_1
+    originalName: 
+    pivot: {x: 0.43749997, y: -0.90909094}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 45
+      width: 24
+      height: 33
+    spriteID: 693dd320e6bf9e741814020ac11981f5
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 45}
+  - name: PlayerHurtAnim_Frame_2
+    originalName: 
+    pivot: {x: 0.43749997, y: -0.90909094}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 86
+      width: 24
+      height: 33
+    spriteID: cd7b8448dc400be4da3195097bbf3190
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 86}
+  - name: PlayerHurtAnim_Frame_3
+    originalName: 
+    pivot: {x: 0.5, y: -0.96875}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 100
+      y: 4
+      width: 21
+      height: 32
+    spriteID: 02fb0ad79ac9de44f91f42a248ad681f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 100, y: 4}
+  - name: PlayerHurtAnim_Frame_4
+    originalName: 
+    pivot: {x: 0.43749997, y: -0.90909094}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 36
+      y: 4
+      width: 24
+      height: 33
+    spriteID: a9623a952d2c7384b98924911440c2e2
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 36, y: 4}
+  - name: PlayerHurtAnim_Frame_5
+    originalName: 
+    pivot: {x: 0.5, y: -0.96875}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 100
+      y: 44
+      width: 21
+      height: 32
+    spriteID: 303137a1b5dddfe488083c48913d4de3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 100, y: 44}
+  - name: PlayerHurtAnim_Frame_6
+    originalName: 
+    pivot: {x: 0.43749997, y: -0.90909094}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 36
+      y: 45
+      width: 24
+      height: 33
+    spriteID: 6ba732e54e952ed40958e3a0e33bda49
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 36, y: 45}
+  - name: PlayerHurtAnim_Frame_7
+    originalName: 
+    pivot: {x: 0.43749997, y: -0.90909094}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 36
+      y: 86
+      width: 24
+      height: 33
+    spriteID: 6c95cff64e27b8946af5f2e0ff937812
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 36, y: 86}
+  - name: PlayerHurtAnim_Frame_8
+    originalName: 
+    pivot: {x: 0.43749997, y: -0.90909094}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 68
+      y: 4
+      width: 24
+      height: 33
+    spriteID: 6ae97e99eacf47c4bb9c5896090ed290
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 68, y: 4}
+  - name: PlayerHurtAnim_Frame_9
+    originalName: 
+    pivot: {x: 0.43749997, y: -0.90909094}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 68
+      y: 45
+      width: 24
+      height: 33
+    spriteID: 05f9228454ab0ea488b028faed99fa06
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 68, y: 45}
+  - name: PlayerHurtAnim_Frame_10
+    originalName: 
+    pivot: {x: 0.43749997, y: -0.90909094}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 68
+      y: 86
+      width: 24
+      height: 33
+    spriteID: 5a45854a3e255a5479016a2e4a48a90c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 68, y: 86}
+  spriteSheetImportData: []
+  asepriteLayers:
+  - layerIndex: 0
+    guid: -949401785
+    name: PlayerHurtAnim
+    layerFlags: 0
+    layerType: 0
+    blendMode: 0
+    cells:
+    - name: PlayerHurtAnim_Frame_0
+      frameIndex: 0
+      cellRect:
+        x: 22
+        y: 30
+        width: 24
+        height: 33
+      spriteId: 714251bbba6723b4ea74a20664e40870
+    - name: PlayerHurtAnim_Frame_1
+      frameIndex: 1
+      cellRect:
+        x: 22
+        y: 30
+        width: 24
+        height: 33
+      spriteId: 693dd320e6bf9e741814020ac11981f5
+    - name: PlayerHurtAnim_Frame_2
+      frameIndex: 2
+      cellRect:
+        x: 22
+        y: 30
+        width: 24
+        height: 33
+      spriteId: cd7b8448dc400be4da3195097bbf3190
+    - name: PlayerHurtAnim_Frame_3
+      frameIndex: 3
+      cellRect:
+        x: 22
+        y: 31
+        width: 21
+        height: 32
+      spriteId: 02fb0ad79ac9de44f91f42a248ad681f
+    - name: PlayerHurtAnim_Frame_4
+      frameIndex: 4
+      cellRect:
+        x: 22
+        y: 30
+        width: 24
+        height: 33
+      spriteId: a9623a952d2c7384b98924911440c2e2
+    - name: PlayerHurtAnim_Frame_5
+      frameIndex: 5
+      cellRect:
+        x: 22
+        y: 31
+        width: 21
+        height: 32
+      spriteId: 303137a1b5dddfe488083c48913d4de3
+    - name: PlayerHurtAnim_Frame_6
+      frameIndex: 6
+      cellRect:
+        x: 22
+        y: 30
+        width: 24
+        height: 33
+      spriteId: 6ba732e54e952ed40958e3a0e33bda49
+    - name: PlayerHurtAnim_Frame_7
+      frameIndex: 7
+      cellRect:
+        x: 22
+        y: 30
+        width: 24
+        height: 33
+      spriteId: 6c95cff64e27b8946af5f2e0ff937812
+    - name: PlayerHurtAnim_Frame_8
+      frameIndex: 8
+      cellRect:
+        x: 22
+        y: 30
+        width: 24
+        height: 33
+      spriteId: 6ae97e99eacf47c4bb9c5896090ed290
+    - name: PlayerHurtAnim_Frame_9
+      frameIndex: 9
+      cellRect:
+        x: 22
+        y: 30
+        width: 24
+        height: 33
+      spriteId: 05f9228454ab0ea488b028faed99fa06
+    - name: PlayerHurtAnim_Frame_10
+      frameIndex: 10
+      cellRect:
+        x: 22
+        y: 30
+        width: 24
+        height: 33
+      spriteId: 5a45854a3e255a5479016a2e4a48a90c
+    linkedCells: []
+    parentIndex: -1
+  platformSettings:
+  - name: DefaultTexturePlatform
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Standalone
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Server
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: WebGL
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  secondarySpriteTextures: []
+  spritePackingTag: 
+  canvasSize: {x: 65, y: 65}

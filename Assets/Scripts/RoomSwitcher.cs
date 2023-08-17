@@ -68,6 +68,7 @@ public class RoomSwitcher : MonoBehaviour
         }
 
         yield return canvasFader.ToggleFade();
+        yield return new WaitForSecondsRealtime(blackScreenWaitTime);
 
         if (currentRoom)
         {
@@ -78,7 +79,7 @@ public class RoomSwitcher : MonoBehaviour
             newRoom.ActivateRoom();
         }
 
-        yield return canvasFader.ToggleFade(blackScreenWaitTime);
+        yield return canvasFader.ToggleFade(0.5f);
 
         roomSwitchedCallback?.Invoke();
 

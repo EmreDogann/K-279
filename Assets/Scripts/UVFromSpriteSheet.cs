@@ -41,14 +41,14 @@ public class UVFromSpriteSheet : MonoBehaviour
 
         // spriteRenderer.sharedMaterial.SetVector(_spriteUVRange, new Vector4(minU, maxU, minV, maxV));
 
-        if (!_animator)
+        if (!_animator && _animator.GetCurrentAnimatorClipInfo(0).Length == 0)
         {
             return;
         }
 
-        var animatoinClip = _animator.GetCurrentAnimatorClipInfo(0);
+        var animationClip = _animator.GetCurrentAnimatorClipInfo(0);
         int currentFrame = (int)(_animator.GetCurrentAnimatorStateInfo(0).normalizedTime *
-                                 (animatoinClip[0].clip.length * animatoinClip[0].clip.frameRate));
+                                 (animationClip[0].clip.length * animationClip[0].clip.frameRate));
         if (currentFrame != _prevAnimFrame)
         {
             _spriteRenderer.sharedMaterial.SetVector(_spriteUVRange, CalcUvRange(_spriteRenderer.sprite));

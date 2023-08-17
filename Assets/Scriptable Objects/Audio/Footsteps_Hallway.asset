@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762bf881f78a96948805b51818ab07d3, type: 3}
+  m_Name: Footsteps_Hallway
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: b600bebd415c2fe47bd1f68bc82c0258, type: 3}
+  - {fileID: 8300000, guid: 24f072c8e0bcd2341ab6ce27e4553036, type: 3}
+  - {fileID: 8300000, guid: 7cfa4a5a397662849a6d3de78be53f99, type: 3}
+  - {fileID: 8300000, guid: 5073753a3e070724dbf8b25eeb9a441d, type: 3}
+  - {fileID: 8300000, guid: 61dd4a8d37e3bad4285c3aa10e676352, type: 3}
+  - {fileID: 8300000, guid: a341e95d86bb85548be26f804221db3c, type: 3}
+  - {fileID: 8300000, guid: d55c160675a7e0f448466fc2d6f32db8, type: 3}
+  audioMixer: {fileID: 24300002, guid: 7fe1db268aad06940860274baea04931, type: 2}
+  volume:
+    Min: 0.3261679
+    Max: 0.3261679
+  useSemitones: 0
+  semitones:
+    Min: 0
+    Max: 0
+  pitch:
+    Min: 1
+    Max: 1
+  Looping: 0
+  CanBePaused: 0
+  playOrder: 1
+  currentPlayIndex: 1
+  audioEvent: {fileID: 11400000, guid: 3a82661986ebc2547842647dc3405e87, type: 2}

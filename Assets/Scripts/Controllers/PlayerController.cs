@@ -28,7 +28,7 @@ namespace Controllers
 
         public override bool RetrieveInteractInput()
         {
-            return _interactAction.WasPressedThisFrame();
+            return _interactAction.IsPressed();
         }
 
         public override bool RetrieveShootInput()

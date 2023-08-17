@@ -76,6 +76,8 @@ public class Room : MonoBehaviour
         {
             if (door.GetConnectingRoom() == exitingRoom)
             {
+                door.PlayClosingAudio();
+
                 OnRoomActivate?.Invoke(new RoomData
                 {
                     StartingPosition = door.GetSpawnPoint(),

@@ -1,4 +1,5 @@
 using System;
+using Audio;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
@@ -12,6 +13,11 @@ namespace Interactables
         [Separator("Room Settings")]
         [SerializeField] private RoomType connectingRoom;
         [SerializeField] private Transform spawnPoint;
+
+        [Separator("Audio")]
+        [SerializeField] private AudioSO turningValueAudio;
+        // [SerializeField] private AudioSO openingDoorAudio;
+        [SerializeField] private AudioSO closingDoorAudio;
 
         [Separator("Open Animation")]
         [SerializeField] private Transform turningValve;
@@ -43,11 +49,16 @@ namespace Interactables
                 .Append(turningValve
                     .DOLocalRotate(new Vector3(_valveStartingRotation.x, _valveStartingRotation.y, valveTurnEulerAngle),
                         valveTurnDuration)
+                    .OnPlay(() => turningValueAudio.Play(transform.position))
                     .SetEase(valveTurnEasing))
                 .Insert(valveTurnDuration * 0.9f, _child
                     .DOLocalRotate(new Vector3(_startingRotation.x, openEulerAngle, _startingRotation.z), openDuration)
                     .SetEase(openEasing)
-                    .OnComplete(() => { OnRoomSwitching?.Invoke(connectingRoom, () => _doorOpenSequence.Rewind()); }))
+                    // .OnPlay(() => openingDoorAudio.Play(transform.position))
+                    .OnComplete(() =>
+                    {
+                        OnRoomSwitching?.Invoke(connectingRoom, () => { _doorOpenSequence.Rewind(); });
+                    }))
                 .SetAutoKill(false)
                 .Pause();
         }
@@ -62,14 +73,17 @@ namespace Interactables
             return spawnPoint;
         }
 
+        public void PlayClosingAudio()
+        {
+            closingDoorAudio.Play2D();
+        }
+
         public void InteractionContinues(bool isInteractionKeyDown)
         {
             if (isInteractionKeyDown)
             {
                 // TODO: Pause Game
                 // TODO: Stop audio in room.
-                // TODO: Play opening door audio.
-
 
                 _doorOpenSequence.PlayForward();
             }

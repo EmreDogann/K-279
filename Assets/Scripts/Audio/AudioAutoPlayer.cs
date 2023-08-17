@@ -8,6 +8,8 @@ namespace Audio
     {
         [SerializeField] private AudioSO audioToPlay;
         [SerializeField] private GameObject attachToGameObject;
+        [SerializeField] private bool play3D;
+        [ConditionalField(nameof(play3D))] [SerializeField] private Vector3 playPosition = Vector3.zero;
         [SerializeField] private bool stopExistingAudio;
         [SerializeField] private bool fadeIn;
         [ConditionalField(nameof(fadeIn))] [SerializeField] private float fadeInDuration = 1.0f;
@@ -27,7 +29,14 @@ namespace Audio
             }
             else
             {
-                audioToPlay.Play(default, fadeIn, fadeInDuration);
+                if (!play3D)
+                {
+                    audioToPlay.Play2D(fadeIn, fadeInDuration);
+                }
+                else
+                {
+                    audioToPlay.Play(default, fadeIn, fadeInDuration);
+                }
             }
         }
 
