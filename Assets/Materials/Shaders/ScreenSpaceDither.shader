@@ -5,6 +5,9 @@
         _MainTex ("Texture", 2D) = "white" {}
 		_NoiseTex("Noise Texture", 2D) = "white" {}
 		_ColorRampTex("Color Ramp", 2D) = "white" {}
+    	
+    	_BG("Background Color", Color) = (0,0,0,1)
+        _FG("Foreground Color", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -26,6 +29,7 @@
             #pragma fragment Fragment
 
             #pragma shader_feature _ ENABLE_WORLD_SPACE_DITHER
+            #pragma shader_feature _ USE_RAMP_TEX
 
             // #include "DecodeDepthNormals.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -54,6 +58,9 @@
 			    float4 _TL;
 			    float4 _TR;
 			    float4 _BR;
+
+	            float4 _BG;
+	            float4 _FG;
 
 	            float _Tiling;
 	            float _Threshold;
@@ -181,7 +188,12 @@
                 lum = (edgeData.y < _Threshold) ? lum : ((edgeData.x < 0.1f) ? 1.0f : 0.0f);
                 
                 float ramp = (lum <= clamp(ditherLum, 0.1f, 0.9f)) ? 0.1f : 0.9f;
-                float3 output = SAMPLE_TEXTURE2D(_ColorRampTex, sampler_ColorRampTex, float2(ramp, 0.5f));
+            	
+            	#if USE_RAMP_TEX
+					float3 output = SAMPLE_TEXTURE2D(_ColorRampTex, sampler_ColorRampTex, float2(ramp, 0.5f));
+            	#else
+            		float3 output = lerp(_BG, _FG, round(ramp));
+            	#endif
 
             	// Normals computed from screen-space derivatives.
             	// return float4(5 * cross(ddy(worldPos), ddx(worldPos)), 1);

@@ -134,9 +134,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomType: 4
+  lightFadeDuration: 0.5
   cameraBounds: {fileID: 1233287487850014623}
   roomDoors:
   - {fileID: 8186094977514067202}
+  roomLights:
+  - {fileID: 1746488514945648725}
+  - {fileID: 5682592822531169041}
+  - {fileID: 60014052707984921}
 --- !u!1 &440915080187051094
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,6 +1019,7 @@ GameObject:
   - component: {fileID: 8683617546734257743}
   - component: {fileID: 6361868899652574075}
   - component: {fileID: 6074537763970408593}
+  - component: {fileID: 5682592822531169041}
   m_Layer: 0
   m_Name: Ceiling_1
   m_TagString: Untagged
@@ -1121,6 +1127,22 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &5682592822531169041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6202893189341623745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flickering: 0
+  flickeringAmplitude: 0
+  flickeringFrequency: 0
+  flickeringCooldown: 0
 --- !u!1 &6513066253848948110
 GameObject:
   m_ObjectHideFlags: 0
@@ -1763,6 +1785,7 @@ GameObject:
   - component: {fileID: 4948121623862579210}
   - component: {fileID: 2640557539176071759}
   - component: {fileID: 7905794445955176917}
+  - component: {fileID: 60014052707984921}
   m_Layer: 0
   m_Name: HallwayDoor
   m_TagString: Untagged
@@ -1870,6 +1893,22 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &60014052707984921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7730429370139275484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flickering: 0
+  flickeringAmplitude: 0
+  flickeringFrequency: 0
+  flickeringCooldown: 0
 --- !u!1 &7989160814462270642
 GameObject:
   m_ObjectHideFlags: 0
@@ -2000,6 +2039,7 @@ GameObject:
   - component: {fileID: 2187399481098040994}
   - component: {fileID: 517854242932126007}
   - component: {fileID: 8419692508766680165}
+  - component: {fileID: 1746488514945648725}
   m_Layer: 0
   m_Name: Ceiling
   m_TagString: Untagged
@@ -2107,6 +2147,22 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &1746488514945648725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8308323507436775076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flickering: 0
+  flickeringAmplitude: 0
+  flickeringFrequency: 0
+  flickeringCooldown: 0
 --- !u!1 &8357522546286570428
 GameObject:
   m_ObjectHideFlags: 0

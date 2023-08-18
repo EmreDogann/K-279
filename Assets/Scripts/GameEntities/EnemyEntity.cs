@@ -1,43 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyEntity : MonoBehaviour, IEntity
+namespace GameEntities
 {
-    [SerializeField] private int maxHP = 100;
-    [SerializeField] private int dmgPerHit = 50;
-    [SerializeField, Range(0, 5f)] private float hitCoolDown = 0.3f;
-
-    private int currentHP;
-    private int hitTimer;
-    private void Awake()
+    public class EnemyEntity : MonoBehaviour, IEntity
     {
-        currentHP = maxHP;
-        hitTimer = 0;
-    }
-    public void Died()
-    {
-        Debug.Log("Enemy Dead");
-        gameObject.SetActive(false);
-    }
+        [SerializeField] private int maxHP = 100;
+        [SerializeField] private int dmgPerHit = 50;
+        [SerializeField] [Range(0, 5f)] private float hitCoolDown = 0.3f;
 
-    public void TakeHit(int dmgTaken)
-    {
-        currentHP -= dmgTaken;
+        private int currentHP;
+        private int hitTimer;
 
-        if (currentHP < 0)
+        private void Awake()
         {
-            Died();
+            currentHP = maxHP;
+            hitTimer = 0;
         }
-    }
 
-    public int GetDmg()
-    {
-        return dmgPerHit;
-    }
+        public void Died()
+        {
+            Debug.Log("Enemy Dead");
+            gameObject.SetActive(false);
+        }
 
-    public float GetHitCoolDown()
-    {
-        return hitCoolDown;
+        public void TakeHit(int dmgTaken)
+        {
+            currentHP -= dmgTaken;
+
+            if (currentHP < 0)
+            {
+                Died();
+            }
+        }
+
+        public int GetDmg()
+        {
+            return dmgPerHit;
+        }
+
+        public float GetHitCoolDown()
+        {
+            return hitCoolDown;
+        }
     }
 }

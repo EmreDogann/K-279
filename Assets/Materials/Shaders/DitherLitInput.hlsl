@@ -17,6 +17,11 @@ CBUFFER_START(UnityPerMaterial)
 	float4 _NoiseMap_TexelSize;
 	float4 _SpriteUVRange;
 
+	int _UseRampTex;
+
+	float4 _BG;
+	float4 _FG;
+
 	float _Tiling;
 
 	// Default Params

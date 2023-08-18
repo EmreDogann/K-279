@@ -2,6 +2,7 @@ using System;
 using Audio;
 using DG.Tweening;
 using MyBox;
+using Rooms;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -16,7 +17,6 @@ namespace Interactables
 
         [Separator("Audio")]
         [SerializeField] private AudioSO turningValueAudio;
-        // [SerializeField] private AudioSO openingDoorAudio;
         [SerializeField] private AudioSO closingDoorAudio;
 
         [Separator("Open Animation")]
@@ -49,15 +49,13 @@ namespace Interactables
                 .Append(turningValve
                     .DOLocalRotate(new Vector3(_valveStartingRotation.x, _valveStartingRotation.y, valveTurnEulerAngle),
                         valveTurnDuration)
-                    .OnPlay(() => turningValueAudio.Play(transform.position))
                     .SetEase(valveTurnEasing))
                 .Insert(valveTurnDuration * 0.9f, _child
                     .DOLocalRotate(new Vector3(_startingRotation.x, openEulerAngle, _startingRotation.z), openDuration)
                     .SetEase(openEasing)
-                    // .OnPlay(() => openingDoorAudio.Play(transform.position))
                     .OnComplete(() =>
                     {
-                        OnRoomSwitching?.Invoke(connectingRoom, () => { _doorOpenSequence.Rewind(); });
+                        OnRoomSwitching?.Invoke(connectingRoom, () => { _doorOpenSequence.SmoothRewind(); });
                     }))
                 .SetAutoKill(false)
                 .Pause();
@@ -80,11 +78,12 @@ namespace Interactables
 
         public void InteractionContinues(bool isInteractionKeyDown)
         {
-            if (isInteractionKeyDown)
+            if (isInteractionKeyDown && !_doorOpenSequence.IsPlaying())
             {
                 // TODO: Pause Game
                 // TODO: Stop audio in room.
 
+                turningValueAudio.Play(transform.position);
                 _doorOpenSequence.PlayForward();
             }
         }

@@ -4,7 +4,10 @@ Shader "Universal Render Pipeline/Custom/DitherLit"
     {
         // Dither Properties
         [NoScaleOffset] _NoiseMap("Noise Map", 2D) = "white" {}
+        [Toggle] _UseRampTex("Use Ramp Texture", Int) = 0
         _ColorRampMap("Color Ramp Map", 2D) = "white" {}
+        _BG("Background Color", Color) = (0,0,0,1)
+        _FG("Foreground Color", Color) = (1,1,1,1)
         
         _SpriteUVRange("Sprite Bounds", Vector) = (0,1,0,1)
         _Tiling("Tiling", Float) = 1.0
@@ -139,6 +142,9 @@ Shader "Universal Render Pipeline/Custom/DitherLit"
             #pragma shader_feature_local_fragment _SPECULARHIGHLIGHTS_OFF
             #pragma shader_feature_local_fragment _ENVIRONMENTREFLECTIONS_OFF
             #pragma shader_feature_local_fragment _SPECULAR_SETUP
+
+            // For Dithering
+            #pragma shader_feature _ USE_RAMP_TEX
 
             // -------------------------------------
             // Universal Pipeline keywords

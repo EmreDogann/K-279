@@ -10,8 +10,13 @@ namespace Editor
         private static readonly string[] workflowModeNames = Enum.GetNames(typeof(LitGUI.WorkflowMode));
 
         private LitGUI.LitProperties litProperties;
-        private MaterialProperty _colorRampMapProperty;
         private MaterialProperty _noiseMapProperty;
+        private MaterialProperty _colorRampMapProperty;
+
+        private MaterialProperty _useRampTexProperty;
+        private MaterialProperty _bgColorProperty;
+        private MaterialProperty _fgColorProperty;
+
         private MaterialProperty _tilingProperty;
 
         // collect properties from the material properties
@@ -19,8 +24,12 @@ namespace Editor
         {
             base.FindProperties(properties);
             litProperties = new LitGUI.LitProperties(properties);
-            _colorRampMapProperty = ShaderGUI.FindProperty("_ColorRampMap", properties);
             _noiseMapProperty = ShaderGUI.FindProperty("_NoiseMap", properties);
+            _colorRampMapProperty = ShaderGUI.FindProperty("_ColorRampMap", properties);
+
+            _useRampTexProperty = ShaderGUI.FindProperty("_UseRampTex", properties);
+            _bgColorProperty = ShaderGUI.FindProperty("_BG", properties);
+            _fgColorProperty = ShaderGUI.FindProperty("_FG", properties);
 
             _tilingProperty = ShaderGUI.FindProperty("_Tiling", properties);
         }
@@ -50,9 +59,22 @@ namespace Editor
         {
             materialEditor.TexturePropertySingleLine(new GUIContent("Dither Map", "Pattern to use for dithering."),
                 _noiseMapProperty);
-            materialEditor.TexturePropertySingleLine(
-                new GUIContent("Color Ramp Map", "Color Ramp to sample when thresholding colors."),
-                _colorRampMapProperty);
+            materialEditor.ShaderProperty(_useRampTexProperty, _useRampTexProperty.displayName);
+
+            if (_useRampTexProperty.floatValue == 1)
+            {
+                material.EnableKeyword("USE_RAMP_TEX");
+                materialEditor.TexturePropertySingleLine(
+                    new GUIContent("Color Ramp Map", "Color Ramp to sample when thresholding colors."),
+                    _colorRampMapProperty);
+            }
+            else
+            {
+                material.DisableKeyword("USE_RAMP_TEX");
+                materialEditor.ColorProperty(_bgColorProperty, _bgColorProperty.displayName);
+                materialEditor.ColorProperty(_fgColorProperty, _fgColorProperty.displayName);
+            }
+
             materialEditor.FloatProperty(_tilingProperty, "Dither Tiling");
 
             base.DrawSurfaceInputs(material);

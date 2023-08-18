@@ -1794,10 +1794,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomType: 1
+  lightFadeDuration: 0.5
   cameraBounds: {fileID: 4480491494856283307}
   roomDoors:
   - {fileID: 8763623115018913987}
   - {fileID: 2139666310320740995}
+  roomLights:
+  - {fileID: 7326530179394098565}
+  - {fileID: 2037661142885476670}
+  - {fileID: 9182013969855658395}
 --- !u!1 &4444770741543490801
 GameObject:
   m_ObjectHideFlags: 0
@@ -4561,7 +4566,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8954027372522884111, guid: 1e89ad47699baf846aa33d89d5609cb1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7326530179394098565}
   m_SourcePrefab: {fileID: 100100000, guid: 1e89ad47699baf846aa33d89d5609cb1, type: 3}
 --- !u!4 &4938414969801367823 stripped
 Transform:
@@ -4569,6 +4578,28 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1299457040224582491}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7947588076672300884 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8954027372522884111, guid: 1e89ad47699baf846aa33d89d5609cb1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1299457040224582491}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7326530179394098565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7947588076672300884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flickering: 0
+  flickeringAmplitude: 0
+  flickeringFrequency: 0
+  flickeringCooldown: 0
 --- !u!1001 &1520814138473711677
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4670,7 +4701,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8954027372522884111, guid: 1e89ad47699baf846aa33d89d5609cb1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9182013969855658395}
   m_SourcePrefab: {fileID: 100100000, guid: 1e89ad47699baf846aa33d89d5609cb1, type: 3}
 --- !u!4 &4871587948359979625 stripped
 Transform:
@@ -4678,6 +4713,28 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1520814138473711677}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7590848039011992626 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8954027372522884111, guid: 1e89ad47699baf846aa33d89d5609cb1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1520814138473711677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9182013969855658395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7590848039011992626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flickering: 0
+  flickeringAmplitude: 0
+  flickeringFrequency: 0
+  flickeringCooldown: 0
 --- !u!1001 &4105635447724307599
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4745,6 +4802,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Captains Quarters Door
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844458059673925581, guid: 303f159a3e9295844b8c141f9f1411a0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844458059673925581, guid: 303f159a3e9295844b8c141f9f1411a0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.44
       objectReference: {fileID: 0}
     - target: {fileID: 7626391866964606603, guid: 303f159a3e9295844b8c141f9f1411a0,
         type: 3}
@@ -4966,8 +5033,34 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8954027372522884111, guid: 1e89ad47699baf846aa33d89d5609cb1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2037661142885476670}
   m_SourcePrefab: {fileID: 100100000, guid: 1e89ad47699baf846aa33d89d5609cb1, type: 3}
+--- !u!1 &471448265915024274 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8954027372522884111, guid: 1e89ad47699baf846aa33d89d5609cb1,
+    type: 3}
+  m_PrefabInstance: {fileID: 8847870980103540637}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2037661142885476670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471448265915024274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flickering: 0
+  flickeringAmplitude: 0
+  flickeringFrequency: 0
+  flickeringCooldown: 0
 --- !u!4 &3191271804694107593 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6233086385650932308, guid: 1e89ad47699baf846aa33d89d5609cb1,

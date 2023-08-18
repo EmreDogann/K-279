@@ -1010,6 +1010,7 @@ GameObject:
   - component: {fileID: 107397190811414137}
   - component: {fileID: 8833154704565080154}
   - component: {fileID: 3951322528714394082}
+  - component: {fileID: 7116424957247204116}
   m_Layer: 0
   m_Name: CrewQuartersDoor
   m_TagString: Untagged
@@ -1117,6 +1118,22 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &7116424957247204116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3605985343166915667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flickering: 0
+  flickeringAmplitude: 0
+  flickeringFrequency: 0
+  flickeringCooldown: 0
 --- !u!1 &3676166440565521338
 GameObject:
   m_ObjectHideFlags: 0
@@ -2046,6 +2063,7 @@ GameObject:
   - component: {fileID: 7036880196436292557}
   - component: {fileID: 7588739084999138305}
   - component: {fileID: 1106907505552134719}
+  - component: {fileID: 2722575673265995392}
   m_Layer: 0
   m_Name: Ceiling_1
   m_TagString: Untagged
@@ -2153,6 +2171,22 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &2722575673265995392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6163732958475314210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flickering: 0
+  flickeringAmplitude: 0
+  flickeringFrequency: 0
+  flickeringCooldown: 0
 --- !u!1 &6207392869942562575
 GameObject:
   m_ObjectHideFlags: 0
@@ -2634,9 +2668,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomType: 0
+  lightFadeDuration: 0.5
   cameraBounds: {fileID: 4105816325208378523}
   roomDoors:
   - {fileID: 3081611069322405812}
+  roomLights:
+  - {fileID: 118894526140274498}
+  - {fileID: 7116424957247204116}
+  - {fileID: 9064275894730383450}
+  - {fileID: 2722575673265995392}
 --- !u!1 &7213392382953395901
 GameObject:
   m_ObjectHideFlags: 0
@@ -3060,6 +3100,7 @@ GameObject:
   - component: {fileID: 564872985734597894}
   - component: {fileID: 1202708873612211535}
   - component: {fileID: 1917959481789419348}
+  - component: {fileID: 118894526140274498}
   m_Layer: 0
   m_Name: DeskLight
   m_TagString: Untagged
@@ -3167,6 +3208,22 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &118894526140274498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8072458516084953232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flickering: 0
+  flickeringAmplitude: 0
+  flickeringFrequency: 0
+  flickeringCooldown: 0
 --- !u!1 &8139213740959433999
 GameObject:
   m_ObjectHideFlags: 0
@@ -3427,6 +3484,7 @@ GameObject:
   - component: {fileID: 5805977180023660690}
   - component: {fileID: 5610590675634653682}
   - component: {fileID: 1066500453286381817}
+  - component: {fileID: 9064275894730383450}
   m_Layer: 0
   m_Name: Ceiling
   m_TagString: Untagged
@@ -3534,6 +3592,22 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &9064275894730383450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8258546970500116607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flickering: 0
+  flickeringAmplitude: 0
+  flickeringFrequency: 0
+  flickeringCooldown: 0
 --- !u!1 &8665726799612322363
 GameObject:
   m_ObjectHideFlags: 0
@@ -3678,12 +3752,22 @@ PrefabInstance:
     - target: {fileID: 2687446678122933772, guid: 303f159a3e9295844b8c141f9f1411a0,
         type: 3}
       propertyPath: connectingRoom
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3567890794709096586, guid: 303f159a3e9295844b8c141f9f1411a0,
         type: 3}
       propertyPath: m_Name
       value: Captains Quarters Door
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844458059673925581, guid: 303f159a3e9295844b8c141f9f1411a0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 4844458059673925581, guid: 303f159a3e9295844b8c141f9f1411a0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.83
       objectReference: {fileID: 0}
     - target: {fileID: 7626391866964606603, guid: 303f159a3e9295844b8c141f9f1411a0,
         type: 3}

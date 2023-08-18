@@ -254,12 +254,18 @@ void DitherLitPassFragment(
 	color.rgb = MixFog(color.rgb, inputData.fogCoord);
 	color.a = OutputAlpha(color.a, IsSurfaceTypeTransparent(_Surface));
 
-	float4 col = _BaseMap.Sample(sampler_BaseMap, input.uv);
+	float4 col = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv);
 	const float lum = dot(color, real3(0.2126729f, 0.7151522f, 0.0721750f));
-	const float ditherLum = _NoiseMap.Sample(sampler_NoiseMap, input.remappedUV * _Tiling).r;
+	const float ditherLum = SAMPLE_TEXTURE2D(_NoiseMap, sampler_NoiseMap, input.remappedUV * _Tiling).r;
 
 	float ramp = (lum <= clamp(ditherLum, 0.1f, 1.0f)) ? 0.1f : 1.0f;
-	outColor = col * _ColorRampMap.Sample(sampler_ColorRampMap, float2(ramp, 0.5f));
+	#if USE_RAMP_TEX
+		// Colors are wrong, maybe color space conversion issue?
+		outColor = SAMPLE_TEXTURE2D(_ColorRampMap, sampler_ColorRampMap, float2(ramp, 0.5f));
+	#else
+	outColor = lerp(_BG, _FG, round(ramp));
+	#endif
+	outColor.a = col.a;
 	// outColor.rgb = lerp(float4(0, 0, 0, 0), float4(1, 1, 1, 1), round(outColor.b)).rgb;
 
 	#ifdef _WRITE_RENDERING_LAYERS

@@ -136,7 +136,7 @@ MonoBehaviour:
   closingDoorAudio: {fileID: 11400000, guid: 53c7285dd5cb022499628f52d144aeeb, type: 2}
   turningValve: {fileID: 6427883332284065605}
   valveTurnEulerAngle: 65
-  valveTurnDuration: 1.6
+  valveTurnDuration: 1
   valveTurnEasing: 7
   openEulerAngle: 32
   openDuration: 1

@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Active: 1
   settings:
     passTag: Render Characters
-    Event: 500
+    Event: 450
     filterSettings:
       RenderQueueType: 1
       LayerMask:
@@ -153,11 +153,15 @@ MonoBehaviour:
   m_Name: Screen Dither
   m_EditorClassIdentifier: 
   m_Active: 1
-  showInSceneView: 0
-  worldSpaceDither: 1
-  ditherTex: {fileID: 2800000, guid: a45b2a91af8cf4948ab789d3525bd528, type: 3}
-  rampTex: {fileID: 2800000, guid: a788879ca86464e4b890bde7e3280c45, type: 3}
-  threshold: 0.3
-  tiling: 300
-  filterMode: 1
+  settings:
+    showInSceneView: 0
+    worldSpaceDither: 1
+    ditherTex: {fileID: 2800000, guid: a45b2a91af8cf4948ab789d3525bd528, type: 3}
+    useRampTexture: 0
+    rampTex: {fileID: 2800000, guid: a9601c9d949192d4aa929fc05d5e5dda, type: 3}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 1}
+    foregroundColor: {r: 1, g: 0.8794544, b: 0.646, a: 1}
+    threshold: 0.6
+    tiling: 300
+    filterMode: 1
   renderPassEvent: 400

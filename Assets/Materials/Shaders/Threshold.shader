@@ -13,46 +13,59 @@ Shader "Hidden/Dither/Threshold"
 
         Pass
         {
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
+            HLSLPROGRAM
+            #pragma vertex Vertex
+            #pragma fragment Fragment
 
-            #include "UnityCG.cginc"
+            #pragma shader_feature _ USE_RAMP_TEX
 
-            struct appdata
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+
+            struct Attributes
             {
-                float4 vertex : POSITION;
+                float4 positionOS : POSITION;
                 float2 uv : TEXCOORD0;
             };
 
-            struct v2f
+            struct Varyings
             {
                 float2 uv : TEXCOORD0;
-                float4 vertex : SV_POSITION;
+                float4 positionHCS : SV_POSITION;
             };
 
-            v2f vert (appdata v)
+            Varyings Vertex(Attributes input)
             {
-                v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
-                return o;
-            }
-
-            sampler2D _MainTex;
-
-            float4 _BG;
-            float4 _FG;
-
-            fixed4 frag (v2f i) : SV_Target
-            {
-                fixed4 col = tex2D(_MainTex, i.uv);
+                Varyings output;
+                output.positionHCS = TransformObjectToHClip(input.positionOS);
+                output.uv = input.uv;
                 
-                col.rgb = lerp(_BG, _FG, round(col.r)).rgb;
-
-                return col;
+                return output;
             }
-            ENDCG
+
+            TEXTURE2D(_MainTex);
+			SAMPLER(sampler_MainTex);
+
+            TEXTURE2D(_ColorRampTex);
+			SAMPLER(sampler_ColorRampTex);
+
+            CBUFFER_START(UnityPerMaterial)
+                float4 _BG;
+                float4 _FG;
+            CBUFFER_END
+
+            float4 Fragment (Varyings input) : SV_Target
+            {
+                float4 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
+                #if USE_RAMP_TEX
+                    // Doesn't work, need to use luminance of pixel as x-axis UV instead.
+					float4 output = SAMPLE_TEXTURE2D(_ColorRampTex, sampler_ColorRampTex, float2(col.r, 0.5f));
+                #else
+            		float4 output = lerp(_BG, _FG, round(col.r));
+            	#endif
+
+                return output;
+            }
+            ENDHLSL
         }
     }
 }

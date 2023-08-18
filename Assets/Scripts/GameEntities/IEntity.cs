@@ -1,13 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface IEntity
+namespace GameEntities
 {
+    public interface IEntity
+    {
+        public void TakeHit(int dmgTaken);
 
-    public abstract void TakeHit(int dmgTaken);
-
-    public abstract void Died();
-
-     
+        public void Died();
+    }
 }

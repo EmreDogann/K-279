@@ -1,28 +1,28 @@
 using Controllers;
-using Misc_;
+using GameEntities;
 using UnityEngine;
 
 namespace Capabilities
 {
-    [RequireComponent(typeof(Controller)), RequireComponent(typeof(PlayerEntity))]
+    [RequireComponent(typeof(Controller))] [RequireComponent(typeof(PlayerEntity))]
     public class Shoot : MonoBehaviour
     {
-        [SerializeField] Vector3 gunOffset = new Vector2(0.6f, 0);
-        [SerializeField, Range(0, 100f)] private float gunRange = 10f;
-        [SerializeField] LayerMask layerToHit;
+        [SerializeField] private Vector3 gunOffset = new Vector2(0.6f, 0);
+        [SerializeField] [Range(0, 100f)] private float gunRange = 10f;
+        [SerializeField] private LayerMask layerToHit;
 
 
         private Controller _controller;
 
         private Ray gunRay;
         private Vector2 _direction = Vector2.zero;
-        
+
         private bool facingRight;
         private bool gunActive;
         private float timeBetweenShots;
         private int dmgPerHit;
         private float coolDown;
-        
+
 
         private void Awake()
         {
@@ -47,7 +47,7 @@ namespace Capabilities
                 {
                     Debug.Log("Shoot");
                     gunRay.origin = gameObject.transform.position + gunOffset;
-                    
+
                     RaycastHit hitInfo;
                     bool isHit = Physics.Raycast(gunRay, out hitInfo, gunRange, layerToHit);
                     if (isHit)
@@ -60,8 +60,6 @@ namespace Capabilities
 
         private void FixedUpdate()
         {
-
-
             _direction.x = _controller.input.RetrieveMoveInput(gameObject);
             if (_direction.x > 0f && !facingRight)
             {
@@ -87,8 +85,6 @@ namespace Capabilities
             }
 
             facingRight = !facingRight;
-
         }
     }
 }
-

@@ -13,6 +13,8 @@ namespace RenderFeatures
         // Resources
         private readonly Material _ditherMaterial;
         private readonly Material _thresholdMaterial;
+        private Color _backgroundColor;
+        private Color _foregroundColor;
         private readonly float _threshold;
         private readonly float _tiling;
         private readonly bool _worldSpaceDither;
@@ -37,36 +39,48 @@ namespace RenderFeatures
         private readonly int _trID = Shader.PropertyToID("_TR");
         private readonly int _brID = Shader.PropertyToID("_BR");
 
+        private readonly int _fgID = Shader.PropertyToID("_FG");
+        private readonly int _bgID = Shader.PropertyToID("_BG");
+
         // The constructor of the pass. Here you can set any material properties that do not need to be updated on a per-frame basis.
-        public ScreenDitherRenderPass(string profilerTag, RenderPassEvent renderEvent, Texture2D ditherTex,
-            Texture2D rampTex, float threshold, float tiling, bool worldSpaceDither, FilterMode filterMode)
+        public ScreenDitherRenderPass(string profilerTag, RenderPassEvent renderEvent,
+            ScreenDitherRenderFeature.Settings settings)
         {
             _profilerTag = profilerTag;
             renderPassEvent = renderEvent;
 
-            _threshold = threshold;
-            _tiling = tiling;
-            _worldSpaceDither = worldSpaceDither;
-            _filterMode = filterMode;
+            _threshold = settings.threshold;
+            _tiling = settings.tiling;
+
+            _backgroundColor = settings.backgroundColor;
+            _foregroundColor = settings.foregroundColor;
+
+            _worldSpaceDither = settings.worldSpaceDither;
+            _filterMode = settings.filterMode;
 
             if (_ditherMaterial == null)
             {
                 _ditherMaterial = CoreUtils.CreateEngineMaterial("Hidden/Dither/ScreenSpaceDither");
-                Texture2D blueNoiseTexture = ditherTex;
+                Texture2D blueNoiseTexture = settings.ditherTex;
 
                 if (blueNoiseTexture != null)
                 {
                     _ditherMaterial.SetTexture(_noiseTexProperty, blueNoiseTexture);
                 }
 
-                _ditherMaterial.SetTexture(_colorRampTexProperty, rampTex);
-                _ditherMaterial.SetFloat(_thresholdProperty, threshold);
-                _ditherMaterial.SetFloat(_tilingProperty, tiling);
+                _ditherMaterial.SetTexture(_colorRampTexProperty, settings.rampTex);
+                _ditherMaterial.SetFloat(_thresholdProperty, settings.threshold);
+                _ditherMaterial.SetFloat(_tilingProperty, settings.tiling);
+                _ditherMaterial.SetColor(_bgID, settings.backgroundColor);
+                _ditherMaterial.SetColor(_fgID, settings.foregroundColor);
             }
 
             if (_thresholdMaterial == null)
             {
                 _thresholdMaterial = CoreUtils.CreateEngineMaterial("Hidden/Dither/Threshold");
+                _thresholdMaterial.SetTexture(_colorRampTexProperty, settings.rampTex);
+                _thresholdMaterial.SetColor(_bgID, settings.backgroundColor);
+                _thresholdMaterial.SetColor(_fgID, settings.foregroundColor);
             }
 
             if (_worldSpaceDither)
@@ -76,11 +90,40 @@ namespace RenderFeatures
             else
             {
                 _ditherMaterial.DisableKeyword("ENABLE_WORLD_SPACE_DITHER");
-                _tiling = tiling + 500;
+                _tiling = settings.tiling + 500;
+            }
+
+            if (settings.useRampTexture)
+            {
+                _ditherMaterial.EnableKeyword("USE_RAMP_TEX");
+                _thresholdMaterial.EnableKeyword("USE_RAMP_TEX");
+            }
+            else
+            {
+                _ditherMaterial.DisableKeyword("USE_RAMP_TEX");
+                _thresholdMaterial.DisableKeyword("USE_RAMP_TEX");
             }
 
             _superTarget = new RenderTargetIdentifier(_superID);
             _halfTarget = new RenderTargetIdentifier(_halfID);
+        }
+
+        public void SetColors(Color bg, Color fg)
+        {
+            _backgroundColor = bg;
+            _foregroundColor = fg;
+
+            if (_ditherMaterial != null)
+            {
+                _ditherMaterial.SetColor(_bgID, _backgroundColor);
+                _ditherMaterial.SetColor(_fgID, _foregroundColor);
+            }
+
+            if (_thresholdMaterial == null)
+            {
+                _thresholdMaterial.SetColor(_bgID, _backgroundColor);
+                _thresholdMaterial.SetColor(_fgID, _foregroundColor);
+            }
         }
 
         // Called per-pass - Same as OnCameraSetup() below.
@@ -99,12 +142,12 @@ namespace RenderFeatures
             _targetsDescriptor = _cameraDescriptor;
             _targetsDescriptor.depthBufferBits = 0;
 
-            _targetsDescriptor.width <<= 1;
-            _targetsDescriptor.height <<= 1;
+            // _targetsDescriptor.width <<= 1;
+            // _targetsDescriptor.height <<= 1;
             cmd.GetTemporaryRT(_superID, _targetsDescriptor, _filterMode);
 
-            _targetsDescriptor.width >>= 1;
-            _targetsDescriptor.height >>= 1;
+            // _targetsDescriptor.width >>= 1;
+            // _targetsDescriptor.height >>= 1;
             cmd.GetTemporaryRT(_halfID, _targetsDescriptor, _filterMode);
 
             if (!_worldSpaceDither)
@@ -128,6 +171,11 @@ namespace RenderFeatures
 
             _ditherMaterial.SetFloat(_thresholdProperty, _threshold);
             _ditherMaterial.SetFloat(_tilingProperty, _tiling);
+
+            _ditherMaterial.SetColor(_bgID, _backgroundColor);
+            _ditherMaterial.SetColor(_fgID, _foregroundColor);
+            _thresholdMaterial.SetColor(_bgID, _backgroundColor);
+            _thresholdMaterial.SetColor(_fgID, _foregroundColor);
         }
 
         public void SetTarget(RenderTargetIdentifier camerColorTarget)
@@ -141,10 +189,12 @@ namespace RenderFeatures
             CommandBuffer cmd = CommandBufferPool.Get();
             using (new ProfilingScope(cmd, new ProfilingSampler(_profilerTag)))
             {
-                Blit(cmd, _colorTarget, _superTarget);
-                Blit(cmd, _superTarget, _halfTarget, _ditherMaterial);
-                // Blit(cmd, _halfTarget, _halfTarget, _thresholdMaterial);
-                Blit(cmd, _halfTarget, _colorTarget, _thresholdMaterial);
+                Blit(cmd, _colorTarget, _superTarget, _ditherMaterial);
+                Blit(cmd, _superTarget, _colorTarget);
+
+                // Blit(cmd, _colorTarget, _superTarget);
+                // Blit(cmd, _superTarget, _halfTarget, _ditherMaterial);
+                // Blit(cmd, _halfTarget, _colorTarget);
             }
 
             // Execute the command buffer and release it.

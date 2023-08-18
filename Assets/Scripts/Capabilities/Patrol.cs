@@ -1,29 +1,26 @@
 using Checks;
-using Controllers;
+using GameEntities;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.InputSystem.XR;
-using UnityEngine.ProBuilder.Shapes;
 
 namespace Capabilities
 {
-    [RequireComponent(typeof(EnemyEntity)), RequireComponent(typeof(Ground)), RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(EnemyEntity))] [RequireComponent(typeof(Ground))] [RequireComponent(typeof(Rigidbody))]
     public class Patrol : MonoBehaviour
     {
         [Header("Patrol")]
         [SerializeField] private GameObject patrolLimitRightObject;
         [SerializeField] private GameObject patrolLimitLeftObject;
-        [SerializeField, Range(0, 5f)] private float patrolRandomness = 0f;
-        [SerializeField, Range(1, 20f)] private float rangeOfSight = 2f;
-        [SerializeField, Range(0, 5f)] private float timeTillReturnToPatrol;
+        [SerializeField] [Range(0, 5f)] private float patrolRandomness;
+        [SerializeField] [Range(1, 20f)] private float rangeOfSight = 2f;
+        [SerializeField] [Range(0, 5f)] private float timeTillReturnToPatrol;
         [SerializeField] private LayerMask layerToCatch;
         [Header("Movement")]
-        [SerializeField, Range(0, 10f)] private float _maxPatrolVelocity = 3f;
-        [SerializeField, Range(0, 20f)] private float _maxPatrolAcceleration = 20f;
-        [SerializeField, Range(0, 100f)] private float _maxPursueVelocity = 3f;
-        [SerializeField, Range(0, 100f)] private float _maxPursueAcceleration = 20f;
+        [SerializeField] [Range(0, 10f)] private float _maxPatrolVelocity = 3f;
+        [SerializeField] [Range(0, 20f)] private float _maxPatrolAcceleration = 20f;
+        [SerializeField] [Range(0, 100f)] private float _maxPursueVelocity = 3f;
+        [SerializeField] [Range(0, 100f)] private float _maxPursueAcceleration = 20f;
         [Header("Attack")]
-        [SerializeField, Range(0, 10f)] private float _attackRange = 2f;
+        [SerializeField] [Range(0, 10f)] private float _attackRange = 2f;
 
         private Rigidbody _body;
         private Ground _ground;
@@ -40,10 +37,10 @@ namespace Capabilities
         private float _dmgPerHit;
         private float _hitCoolDown;
         private float _hitTimer;
-        
+
         private bool _patrolActive;
         private bool _facingRight = true;
-        
+
         private void Awake()
         {
             _sprite = GetComponentInChildren<SpriteRenderer>();
@@ -73,8 +70,8 @@ namespace Capabilities
                 rayOfSight.direction = gameObject.transform.right * -1;
                 FlipEnemy();
             }
+
             _initPosition = transform.position;
-            
         }
 
         private void Update()
@@ -112,19 +109,16 @@ namespace Capabilities
                         _targetPosition = patrolLimitRight;
                         rayOfSight.direction = gameObject.transform.right;
                     }
-                    FlipEnemy();
 
-                    
+                    FlipEnemy();
                 }
             }
 
             if (_patrolActive)
             {
-
                 Move(_targetPosition, _maxPatrolVelocity, _maxPatrolAcceleration);
                 if ((gameObject.transform.position - _targetPosition).magnitude < 0.1f)
                 {
-
                     if (_facingRight)
                     {
                         Debug.Log("Go left");
@@ -137,6 +131,7 @@ namespace Capabilities
                         _targetPosition = patrolLimitRight;
                         rayOfSight.direction = gameObject.transform.right;
                     }
+
                     FlipEnemy();
                 }
             }
@@ -144,7 +139,6 @@ namespace Capabilities
 
         private void FlipEnemy()
         {
-            
             _sprite.flipX = !_sprite.flipX;
             _facingRight = !_facingRight;
         }
@@ -171,8 +165,6 @@ namespace Capabilities
 
             if ((targetPos - transform.position).magnitude < _attackRange)
             {
-                
-                
                 _hitTimer += Time.deltaTime;
                 if (_hitTimer >= _hitCoolDown)
                 {
@@ -181,9 +173,7 @@ namespace Capabilities
                     pursueTarget.GetComponent<IEntity>().TakeHit(GetComponent<EnemyEntity>().GetDmg());
                     _hitTimer = 0f;
                 }
-                
             }
         }
     }
 }
-
