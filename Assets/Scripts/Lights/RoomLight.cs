@@ -35,7 +35,7 @@ namespace Lights
             }
             else
             {
-                _light.DOIntensity(0.0f, duration);
+                _light.DOIntensity(0.0f, duration).SetUpdate(true);
             }
         }
 
@@ -47,7 +47,7 @@ namespace Lights
             }
             else
             {
-                _light.DOIntensity(_originalIntensity, duration);
+                _light.DOIntensity(_originalIntensity, duration).SetUpdate(true);
             }
         }
     }

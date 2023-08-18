@@ -33,6 +33,7 @@ namespace Rooms
         [SerializeField] private List<Door> roomDoors;
         [SerializeField] private List<RoomLight> roomLights;
 
+        public static event Action<RoomData> OnRoomPrepare;
         public static event Action<RoomData> OnRoomActivate;
         public static event Action<RoomData> OnRoomDeactivate;
 
@@ -86,11 +87,26 @@ namespace Rooms
             return cameraBounds;
         }
 
-        public void PrepareRoom()
+        public void PrepareRoom(RoomType exitingRoom)
         {
             foreach (RoomLight roomLight in roomLights)
             {
                 roomLight.TurnOffLight();
+            }
+
+            foreach (Door door in roomDoors)
+            {
+                if (door.GetConnectingRoom() != exitingRoom)
+                {
+                    continue;
+                }
+
+                OnRoomPrepare?.Invoke(new RoomData
+                {
+                    StartingPosition = door.GetSpawnPoint(),
+                    LightFadeDuration = lightFadeDuration
+                });
+                break;
             }
         }
 
@@ -117,17 +133,19 @@ namespace Rooms
 
             foreach (Door door in roomDoors)
             {
-                if (door.GetConnectingRoom() == exitingRoom)
+                if (door.GetConnectingRoom() != exitingRoom)
                 {
-                    door.PlayClosingAudio();
-
-                    OnRoomActivate?.Invoke(new RoomData
-                    {
-                        StartingPosition = door.GetSpawnPoint(),
-                        LightFadeDuration = lightFadeDuration
-                    });
-                    break;
+                    continue;
                 }
+
+                door.PlayClosingAudio();
+
+                OnRoomActivate?.Invoke(new RoomData
+                {
+                    StartingPosition = door.GetSpawnPoint(),
+                    LightFadeDuration = lightFadeDuration
+                });
+                break;
             }
         }
 
@@ -135,30 +153,58 @@ namespace Rooms
         {
             foreach (Door door in roomDoors)
             {
-                if (door.GetConnectingRoom() == exitingRoom)
+                if (door.GetConnectingRoom() != exitingRoom)
                 {
-                    OnRoomDeactivate?.Invoke(new RoomData
-                    {
-                        StartingPosition = door.GetSpawnPoint(),
-                        LightFadeDuration = lightFadeDuration
-                    });
-                    break;
+                    continue;
                 }
+
+                OnRoomDeactivate?.Invoke(new RoomData
+                {
+                    StartingPosition = door.GetSpawnPoint(),
+                    LightFadeDuration = lightFadeDuration
+                });
+                break;
             }
 
-            foreach (RoomLight roomLight in roomLights)
-            {
-                roomLight.TurnOffLight(lightFadeDuration);
-            }
-
-            return StartCoroutine(WaitForLights());
+            return StartCoroutine(WaitForLightsOff(lightFadeDuration));
         }
 
-        public IEnumerator WaitForLights()
+        public Coroutine ControlLights(bool turnOn, float duration)
+        {
+            if (turnOn)
+            {
+                return StartCoroutine(WaitForLightsOn(duration));
+            }
+
+            return StartCoroutine(WaitForLightsOff(duration));
+        }
+
+        private IEnumerator WaitForLightsOff(float duration)
         {
             foreach (RoomLight roomLight in roomLights)
             {
+                roomLight.TurnOffLight(duration);
+            }
+
+            foreach (RoomLight roomLight in roomLights)
+            {
                 while (roomLight.IsOn())
+                {
+                    yield return null;
+                }
+            }
+        }
+
+        private IEnumerator WaitForLightsOn(float duration)
+        {
+            foreach (RoomLight roomLight in roomLights)
+            {
+                roomLight.TurnOnLight(duration);
+            }
+
+            foreach (RoomLight roomLight in roomLights)
+            {
+                while (!roomLight.IsOn())
                 {
                     yield return null;
                 }

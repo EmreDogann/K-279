@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcac9035840f42bc8bbcc3283825e923, type: 3}
   m_Name: Flare
   m_EditorClassIdentifier: 
+  itemType: 1
   inspectImage: {fileID: 2862431660690882666, guid: a79a08948e85f59489e1216794a6d267,
     type: 3}
   itemName: Flare
+  resourceQuantity: 0

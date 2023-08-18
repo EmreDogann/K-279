@@ -74,6 +74,7 @@ namespace Capabilities
                     {
                         // TODO: Add inventory item.
                         Debug.Log("Add item: " + _currentItem.GetItemInfo().itemName);
+                        _currentItem.Pickup();
                     }
 
                     _currentItem = null;

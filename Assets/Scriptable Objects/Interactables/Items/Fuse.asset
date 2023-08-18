@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcac9035840f42bc8bbcc3283825e923, type: 3}
   m_Name: Fuse
   m_EditorClassIdentifier: 
+  itemType: 2
   inspectImage: {fileID: 7501076591987089956, guid: 327b69d76d5e854499f8798cf79d80c4,
     type: 3}
   itemName: Fuse
+  resourceQuantity: 0

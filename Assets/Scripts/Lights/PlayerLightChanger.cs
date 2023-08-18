@@ -2,7 +2,7 @@
 
 namespace Lights
 {
-    public class PlayerLightChanger : LightChangeListener
+    public class PlayerLightChanger : LightColorChangeListener
     {
         [SerializeField] private SpriteRenderer _renderer;
         private static readonly int Bg = Shader.PropertyToID("_BG");

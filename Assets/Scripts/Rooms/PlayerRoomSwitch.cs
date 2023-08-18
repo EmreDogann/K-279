@@ -7,6 +7,8 @@ namespace Rooms
     {
         [SerializeField] private RoomLight playerLight;
 
+        public override void OnRoomPrepare(RoomData roomData) {}
+
         public override void OnRoomActivate(RoomData roomData)
         {
             transform.position = roomData.StartingPosition.position;

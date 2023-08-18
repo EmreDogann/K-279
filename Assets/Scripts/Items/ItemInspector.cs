@@ -2,16 +2,18 @@
 using System.Collections;
 using Controllers;
 using DG.Tweening;
+using Events;
+using Lights;
 using MyBox;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Items
 {
     public class ItemInspector : MonoBehaviour
     {
-        [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private Image image;
         [SerializeField] private TextMeshProUGUI text;
 
@@ -26,9 +28,13 @@ namespace Items
         [Tooltip("Characters to show per second")]
         [SerializeField] private float textAnimationSpeed;
 
+        [Separator("Events")]
+        [SerializeField] private BoolEventChannelSO pauseEvent;
+
         private Sequence _inspectPopup;
         private IItem _currentInspectionItem;
         private Controller _currentController;
+        private Action<bool> _currentCallback;
 
         private bool _isTextAnimating;
         private string _messageTarget;
@@ -38,10 +44,12 @@ namespace Items
             _inspectPopup = DOTween.Sequence();
 
             _inspectPopup
-                .Append(canvasGroup.DOFade(1.0f, fadeDuration))
+                .AppendInterval(fadeDuration)
+                .Append(image.DOFade(1.0f, fadeDuration))
                 .InsertCallback(fadeDuration * 0.75f,
                     () => { StartCoroutine(DisplayMessage(_currentInspectionItem.GetItemInfo().itemName)); })
                 .SetAutoKill(false)
+                .SetUpdate(true)
                 .Pause();
         }
 
@@ -58,16 +66,44 @@ namespace Items
 
         public void InspectItem(IItem item, Action<bool> callback)
         {
-            _currentController = null;
-            _currentInspectionItem = item;
-            image.sprite = item.GetItemInfo().inspectImage;
+            InspectItem(item, null, callback);
         }
 
-        public void InspectItem(IItem item, Controller controller, Action callback)
+        public void InspectItem(IItem item, Controller controller, Action<bool> callback)
         {
-            _currentController = controller;
             _currentInspectionItem = item;
+            _currentController = controller;
+            _currentCallback = callback;
+
             image.sprite = item.GetItemInfo().inspectImage;
+
+            LightControl.OnLightControl?.Invoke(false, fadeDuration);
+            _inspectPopup.PlayForward();
+
+            pauseEvent.Raise(true);
+        }
+
+        public void ConfirmInspect()
+        {
+            ClosePopup();
+            _currentCallback?.Invoke(true);
+        }
+
+        public void CancelInspect()
+        {
+            ClosePopup();
+            _currentCallback?.Invoke(false);
+        }
+
+        private void ClosePopup()
+        {
+            _inspectPopup.Rewind();
+            text.gameObject.SetActive(false);
+            confirmButton.gameObject.SetActive(false);
+            cancelButton.gameObject.SetActive(false);
+
+            LightControl.OnLightControl?.Invoke(true, fadeDuration);
+            pauseEvent.Raise(false);
         }
 
         private IEnumerator DisplayMessage(string itemName)
@@ -76,7 +112,10 @@ namespace Items
             bool isAddingRichTextTag = false;
 
             _messageTarget = $"Pick up <b>{itemName}</b>?";
+
+            text.gameObject.SetActive(true);
             text.text = _messageTarget;
+            text.maxVisibleCharacters = 0;
 
             foreach (char letter in _messageTarget)
             {
@@ -99,6 +138,11 @@ namespace Items
                     yield return new WaitForSecondsRealtime(1 / textAnimationSpeed);
                 }
             }
+
+            EventSystem.current.SetSelectedGameObject(confirmButton.gameObject);
+
+            confirmButton.gameObject.SetActive(true);
+            cancelButton.gameObject.SetActive(true);
 
             _isTextAnimating = false;
         }

@@ -9,12 +9,12 @@ namespace GameEntities
         [SerializeField] [Range(0, 5f)] private float hitCoolDown = 0.3f;
 
         private int currentHP;
-        private int hitTimer;
+        // private int hitTimer;
 
         private void Awake()
         {
             currentHP = maxHP;
-            hitTimer = 0;
+            // hitTimer = 0;
         }
 
         public void Died()

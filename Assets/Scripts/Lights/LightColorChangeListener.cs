@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Lights
 {
-    public abstract class LightChangeListener : MonoBehaviour
+    public abstract class LightColorChangeListener : MonoBehaviour
     {
         public virtual void OnEnable()
         {

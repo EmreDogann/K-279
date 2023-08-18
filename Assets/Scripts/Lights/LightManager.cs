@@ -1,5 +1,4 @@
 ﻿using System;
-using MyBox;
 using RenderFeatures;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -46,18 +45,6 @@ namespace Lights
             _ditherRenderFeature =
                 _rendererData.rendererFeatures.Find(x => x.GetType() == typeof(ScreenDitherRenderFeature)) as
                     ScreenDitherRenderFeature;
-        }
-
-        [ButtonMethod]
-        public void NormalState()
-        {
-            SetLightState(LightState.Normal);
-        }
-
-        [ButtonMethod]
-        public void AlarmState()
-        {
-            SetLightState(LightState.Alarm);
         }
 
         public void SetLightState(LightState state)

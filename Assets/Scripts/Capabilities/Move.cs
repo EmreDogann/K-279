@@ -1,6 +1,7 @@
 using System;
 using Checks;
 using Controllers;
+using Events;
 using UnityEngine;
 
 namespace Capabilities
@@ -12,6 +13,7 @@ namespace Capabilities
 
         [SerializeField] [Range(0f, 100f)] private float _maxSpeed = 4f;
         [SerializeField] [Range(0f, 100f)] private float _maxAcceleration = 35f;
+        [SerializeField] private BoolEventListener pauseEvent;
 
         private Controller _controller;
         private SpriteRenderer _sprite;
@@ -19,6 +21,7 @@ namespace Capabilities
         private Rigidbody _body;
         private Ground _ground;
 
+        private bool _isPaused;
         private bool _facingRight;
         private float _maxSpeedChange;
         private readonly int _isWalking = Animator.StringToHash("IsWalking");
@@ -34,8 +37,28 @@ namespace Capabilities
             _sprite = GetComponentInChildren<SpriteRenderer>();
         }
 
+        private void OnEnable()
+        {
+            pauseEvent.Response.AddListener(OnPauseEvent);
+        }
+
+        private void OnDisable()
+        {
+            pauseEvent.Response.RemoveListener(OnPauseEvent);
+        }
+
+        private void OnPauseEvent(bool isPaused)
+        {
+            _isPaused = isPaused;
+        }
+
         private void Update()
         {
+            if (_isPaused)
+            {
+                return;
+            }
+
             _direction.x = _controller.input.RetrieveMoveInput(gameObject);
             _animator.SetBool(_isWalking, _direction.x != 0);
 

@@ -15,7 +15,7 @@ namespace Rooms
 
         public void OnApplicationQuit()
         {
-            _confiner2D.m_BoundingShape2D = new Collider2D();
+            _confiner2D.m_BoundingShape2D = null;
             _confiner2D.InvalidateCache();
         }
 

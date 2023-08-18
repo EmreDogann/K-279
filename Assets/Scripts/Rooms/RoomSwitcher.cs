@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Interactables;
+using Lights;
 using UnityEngine;
 
 namespace Rooms
@@ -36,16 +37,31 @@ namespace Rooms
         private void OnEnable()
         {
             Door.OnRoomSwitching += SwitchRoom;
+            LightControl.OnLightControl += OnLightControl;
         }
 
         private void OnDisable()
         {
             Door.OnRoomSwitching -= SwitchRoom;
+            LightControl.OnLightControl -= OnLightControl;
+        }
+
+        private void OnLightControl(bool turnOn, float duration)
+        {
+            StartCoroutine(WaitForLights(turnOn, duration));
         }
 
         private Room GetRoom(RoomType roomType)
         {
             return _rooms.Find(x => x.GetRoomType() == roomType);
+        }
+
+        private IEnumerator WaitForLights(bool turnOn, float duration)
+        {
+            if (_currentRoom)
+            {
+                yield return _currentRoom.ControlLights(turnOn, duration);
+            }
         }
 
         private void SwitchRoom(RoomType roomType, Action roomSwitchedCallback)
@@ -65,7 +81,7 @@ namespace Rooms
             if (_currentRoom)
             {
                 yield return _currentRoom.DeactivateRoom(newRoom.GetRoomType());
-                newRoom.PrepareRoom();
+                newRoom.PrepareRoom(_currentRoom.GetRoomType());
             }
 
             cameraConfiner2DSwitcher.SwitchConfinerTarget(newRoom.GetCameraBounds());

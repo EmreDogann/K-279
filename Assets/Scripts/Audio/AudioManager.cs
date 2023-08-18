@@ -25,7 +25,6 @@ namespace Audio
         [SerializeField] private AudioEventChannelSO sfxAudioChannel;
         [SerializeField] private AudioEventChannelSO musicAudioChannel;
         [SerializeField] private BoolEventListener onPauseEvent;
-        [SerializeField] private BoolEventListener onGameEndEvent;
 
         private List<AudioEmitter> _audioEmitters;
         private List<AudioHandle> _audioHandles;
@@ -60,7 +59,6 @@ namespace Audio
         private void OnEnable()
         {
             onPauseEvent.Response.AddListener(OnPauseEvent);
-            onGameEndEvent.Response.AddListener(OnGameEnd);
 
             sfxAudioChannel.OnAudioPlay += PlaySoundEffect;
             sfxAudioChannel.OnAudioPlay2D += PlaySoundEffect2D;
@@ -78,7 +76,6 @@ namespace Audio
         private void OnDestroy()
         {
             onPauseEvent.Response.RemoveListener(OnPauseEvent);
-            onGameEndEvent.Response.RemoveListener(OnGameEnd);
 
             sfxAudioChannel.OnAudioPlay -= PlaySoundEffect;
             sfxAudioChannel.OnAudioPlay2D -= PlaySoundEffect2D;
