@@ -9,7 +9,7 @@ using Rooms;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class EventSequencer : MonoBehaviour {
+public class WakeUpSequence : MonoBehaviour {
     // Move the player into position, play Ship explosion noise, play alarm, play low oxygen voice, fade to normal.
     private Sequence _wakeUpSequence;
 
@@ -35,14 +35,9 @@ public class EventSequencer : MonoBehaviour {
     }
 #endif
 
-    private void Awake() {
-    }
-
-    // Start is called before the first frame update
     void Start() {
         _wakeUpSequence = DOTween.Sequence();
-
-
+        
         _wakeUpSequence
             .AppendCallback(() => {
                 LightControl.OnLightControl?.Invoke(false, 0.0f);
@@ -81,7 +76,4 @@ public class EventSequencer : MonoBehaviour {
             }).Pause();
     }
 
-    // Update is called once per frame
-    void Update() {
-    }
 }
