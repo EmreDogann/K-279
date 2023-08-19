@@ -134,7 +134,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomType: 4
+  roomAmbiences:
+  - audio: {fileID: 11400000, guid: 101408abce9d2b848a276db2589ea7e1, type: 2}
+    playInConnectingRooms: 0
+    useOriginalAudioVolume: 0
+    connectingRoomVolume: 0
   lightFadeDuration: 0.5
+  <ActivateLightsOnRoomLoad>k__BackingField: 1
   cameraBounds: {fileID: 1233287487850014623}
   roomDoors:
   - {fileID: 8186094977514067202}
@@ -1139,10 +1145,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickering: 0
-  flickeringAmplitude: 0
-  flickeringFrequency: 0
-  flickeringCooldown: 0
+  controlledByRoom: 1
+  canBeAlarmLight: 0
+  isStaticAlarm: 0
 --- !u!1 &6513066253848948110
 GameObject:
   m_ObjectHideFlags: 0
@@ -1905,10 +1910,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickering: 0
-  flickeringAmplitude: 0
-  flickeringFrequency: 0
-  flickeringCooldown: 0
+  controlledByRoom: 1
+  canBeAlarmLight: 1
+  isStaticAlarm: 1
 --- !u!1 &7989160814462270642
 GameObject:
   m_ObjectHideFlags: 0
@@ -2159,10 +2163,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickering: 0
-  flickeringAmplitude: 0
-  flickeringFrequency: 0
-  flickeringCooldown: 0
+  controlledByRoom: 1
+  canBeAlarmLight: 1
+  isStaticAlarm: 0
 --- !u!1 &8357522546286570428
 GameObject:
   m_ObjectHideFlags: 0

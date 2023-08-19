@@ -4,7 +4,8 @@ namespace Interactables
     {
         public void InteractionStart();
 
-        public void InteractionContinues(bool isInteractionKeyDown);
+        public bool InteractionContinues(bool isInteractionKeyDown);
         public void InteractionEnd();
+        public bool IsInteractable();
     }
 }

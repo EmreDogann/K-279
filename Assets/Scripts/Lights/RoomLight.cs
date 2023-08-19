@@ -7,11 +7,9 @@ namespace Lights
     [RequireComponent(typeof(Light))]
     public class RoomLight : MonoBehaviour
     {
-        // TODO: Light Flickering
-        [SerializeField] private bool flickering;
-        [ConditionalField(nameof(flickering))] [SerializeField] private bool flickeringAmplitude;
-        [ConditionalField(nameof(flickering))] [SerializeField] private bool flickeringFrequency;
-        [ConditionalField(nameof(flickering))] [SerializeField] private bool flickeringCooldown;
+        [SerializeField] private bool controlledByRoom = true;
+        [SerializeField] private bool canBeAlarmLight;
+        [ConditionalField(nameof(canBeAlarmLight))] [SerializeField] private bool isStaticAlarm;
 
         private Light _light;
         private float _originalIntensity;
@@ -25,6 +23,11 @@ namespace Lights
         public bool IsOn()
         {
             return _light.intensity > 0;
+        }
+
+        public bool IsControlledByRoom()
+        {
+            return controlledByRoom;
         }
 
         public void TurnOffLight(float duration = 0.0f)
@@ -41,6 +44,24 @@ namespace Lights
 
         public void TurnOnLight(float duration = 0.0f)
         {
+            transform.DOKill(true);
+            if (LightManager.Instance.GetLightState() == LightState.Alarm)
+            {
+                if (!canBeAlarmLight)
+                {
+                    return;
+                }
+
+                if (!isStaticAlarm)
+                {
+                    transform.DORotate(new Vector3(0.0f, 360.0f, 0.0f), 1.0f, RotateMode.WorldAxisAdd)
+                        .SetLoops(-1, LoopType.Incremental)
+                        .SetEase(Ease.Linear)
+                        .SetUpdate(true)
+                        .SetAutoKill(false);
+                }
+            }
+
             if (duration <= 0.0f)
             {
                 _light.intensity = _originalIntensity;

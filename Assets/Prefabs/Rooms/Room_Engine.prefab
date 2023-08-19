@@ -253,7 +253,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomType: 2
+  roomAmbiences:
+  - audio: {fileID: 11400000, guid: 101408abce9d2b848a276db2589ea7e1, type: 2}
+    playInConnectingRooms: 0
+    useOriginalAudioVolume: 1
+    connectingRoomVolume: 0
+  - audio: {fileID: 11400000, guid: 6b28f7659ec72854e830743e96f64da9, type: 2}
+    playInConnectingRooms: 1
+    useOriginalAudioVolume: 0
+    connectingRoomVolume: 0.05
   lightFadeDuration: 0.5
+  <ActivateLightsOnRoomLoad>k__BackingField: 1
   cameraBounds: {fileID: 8034907003481865277}
   roomDoors:
   - {fileID: 3500588542399373848}
@@ -2514,10 +2524,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickering: 0
-  flickeringAmplitude: 0
-  flickeringFrequency: 0
-  flickeringCooldown: 0
+  controlledByRoom: 1
+  canBeAlarmLight: 0
+  isStaticAlarm: 0
 --- !u!1001 &2021341313394107982
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2644,10 +2653,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickering: 0
-  flickeringAmplitude: 0
-  flickeringFrequency: 0
-  flickeringCooldown: 0
+  controlledByRoom: 1
+  canBeAlarmLight: 1
+  isStaticAlarm: 0
 --- !u!1001 &2155682006062866361
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2774,10 +2782,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickering: 0
-  flickeringAmplitude: 0
-  flickeringFrequency: 0
-  flickeringCooldown: 0
+  controlledByRoom: 1
+  canBeAlarmLight: 0
+  isStaticAlarm: 0
 --- !u!1001 &4132641731950633976
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2893,10 +2900,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickering: 0
-  flickeringAmplitude: 0
-  flickeringFrequency: 0
-  flickeringCooldown: 0
+  controlledByRoom: 1
+  canBeAlarmLight: 1
+  isStaticAlarm: 1
 --- !u!4 &8059834513134680492 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6233086385650932308, guid: 1e89ad47699baf846aa33d89d5609cb1,
@@ -3023,10 +3029,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickering: 0
-  flickeringAmplitude: 0
-  flickeringFrequency: 0
-  flickeringCooldown: 0
+  controlledByRoom: 1
+  canBeAlarmLight: 1
+  isStaticAlarm: 0
 --- !u!4 &3864330192309186997 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6233086385650932308, guid: 1e89ad47699baf846aa33d89d5609cb1,

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762bf881f78a96948805b51818ab07d3, type: 3}
+  m_Name: Bottle_Rolling
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: aecc8c6f96cf6104f9dc67345f0d0a4f, type: 3}
+  audioMixer: {fileID: 24300002, guid: 7fe1db268aad06940860274baea04931, type: 2}
+  volume:
+    Min: 0.87007713
+    Max: 1
+  useSemitones: 0
+  semitones:
+    Min: 0
+    Max: 0
+  pitch:
+    Min: 1.0024359
+    Max: 1.0024359
+  Looping: 0
+  CanBePaused: 0
+  playOrder: 0
+  currentPlayIndex: 0
+  audioEvent: {fileID: 11400000, guid: 3a82661986ebc2547842647dc3405e87, type: 2}

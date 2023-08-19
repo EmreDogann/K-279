@@ -47,7 +47,20 @@ namespace Audio
         [Separator("Audio Events")]
         [Tooltip("The Audio Event to trigger when trying to play/stop the audio.")]
         [OverrideLabel("Play Trigger Event")] [SerializeField] private AudioEventChannelSO audioEvent;
+
         private List<KeyValuePair<AudioHandle, AudioEventData>> _handleToEventData;
+        private List<KeyValuePair<AudioHandle, AudioEventData>> HandleToEventData
+        {
+            get
+            {
+                if (_handleToEventData == null)
+                {
+                    _handleToEventData = new List<KeyValuePair<AudioHandle, AudioEventData>>();
+                }
+
+                return _handleToEventData;
+            }
+        }
 
         #region PreviewCode
 
@@ -108,9 +121,7 @@ namespace Audio
 
         protected override void OnBegin()
         {
-            // _audioHandle = new List<AudioHandle>();
-            _handleToEventData = new List<KeyValuePair<AudioHandle, AudioEventData>>();
-            // _audioHandleData = new Dictionary<AudioHandle, AudioEventData>();
+            // _handleToEventData = new List<KeyValuePair<AudioHandle, AudioEventData>>();
         }
 
         protected override void OnEnd() {}
@@ -133,9 +144,7 @@ namespace Audio
             DestroyImmediate(previewer.gameObject);
 #endif
 
-            // _audioHandle = new List<AudioHandle>();
-            _handleToEventData = new List<KeyValuePair<AudioHandle, AudioEventData>>();
-            // _handleToEventData = new Dictionary<AudioHandle, AudioEventData>();
+            // _handleToEventData = new List<KeyValuePair<AudioHandle, AudioEventData>>();
         }
 
         private void SyncPitchAndSemitones()
@@ -184,7 +193,7 @@ namespace Audio
         private int FindHandleIndex(AudioHandle handle)
         {
             int index = 0;
-            foreach (var entry in _handleToEventData)
+            foreach (var entry in HandleToEventData)
             {
                 if (entry.Key == handle)
                 {
@@ -199,12 +208,12 @@ namespace Audio
 
         private void OnHandleStale(AudioHandle handle)
         {
-            Debug.Log("Removing: " + handle.Audio.name);
-            handle.OnStale -= OnHandleStale;
-            _handleToEventData.RemoveAt(FindHandleIndex(handle));
+            handle.OnHandleStale -= OnHandleStale;
+            HandleToEventData.RemoveAt(FindHandleIndex(handle));
         }
 
-        public AudioHandle Play(Vector3 positionWorldSpace = default, bool fadeIn = false, float fadeDuration = 1.0f)
+        public AudioHandle Play(Vector3 positionWorldSpace = default, bool fadeIn = false,
+            float fadeDuration = 1.0f, float volumeOverride = -1)
         {
             if (clips.Length == 0)
             {
@@ -213,7 +222,7 @@ namespace Audio
             }
 
             AudioEventData audioEventData = new AudioEventData();
-            audioEventData.Volume = Random.Range(volume.Min, volume.Max);
+            audioEventData.Volume = volumeOverride >= 0.0f ? volumeOverride : Random.Range(volume.Min, volume.Max);
             audioEventData.Pitch = useSemitones
                 ? Mathf.Pow(SEMITONES_TO_PITCH_CONVERSION_UNIT, Random.Range(semitones.Min, semitones.Max))
                 : Random.Range(pitch.Min, pitch.Max);
@@ -232,15 +241,15 @@ namespace Audio
             AudioHandle handle = audioEvent.RaisePlayEvent(this, audioEventData, positionWorldSpace);
             if (handle != AudioHandle.Invalid)
             {
-                _handleToEventData.Add(new KeyValuePair<AudioHandle, AudioEventData>(handle, audioEventData));
-                handle.OnStale += OnHandleStale;
+                HandleToEventData.Add(new KeyValuePair<AudioHandle, AudioEventData>(handle, audioEventData));
+                handle.OnHandleStale += OnHandleStale;
                 return handle;
             }
 
             return AudioHandle.Invalid;
         }
 
-        public AudioHandle Play2D(bool fadeIn = false, float fadeDuration = 1.0f)
+        public AudioHandle Play2D(bool fadeIn = false, float fadeDuration = 1.0f, float volumeOverride = -1)
         {
             if (clips.Length == 0)
             {
@@ -249,7 +258,7 @@ namespace Audio
             }
 
             AudioEventData audioEventData = new AudioEventData();
-            audioEventData.Volume = Random.Range(volume.Min, volume.Max);
+            audioEventData.Volume = volumeOverride >= 0.0f ? volumeOverride : Random.Range(volume.Min, volume.Max);
             audioEventData.Pitch = useSemitones
                 ? Mathf.Pow(SEMITONES_TO_PITCH_CONVERSION_UNIT, Random.Range(semitones.Min, semitones.Max))
                 : Random.Range(pitch.Min, pitch.Max);
@@ -268,15 +277,16 @@ namespace Audio
             AudioHandle handle = audioEvent.RaisePlay2DEvent(this, audioEventData);
             if (handle != AudioHandle.Invalid)
             {
-                _handleToEventData.Add(new KeyValuePair<AudioHandle, AudioEventData>(handle, audioEventData));
-                handle.OnStale += OnHandleStale;
+                HandleToEventData.Add(new KeyValuePair<AudioHandle, AudioEventData>(handle, audioEventData));
+                handle.OnHandleStale += OnHandleStale;
                 return handle;
             }
 
             return AudioHandle.Invalid;
         }
 
-        public AudioHandle PlayAttached(GameObject gameObject, bool fadeIn = false, float fadeDuration = 1.0f)
+        public AudioHandle PlayAttached(GameObject gameObject, bool fadeIn = false,
+            float fadeDuration = 1.0f, float volumeOverride = -1)
         {
             if (clips.Length == 0)
             {
@@ -285,7 +295,7 @@ namespace Audio
             }
 
             AudioEventData audioEventData = new AudioEventData();
-            audioEventData.Volume = Random.Range(volume.Min, volume.Max);
+            audioEventData.Volume = volumeOverride >= 0.0f ? volumeOverride : Random.Range(volume.Min, volume.Max);
             audioEventData.Pitch = useSemitones
                 ? Mathf.Pow(SEMITONES_TO_PITCH_CONVERSION_UNIT, Random.Range(semitones.Min, semitones.Max))
                 : Random.Range(pitch.Min, pitch.Max);
@@ -304,8 +314,8 @@ namespace Audio
             AudioHandle handle = audioEvent.RaisePlayAttachedEvent(this, audioEventData, gameObject);
             if (handle != AudioHandle.Invalid)
             {
-                _handleToEventData.Add(new KeyValuePair<AudioHandle, AudioEventData>(handle, audioEventData));
-                handle.OnStale += OnHandleStale;
+                HandleToEventData.Add(new KeyValuePair<AudioHandle, AudioEventData>(handle, audioEventData));
+                handle.OnHandleStale += OnHandleStale;
                 return handle;
             }
 
@@ -314,13 +324,14 @@ namespace Audio
 
         public void StopAll()
         {
-            if (_handleToEventData.Count < 1)
+            if (HandleToEventData.Count < 1)
             {
                 audioEvent.RaiseStopEvent(AudioHandle.Invalid, null);
                 return;
             }
 
-            foreach (var entry in _handleToEventData)
+            var dataCopy = HandleToEventData.GetRange(0, HandleToEventData.Count);
+            foreach (var entry in dataCopy)
             {
                 bool handleFound = audioEvent.RaiseStopEvent(entry.Key, null);
 
@@ -330,7 +341,7 @@ namespace Audio
                 }
             }
 
-            _handleToEventData.Clear();
+            HandleToEventData.Clear();
         }
 
         public void Stop(bool fadeOut = false, float fadeDuration = 1.0f)
@@ -340,21 +351,20 @@ namespace Audio
 
         public void Stop(AudioHandle audioHandle, bool fadeOut = false, float fadeDuration = 1.0f)
         {
-            if (_handleToEventData.Count == 0)
+            if (HandleToEventData.Count == 0)
             {
-                // audioEvent.RaiseStopEvent(AudioHandle.Invalid, null);
                 return;
             }
 
             int index = audioHandle == AudioHandle.Invalid
-                ? _handleToEventData.Count - 1
+                ? HandleToEventData.Count - 1
                 : FindHandleIndex(audioHandle);
             if (index == -1)
             {
                 return;
             }
 
-            AudioHandle handle = _handleToEventData[index].Key;
+            AudioHandle handle = HandleToEventData[index].Key;
             SoundFade soundFade = null;
             if (fadeOut)
             {
@@ -372,14 +382,11 @@ namespace Audio
             {
                 Debug.LogWarning($"Audio {handle.Audio.name} could not be stopped. Handle is stale.");
             }
-
-            // _audioHandle.Remove(handle);
-            // _handleToEventData.Remove(_handleToEventData[index]);
         }
 
         public void FadeAudioAll(float to, float duration)
         {
-            foreach (var entry in _handleToEventData)
+            foreach (var entry in HandleToEventData)
             {
                 FadeAudio(entry.Key, to, duration);
             }
@@ -387,7 +394,7 @@ namespace Audio
 
         public void FadeAudio(AudioHandle audioHandle, float to, float duration)
         {
-            if (_handleToEventData.Count < 1 || FindHandleIndex(audioHandle) == -1)
+            if (HandleToEventData.Count < 1 || FindHandleIndex(audioHandle) == -1)
             {
                 return;
             }
@@ -402,7 +409,7 @@ namespace Audio
 
         public void UnFadeAudioAll(float duration)
         {
-            foreach (var entry in _handleToEventData)
+            foreach (var entry in HandleToEventData)
             {
                 UnFadeAudio(entry.Key, duration);
             }
@@ -411,12 +418,12 @@ namespace Audio
         public void UnFadeAudio(AudioHandle audioHandle, float duration)
         {
             int index = FindHandleIndex(audioHandle);
-            if (_handleToEventData.Count < 1 || index == -1)
+            if (HandleToEventData.Count < 1 || index == -1)
             {
                 return;
             }
 
-            bool handleFound = audioEvent.RaiseFadeEvent(audioHandle, _handleToEventData[index].Value.Volume, duration);
+            bool handleFound = audioEvent.RaiseFadeEvent(audioHandle, HandleToEventData[index].Value.Volume, duration);
 
             if (!handleFound)
             {
@@ -431,20 +438,20 @@ namespace Audio
 
         public AudioStateInfo GetPlaybackInfo(AudioHandle audioHandle)
         {
-            if (_handleToEventData.Count < 1)
+            if (HandleToEventData.Count < 1)
             {
                 return null;
             }
 
             int index = audioHandle == AudioHandle.Invalid
-                ? _handleToEventData.Count - 1
+                ? HandleToEventData.Count - 1
                 : FindHandleIndex(audioHandle);
             if (index == -1)
             {
                 return null;
             }
 
-            AudioHandle handle = audioHandle == AudioHandle.Invalid ? _handleToEventData[^1].Key : audioHandle;
+            AudioHandle handle = audioHandle == AudioHandle.Invalid ? HandleToEventData[^1].Key : audioHandle;
             AudioStateInfo stateInfo = audioEvent.RaiseGetStateEvent(handle);
 
             return stateInfo;

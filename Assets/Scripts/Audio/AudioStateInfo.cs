@@ -8,5 +8,6 @@ namespace Audio
         public bool IsPaused;
         public float CurrentPlayTime;
         public Vector3 PlaybackPosition;
+        public float CurrentClipDuration;
     }
 }

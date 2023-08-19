@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bec05668a7334249bc92239d15340033, type: 3}
-  m_Name: Player Damage Shake
+  m_Name: Player Footstep Shake
   m_EditorClassIdentifier: 
-  impactTime: 0.2
-  impactForce: 1
+  impactTime: 0.5
+  impactForce: 0.01
   defaultVelocity: {x: 0, y: -1, z: 0}
-  listenerAmplitude: 1
-  listenerFrequency: 1
-  listenerDuration: 1
+  listenerAmplitude: 0
+  listenerFrequency: 0
+  listenerDuration: 0

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections;
 using Controllers;
-using DG.Tweening;
 using Events;
 using Lights;
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Items
@@ -20,8 +18,6 @@ namespace Items
         [Separator("Buttons")]
         [SerializeField] private TextMeshProUGUI confirmButton;
         [SerializeField] private TextMeshProUGUI cancelButton;
-        [SerializeField] private Material focusedTextMaterial;
-        [SerializeField] private Material unfocusedTextMaterial;
 
         [Separator("Animation")]
         [SerializeField] private float fadeDuration;
@@ -31,7 +27,6 @@ namespace Items
         [Separator("Events")]
         [SerializeField] private BoolEventChannelSO pauseEvent;
 
-        private Sequence _inspectPopup;
         private IItem _currentInspectionItem;
         private Controller _currentController;
         private Action<bool> _currentCallback;
@@ -39,18 +34,16 @@ namespace Items
         private bool _isTextAnimating;
         private string _messageTarget;
 
-        private void Awake()
+        private void Start()
         {
-            _inspectPopup = DOTween.Sequence();
+            text.gameObject.SetActive(false);
+            image.gameObject.SetActive(false);
+            Color imageColor = image.color;
+            imageColor.a = 1.0f;
 
-            _inspectPopup
-                .AppendInterval(fadeDuration)
-                .Append(image.DOFade(1.0f, fadeDuration))
-                .InsertCallback(fadeDuration * 0.75f,
-                    () => { StartCoroutine(DisplayMessage(_currentInspectionItem.GetItemInfo().itemName)); })
-                .SetAutoKill(false)
-                .SetUpdate(true)
-                .Pause();
+            image.color = imageColor;
+            // confirmButton.gameObject.SetActive(false);
+            // cancelButton.gameObject.SetActive(false);
         }
 
         private void Update()
@@ -60,6 +53,14 @@ namespace Items
                 if (_currentController != null && _currentController.input.RetrieveInteractInput())
                 {
                     text.maxVisibleCharacters = _messageTarget.Length;
+                }
+            }
+            else
+            {
+                if (_currentController != null && _currentController.input.RetrieveInteractInput())
+                {
+                    _currentCallback?.Invoke(true);
+                    ClosePopup();
                 }
             }
         }
@@ -75,32 +76,37 @@ namespace Items
             _currentController = controller;
             _currentCallback = callback;
 
+            image.gameObject.SetActive(true);
             image.sprite = item.GetItemInfo().inspectImage;
 
             LightControl.OnLightControl?.Invoke(false, fadeDuration);
-            _inspectPopup.PlayForward();
+            StartCoroutine(DisplayMessage(_currentInspectionItem.GetItemInfo().itemName));
 
             pauseEvent.Raise(true);
         }
 
         public void ConfirmInspect()
         {
-            ClosePopup();
             _currentCallback?.Invoke(true);
+            ClosePopup();
         }
 
         public void CancelInspect()
         {
-            ClosePopup();
             _currentCallback?.Invoke(false);
+            ClosePopup();
         }
 
         private void ClosePopup()
         {
-            _inspectPopup.Rewind();
             text.gameObject.SetActive(false);
-            confirmButton.gameObject.SetActive(false);
-            cancelButton.gameObject.SetActive(false);
+            image.gameObject.SetActive(false);
+            // confirmButton.gameObject.SetActive(false);
+            // cancelButton.gameObject.SetActive(false);
+
+            _currentInspectionItem = null;
+            _currentController = null;
+            _currentCallback = null;
 
             LightControl.OnLightControl?.Invoke(true, fadeDuration);
             pauseEvent.Raise(false);
@@ -111,7 +117,7 @@ namespace Items
             _isTextAnimating = true;
             bool isAddingRichTextTag = false;
 
-            _messageTarget = $"Pick up <b>{itemName}</b>?";
+            _messageTarget = $"Picked up <b>{itemName}</b>";
 
             text.gameObject.SetActive(true);
             text.text = _messageTarget;
@@ -139,10 +145,10 @@ namespace Items
                 }
             }
 
-            EventSystem.current.SetSelectedGameObject(confirmButton.gameObject);
+            // EventSystem.current.SetSelectedGameObject(confirmButton.gameObject);
 
-            confirmButton.gameObject.SetActive(true);
-            cancelButton.gameObject.SetActive(true);
+            // confirmButton.gameObject.SetActive(true);
+            // cancelButton.gameObject.SetActive(true);
 
             _isTextAnimating = false;
         }

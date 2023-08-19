@@ -7,10 +7,11 @@ namespace Interactables
     public class Button : MonoBehaviour, IInteractableObjects
     {
         [SerializeField] private List<SerializableInterface<IReactableObjects>> reactables;
+        [SerializeField] private bool isInteractable;
 
         private bool isButtonOn;
 
-        public void InteractionContinues(bool isInteractionKeyDown)
+        public bool InteractionContinues(bool isInteractionKeyDown)
         {
             if (isInteractionKeyDown)
             {
@@ -24,10 +25,18 @@ namespace Interactables
                 }
 
                 isButtonOn = !isButtonOn;
+                return true;
             }
+
+            return false;
         }
 
         public void InteractionEnd() {}
+
+        public bool IsInteractable()
+        {
+            return isInteractable;
+        }
 
         public void InteractionStart() {}
     }

@@ -5,6 +5,7 @@ using System.Linq;
 using Audio;
 using Interactables;
 using Lights;
+using MyBox;
 using UnityEngine;
 
 namespace Rooms
@@ -25,12 +26,25 @@ namespace Rooms
         public float LightFadeDuration;
     }
 
+    [Serializable]
+    public class RoomAmbience
+    {
+        public AudioSO audio;
+        public bool playInConnectingRooms;
+        [ConditionalField(nameof(playInConnectingRooms))] public bool useOriginalAudioVolume = true;
+        [ConditionalField(nameof(playInConnectingRooms))] public float connectingRoomVolume = 1.0f;
+    }
+
     public class Room : MonoBehaviour
     {
         [SerializeField] private RoomType roomType;
-        [SerializeField] private float lightFadeDuration = 1.0f;
-        [SerializeField] private AudioSO roomAmbience;
+        [SerializeField] private List<RoomAmbience> roomAmbiences;
 
+        [Separator("Lights")]
+        [SerializeField] private float lightFadeDuration = 1.0f;
+        [field: SerializeReference] public bool ActivateLightsOnRoomLoad { get; private set; } = true;
+
+        [Separator("Room Data")]
         [SerializeField] private Collider2D cameraBounds;
         [SerializeField] private List<Door> roomDoors;
         [SerializeField] private List<RoomLight> roomLights;
@@ -49,6 +63,16 @@ namespace Rooms
             if (roomLights == null)
             {
                 roomLights = GetComponentsInChildren<RoomLight>().ToList();
+            }
+
+            // Active then deactivate lights that start disabled so that their awake functions can get called.
+            foreach (RoomLight roomLight in roomLights)
+            {
+                if (!roomLight.gameObject.activeSelf)
+                {
+                    roomLight.gameObject.SetActive(true);
+                    roomLight.gameObject.SetActive(false);
+                }
             }
         }
 
@@ -91,7 +115,7 @@ namespace Rooms
 
         public void PrepareRoom(RoomType exitingRoom)
         {
-            foreach (RoomLight roomLight in roomLights)
+            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
             {
                 roomLight.TurnOffLight();
             }
@@ -112,27 +136,42 @@ namespace Rooms
             }
         }
 
+        public List<RoomAmbience> GetRoomAmbiences()
+        {
+            return roomAmbiences;
+        }
+
+        public List<Door> GetDoors()
+        {
+            return roomDoors;
+        }
+
         public void ActivateRoom()
         {
             // Uses first room
-            foreach (Door door in roomDoors)
+            if (roomDoors.Count > 0)
             {
                 OnRoomActivate?.Invoke(new RoomData
                 {
-                    StartingPosition = door.GetSpawnPoint(),
+                    StartingPosition = roomDoors[0].GetSpawnPoint(),
                     LightFadeDuration = lightFadeDuration
                 });
-                break;
             }
 
-            roomAmbience.Play2D(false, 2.0f);
+            foreach (RoomAmbience roomAmbience in roomAmbiences)
+            {
+                roomAmbience.audio.Play2D(false, 2.0f);
+            }
         }
 
         public void ActivateRoom(RoomType exitingRoom)
         {
-            foreach (RoomLight roomLight in roomLights)
+            if (ActivateLightsOnRoomLoad)
             {
-                roomLight.TurnOnLight(lightFadeDuration);
+                foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
+                {
+                    roomLight.TurnOnLight(lightFadeDuration);
+                }
             }
 
             foreach (Door door in roomDoors)
@@ -152,7 +191,10 @@ namespace Rooms
                 break;
             }
 
-            roomAmbience.Play2D(false, 2.0f);
+            foreach (RoomAmbience roomAmbience in roomAmbiences)
+            {
+                roomAmbience.audio.Play2D(false, 2.0f);
+            }
         }
 
         public Coroutine DeactivateRoom(RoomType exitingRoom)
@@ -172,7 +214,11 @@ namespace Rooms
                 break;
             }
 
-            roomAmbience.Stop(AudioHandle.Invalid, false, 2.0f);
+            foreach (RoomAmbience roomAmbience in roomAmbiences)
+            {
+                roomAmbience.audio.Stop(AudioHandle.Invalid, false, 2.0f);
+            }
+
 
             return StartCoroutine(WaitForLightsOff(lightFadeDuration));
         }
@@ -189,12 +235,12 @@ namespace Rooms
 
         private IEnumerator WaitForLightsOff(float duration)
         {
-            foreach (RoomLight roomLight in roomLights)
+            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
             {
                 roomLight.TurnOffLight(duration);
             }
 
-            foreach (RoomLight roomLight in roomLights)
+            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
             {
                 while (roomLight.IsOn())
                 {
@@ -205,12 +251,12 @@ namespace Rooms
 
         private IEnumerator WaitForLightsOn(float duration)
         {
-            foreach (RoomLight roomLight in roomLights)
+            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
             {
                 roomLight.TurnOnLight(duration);
             }
 
-            foreach (RoomLight roomLight in roomLights)
+            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
             {
                 while (!roomLight.IsOn())
                 {

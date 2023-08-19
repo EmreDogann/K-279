@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762bf881f78a96948805b51818ab07d3, type: 3}
+  m_Name: Announcement_Low_Oxygen
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 5af1a45ae8202d44b869a5a7588b3cf4, type: 3}
+  audioMixer: {fileID: 24300002, guid: 7fe1db268aad06940860274baea04931, type: 2}
+  volume:
+    Min: 0.39910674
+    Max: 0.39910674
+  useSemitones: 0
+  semitones:
+    Min: -2
+    Max: -2
+  pitch:
+    Min: 0.9049938
+    Max: 0.9049938
+  Looping: 0
+  CanBePaused: 0
+  playOrder: 0
+  currentPlayIndex: 0
+  audioEvent: {fileID: 11400000, guid: 3a82661986ebc2547842647dc3405e87, type: 2}
