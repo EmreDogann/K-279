@@ -212,7 +212,8 @@ namespace Audio
             HandleToEventData.RemoveAt(FindHandleIndex(handle));
         }
 
-        public AudioHandle Play(Vector3 positionWorldSpace = default, bool fadeIn = false, float fadeDuration = 1.0f)
+        public AudioHandle Play(Vector3 positionWorldSpace = default, bool fadeIn = false,
+            float fadeDuration = 1.0f, float volumeOverride = -1)
         {
             if (clips.Length == 0)
             {
@@ -221,7 +222,7 @@ namespace Audio
             }
 
             AudioEventData audioEventData = new AudioEventData();
-            audioEventData.Volume = Random.Range(volume.Min, volume.Max);
+            audioEventData.Volume = volumeOverride >= 0.0f ? volumeOverride : Random.Range(volume.Min, volume.Max);
             audioEventData.Pitch = useSemitones
                 ? Mathf.Pow(SEMITONES_TO_PITCH_CONVERSION_UNIT, Random.Range(semitones.Min, semitones.Max))
                 : Random.Range(pitch.Min, pitch.Max);
@@ -248,7 +249,7 @@ namespace Audio
             return AudioHandle.Invalid;
         }
 
-        public AudioHandle Play2D(bool fadeIn = false, float fadeDuration = 1.0f)
+        public AudioHandle Play2D(bool fadeIn = false, float fadeDuration = 1.0f, float volumeOverride = -1)
         {
             if (clips.Length == 0)
             {
@@ -257,7 +258,7 @@ namespace Audio
             }
 
             AudioEventData audioEventData = new AudioEventData();
-            audioEventData.Volume = Random.Range(volume.Min, volume.Max);
+            audioEventData.Volume = volumeOverride >= 0.0f ? volumeOverride : Random.Range(volume.Min, volume.Max);
             audioEventData.Pitch = useSemitones
                 ? Mathf.Pow(SEMITONES_TO_PITCH_CONVERSION_UNIT, Random.Range(semitones.Min, semitones.Max))
                 : Random.Range(pitch.Min, pitch.Max);
@@ -284,7 +285,8 @@ namespace Audio
             return AudioHandle.Invalid;
         }
 
-        public AudioHandle PlayAttached(GameObject gameObject, bool fadeIn = false, float fadeDuration = 1.0f)
+        public AudioHandle PlayAttached(GameObject gameObject, bool fadeIn = false,
+            float fadeDuration = 1.0f, float volumeOverride = -1)
         {
             if (clips.Length == 0)
             {
@@ -293,7 +295,7 @@ namespace Audio
             }
 
             AudioEventData audioEventData = new AudioEventData();
-            audioEventData.Volume = Random.Range(volume.Min, volume.Max);
+            audioEventData.Volume = volumeOverride >= 0.0f ? volumeOverride : Random.Range(volume.Min, volume.Max);
             audioEventData.Pitch = useSemitones
                 ? Mathf.Pow(SEMITONES_TO_PITCH_CONVERSION_UNIT, Random.Range(semitones.Min, semitones.Max))
                 : Random.Range(pitch.Min, pitch.Max);
@@ -328,7 +330,8 @@ namespace Audio
                 return;
             }
 
-            foreach (var entry in HandleToEventData)
+            var dataCopy = HandleToEventData.GetRange(0, HandleToEventData.Count);
+            foreach (var entry in dataCopy)
             {
                 bool handleFound = audioEvent.RaiseStopEvent(entry.Key, null);
 

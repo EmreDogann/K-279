@@ -19,6 +19,7 @@ namespace Interactables
         [Separator("Audio")]
         [SerializeField] private AudioSO turningValueAudio;
         [SerializeField] private AudioSO closingDoorAudio;
+        [field: SerializeReference] public bool PlayConnectingRoomAmbience { get; private set; }
 
         [Separator("Open Animation")]
         [SerializeField] private Transform turningValve;
@@ -35,8 +36,10 @@ namespace Interactables
         [SerializeField] private CinemachineVirtualCamera inspectVirtualCamera;
         [SerializeField] private string inspectMessage;
 
+        [Separator("Door State")]
+        [SerializeField] private bool isLocked;
+
         private bool _handleRemoved;
-        private bool _isLocked;
         private Vector3 _valveStartingRotation;
         private Vector3 _startingRotation;
         private Transform _child;
@@ -89,7 +92,7 @@ namespace Interactables
         {
             if (isInteractionKeyDown && !_doorOpenSequence.IsPlaying())
             {
-                if (_isLocked)
+                if (isLocked)
                 {
                     // TODO: Play locked audio
                     return false;
@@ -113,12 +116,12 @@ namespace Interactables
 
         public bool IsInteractable()
         {
-            return _isLocked;
+            return !isLocked;
         }
 
         public void SetLocked(bool isLocked, bool playLockedSound)
         {
-            _isLocked = isLocked;
+            this.isLocked = isLocked;
             if (playLockedSound)
             {
                 // TODO: Play locking audio
@@ -168,7 +171,7 @@ namespace Interactables
             {
                 turningValve.gameObject.SetActive(true);
                 _handleRemoved = false;
-                _isLocked = false;
+                isLocked = false;
                 // TODO: Play placing handle audio
 
                 return true;

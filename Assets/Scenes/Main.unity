@@ -347,12 +347,6 @@ RectTransform:
   m_AnchoredPosition: {x: -80, y: -390}
   m_SizeDelta: {x: 105.166, y: 94.06}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!66 &147463142 stripped
-CompositeCollider2D:
-  m_CorrespondingSourceObject: {fileID: 8370121100718409622, guid: c1c97929653bb97429538a944b00265b,
-    type: 3}
-  m_PrefabInstance: {fileID: 8584498244034415621}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &147622448
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,7 +437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f453f694addf4275988fac205bc91968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BoundingShape2D: {fileID: 147463142}
+  m_BoundingShape2D: {fileID: 1086901346}
   m_Damping: 0
   m_MaxWindowSize: 0
 --- !u!114 &147622452
@@ -933,7 +927,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28.63, y: 6.5031066, z: -19.55}
+  m_LocalPosition: {x: -75.81395, y: 6.5031, z: -19.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2073,6 +2067,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBeAlarmLight: 0
   isStaticAlarm: 0
+--- !u!66 &1086901346 stripped
+CompositeCollider2D:
+  m_CorrespondingSourceObject: {fileID: 1233287487850014623, guid: f1e866c1d83ef274f94a1062b3fc7245,
+    type: 3}
+  m_PrefabInstance: {fileID: 1568419015677098499}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1154501149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4318,6 +4318,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4539438510172562710, guid: 2478209f45b2a6e45aff0975ea873352,
+        type: 3}
+      propertyPath: roomAmbiences.Array.data[1].connectingRoomVolume
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4539438510172562710, guid: 2478209f45b2a6e45aff0975ea873352,
+        type: 3}
+      propertyPath: roomAmbiences.Array.data[1].useOriginalAudioVolume
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4608,6 +4618,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Room_CrewQuarters
       objectReference: {fileID: 0}
+    - target: {fileID: 8992396055770404985, guid: aa73b14c5646fa14bb811c1d8cd21d63,
+        type: 3}
+      propertyPath: roomAmbience
+      value: 
+      objectReference: {fileID: 11400000, guid: ae9e92fb4ea0971498a69a60d7308dc3,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4775,6 +4791,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 937513558}
     m_Modifications:
+    - target: {fileID: 1336448757566636730, guid: c1c97929653bb97429538a944b00265b,
+        type: 3}
+      propertyPath: <PlayConnectingRoomAmbience>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3458455094440751839, guid: c1c97929653bb97429538a944b00265b,
         type: 3}
       propertyPath: m_Name

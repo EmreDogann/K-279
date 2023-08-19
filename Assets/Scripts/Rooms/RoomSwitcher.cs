@@ -30,6 +30,7 @@ namespace Rooms
             if (loadStartingRoomOnAwake)
             {
                 _currentRoom.ActivateRoom();
+                PlayDoorAmbiances(_currentRoom.GetDoors());
                 cameraConfiner2DSwitcher.SwitchConfinerTarget(_currentRoom.GetCameraBounds());
             }
         }
@@ -81,6 +82,7 @@ namespace Rooms
             if (_currentRoom)
             {
                 yield return _currentRoom.DeactivateRoom(newRoom.GetRoomType());
+                StopDoorAmbiances(_currentRoom.GetDoors());
                 newRoom.PrepareRoom(_currentRoom.GetRoomType());
             }
 
@@ -96,8 +98,60 @@ namespace Rooms
                 newRoom.ActivateRoom();
             }
 
+            PlayDoorAmbiances(newRoom.GetDoors());
+
             roomSwitchedCallback?.Invoke();
             _currentRoom = newRoom;
+        }
+
+        private void PlayDoorAmbiances(List<Door> doors)
+        {
+            foreach (Door door in doors)
+            {
+                if (!door.PlayConnectingRoomAmbience)
+                {
+                    continue;
+                }
+
+                var roomAmbiences = GetRoom(door.GetConnectingRoom()).GetRoomAmbiences();
+
+                foreach (RoomAmbience roomAmbience in roomAmbiences)
+                {
+                    if (roomAmbience.playInConnectingRooms)
+                    {
+                        if (roomAmbience.useOriginalAudioVolume)
+                        {
+                            roomAmbience.audio.Play(door.transform.position, true, 0.5f);
+                        }
+                        else
+                        {
+                            roomAmbience.audio.Play(door.transform.position, true, 0.5f,
+                                roomAmbience.connectingRoomVolume);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void StopDoorAmbiances(List<Door> doors)
+        {
+            foreach (Door door in doors)
+            {
+                if (!door.PlayConnectingRoomAmbience)
+                {
+                    continue;
+                }
+
+                var roomAmbiences = GetRoom(door.GetConnectingRoom()).GetRoomAmbiences();
+
+                foreach (RoomAmbience roomAmbience in roomAmbiences)
+                {
+                    if (roomAmbience.playInConnectingRooms)
+                    {
+                        roomAmbience.audio.StopAll();
+                    }
+                }
+            }
         }
     }
 }

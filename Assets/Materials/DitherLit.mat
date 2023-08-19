@@ -139,5 +139,5 @@ Material:
     - _FG: {r: 1, g: 0.8794544, b: 0.646, a: 1}
     - _ForegroundColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - _SpriteUVRange: {r: 0.6191406, g: 0.8066406, b: 0.19921875, a: 0.38671875}
+    - _SpriteUVRange: {r: 0.6191406, g: 0.8066406, b: 0.74609375, a: 0.93359375}
   m_BuildTextureStacks: []

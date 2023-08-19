@@ -1141,7 +1141,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomType: 3
-  roomAmbience: {fileID: 11400000, guid: 101408abce9d2b848a276db2589ea7e1, type: 2}
+  roomAmbiences:
+  - audio: {fileID: 11400000, guid: 101408abce9d2b848a276db2589ea7e1, type: 2}
+    playInConnectingRooms: 0
+    connectingRoomVolume: 0
   lightFadeDuration: 0.5
   <ActivateLightsOnRoomLoad>k__BackingField: 1
   cameraBounds: {fileID: 8370121100718409622}
@@ -3703,7 +3706,7 @@ PrefabInstance:
     - target: {fileID: 2687446678122933772, guid: 303f159a3e9295844b8c141f9f1411a0,
         type: 3}
       propertyPath: isInspectable
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2687446678122933772, guid: 303f159a3e9295844b8c141f9f1411a0,
         type: 3}

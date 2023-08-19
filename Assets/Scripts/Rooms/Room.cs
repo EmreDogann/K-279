@@ -26,10 +26,19 @@ namespace Rooms
         public float LightFadeDuration;
     }
 
+    [Serializable]
+    public class RoomAmbience
+    {
+        public AudioSO audio;
+        public bool playInConnectingRooms;
+        [ConditionalField(nameof(playInConnectingRooms))] public bool useOriginalAudioVolume = true;
+        [ConditionalField(nameof(useOriginalAudioVolume), true)] public float connectingRoomVolume = 1.0f;
+    }
+
     public class Room : MonoBehaviour
     {
         [SerializeField] private RoomType roomType;
-        [SerializeField] private List<AudioSO> roomAmbiences;
+        [SerializeField] private List<RoomAmbience> roomAmbiences;
 
         [Separator("Lights")]
         [SerializeField] private float lightFadeDuration = 1.0f;
@@ -117,6 +126,16 @@ namespace Rooms
             }
         }
 
+        public List<RoomAmbience> GetRoomAmbiences()
+        {
+            return roomAmbiences;
+        }
+
+        public List<Door> GetDoors()
+        {
+            return roomDoors;
+        }
+
         public void ActivateRoom()
         {
             // Uses first room
@@ -130,9 +149,9 @@ namespace Rooms
                 break;
             }
 
-            foreach (AudioSO roomAmbience in roomAmbiences)
+            foreach (RoomAmbience roomAmbience in roomAmbiences)
             {
-                roomAmbience.Play2D(false, 2.0f);
+                roomAmbience.audio.Play2D(false, 2.0f);
             }
         }
 
@@ -163,9 +182,9 @@ namespace Rooms
                 break;
             }
 
-            foreach (AudioSO roomAmbience in roomAmbiences)
+            foreach (RoomAmbience roomAmbience in roomAmbiences)
             {
-                roomAmbience.Play2D(false, 2.0f);
+                roomAmbience.audio.Play2D(false, 2.0f);
             }
         }
 
@@ -186,9 +205,9 @@ namespace Rooms
                 break;
             }
 
-            foreach (AudioSO roomAmbience in roomAmbiences)
+            foreach (RoomAmbience roomAmbience in roomAmbiences)
             {
-                roomAmbience.Stop(AudioHandle.Invalid, false, 2.0f);
+                roomAmbience.audio.Stop(AudioHandle.Invalid, false, 2.0f);
             }
 
 
