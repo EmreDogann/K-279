@@ -10,6 +10,7 @@ namespace Lights
 {
     public enum LightState
     {
+        Off,
         Normal,
         Alarm
     }
@@ -64,6 +65,12 @@ namespace Lights
         }
 
         [ButtonMethod]
+        public void SetOffState()
+        {
+            SetLightState(LightState.Off);
+        }
+
+        [ButtonMethod]
         public void SetNormalState()
         {
             SetLightState(LightState.Normal);
@@ -77,18 +84,22 @@ namespace Lights
 
         public void SetLightState(LightState state)
         {
-            StartCoroutine(TransitionColors());
+            StartCoroutine(TransitionColors(state));
             OnLightStateChange?.Invoke(state);
             _currentState = state;
         }
 
-        private IEnumerator TransitionColors()
+        private IEnumerator TransitionColors(LightState newState)
         {
             LightControl.OnLightControl?.Invoke(false, 0.3f);
             yield return new WaitForSecondsRealtime(1.1f);
             UpdateLightColor();
-            LightControl.OnLightControl?.Invoke(true, 0.3f);
-            yield return new WaitForSecondsRealtime(0.3f);
+
+            if (newState != LightState.Off)
+            {
+                LightControl.OnLightControl?.Invoke(true, 0.3f);
+                yield return new WaitForSecondsRealtime(0.3f);
+            }
         }
 
         private void UpdateLightColor()
@@ -96,6 +107,9 @@ namespace Lights
             LightData lightData = new LightData { State = _currentState };
             switch (_currentState)
             {
+                case LightState.Off:
+                    alarmSound.Stop(true, 0.4f);
+                    return;
                 case LightState.Normal:
                     lightData.BgColor = Color.black;
                     lightData.FgColor = normalColor;

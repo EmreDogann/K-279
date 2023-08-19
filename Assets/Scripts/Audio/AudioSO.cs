@@ -353,7 +353,6 @@ namespace Audio
         {
             if (HandleToEventData.Count == 0)
             {
-                // audioEvent.RaiseStopEvent(AudioHandle.Invalid, null);
                 return;
             }
 
@@ -383,9 +382,6 @@ namespace Audio
             {
                 Debug.LogWarning($"Audio {handle.Audio.name} could not be stopped. Handle is stale.");
             }
-
-            // _audioHandle.Remove(handle);
-            // HandleToEventData.Remove(HandleToEventData[index]);
         }
 
         public void FadeAudioAll(float to, float duration)
