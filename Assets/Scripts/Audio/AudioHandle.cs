@@ -1,26 +1,17 @@
 ﻿using System;
-using UnityEngine;
 
 namespace Audio
 {
     [Serializable]
-    public struct AudioHandle
+    public class AudioHandle
     {
         public static AudioHandle Invalid = new AudioHandle(-1, null);
-
-        public delegate void OnHandleStale(AudioHandle audioHandle);
-
-        public event OnHandleStale OnStale;
-        private event OnHandleStale HandleStale
-        {
-            add => OnStale += value;
-            remove => OnStale -= value;
-        }
+        public event Action<AudioHandle> OnHandleStale;
 
         internal int ID;
         internal AudioSO Audio;
 
-        public AudioHandle(int id, AudioSO audio) : this()
+        public AudioHandle(int id, AudioSO audio)
         {
             ID = id;
             Audio = audio;
@@ -48,8 +39,7 @@ namespace Audio
 
         internal void MarkStale()
         {
-            Debug.Log("Marking Stale: " + Audio.name);
-            OnStale?.Invoke(this);
+            OnHandleStale?.Invoke(this);
         }
     }
 }

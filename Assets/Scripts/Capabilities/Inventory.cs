@@ -45,6 +45,19 @@ namespace Capabilities
             return false;
         }
 
+        public IItem TryGetItem(ItemType itemType)
+        {
+            foreach (IItem item in _items)
+            {
+                if (item.GetItemType() == itemType)
+                {
+                    return item;
+                }
+            }
+
+            return null;
+        }
+
         private void ItemConsumed(IItem item)
         {
             _items.Remove(item);

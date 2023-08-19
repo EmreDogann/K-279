@@ -128,10 +128,7 @@ namespace Audio
                 _handleToEmitter.Remove(removal);
             }
 
-            if (_removals.Count > 0)
-            {
-                _removals.Clear();
-            }
+            _removals.Clear();
         }
 
         private void OnPauseEvent(bool isPaused)

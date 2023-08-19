@@ -76,6 +76,8 @@ public class SubmarineSoundScape : MonoBehaviour
         submarineSqueeze.Setup(impulseListener);
         sonar.Setup(impulseListener);
         explosion.Setup(impulseListener);
+
+        CinemachineImpulseManager.Instance.IgnoreTimeScale = true;
     }
 
     private void OnValidate()

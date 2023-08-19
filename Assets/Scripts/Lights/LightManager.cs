@@ -1,4 +1,5 @@
 ﻿using System;
+using MyBox;
 using RenderFeatures;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -20,6 +21,9 @@ namespace Lights
 
     public class LightManager : MonoBehaviour
     {
+        [SerializeField] private bool setOnAwake;
+        [ConditionalField(nameof(setOnAwake))] [SerializeField] private LightState startingState;
+
         [SerializeField] private Color normalColor;
         [SerializeField] private Color alarmColor;
         [SerializeField] private UniversalRendererData _rendererData;
@@ -45,6 +49,11 @@ namespace Lights
             _ditherRenderFeature =
                 _rendererData.rendererFeatures.Find(x => x.GetType() == typeof(ScreenDitherRenderFeature)) as
                     ScreenDitherRenderFeature;
+
+            if (setOnAwake)
+            {
+                SetLightState(startingState);
+            }
         }
 
         public void SetLightState(LightState state)

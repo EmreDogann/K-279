@@ -1,6 +1,7 @@
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using Controllers;
+using Inspect;
 using Interactables;
 using Items;
 using Rooms;
@@ -13,10 +14,13 @@ namespace Capabilities
     public class Interact : MonoBehaviour
     {
         [SerializeField] private LayerMask interactableLayerMask;
-        [SerializeField] private ItemInspector _itemInspector;
+        [SerializeField] private ItemInspector itemInspector;
+        [SerializeField] private Inspector inspector;
+        [SerializeField] private Inventory inventory;
 
         private Controller _controller;
-        private readonly List<IInteractableObjects> _currentInteractables = new List<IInteractableObjects>();
+        private IInteractableObjects _currentInteractable;
+        private IInspectable _currentInspectable;
         private IItem _currentItem;
 
         private bool _interactionActive;
@@ -57,23 +61,61 @@ namespace Capabilities
             }
 
             bool isInteractKeyDown = _controller.input.RetrieveInteractInput();
-            if (isInteractKeyDown)
+            if (!isInteractKeyDown)
             {
-                foreach (IInteractableObjects interactable in _currentInteractables)
-                {
-                    interactable.InteractionContinues(true);
-                }
+                return;
             }
 
-            if (_controller.input.RetrieveInteractInput() && _currentItem != null)
+            // Interactable
+            if (_currentInteractable != null && _currentInteractable.IsInteractable())
+            {
+                _currentInteractable.InteractionContinues(true);
+                return;
+            }
+
+            // Inspection
+            if (_currentInspectable != null && _currentInspectable.IsInspectable())
             {
                 _interactionActive = false;
-                _itemInspector.InspectItem(_currentItem, wasConfirmed =>
+                if (_currentInspectable.IsExpectingItem())
+                {
+                    ItemType expectedItem = _currentInspectable.GetExpectedItem();
+                    if (inventory.ContainsItemType(expectedItem))
+                    {
+                        // inspector.InspectWithConfirmation(_currentInspectable, wasConfirmed =>
+                        // {
+                        //     if (wasConfirmed)
+                        //     {
+                        //         inventory.TryGetItem(expectedItem).Consume();
+                        //     }
+                        //
+                        //     _interactionActive = true;
+                        // });
+
+                        StartCoroutine(PlaceItemAnimation(_currentInspectable, inventory.TryGetItem(expectedItem)));
+                    }
+                    else
+                    {
+                        inspector.Inspect(_currentInspectable, _ => StartCoroutine(DelayedInteractActivate()));
+                    }
+                }
+                else
+                {
+                    inspector.Inspect(_currentInspectable, _ => StartCoroutine(DelayedInteractActivate()));
+                }
+
+                return;
+            }
+
+            // Item Pickup
+            if (_currentItem != null)
+            {
+                _interactionActive = false;
+                itemInspector.InspectItem(_currentItem, _controller, wasConfirmed =>
                 {
                     if (wasConfirmed)
                     {
-                        // TODO: Add inventory item.
-                        Debug.Log("Add item: " + _currentItem.GetItemInfo().itemName);
+                        inventory.AddItem(_currentItem);
                         _currentItem.Pickup();
                     }
 
@@ -81,6 +123,24 @@ namespace Capabilities
                     _interactionActive = true;
                 });
             }
+        }
+
+        private IEnumerator PlaceItemAnimation(IInspectable inspectable, IItem item)
+        {
+            _currentInspectable.GetCameraAngle().gameObject.SetActive(true);
+            yield return new WaitForSecondsRealtime(1.0f);
+            item.Consume();
+            inspectable.TryItem(item);
+            yield return new WaitForSecondsRealtime(1.0f);
+            _currentInspectable.GetCameraAngle().gameObject.SetActive(false);
+
+            _interactionActive = true;
+        }
+
+        private IEnumerator DelayedInteractActivate()
+        {
+            yield return null;
+            _interactionActive = true;
         }
 
         private void OnTriggerEnter(Collider collision)
@@ -94,8 +154,13 @@ namespace Capabilities
             if (interactableObject != null)
             {
                 interactableObject.InteractionStart();
-                _currentInteractables.Add(interactableObject);
-                return;
+                _currentInteractable = interactableObject;
+            }
+
+            IInspectable inspectableObject = collision.gameObject.GetComponent<IInspectable>();
+            if (inspectableObject != null)
+            {
+                _currentInspectable = inspectableObject;
             }
 
             IItem item = collision.gameObject.GetComponent<IItem>();
@@ -133,8 +198,13 @@ namespace Capabilities
             if (interactableObject != null)
             {
                 interactableObject.InteractionEnd();
-                _currentInteractables.Remove(interactableObject);
-                return;
+                _currentInteractable = null;
+            }
+
+            IInspectable inspectableObject = collision.gameObject.GetComponent<IInspectable>();
+            if (inspectableObject != null)
+            {
+                _currentInspectable = null;
             }
 
             IItem item = collision.gameObject.GetComponent<IItem>();

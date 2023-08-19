@@ -108,9 +108,7 @@ namespace Audio
 
         protected override void OnBegin()
         {
-            // _audioHandle = new List<AudioHandle>();
             _handleToEventData = new List<KeyValuePair<AudioHandle, AudioEventData>>();
-            // _audioHandleData = new Dictionary<AudioHandle, AudioEventData>();
         }
 
         protected override void OnEnd() {}
@@ -133,9 +131,7 @@ namespace Audio
             DestroyImmediate(previewer.gameObject);
 #endif
 
-            // _audioHandle = new List<AudioHandle>();
             _handleToEventData = new List<KeyValuePair<AudioHandle, AudioEventData>>();
-            // _handleToEventData = new Dictionary<AudioHandle, AudioEventData>();
         }
 
         private void SyncPitchAndSemitones()
@@ -199,8 +195,7 @@ namespace Audio
 
         private void OnHandleStale(AudioHandle handle)
         {
-            Debug.Log("Removing: " + handle.Audio.name);
-            handle.OnStale -= OnHandleStale;
+            handle.OnHandleStale -= OnHandleStale;
             _handleToEventData.RemoveAt(FindHandleIndex(handle));
         }
 
@@ -233,7 +228,7 @@ namespace Audio
             if (handle != AudioHandle.Invalid)
             {
                 _handleToEventData.Add(new KeyValuePair<AudioHandle, AudioEventData>(handle, audioEventData));
-                handle.OnStale += OnHandleStale;
+                handle.OnHandleStale += OnHandleStale;
                 return handle;
             }
 
@@ -269,7 +264,7 @@ namespace Audio
             if (handle != AudioHandle.Invalid)
             {
                 _handleToEventData.Add(new KeyValuePair<AudioHandle, AudioEventData>(handle, audioEventData));
-                handle.OnStale += OnHandleStale;
+                handle.OnHandleStale += OnHandleStale;
                 return handle;
             }
 
@@ -305,7 +300,7 @@ namespace Audio
             if (handle != AudioHandle.Invalid)
             {
                 _handleToEventData.Add(new KeyValuePair<AudioHandle, AudioEventData>(handle, audioEventData));
-                handle.OnStale += OnHandleStale;
+                handle.OnHandleStale += OnHandleStale;
                 return handle;
             }
 

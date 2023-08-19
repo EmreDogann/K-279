@@ -2,17 +2,15 @@
 using System.Collections;
 using Controllers;
 using Events;
-using Lights;
 using MyBox;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Items
+namespace Inspect
 {
-    public class ItemInspector : MonoBehaviour
+    public class Inspector : MonoBehaviour
     {
-        [SerializeField] private Image image;
+        [SerializeField] private Controller controller;
         [SerializeField] private TextMeshProUGUI text;
 
         [Separator("Buttons")]
@@ -20,65 +18,53 @@ namespace Items
         [SerializeField] private TextMeshProUGUI cancelButton;
 
         [Separator("Animation")]
-        [SerializeField] private float fadeDuration;
         [Tooltip("Characters to show per second")]
         [SerializeField] private float textAnimationSpeed;
 
         [Separator("Events")]
         [SerializeField] private BoolEventChannelSO pauseEvent;
 
-        private IItem _currentInspectionItem;
-        private Controller _currentController;
-        private Action<bool> _currentCallback;
+        private bool _waitingConfirmation;
 
         private bool _isTextAnimating;
         private string _messageTarget;
-
-        private void Awake()
-        {
-            text.gameObject.SetActive(false);
-            image.gameObject.SetActive(false);
-            // confirmButton.gameObject.SetActive(false);
-            // cancelButton.gameObject.SetActive(false);
-        }
+        private Action<bool> _currentCallback;
+        private IInspectable _currentInspectable;
 
         private void Update()
         {
             if (_isTextAnimating)
             {
-                if (_currentController != null && _currentController.input.RetrieveInteractInput())
+                if (controller.input.RetrieveInteractInput())
                 {
                     text.maxVisibleCharacters = _messageTarget.Length;
                 }
             }
-            else
+            else if (!_waitingConfirmation)
             {
-                if (_currentController != null && _currentController.input.RetrieveInteractInput())
+                if (_currentInspectable != null && controller.input.RetrieveInteractInput())
                 {
-                    _currentCallback?.Invoke(true);
+                    _currentCallback?.Invoke(false);
                     ClosePopup();
                 }
             }
         }
 
-        public void InspectItem(IItem item, Action<bool> callback)
+        public void Inspect(IInspectable inspectable, Action<bool> callback = null)
         {
-            InspectItem(item, null, callback);
-        }
-
-        public void InspectItem(IItem item, Controller controller, Action<bool> callback)
-        {
-            _currentInspectionItem = item;
-            _currentController = controller;
+            _currentInspectable = inspectable;
             _currentCallback = callback;
 
-            image.gameObject.SetActive(true);
-            image.sprite = item.GetItemInfo().inspectImage;
-
-            LightControl.OnLightControl?.Invoke(false, fadeDuration);
-            StartCoroutine(DisplayMessage(_currentInspectionItem.GetItemInfo().itemName));
-
             pauseEvent.Raise(true);
+
+            inspectable.GetCameraAngle().gameObject.SetActive(true);
+            StartCoroutine(DisplayMessage(_currentInspectable.GetMessage()));
+        }
+
+        public void InspectWithConfirmation(IInspectable inspectable, Action<bool> callback = null)
+        {
+            _waitingConfirmation = true;
+            Inspect(inspectable, callback);
         }
 
         public void ConfirmInspect()
@@ -95,16 +81,16 @@ namespace Items
 
         private void ClosePopup()
         {
+            _currentInspectable.GetCameraAngle().gameObject.SetActive(false);
+
             text.gameObject.SetActive(false);
-            image.gameObject.SetActive(false);
-            // confirmButton.gameObject.SetActive(false);
-            // cancelButton.gameObject.SetActive(false);
+            confirmButton.gameObject.SetActive(false);
+            cancelButton.gameObject.SetActive(false);
 
-            _currentInspectionItem = null;
-            _currentController = null;
+            _currentInspectable = null;
             _currentCallback = null;
+            _waitingConfirmation = false;
 
-            LightControl.OnLightControl?.Invoke(true, fadeDuration);
             pauseEvent.Raise(false);
         }
 
@@ -113,7 +99,7 @@ namespace Items
             _isTextAnimating = true;
             bool isAddingRichTextTag = false;
 
-            _messageTarget = $"Picked up <b>{itemName}</b>";
+            _messageTarget = itemName;
 
             text.gameObject.SetActive(true);
             text.text = _messageTarget;
@@ -141,10 +127,13 @@ namespace Items
                 }
             }
 
-            // EventSystem.current.SetSelectedGameObject(confirmButton.gameObject);
-
-            // confirmButton.gameObject.SetActive(true);
-            // cancelButton.gameObject.SetActive(true);
+            // if (_waitingConfirmation)
+            // {
+            //     EventSystem.current.SetSelectedGameObject(confirmButton.gameObject);
+            //
+            //     confirmButton.gameObject.SetActive(true);
+            //     cancelButton.gameObject.SetActive(true);
+            // }
 
             _isTextAnimating = false;
         }
