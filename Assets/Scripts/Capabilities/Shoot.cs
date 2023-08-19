@@ -3,6 +3,7 @@ using Audio;
 using Cinemachine;
 using Controllers;
 using DG.Tweening;
+using Events;
 using GameEntities;
 using MyBox;
 using ScriptableObjects;
@@ -31,6 +32,9 @@ namespace Capabilities
         [SerializeField] private CinemachineImpulseSource impulseSource;
         [ConditionalField(nameof(shakeCameraOnGunshot))] [SerializeField] private ScreenShakeProfile screenShakeProfile;
 
+        [Separator("Events")]
+        [SerializeField] private BoolEventListener pauseEvent;
+
         private Sequence _muzzleFlashSequence;
 
         private Controller _controller;
@@ -40,6 +44,7 @@ namespace Capabilities
         private Animator _animator;
         private Move _move;
 
+        private bool _isPaused;
         private bool _facingRight;
         private bool _currentlyShooting;
         private float _shotCoolDownTimer;
@@ -87,9 +92,29 @@ namespace Capabilities
                 .Pause();
         }
 
+        private void OnEnable()
+        {
+            pauseEvent.Response.AddListener(OnPauseEvent);
+        }
+
+        private void OnDisable()
+        {
+            pauseEvent.Response.RemoveListener(OnPauseEvent);
+        }
+
+        private void OnPauseEvent(bool isPaused)
+        {
+            _isPaused = isPaused;
+        }
+
         private void Update()
         {
-            Debug.DrawRay(_gunRay.origin, _gunRay.direction * gunRange, Color.green);
+            if (_isPaused)
+            {
+                return;
+            }
+
+            // Debug.DrawRay(_gunRay.origin, _gunRay.direction * gunRange, Color.green);
             if (_controller.input.RetrieveShootInput())
             {
                 // Start preparing to shoot
@@ -108,7 +133,7 @@ namespace Capabilities
                 _shotCoolDownTimer += Time.deltaTime;
                 if (_shotCoolDownTimer <= _shootCoolDown)
                 {
-                    if (_shotCoolDownTimer >= _shootCoolDown * 0.9f)
+                    if (_shotCoolDownTimer >= _shootCoolDown * 0.95f)
                     {
                         _isShootQueued = true;
                     }
@@ -214,7 +239,6 @@ namespace Capabilities
             bool isHit = Physics.Raycast(_gunRay, out hitInfo, gunRange, layerToHit);
             if (isHit)
             {
-                Debug.Log("Hit Enemy");
                 hitInfo.transform.gameObject.GetComponent<IEntity>()?.TakeHit(_dmgPerHit);
             }
 

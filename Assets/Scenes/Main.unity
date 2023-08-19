@@ -437,7 +437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f453f694addf4275988fac205bc91968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BoundingShape2D: {fileID: 444498290}
+  m_BoundingShape2D: {fileID: 1391102940}
   m_Damping: 0
   m_MaxWindowSize: 0
 --- !u!114 &147622452
@@ -902,7 +902,7 @@ Camera:
   far clip plane: 100
   field of view: 28
   orthographic: 0
-  orthographic size: 2.368421
+  orthographic size: 2.4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -927,7 +927,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28.63, y: 6.5031066, z: -19.55}
+  m_LocalPosition: {x: 23.115774, y: 6.5031, z: -19.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1300,12 +1300,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!66 &444498290 stripped
-CompositeCollider2D:
-  m_CorrespondingSourceObject: {fileID: 8370121100718409622, guid: c1c97929653bb97429538a944b00265b,
-    type: 3}
-  m_PrefabInstance: {fileID: 8584498244034415621}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &533895708
 GameObject:
   m_ObjectHideFlags: 0
@@ -2323,7 +2317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48b70385c515a5a499dce63f58b48679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerOnAwake: 0
+  triggerOnAwake: 1
   triggerDelay: 3
   roomManager: {fileID: 1541677828}
   startingRoom: 0
@@ -2371,6 +2365,12 @@ MonoBehaviour:
   doorLockSound: {fileID: 11400000, guid: b9ca5840e6e7af642bcf1e2047ac97db, type: 2}
   lowOxygenVoiceSound: {fileID: 11400000, guid: 9231e464731f69f42aa25b0837139370,
     type: 2}
+--- !u!66 &1391102940 stripped
+CompositeCollider2D:
+  m_CorrespondingSourceObject: {fileID: 4105816325208378523, guid: 5eb81626008dfad4f8e6fe723ab5cf0a,
+    type: 3}
+  m_PrefabInstance: {fileID: 9097725084458757334}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1417152443
 GameObject:
   m_ObjectHideFlags: 0
@@ -2535,7 +2535,7 @@ MonoBehaviour:
   blackScreenWaitTime: 1.5
   cameraConfiner2DSwitcher: {fileID: 147622454}
   startingRoom: 3
-  loadStartingRoomOnAwake: 1
+  loadStartingRoomOnAwake: 0
 --- !u!4 &1541677829
 Transform:
   m_ObjectHideFlags: 0
@@ -2656,6 +2656,7 @@ GameObject:
   - component: {fileID: 1580879621}
   - component: {fileID: 1580879623}
   - component: {fileID: 1580879622}
+  - component: {fileID: 1580879624}
   m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
@@ -2763,6 +2764,21 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &1580879624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580879620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controlledByRoom: 0
+  canBeAlarmLight: 1
+  isStaticAlarm: 1
 --- !u!1 &1584885182
 GameObject:
   m_ObjectHideFlags: 0
@@ -3729,13 +3745,14 @@ GameObject:
   - component: {fileID: 1756468852}
   - component: {fileID: 1756468851}
   - component: {fileID: 1756468850}
+  - component: {fileID: 1756468857}
   m_Layer: 8
   m_Name: Enemy_Torpedo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1756468850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3797,7 +3814,7 @@ MonoBehaviour:
   hitCoolDown: 0.3
   deathInvisibleDelay: 0.5
   droppedItem: {fileID: 0}
-  _animator: {fileID: 0}
+  _animator: {fileID: 1012882034}
 --- !u!65 &1756468853
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3878,6 +3895,19 @@ Transform:
   - {fileID: 979125281}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1756468857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756468849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81f6540d1e44477581482a37c9e34d71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controlLight: {fileID: 1580879624}
 --- !u!1 &1777871079
 GameObject:
   m_ObjectHideFlags: 0
@@ -4248,7 +4278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81f6540d1e44477581482a37c9e34d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLight: {fileID: 1047139562}
+  controlLight: {fileID: 1047139562}
 --- !u!114 &1877220602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4303,6 +4333,7 @@ MonoBehaviour:
   impulseListener: {fileID: 147622455}
   impulseSource: {fileID: 1877220607}
   screenShakeProfile: {fileID: 11400000, guid: 22fe59f6b09c69d4ba3cd3146a011814, type: 2}
+  pauseEvent: {fileID: 1877220602}
 --- !u!114 &1877220605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4519,13 +4550,14 @@ GameObject:
   - component: {fileID: 1960134378}
   - component: {fileID: 1960134377}
   - component: {fileID: 1960134376}
+  - component: {fileID: 1960134383}
   m_Layer: 8
   m_Name: Enemy_Captains
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1960134376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4587,7 +4619,7 @@ MonoBehaviour:
   hitCoolDown: 0.3
   deathInvisibleDelay: 0.5
   droppedItem: {fileID: 0}
-  _animator: {fileID: 0}
+  _animator: {fileID: 568003330}
 --- !u!65 &1960134379
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4668,6 +4700,19 @@ Transform:
   - {fileID: 30811008}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1960134383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960134375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81f6540d1e44477581482a37c9e34d71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controlLight: {fileID: 2145880478}
 --- !u!1001 &1994906801
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5014,6 +5059,7 @@ GameObject:
   - component: {fileID: 2145880475}
   - component: {fileID: 2145880477}
   - component: {fileID: 2145880476}
+  - component: {fileID: 2145880478}
   m_Layer: 0
   m_Name: Light
   m_TagString: Untagged
@@ -5121,6 +5167,21 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &2145880478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145880474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controlledByRoom: 0
+  canBeAlarmLight: 1
+  isStaticAlarm: 1
 --- !u!1001 &100160254207592782
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5666,6 +5727,6 @@ SceneRoots:
   - {fileID: 937513558}
   - {fileID: 6003331836911324644}
   - {fileID: 1994906801}
-  - {fileID: 1960134382}
   - {fileID: 1191720812}
+  - {fileID: 1960134382}
   - {fileID: 1756468856}

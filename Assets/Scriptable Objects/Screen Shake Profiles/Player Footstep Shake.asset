@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Player Footstep Shake
   m_EditorClassIdentifier: 
   impactTime: 0.5
-  impactForce: 0.01
+  impactForce: 0.02
   defaultVelocity: {x: 0, y: -1, z: 0}
   listenerAmplitude: 0
   listenerFrequency: 0

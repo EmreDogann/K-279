@@ -1,5 +1,5 @@
-using MyBox;
 using System.Collections;
+using MyBox;
 using UnityEngine;
 
 namespace GameEntities
@@ -9,13 +9,13 @@ namespace GameEntities
         [SerializeField] private int maxHP = 100;
         [SerializeField] private int dmgPerHit = 50;
         [SerializeField] [Range(0, 5f)] private float hitCoolDown = 0.3f;
-        [SerializeField, Range(0, 5f)] private float deathInvisibleDelay = 0.5f;
-        [SerializeField] GameObject droppedItem;
-        
+        [SerializeField] [Range(0, 5f)] private float deathInvisibleDelay = 0.5f;
+        [SerializeField] private GameObject droppedItem;
+
         [Separator("Animation")]
         [SerializeField] private Animator _animator;
 
-        private bool itemAlreadyDropped = false;
+        private bool itemAlreadyDropped;
         private bool isAlive = true;
         private int currentHP;
         private float deathInvisibleTimer;
@@ -31,12 +31,14 @@ namespace GameEntities
 
         public void Died()
         {
-            if (!itemAlreadyDropped) 
+            if (!itemAlreadyDropped && droppedItem)
             {
                 itemAlreadyDropped = true;
-                GameObject item = Instantiate(droppedItem, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+                GameObject item = Instantiate(droppedItem, transform.position + new Vector3(0, 1, 0),
+                    Quaternion.identity);
                 item.SetActive(true);
             }
+
             Debug.Log("Enemy Dead");
             isAlive = false;
             _animator.SetTrigger(DeathState);
@@ -49,7 +51,6 @@ namespace GameEntities
             _animator.SetTrigger(HurtState);
             if (currentHP < 0)
             {
-                
                 Died();
             }
         }
@@ -63,17 +64,20 @@ namespace GameEntities
         {
             return hitCoolDown;
         }
+
         public bool IsAlive()
         {
             return isAlive;
         }
-        IEnumerator DeathInvisibleDelay()
+
+        private IEnumerator DeathInvisibleDelay()
         {
-            while(deathInvisibleTimer < deathInvisibleDelay)
+            while (deathInvisibleTimer < deathInvisibleDelay)
             {
                 deathInvisibleTimer += Time.deltaTime;
                 yield return null;
             }
+
             gameObject.SetActive(false);
         }
     }

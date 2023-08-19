@@ -50,8 +50,8 @@ namespace Capabilities
 
         private bool _facingRight = true;
         private bool _isPaused;
-      
-        
+
+
         private static readonly int IsWalking = Animator.StringToHash("IsWalking");
 
         private static readonly int AttackState = Animator.StringToHash("EnemyAttack");
@@ -87,7 +87,8 @@ namespace Capabilities
             }
             else
             {
-                if (Physics.Raycast(rayOfSight.origin, transform.right, out RaycastHit hitInfo, Mathf.Infinity, levelWallLayer))
+                if (Physics.Raycast(rayOfSight.origin, transform.right, out RaycastHit hitInfo, Mathf.Infinity,
+                        levelWallLayer))
                 {
                     patrolLimitRight = hitInfo.point;
                 }
@@ -96,7 +97,6 @@ namespace Capabilities
             //_targetPosition = transform.position + new Vector3(patrolLimitRight.position.x, 0, 0);
             if (Random.Range(0, 1) > 0.5f)
             {
-                Debug.Log("Pointing Right");
                 _facingRight = true;
                 _targetPosition = patrolLimitRight;
 
@@ -104,7 +104,6 @@ namespace Capabilities
             }
             else
             {
-                Debug.Log("Pointing Left");
                 _targetPosition = patrolLimitLeft;
                 rayOfSight.direction = gameObject.transform.right * -1;
                 FlipEnemy();
@@ -115,13 +114,15 @@ namespace Capabilities
 
         private void Update()
         {
-            if (!_enemyEntity.IsAlive() || (!_patrolActive & !_pursueActive)) return;
+            if (!_enemyEntity.IsAlive() || !_patrolActive & !_pursueActive)
+            {
+                return;
+            }
+
             rayOfSight.origin = gameObject.transform.position + new Vector3(0, 4, 0);
             RaycastHit hitInfo;
 
-            Debug.DrawRay(rayOfSight.origin, rayOfSight.direction * rangeOfSight, Color.red);
-
-            
+            // Debug.DrawRay(rayOfSight.origin, rayOfSight.direction * rangeOfSight, Color.red);
 
             if (_pursueActive)
             {
@@ -129,13 +130,12 @@ namespace Capabilities
 
                 if (isHit)
                 {
-                    Debug.Log("Pursuing");
                     Pursue(hitInfo.transform.gameObject);
                     _patrolActive = false;
                     _returnToPatrolTimer = 0;
                 }
             }
-            else if (!_patrolActive )
+            else if (!_patrolActive)
             {
                 _returnToPatrolTimer += Time.deltaTime;
 
@@ -145,13 +145,11 @@ namespace Capabilities
                     _patrolActive = true;
                     if (_facingRight)
                     {
-                        Debug.Log("Go left : pursue");
                         _targetPosition = patrolLimitLeft;
                         rayOfSight.direction = gameObject.transform.right * -1;
                     }
                     else
                     {
-                        Debug.Log("Go Right : pursue");
                         _targetPosition = patrolLimitRight;
                         rayOfSight.direction = gameObject.transform.right;
                     }
@@ -168,13 +166,11 @@ namespace Capabilities
                 {
                     if (_facingRight)
                     {
-                        Debug.Log("Go left");
                         _targetPosition = patrolLimitLeft;
                         rayOfSight.direction = gameObject.transform.right * -1;
                     }
                     else
                     {
-                        Debug.Log("Go Right");
                         _targetPosition = patrolLimitRight;
                         rayOfSight.direction = gameObject.transform.right;
                     }
@@ -186,11 +182,8 @@ namespace Capabilities
 
         private void FlipEnemy()
         {
-            Debug.Log(_facingRight);
             _sprite.flipX = !_sprite.flipX;
             _facingRight = !_facingRight;
-            Debug.Log(_facingRight);
-
         }
 
         private void Move(Vector3 target, float maxVelocity, float maxAcceleration)
@@ -218,8 +211,6 @@ namespace Capabilities
                 _hitTimer += Time.deltaTime;
                 if (_hitTimer >= _hitCoolDown)
                 {
-                    // Hit
-                    Debug.Log("Attacking " + pursueTarget.name);
                     _animator.SetTrigger(AttackState);
                     pursueTarget.GetComponent<IEntity>().TakeHit(GetComponent<EnemyEntity>().GetDmg());
                     _hitTimer = 0f;

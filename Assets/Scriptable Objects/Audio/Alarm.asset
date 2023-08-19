@@ -25,7 +25,7 @@ MonoBehaviour:
   pitch:
     Min: 1
     Max: 1
-  Looping: 0
+  Looping: 1
   CanBePaused: 0
   playOrder: 0
   currentPlayIndex: 0

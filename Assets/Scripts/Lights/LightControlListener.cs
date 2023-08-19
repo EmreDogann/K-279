@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Lights
 {
-    public class PlayerLightControl : MonoBehaviour
+    public class LightControlListener : MonoBehaviour
     {
-        [SerializeField] private RoomLight playerLight;
+        [SerializeField] private RoomLight controlLight;
 
         private void OnEnable()
         {
@@ -23,11 +23,11 @@ namespace Lights
         {
             if (turnOn)
             {
-                playerLight.TurnOnLight(duration);
+                controlLight.TurnOnLight(duration);
             }
             else
             {
-                playerLight.TurnOffLight(duration);
+                controlLight.TurnOffLight(duration);
             }
         }
     }
