@@ -34,10 +34,14 @@ namespace Items
         private bool _isTextAnimating;
         private string _messageTarget;
 
-        private void Awake()
+        private void Start()
         {
             text.gameObject.SetActive(false);
             image.gameObject.SetActive(false);
+            Color imageColor = image.color;
+            imageColor.a = 1.0f;
+
+            image.color = imageColor;
             // confirmButton.gameObject.SetActive(false);
             // cancelButton.gameObject.SetActive(false);
         }

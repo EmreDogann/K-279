@@ -1113,6 +1113,7 @@ MonoBehaviour:
   normalColor: {r: 1, g: 0.8794544, b: 0.646, a: 1}
   alarmColor: {r: 0.92156863, g: 0.24882351, b: 0.24882351, a: 1}
   _rendererData: {fileID: 11400000, guid: c40be3174f62c4acf8c1216858c64956, type: 2}
+  alarmSound: {fileID: 11400000, guid: ae9e92fb4ea0971498a69a60d7308dc3, type: 2}
 --- !u!1 &438968865
 GameObject:
   m_ObjectHideFlags: 0
@@ -2070,10 +2071,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickering: 0
-  flickeringAmplitude: 0
-  flickeringFrequency: 0
-  flickeringCooldown: 0
+  canBeAlarmLight: 0
+  isStaticAlarm: 0
 --- !u!114 &1154501149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4844,32 +4843,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 937513558}
     m_Modifications:
-    - target: {fileID: 3137304780413501361, guid: 5eb81626008dfad4f8e6fe723ab5cf0a,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.21031135
-      objectReference: {fileID: 0}
-    - target: {fileID: 3137304780413501361, guid: 5eb81626008dfad4f8e6fe723ab5cf0a,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.04288443
-      objectReference: {fileID: 0}
-    - target: {fileID: 3137304780413501361, guid: 5eb81626008dfad4f8e6fe723ab5cf0a,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.95700055
-      objectReference: {fileID: 0}
-    - target: {fileID: 3137304780413501361, guid: 5eb81626008dfad4f8e6fe723ab5cf0a,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.19514138
-      objectReference: {fileID: 0}
-    - target: {fileID: 3869399414142826602, guid: 5eb81626008dfad4f8e6fe723ab5cf0a,
-        type: 3}
-      propertyPath: roomAmbience
-      value: 
-      objectReference: {fileID: 11400000, guid: 101408abce9d2b848a276db2589ea7e1,
-        type: 2}
     - target: {fileID: 4187861469876055000, guid: 5eb81626008dfad4f8e6fe723ab5cf0a,
         type: 3}
       propertyPath: m_LocalPosition.x
