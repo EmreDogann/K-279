@@ -1794,7 +1794,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomType: 1
+  roomAmbience: {fileID: 11400000, guid: 101408abce9d2b848a276db2589ea7e1, type: 2}
   lightFadeDuration: 0.5
+  <ActivateLightsOnRoomLoad>k__BackingField: 1
   cameraBounds: {fileID: 4480491494856283307}
   roomDoors:
   - {fileID: 8763623115018913987}
@@ -4621,7 +4623,7 @@ PrefabInstance:
     - target: {fileID: 6233086385650932308, guid: 1e89ad47699baf846aa33d89d5609cb1,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.89
+      value: -4.89
       objectReference: {fileID: 0}
     - target: {fileID: 6233086385650932308, guid: 1e89ad47699baf846aa33d89d5609cb1,
         type: 3}

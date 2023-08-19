@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using Audio;
 using MyBox;
 using RenderFeatures;
 using UnityEngine;
@@ -28,12 +30,15 @@ namespace Lights
         [SerializeField] private Color alarmColor;
         [SerializeField] private UniversalRendererData _rendererData;
 
+        [SerializeField] private AudioSO alarmSound;
+
         private LightState _currentState;
         private ScreenDitherRenderFeature _ditherRenderFeature;
 
         public static LightManager Instance { get; private set; }
 
         public static event Action<LightData> OnChangeColor;
+        public static event Action OnLightStateChange;
 
         private void Awake()
         {
@@ -56,25 +61,54 @@ namespace Lights
             }
         }
 
+        [ButtonMethod]
+        public void SetNormalState()
+        {
+            SetLightState(LightState.Normal);
+        }
+
+        [ButtonMethod]
+        public void SetAlarmState()
+        {
+            SetLightState(LightState.Alarm);
+        }
+
         public void SetLightState(LightState state)
         {
-            LightData lightData = new LightData { State = state };
-            switch (state)
+            StartCoroutine(TransitionColors());
+            OnLightStateChange?.Invoke();
+            _currentState = state;
+        }
+
+        private IEnumerator TransitionColors()
+        {
+            LightControl.OnLightControl?.Invoke(false, 0.3f);
+            yield return new WaitForSecondsRealtime(1.1f);
+            UpdateLightColor();
+            LightControl.OnLightControl?.Invoke(true, 0.3f);
+            yield return new WaitForSecondsRealtime(0.3f);
+        }
+
+        private void UpdateLightColor()
+        {
+            LightData lightData = new LightData { State = _currentState };
+            switch (_currentState)
             {
                 case LightState.Normal:
                     lightData.BgColor = Color.black;
                     lightData.FgColor = normalColor;
                     _ditherRenderFeature.SetColors(Color.black, normalColor);
+                    alarmSound.Stop(true, 0.4f);
                     break;
                 case LightState.Alarm:
                     lightData.BgColor = Color.black;
                     lightData.FgColor = alarmColor;
                     _ditherRenderFeature.SetColors(Color.black, alarmColor);
+                    alarmSound.Play2D();
                     break;
             }
 
             OnChangeColor?.Invoke(lightData);
-            _currentState = state;
         }
 
         public LightState GetLightState()

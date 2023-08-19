@@ -5,6 +5,7 @@ using System.Linq;
 using Audio;
 using Interactables;
 using Lights;
+using MyBox;
 using UnityEngine;
 
 namespace Rooms
@@ -28,9 +29,13 @@ namespace Rooms
     public class Room : MonoBehaviour
     {
         [SerializeField] private RoomType roomType;
-        [SerializeField] private float lightFadeDuration = 1.0f;
         [SerializeField] private AudioSO roomAmbience;
 
+        [Separator("Lights")]
+        [SerializeField] private float lightFadeDuration = 1.0f;
+        [field: SerializeReference] public bool ActivateLightsOnRoomLoad { get; private set; } = true;
+
+        [Separator("Room Data")]
         [SerializeField] private Collider2D cameraBounds;
         [SerializeField] private List<Door> roomDoors;
         [SerializeField] private List<RoomLight> roomLights;
@@ -131,9 +136,12 @@ namespace Rooms
 
         public void ActivateRoom(RoomType exitingRoom)
         {
-            foreach (RoomLight roomLight in roomLights)
+            if (ActivateLightsOnRoomLoad)
             {
-                roomLight.TurnOnLight(lightFadeDuration);
+                foreach (RoomLight roomLight in roomLights)
+                {
+                    roomLight.TurnOnLight(lightFadeDuration);
+                }
             }
 
             foreach (Door door in roomDoors)
