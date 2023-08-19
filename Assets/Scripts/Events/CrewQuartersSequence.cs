@@ -9,25 +9,34 @@ using Rooms;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class WakeUpSequence : MonoBehaviour {
+public class CrewQuartersSequence : MonoBehaviour {
     // Move the player into position, play Ship explosion noise, play alarm, play low oxygen voice, fade to normal.
-    private Sequence _wakeUpSequence;
+    private Sequence _bottleRollingSequence;
 
     [SerializeField]
     private Transform playerTransform;
 
     [SerializeField]
-    private Transform doorTransform;
-
-    
-    [SerializeField]
     private SubmarineSoundScape submarineSoundScape;
 
     [SerializeField]
-    private AudioSO explosionSound;
+    private AudioSO squeezeSound;
+    private float squeezeSoundVolumeOverride = 0.2f;
 
     [SerializeField]
-    private AudioSO doorOpenSound;
+    private AudioSO bottleRollSound;
+    [SerializeField]
+    private Transform bottleRollSoundTransformStart;
+    // [SerializeField]
+    // private Transform bottleRollSoundTransformEnd;
+
+    private Vector3 bottlePosition;
+
+
+    [SerializeField]
+    private AudioSO doorLockSound;
+    [SerializeField]
+    private Transform doorLockTransform;
 
     [SerializeField]
     private AudioSO lowOxygenVoiceSound;
@@ -37,21 +46,19 @@ public class WakeUpSequence : MonoBehaviour {
 
 #if UNITY_EDITOR
     [ButtonMethod]
-    public void PlayWakeUpSequence() {
-        _wakeUpSequence.Play();
+    public void PlayCrewQuartersSequenceButton() {
+        // _bottleRollingSequence.Play();
+        PlayCrewQuartersSequence();
     }
 #endif
-
+    public void PlayCrewQuartersSequence() {
+        _bottleRollingSequence.Restart();
+        // _bottleRollingSequence.Play();
+    }
     void Start() {
-        _wakeUpSequence = DOTween.Sequence();
+        _bottleRollingSequence = DOTween.Sequence();
 
-        _wakeUpSequence
-            .AppendCallback(() => { LightControl.OnLightControl?.Invoke(false, 0.0f); })
-            .AppendCallback(() => {
-                var playerTransformPosition = playerTransform.position;
-                playerTransformPosition.x = 22;
-                playerTransform.position = playerTransformPosition;
-            })
+        _bottleRollingSequence
             .AppendCallback(() => {
                 // Play ship explosion noise
                 submarineSoundScape.TriggerExplosion(true);
@@ -60,28 +67,25 @@ public class WakeUpSequence : MonoBehaviour {
             .AppendCallback(() => {
                 // Play ship explosion noise
                 // submarineSoundScape.TriggerExplosion(true);
-                explosionSound.Play(playerTransform.position);
+                // squeezeSound.Play(playerTransform.position, volumeOverride: squeezeSoundVolumeOverride);
+                bottleRollSound.Play(bottleRollSoundTransformStart.position);
             })
-            .AppendInterval(0.05f)
-            .AppendCallback(() => {
-                // Play ship explosion noise
-                submarineSoundScape.TriggerExplosion(true);
-            })
+            // .AppendInterval(0.05f)
+            // .AppendCallback(() => {
+            //     // Play ship explosion noise
+            //     submarineSoundScape.TriggerExplosion(true);
+            // })
             .AppendInterval(1.5f)
             .AppendCallback(() => {
                 // play Low Oxygen Voice
-                doorOpenSound.Play(doorTransform.position);
+                doorLockSound.Play(doorLockTransform.position, volumeOverride:0.1f);
             })
             // .AppendInterval(doorOpenSound.GetPlaybackInfo(AudioHandle.Invalid).CurrentClipDuration)
-            .AppendInterval(1.0f)
+            .AppendInterval(2.0f)
             .AppendCallback(() => {
                 lowOxygenVoiceSound.Play(playerTransform.position);
                 // Fade to normal lights
                 // LightControl.OnLightControl?.Invoke(true, 1.0f);
-            })
-            .AppendInterval(1.0f)
-            .AppendCallback(() => {
-                lightManager.SetLightState(LightState.Alarm);
             })
             .Pause();
     }

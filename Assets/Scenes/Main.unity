@@ -2098,6 +2098,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1191720812}
   - component: {fileID: 1191720811}
+  - component: {fileID: 1191720813}
   m_Layer: 0
   m_Name: Event Squence Tester
   m_TagString: Untagged
@@ -2118,9 +2119,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 1877220591}
+  doorTransform: {fileID: 9097725084458757335}
   submarineSoundScape: {fileID: 1647743933}
   explosionSound: {fileID: 11400000, guid: 7adb8ab2c64fa8b4e8a616865eed02da, type: 2}
-  lowOxygenVoice: {fileID: 11400000, guid: c9dac489cc734a349a3372f28ee971dc, type: 2}
+  doorOpenSound: {fileID: 11400000, guid: c9dac489cc734a349a3372f28ee971dc, type: 2}
+  lowOxygenVoiceSound: {fileID: 11400000, guid: 9231e464731f69f42aa25b0837139370,
+    type: 2}
   lightManager: {fileID: 344802097}
 --- !u!4 &1191720812
 Transform:
@@ -2137,6 +2141,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1191720813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191720810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea082d5a82934b31aa4f26fb2a4a9da9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 1877220591}
+  submarineSoundScape: {fileID: 1647743933}
+  squeezeSound: {fileID: 11400000, guid: 3a49dfecee8167e4f95ea1d67e70cb31, type: 2}
+  bottleRollSound: {fileID: 11400000, guid: 3afdd7608c8b92844a5c4b769f76675a, type: 2}
+  bottleRollSoundTransformStart: {fileID: 1782972559}
+  doorLockSound: {fileID: 11400000, guid: b9ca5840e6e7af642bcf1e2047ac97db, type: 2}
+  doorLockTransform: {fileID: 1684460082}
+  lowOxygenVoiceSound: {fileID: 11400000, guid: 9231e464731f69f42aa25b0837139370,
+    type: 2}
+  lightManager: {fileID: 344802097}
 --- !u!114 &1440051791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3192,6 +3218,12 @@ MonoBehaviour:
   Response:
     m_PersistentCalls:
       m_Calls: []
+--- !u!4 &1684460082 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4098929572471512073, guid: aa73b14c5646fa14bb811c1d8cd21d63,
+    type: 3}
+  m_PrefabInstance: {fileID: 5886207161442917513}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1696038383
 GameObject:
   m_ObjectHideFlags: 0
@@ -3280,6 +3312,37 @@ MonoBehaviour:
   cancelButton: {fileID: 1623940737}
   textAnimationSpeed: 30
   pauseEvent: {fileID: 11400000, guid: c4e820fd8becde94d91f53738c352eaa, type: 2}
+--- !u!1 &1782972558
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1782972559}
+  m_Layer: 0
+  m_Name: BottleRollStartTransformEmpty
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1782972559
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782972558}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 22.5, y: 3.21, z: -3.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6315560507248462319}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1786696537
 GameObject:
   m_ObjectHideFlags: 0
@@ -4658,9 +4721,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Room_CrewQuarters
       objectReference: {fileID: 0}
+    - target: {fileID: 9037040855302016514, guid: aa73b14c5646fa14bb811c1d8cd21d63,
+        type: 3}
+      propertyPath: m_Name
+      value: CrewQuartersMiscDoorsEmpty
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3496826348474721668, guid: aa73b14c5646fa14bb811c1d8cd21d63,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1782972559}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa73b14c5646fa14bb811c1d8cd21d63, type: 3}
 --- !u!1001 &6003331836911324644
@@ -4958,6 +5030,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5eb81626008dfad4f8e6fe723ab5cf0a, type: 3}
+--- !u!4 &9097725084458757335 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1609577600583920184, guid: 5eb81626008dfad4f8e6fe723ab5cf0a,
+    type: 3}
+  m_PrefabInstance: {fileID: 9097725084458757334}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
