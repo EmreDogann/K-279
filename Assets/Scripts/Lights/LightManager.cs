@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Audio;
 using MyBox;
 using RenderFeatures;
 using UnityEngine;
@@ -28,6 +29,8 @@ namespace Lights
         [SerializeField] private Color normalColor;
         [SerializeField] private Color alarmColor;
         [SerializeField] private UniversalRendererData _rendererData;
+
+        [SerializeField] private AudioSO alarmSound;
 
         private LightState _currentState;
         private ScreenDitherRenderFeature _ditherRenderFeature;
@@ -95,11 +98,13 @@ namespace Lights
                     lightData.BgColor = Color.black;
                     lightData.FgColor = normalColor;
                     _ditherRenderFeature.SetColors(Color.black, normalColor);
+                    alarmSound.Stop(true, 0.4f);
                     break;
                 case LightState.Alarm:
                     lightData.BgColor = Color.black;
                     lightData.FgColor = alarmColor;
                     _ditherRenderFeature.SetColors(Color.black, alarmColor);
+                    alarmSound.Play2D();
                     break;
             }
 
