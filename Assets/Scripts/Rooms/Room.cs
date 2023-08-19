@@ -114,6 +114,7 @@ namespace Rooms
 
         public void ActivateRoom()
         {
+            // TODO : Why not just use roomDoors[0]?
             // Uses first room
             foreach (Door door in roomDoors)
             {
