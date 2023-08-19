@@ -5,8 +5,8 @@
 # Visit the [itch.io page](https://emredogan.itch.io/the-light-of-day) for more information!
 
 ## Controls
-A-D -> Move left and right
-E -> Interact
+A-D -> Move left and right  
+E -> Interact  
 Space -> Draw weapon & shoot
 
 ## Authors
