@@ -1141,7 +1141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomType: 3
+  roomAmbience: {fileID: 11400000, guid: 101408abce9d2b848a276db2589ea7e1, type: 2}
   lightFadeDuration: 0.5
+  <ActivateLightsOnRoomLoad>k__BackingField: 1
   cameraBounds: {fileID: 8370121100718409622}
   roomDoors:
   - {fileID: 2127869017336334500}
@@ -3706,8 +3708,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2687446678122933772, guid: 303f159a3e9295844b8c141f9f1411a0,
         type: 3}
+      propertyPath: isInspectable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2687446678122933772, guid: 303f159a3e9295844b8c141f9f1411a0,
+        type: 3}
       propertyPath: connectingRoom
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2687446678122933772, guid: 303f159a3e9295844b8c141f9f1411a0,
+        type: 3}
+      propertyPath: inspectMessage
+      value: The wheel is missing...
       objectReference: {fileID: 0}
     - target: {fileID: 3567890794709096586, guid: 303f159a3e9295844b8c141f9f1411a0,
         type: 3}
@@ -3717,7 +3729,7 @@ PrefabInstance:
     - target: {fileID: 3567890794709096586, guid: 303f159a3e9295844b8c141f9f1411a0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -4169,7 +4181,27 @@ PrefabInstance:
     - target: {fileID: 3567890794709096586, guid: 303f159a3e9295844b8c141f9f1411a0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191333071271170597, guid: 303f159a3e9295844b8c141f9f1411a0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.21031131
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191333071271170597, guid: 303f159a3e9295844b8c141f9f1411a0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.04288443
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191333071271170597, guid: 303f159a3e9295844b8c141f9f1411a0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.95700055
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191333071271170597, guid: 303f159a3e9295844b8c141f9f1411a0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.1951413
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

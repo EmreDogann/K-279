@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using MyBox;
 using RenderFeatures;
 using UnityEngine;
@@ -34,6 +35,7 @@ namespace Lights
         public static LightManager Instance { get; private set; }
 
         public static event Action<LightData> OnChangeColor;
+        public static event Action OnLightStateChange;
 
         private void Awake()
         {
@@ -56,10 +58,38 @@ namespace Lights
             }
         }
 
+        [ButtonMethod]
+        public void SetNormalState()
+        {
+            SetLightState(LightState.Normal);
+        }
+
+        [ButtonMethod]
+        public void SetAlarmState()
+        {
+            SetLightState(LightState.Alarm);
+        }
+
         public void SetLightState(LightState state)
         {
-            LightData lightData = new LightData { State = state };
-            switch (state)
+            StartCoroutine(TransitionColors());
+            OnLightStateChange?.Invoke();
+            _currentState = state;
+        }
+
+        private IEnumerator TransitionColors()
+        {
+            LightControl.OnLightControl?.Invoke(false, 0.3f);
+            yield return new WaitForSecondsRealtime(1.1f);
+            UpdateLightColor();
+            LightControl.OnLightControl?.Invoke(true, 0.3f);
+            yield return new WaitForSecondsRealtime(0.3f);
+        }
+
+        private void UpdateLightColor()
+        {
+            LightData lightData = new LightData { State = _currentState };
+            switch (_currentState)
             {
                 case LightState.Normal:
                     lightData.BgColor = Color.black;
@@ -74,7 +104,6 @@ namespace Lights
             }
 
             OnChangeColor?.Invoke(lightData);
-            _currentState = state;
         }
 
         public LightState GetLightState()
