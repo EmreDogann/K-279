@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 
 // Flashing Light Script using Tween to Sequence. Works with any light as it simply Tweens between intensity.
@@ -24,6 +25,14 @@ public class FlashingLight : MonoBehaviour {
     private float oneCycleDuration = 1.0f;
 
     [SerializeField]
+    [Tooltip("The min intensities will randomly add onto the set minIntensity to achieve a variation")]
+    private float minVariation = 0.0f;
+
+    [SerializeField]
+    [Tooltip("The max intensities will randomly add onto the set maxIntensity to achieve a variation")]
+    private float maxVariation = 0.0f;
+
+    [SerializeField]
     [Tooltip("Easing of the light")]
     private Ease easeType = Ease.OutFlash; // Outflash gives a heart beat type feel
 
@@ -37,10 +46,13 @@ public class FlashingLight : MonoBehaviour {
         _flashingLightLoop = DOTween.Sequence();
         // Set to minimum
         _light.intensity = minIntensity;
-        // Set sequence to go max and then min, set infinite looping, set ease type
+        // Set sequence to go max and then min, with random range in between, set infinite looping, set ease type
+
         _flashingLightLoop
-            .Append(_light.DOIntensity(maxIntensity, oneCycleDuration / 2))
-            .Append(_light.DOIntensity(minIntensity, oneCycleDuration / 2))
+            .AppendCallback(LightToMax)
+            .AppendInterval(oneCycleDuration / 2.0f)
+            .AppendCallback(LightToMin)
+            .AppendInterval(oneCycleDuration / 2.0f)
             .SetLoops(-1)
             .SetEase(easeType);
     }
@@ -50,7 +62,11 @@ public class FlashingLight : MonoBehaviour {
         _flashingLightLoop.Play();
     }
 
-    // Update is called once per frame
-    void Update() {
+    void LightToMax() {
+        _light.DOIntensity(Random.Range(maxIntensity, maxIntensity + maxVariation), oneCycleDuration / 2);
+    }
+
+    void LightToMin() {
+        _light.DOIntensity(Random.Range(minIntensity, minIntensity + minVariation), oneCycleDuration / 2);
     }
 }
