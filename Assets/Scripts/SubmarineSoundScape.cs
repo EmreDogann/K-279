@@ -144,22 +144,27 @@ public class SubmarineSoundScape : MonoBehaviour
     }
 
     [ButtonMethod]
-    public void TriggerSqueeze()
+    public void TriggerSqueeze(bool shouldShake)
     {
         submarineSqueeze.TriggerAudio(_player.transform.position, impulseListener);
     }
 
     [ButtonMethod]
-    public void TriggerSonar()
+    public void TriggerSonar(bool shouldShake)
     {
         sonar.TriggerAudio(_player.transform.position, impulseListener);
     }
 
     [ButtonMethod]
-    public void TriggerExplosion()
+    private void TriggerExplosionWithShake()
+    {
+        TriggerExplosion(true);
+    }
+
+    public void TriggerExplosion(bool shouldShake)
     {
         explosion.TriggerAudio(_player.transform.position, impulseListener);
-        if (Random.Range(0.0f, 1.0f) <= 0.5f)
+        if (shouldShake && Random.Range(0.0f, 1.0f) <= 0.5f)
         {
             StartCoroutine(ForcePlaySoundScape(submarineSqueeze, Random.Range(0.0f, 0.5f), _player.transform.position));
         }
