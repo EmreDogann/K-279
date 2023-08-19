@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762bf881f78a96948805b51818ab07d3, type: 3}
+  m_Name: Gunshot
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 634e0d3636aa84c40a0e686207b553e1, type: 3}
+  - {fileID: 8300000, guid: d7dfae20cf5df2b46baa0c988bc91525, type: 3}
+  - {fileID: 8300000, guid: 6a7509186464ba44fa8d360e4ee62d24, type: 3}
+  audioMixer: {fileID: 24300002, guid: 7fe1db268aad06940860274baea04931, type: 2}
+  volume:
+    Min: 0.5
+    Max: 0.5
+  useSemitones: 0
+  semitones:
+    Min: -1
+    Max: 1
+  pitch:
+    Min: 0.92033637
+    Max: 1.0796636
+  Looping: 0
+  CanBePaused: 0
+  playOrder: 0
+  currentPlayIndex: 0
+  audioEvent: {fileID: 11400000, guid: 3a82661986ebc2547842647dc3405e87, type: 2}

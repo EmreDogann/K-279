@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bec05668a7334249bc92239d15340033, type: 3}
   m_Name: Gunshot Shake
   m_EditorClassIdentifier: 
-  impactTime: 0.2
-  impactForce: 1
-  defaultVelocity: {x: 0, y: -1, z: 0}
-  listenerAmplitude: 1
-  listenerFrequency: 1
+  impactTime: 0.1
+  impactForce: 0.3
+  defaultVelocity: {x: -1, y: 0, z: 0}
+  listenerAmplitude: 2
+  listenerFrequency: 3
   listenerDuration: 1

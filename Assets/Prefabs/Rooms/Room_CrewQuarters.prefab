@@ -1780,6 +1780,7 @@ Transform:
   - {fileID: 6391738541509392911}
   - {fileID: 4111489728081278231}
   - {fileID: 4098929572471512073}
+  - {fileID: 3053351659219616180}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &8992396055770404985
@@ -1801,7 +1802,7 @@ MonoBehaviour:
     useOriginalAudioVolume: 0
     connectingRoomVolume: 0
   lightFadeDuration: 0.5
-  <ActivateLightsOnRoomLoad>k__BackingField: 1
+  <LightsOn>k__BackingField: 1
   cameraBounds: {fileID: 4480491494856283307}
   roomDoors:
   - {fileID: 8763623115018913987}
@@ -4296,7 +4297,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4098929572471512073}
   m_Layer: 0
-  m_Name: CrewQuartersMiscDoors
+  m_Name: CrewQuartersMiscDoorsEmpty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4512,6 +4513,37 @@ Transform:
   - {fileID: 1532678087850331376}
   - {fileID: 7950440877390544639}
   m_Father: {fileID: 4471207508982193581}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9204836342639248561
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3053351659219616180}
+  m_Layer: 0
+  m_Name: BottleRollStartTransformEmpty
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3053351659219616180
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9204836342639248561}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 22.5, y: 3.21, z: -3.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3496826348474721668}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1299457040224582491
 PrefabInstance:

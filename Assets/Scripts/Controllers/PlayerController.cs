@@ -9,7 +9,6 @@ namespace Controllers
         private PlayerInput _playerInput;
         private InputAction _moveAction;
         private InputAction _fireAction;
-        private InputAction _aimAction;
         private InputAction _interactAction;
 
         public override void SetPlayerInput(PlayerInput playerInput)
@@ -17,7 +16,6 @@ namespace Controllers
             _playerInput = playerInput;
             _moveAction = _playerInput.actions["Move"];
             _fireAction = _playerInput.actions["Fire"];
-            _aimAction = _playerInput.actions["Aim"];
             _interactAction = _playerInput.actions["Interact"];
         }
 

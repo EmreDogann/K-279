@@ -24,15 +24,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Aim",
-                    "type": "Button",
-                    "id": "9d248d03-7ce7-42ea-8c9c-899104022375",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Interact",
                     "type": "Button",
                     "id": "28deac89-8e94-4a1d-8040-468d7aabba5b",
@@ -128,28 +119,6 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9f58953a-4efa-464d-8b99-8dcb8111b6aa",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Aim",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c7d16c06-a843-4a69-bcdd-c41d7fa52a0f",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

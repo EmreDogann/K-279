@@ -1147,13 +1147,13 @@ MonoBehaviour:
     useOriginalAudioVolume: 1
     connectingRoomVolume: 0
   lightFadeDuration: 0.5
-  <ActivateLightsOnRoomLoad>k__BackingField: 1
+  <LightsOn>k__BackingField: 1
   cameraBounds: {fileID: 8370121100718409622}
   roomDoors:
-  - {fileID: 2127869017336334500}
-  - {fileID: 3925585430190723228}
-  - {fileID: 1336448757566636730}
   - {fileID: 1008197029923335148}
+  - {fileID: 2127869017336334500}
+  - {fileID: 1336448757566636730}
+  - {fileID: 3925585430190723228}
   roomLights:
   - {fileID: 5278270464609212547}
   - {fileID: 8713618409374588010}
