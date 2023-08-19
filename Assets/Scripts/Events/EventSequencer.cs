@@ -25,6 +25,9 @@ public class EventSequencer : MonoBehaviour {
     [SerializeField]
     private AudioSO lowOxygenVoice;
 
+    [SerializeField]
+    private LightManager lightManager;
+    
 #if UNITY_EDITOR
     [ButtonMethod]
     public void PlayWakeUpSequence() {
@@ -49,10 +52,11 @@ public class EventSequencer : MonoBehaviour {
             })
             .AppendCallback(() => {
                 // Play ship explosion noise
-                submarineSoundScape.TriggerExplosion();
-                alarmSound.Play();
+                submarineSoundScape.TriggerExplosion(true);
             })
+            .AppendInterval(1.5f)
             .AppendCallback(() => {
+                lightManager.SetLightState(LightState.Alarm);
                 // play Low Oxygen Voice
                 lowOxygenVoice.Play();
             })
