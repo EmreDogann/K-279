@@ -29,7 +29,7 @@ namespace Rooms
     public class Room : MonoBehaviour
     {
         [SerializeField] private RoomType roomType;
-        [SerializeField] private AudioSO roomAmbience;
+        [SerializeField] private List<AudioSO> roomAmbiences;
 
         [Separator("Lights")]
         [SerializeField] private float lightFadeDuration = 1.0f;
@@ -130,7 +130,10 @@ namespace Rooms
                 break;
             }
 
-            roomAmbience.Play2D(false, 2.0f);
+            foreach (AudioSO roomAmbience in roomAmbiences)
+            {
+                roomAmbience.Play2D(false, 2.0f);
+            }
         }
 
         public void ActivateRoom(RoomType exitingRoom)
@@ -160,7 +163,10 @@ namespace Rooms
                 break;
             }
 
-            roomAmbience.Play2D(false, 2.0f);
+            foreach (AudioSO roomAmbience in roomAmbiences)
+            {
+                roomAmbience.Play2D(false, 2.0f);
+            }
         }
 
         public Coroutine DeactivateRoom(RoomType exitingRoom)
@@ -180,7 +186,11 @@ namespace Rooms
                 break;
             }
 
-            roomAmbience.Stop(AudioHandle.Invalid, false, 2.0f);
+            foreach (AudioSO roomAmbience in roomAmbiences)
+            {
+                roomAmbience.Stop(AudioHandle.Invalid, false, 2.0f);
+            }
+
 
             return StartCoroutine(WaitForLightsOff(lightFadeDuration));
         }
