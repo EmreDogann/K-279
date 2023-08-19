@@ -19,7 +19,7 @@ namespace Rooms
         private List<Room> _rooms;
         private Room _currentRoom;
 
-        private void Awake()
+        private void Start()
         {
             _rooms = FindObjectsOfType<MonoBehaviour>(true)
                 .OfType<Room>()
