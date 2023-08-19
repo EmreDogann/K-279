@@ -1,0 +1,548 @@
+fileFormatVersion: 2
+guid: a010c9cb6050c3b42bbf72b7afa99439
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  textureImporterSettings:
+    alphaSource: 1
+    mipMapMode: 0
+    enableMipMap: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+    convertToNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+    swizzle: 50462976
+    isReadable: 0
+    streamingMipmaps: 0
+    streamingMipmapsPriority: 0
+    vTOnly: 0
+    ignoreMipmapLimit: 0
+    nPOTScale: 1
+    sRGBTexture: 1
+    spriteMode: 2
+    spriteExtrude: 1
+    spriteMeshType: 1
+    alignment: 0
+    spritePivot: {x: 0.5, y: 0.5}
+    spritePixelsToUnits: 12
+    spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+    spriteGenerateFallbackPhysicsShape: 0
+    generateCubemap: 6
+    cubemapConvolution: 0
+    seamlessCubemap: 0
+    alphaIsTransparency: 1
+    spriteTessellationDetail: -1
+    textureType: 8
+    textureShape: 1
+    singleChannelComponent: 0
+    flipbookRows: 0
+    flipbookColumns: 0
+    ignorePngGamma: 0
+    cookieMode: 0
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+    normalMap: 0
+    textureFormat: 0
+    maxTextureSize: 0
+    lightmap: 0
+    compressionQuality: 0
+    linearTexture: 0
+    grayScaleToAlpha: 0
+    rGBM: 0
+    cubemapConvolutionSteps: 0
+    cubemapConvolutionExponent: 0
+    maxTextureSizeSet: 0
+    compressionQualitySet: 0
+    textureFormatSet: 0
+    applyGammaDecoding: 0
+  previousAsepriteImporterSettings:
+    fileImportMode: 1
+    importHiddenLayers: 0
+    layerImportMode: 1
+    defaultPivotSpace: 0
+    defaultPivotAlignment: 7
+    customPivotPosition: {x: 0.5, y: 0.5}
+    spritePadding: 0
+    generateModelPrefab: 1
+    generateAnimationClips: 1
+    addSortingGroup: 1
+    addShadowCasters: 0
+  asepriteImporterSettings:
+    fileImportMode: 1
+    importHiddenLayers: 0
+    layerImportMode: 1
+    defaultPivotSpace: 0
+    defaultPivotAlignment: 7
+    customPivotPosition: {x: 0.5, y: 0.5}
+    spritePadding: 0
+    generateModelPrefab: 1
+    generateAnimationClips: 1
+    addSortingGroup: 1
+    addShadowCasters: 0
+  importFileNodeState: 1
+  platformSettingsDirtyTick: 638276525185991665
+  textureAssetName: 
+  singleSpriteImportData:
+  - name: 
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    spriteID: 
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  animatedSpriteImportData:
+  - name: EnemyDeathAnim_Frame_0
+    originalName: 
+    pivot: {x: 0.19999999, y: -0.015625}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 138
+      width: 25
+      height: 64
+    spriteID: dd205cd0077e3f74da09f43de088a9b2
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 138}
+  - name: EnemyDeathAnim_Frame_1
+    originalName: 
+    pivot: {x: 0.038461536, y: -0.015873017}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 67
+      width: 26
+      height: 63
+    spriteID: c0ef5a17c3d103e4d9001c4ccab818b9
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 67}
+  - name: EnemyDeathAnim_Frame_2
+    originalName: 
+    pivot: {x: 0.043478258, y: -0.016129032}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 58
+      y: 46
+      width: 23
+      height: 62
+    spriteID: 44f0146daacdb39469b6d7a7dd3f1234
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 58, y: 46}
+  - name: EnemyDeathAnim_Frame_3
+    originalName: 
+    pivot: {x: 0.34782606, y: 0.036363635}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 46
+      height: 55
+    spriteID: 9e7c76ea60f316843ad265b2b00f71df
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 4}
+  - name: EnemyDeathAnim_Frame_4
+    originalName: 
+    pivot: {x: 0.5, y: -0.05882353}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 58
+      y: 4
+      width: 62
+      height: 34
+    spriteID: 510b4872cf4a49b448ed008d8485d13e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 58, y: 4}
+  - name: EnemyDeathAnim_Frame_5
+    originalName: 
+    pivot: {x: 0.47222224, y: -0.11111111}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 4
+      width: 72
+      height: 18
+    spriteID: d87ad1b0b06fdbe49833467a03f181f4
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 128, y: 4}
+  - name: EnemyDeathAnim_Frame_6
+    originalName: 
+    pivot: {x: 0.47945204, y: -0.2}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 89
+      y: 46
+      width: 73
+      height: 10
+    spriteID: ee5f827f6f3304344b7c717694e8dc94
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 89, y: 46}
+  - name: EnemyDeathAnim_Frame_7
+    originalName: 
+    pivot: {x: 0.65999997, y: -0.22222222}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 170
+      y: 46
+      width: 50
+      height: 9
+    spriteID: 82ef69e19f3819c4eb2ae7b42d5549e8
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 170, y: 46}
+  - name: EnemyDeathAnim_Frame_8
+    originalName: 
+    pivot: {x: 0.6956522, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 210
+      width: 46
+      height: 14
+    spriteID: a7ef25bd0d9810749a17592fcb3f77b4
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 210}
+  - name: EnemyDeathAnim_Frame_9
+    originalName: 
+    pivot: {x: 0.67346936, y: -0.54545456}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 89
+      y: 64
+      width: 49
+      height: 11
+    spriteID: c53b93c625ed26a4c8bf7661e56fe844
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 89, y: 64}
+  - name: EnemyDeathAnim_Frame_10
+    originalName: 
+    pivot: {x: 0.6603774, y: -1.7142857}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 128
+      y: 30
+      width: 53
+      height: 7
+    spriteID: a8eab825a3e7c3840b8cfbf5eabac415
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 128, y: 30}
+  - name: EnemyDeathAnim_Frame_11
+    originalName: 
+    pivot: {x: 0.6545454, y: -2.142857}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 146
+      y: 64
+      width: 55
+      height: 7
+    spriteID: 3a2b644a6ab9a4645917f821f2095e09
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 146, y: 64}
+  - name: EnemyDeathAnim_Frame_12
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 228
+      y: 46
+      width: 0
+      height: 0
+    spriteID: bbf6e4d77b2d0c649b58f1936bdf63a6
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 128, y: -54}
+  spriteSheetImportData: []
+  asepriteLayers:
+  - layerIndex: 0
+    guid: -1198552311
+    name: EnemyDeathAnim
+    layerFlags: 0
+    layerType: 0
+    blendMode: 0
+    cells:
+    - name: EnemyDeathAnim_Frame_0
+      frameIndex: 0
+      cellRect:
+        x: 34
+        y: 1
+        width: 25
+        height: 64
+      spriteId: dd205cd0077e3f74da09f43de088a9b2
+    - name: EnemyDeathAnim_Frame_1
+      frameIndex: 1
+      cellRect:
+        x: 38
+        y: 1
+        width: 26
+        height: 63
+      spriteId: c0ef5a17c3d103e4d9001c4ccab818b9
+    - name: EnemyDeathAnim_Frame_2
+      frameIndex: 2
+      cellRect:
+        x: 38
+        y: 1
+        width: 23
+        height: 62
+      spriteId: 44f0146daacdb39469b6d7a7dd3f1234
+    - name: EnemyDeathAnim_Frame_3
+      frameIndex: 3
+      cellRect:
+        x: 23
+        y: -2
+        width: 46
+        height: 55
+      spriteId: 9e7c76ea60f316843ad265b2b00f71df
+    - name: EnemyDeathAnim_Frame_4
+      frameIndex: 4
+      cellRect:
+        x: 8
+        y: 2
+        width: 62
+        height: 34
+      spriteId: 510b4872cf4a49b448ed008d8485d13e
+    - name: EnemyDeathAnim_Frame_5
+      frameIndex: 5
+      cellRect:
+        x: 5
+        y: 2
+        width: 72
+        height: 18
+      spriteId: d87ad1b0b06fdbe49833467a03f181f4
+    - name: EnemyDeathAnim_Frame_6
+      frameIndex: 6
+      cellRect:
+        x: 4
+        y: 2
+        width: 73
+        height: 10
+      spriteId: ee5f827f6f3304344b7c717694e8dc94
+    - name: EnemyDeathAnim_Frame_7
+      frameIndex: 7
+      cellRect:
+        x: 6
+        y: 2
+        width: 50
+        height: 9
+      spriteId: 82ef69e19f3819c4eb2ae7b42d5549e8
+    - name: EnemyDeathAnim_Frame_8
+      frameIndex: 8
+      cellRect:
+        x: 7
+        y: 0
+        width: 46
+        height: 14
+      spriteId: a7ef25bd0d9810749a17592fcb3f77b4
+    - name: EnemyDeathAnim_Frame_9
+      frameIndex: 9
+      cellRect:
+        x: 6
+        y: 6
+        width: 49
+        height: 11
+      spriteId: c53b93c625ed26a4c8bf7661e56fe844
+    - name: EnemyDeathAnim_Frame_10
+      frameIndex: 10
+      cellRect:
+        x: 4
+        y: 12
+        width: 53
+        height: 7
+      spriteId: a8eab825a3e7c3840b8cfbf5eabac415
+    - name: EnemyDeathAnim_Frame_11
+      frameIndex: 11
+      cellRect:
+        x: 3
+        y: 15
+        width: 55
+        height: 7
+      spriteId: 3a2b644a6ab9a4645917f821f2095e09
+    - name: EnemyDeathAnim_Frame_12
+      frameIndex: 12
+      cellRect:
+        x: 0
+        y: -32
+        width: 100
+        height: 100
+      spriteId: bbf6e4d77b2d0c649b58f1936bdf63a6
+    linkedCells: []
+    parentIndex: -1
+  platformSettings:
+  - name: DefaultTexturePlatform
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Standalone
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Server
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: WebGL
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  secondarySpriteTextures: []
+  spritePackingTag: 
+  canvasSize: {x: 78, y: 65}

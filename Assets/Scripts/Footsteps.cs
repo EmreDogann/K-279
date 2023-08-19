@@ -5,6 +5,7 @@ public class Footsteps : MonoBehaviour
 {
     [SerializeField] private LayerMask collisionDetectionLayerMask;
     [SerializeField] private float collisionRadius;
+    [SerializeField] private bool play3D;
 
     private RaycastHit _hit;
 
@@ -17,7 +18,14 @@ public class Footsteps : MonoBehaviour
         {
             if (_hit.transform.TryGetComponent(out ISteppable component))
             {
-                component.GetSurfaceData().surfaceSound.Play2D();
+                if (!play3D)
+                {
+                    component.GetSurfaceData().surfaceSound.Play2D();
+                }
+                else
+                {
+                    component.GetSurfaceData().surfaceSound.Play(transform.position);
+                }
             }
         }
     }

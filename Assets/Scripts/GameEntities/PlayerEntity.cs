@@ -26,7 +26,7 @@ namespace GameEntities
         public void Died()
         {
             Debug.Log("PlayerDead");
-            gameObject.SetActive(false);
+            // gameObject.SetActive(false);
             PlayerDeathEvent?.Invoke();
         }
 

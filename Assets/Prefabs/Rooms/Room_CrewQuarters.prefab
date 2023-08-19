@@ -3042,7 +3042,7 @@ GameObject:
   m_Component:
   - component: {fileID: 451212626406683752}
   - component: {fileID: 5905898266564987270}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Right Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3712,7 +3712,7 @@ GameObject:
   m_Component:
   - component: {fileID: 790924643517901440}
   - component: {fileID: 3242519868915040551}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Left Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4172,7 +4172,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4111489728081278231}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wall Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}

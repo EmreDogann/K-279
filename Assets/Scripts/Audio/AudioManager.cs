@@ -1,11 +1,14 @@
+using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using Events;
 using MyBox;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Audio
 {
+    [Serializable]
     public class AudioEmitter
     {
         public bool CanPause;
@@ -13,6 +16,11 @@ namespace Audio
         public float DefaultSpatialBlend;
         public AudioSource Source;
         public GameObject AttachedGameObject;
+
+        public bool IsFinishedPlaying()
+        {
+            return !Source.isPlaying && !IsPaused;
+        }
     }
 
     public class AudioManager : MonoBehaviour
@@ -27,11 +35,15 @@ namespace Audio
         [SerializeField] private BoolEventListener onPauseEvent;
 
         private List<AudioEmitter> _audioEmitters;
-        private List<AudioHandle> _audioHandles;
+        // private List<AudioHandle> _audioHandles;
         private AudioEmitter _musicEmitter;
         private AudioSource _musicEmitterCrossFade;
         private AudioSource _musicEmitterTransition;
 
+        private readonly Dictionary<AudioHandle, AudioEmitter> _handleToEmitter =
+            new Dictionary<AudioHandle, AudioEmitter>();
+
+        private readonly List<AudioHandle> _removals = new List<AudioHandle>();
         private int _currentAudioSourceIndex;
 
         private void Awake()
@@ -44,10 +56,10 @@ namespace Audio
             }
 
             _audioEmitters = new List<AudioEmitter>();
-            _audioHandles = new List<AudioHandle>();
+            // _audioHandles = new List<AudioHandle>();
             _musicEmitter = null;
-            _musicEmitterCrossFade = Instantiate(audioSourcePrefab, transform).GetComponent<AudioSource>();
-            _musicEmitterTransition = Instantiate(audioSourcePrefab, transform).GetComponent<AudioSource>();
+            // _musicEmitterCrossFade = Instantiate(audioSourcePrefab, transform).GetComponent<AudioSource>();
+            // _musicEmitterTransition = Instantiate(audioSourcePrefab, transform).GetComponent<AudioSource>();
 
             for (int i = 0; i < audioSourcePoolSize; i++)
             {
@@ -65,6 +77,7 @@ namespace Audio
             sfxAudioChannel.OnAudioPlayAttached += PlaySoundEffectAttached;
             sfxAudioChannel.OnAudioStop += StopSoundEffect;
             sfxAudioChannel.OnAudioFade += FadeSoundEffect;
+            sfxAudioChannel.OnAudioGetState += GetStateSoundEffect;
 
             musicAudioChannel.OnAudioPlay += PlayMusic;
             musicAudioChannel.OnAudioPlay2D += PlayMusic2D;
@@ -81,6 +94,7 @@ namespace Audio
             sfxAudioChannel.OnAudioPlay2D -= PlaySoundEffect2D;
             sfxAudioChannel.OnAudioPlayAttached -= PlaySoundEffectAttached;
             sfxAudioChannel.OnAudioStop -= StopSoundEffect;
+            sfxAudioChannel.OnAudioGetState -= GetStateSoundEffect;
             sfxAudioChannel.OnAudioFade -= FadeSoundEffect;
 
             musicAudioChannel.OnAudioPlay -= PlayMusic;
@@ -99,27 +113,103 @@ namespace Audio
                     emitter.Source.transform.position = emitter.AttachedGameObject.transform.position;
                 }
             }
-        }
 
-        private void OnGameEnd(bool didWin)
-        {
-            for (int i = _audioHandles.Count - 1; i >= 0; i--)
+            foreach (var entry in _handleToEmitter)
             {
-                StopSoundEffect(_audioHandles[i], new SoundFade
+                if (entry.Value.IsFinishedPlaying())
                 {
-                    Duration = 3.0f,
-                    FadeType = FadeType.FadeOut,
-                    Volume = 0.0f
-                });
+                    _removals.Add(entry.Key);
+                }
             }
 
-            StopMusic(AudioHandle.Invalid, new SoundFade
+            foreach (AudioHandle removal in _removals)
             {
-                Duration = 3.0f,
-                FadeType = FadeType.FadeOut,
-                Volume = 0.0f
-            });
+                removal.MarkStale();
+                _handleToEmitter.Remove(removal);
+            }
+
+            if (_removals.Count > 0)
+            {
+                _removals.Clear();
+            }
         }
+
+        private void OnPauseEvent(bool isPaused)
+        {
+            foreach (AudioEmitter emitter in _audioEmitters)
+            {
+                if (isPaused)
+                {
+                    if (emitter.CanPause && emitter.Source.isPlaying)
+                    {
+                        emitter.Source.Pause();
+                        emitter.IsPaused = true;
+                    }
+                }
+                else
+                {
+                    if (emitter.IsPaused)
+                    {
+                        emitter.Source.Play();
+                        emitter.IsPaused = false;
+                    }
+                }
+            }
+
+            if (_musicEmitter != null && _musicEmitter.CanPause && _musicEmitter.Source.isPlaying)
+            {
+                if (isPaused)
+                {
+                    _musicEmitter.Source.Pause();
+                }
+                else
+                {
+                    _musicEmitter.Source.Play();
+                }
+
+                _musicEmitter.IsPaused = isPaused;
+            }
+        }
+
+        // private void OnGameEnd(bool didWin)
+        // {
+        //     for (int i = _audioHandles.Count - 1; i >= 0; i--)
+        //     {
+        //         StopSoundEffect(_audioHandles[i], new SoundFade
+        //         {
+        //             Duration = 3.0f,
+        //             FadeType = FadeType.FadeOut,
+        //             Volume = 0.0f
+        //         });
+        //     }
+        //
+        //     StopMusic(AudioHandle.Invalid, new SoundFade
+        //     {
+        //         Duration = 3.0f,
+        //         FadeType = FadeType.FadeOut,
+        //         Volume = 0.0f
+        //     });
+        // }
+
+        private AudioStateInfo GetStateSoundEffect(AudioHandle handle)
+        {
+            if (!_handleToEmitter.ContainsKey(handle))
+            {
+                return null;
+            }
+
+            AudioEmitter emitter = _handleToEmitter[handle];
+
+            return new AudioStateInfo
+            {
+                IsPlaying = emitter.Source.isPlaying,
+                IsPaused = emitter.IsPaused,
+                CurrentPlayTime = emitter.Source.time,
+                PlaybackPosition = emitter.Source.transform.position
+            };
+        }
+
+        #region Play Sound Effect
 
         public AudioHandle PlaySoundEffect2D(AudioSO audioObj, AudioEventData audioEventData)
         {
@@ -149,7 +239,7 @@ namespace Audio
             }
 
             AudioHandle handle = new AudioHandle(_currentAudioSourceIndex, audioObj);
-            _audioHandles.Add(handle);
+            _handleToEmitter.TryAdd(handle, emitter);
 
             return handle;
         }
@@ -182,7 +272,7 @@ namespace Audio
             }
 
             AudioHandle handle = new AudioHandle(_currentAudioSourceIndex, audioObj);
-            _audioHandles.Add(handle);
+            _handleToEmitter.TryAdd(handle, emitter);
 
             return handle;
         }
@@ -214,10 +304,14 @@ namespace Audio
             }
 
             AudioHandle handle = new AudioHandle(_currentAudioSourceIndex, audioObj);
-            _audioHandles.Add(handle);
+            _handleToEmitter.TryAdd(handle, emitter);
 
             return handle;
         }
+
+        #endregion
+
+        #region Play Music
 
         public AudioHandle PlayMusic2D(AudioSO audioObj, AudioEventData audioEventData)
         {
@@ -293,32 +387,35 @@ namespace Audio
             return AudioHandle.Invalid;
         }
 
+        #endregion
+
+        #region Stop Sound
+
         public bool StopSoundEffect(AudioHandle handle, SoundFade soundFade)
         {
-            int handleIndex = _audioHandles.FindIndex(x => x == handle);
-
-            if (handleIndex < 0)
+            if (!_handleToEmitter.ContainsKey(handle))
             {
                 return false;
             }
 
-            AudioHandle foundHandle = _audioHandles[handleIndex];
+            AudioEmitter emitter = _handleToEmitter[handle];
 
             if (soundFade != null)
             {
-                _audioEmitters[foundHandle.ID].Source
+                emitter.Source
                     .DOFade(0.0f, soundFade.Duration)
                     .SetUpdate(true)
-                    .OnComplete(() => { _audioEmitters[foundHandle.ID].Source.Stop(); });
+                    .OnComplete(() => { emitter.Source.Stop(); });
             }
             else
             {
-                _audioEmitters[foundHandle.ID].Source.Stop();
+                emitter.Source.Stop();
             }
 
-            _audioEmitters[foundHandle.ID].IsPaused = false;
+            emitter.IsPaused = false;
 
-            _audioHandles.RemoveAt(handleIndex);
+            handle.MarkStale();
+            _handleToEmitter.Remove(handle);
             return true;
         }
 
@@ -344,19 +441,34 @@ namespace Audio
             return false;
         }
 
+        #endregion
+
+        #region Fade
+
         private bool FadeSoundEffect(AudioHandle handle, float to, float duration)
         {
-            int handleIndex = _audioHandles.FindIndex(x => x == handle);
-
-            if (handleIndex < 0)
+            if (!_handleToEmitter.ContainsKey(handle))
             {
                 return false;
             }
 
-            AudioHandle foundHandle = _audioHandles[handleIndex];
+            AudioEmitter emitter = _handleToEmitter[handle];
 
-            _audioEmitters[foundHandle.ID].Source.DOKill();
-            _audioEmitters[foundHandle.ID].Source.DOFade(to, duration);
+            emitter.Source.DOKill();
+            emitter.Source
+                .DOFade(to, duration)
+                .SetUpdate(true)
+                .OnComplete(() =>
+                {
+                    if (to <= 0.0f)
+                    {
+                        emitter.Source.Pause();
+                    }
+                    else
+                    {
+                        emitter.Source.Play();
+                    }
+                });
             return true;
         }
 
@@ -419,42 +531,9 @@ namespace Audio
             return true;
         }
 
-        private void OnPauseEvent(bool isPaused)
-        {
-            foreach (AudioEmitter emitter in _audioEmitters)
-            {
-                if (isPaused)
-                {
-                    if (emitter.CanPause && emitter.Source.isPlaying)
-                    {
-                        emitter.Source.Pause();
-                        emitter.IsPaused = true;
-                    }
-                }
-                else
-                {
-                    if (emitter.IsPaused)
-                    {
-                        emitter.Source.Play();
-                        emitter.IsPaused = false;
-                    }
-                }
-            }
+        #endregion
 
-            if (_musicEmitter != null && _musicEmitter.CanPause && _musicEmitter.Source.isPlaying)
-            {
-                if (isPaused)
-                {
-                    _musicEmitter.Source.Pause();
-                }
-                else
-                {
-                    _musicEmitter.Source.Play();
-                }
-
-                _musicEmitter.IsPaused = isPaused;
-            }
-        }
+        #region Utils
 
         private AudioEmitter RequestAudioEmitter()
         {
@@ -475,14 +554,14 @@ namespace Audio
         private int TryGetAvailableEmitter()
         {
             AudioEmitter emitter = _audioEmitters[_currentAudioSourceIndex];
-            if (!emitter.IsPaused && !emitter.Source.isPlaying)
+            if (emitter.IsFinishedPlaying())
             {
                 return _currentAudioSourceIndex;
             }
 
             for (int i = 0; i < _audioEmitters.Count; i++)
             {
-                if (!_audioEmitters[i].IsPaused && !_audioEmitters[i].Source.isPlaying)
+                if (_audioEmitters[i].IsFinishedPlaying())
                 {
                     _currentAudioSourceIndex = i;
                     return _currentAudioSourceIndex;
@@ -502,5 +581,7 @@ namespace Audio
 
             return emitter;
         }
+
+        #endregion
     }
 }

@@ -126,7 +126,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: WalkAnimationFinalWhite_Frame_0
     originalName: 
-    pivot: {x: 0.5806452, y: -0.01587302}
+    pivot: {x: 0.5645161, y: -0.016129032}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -146,7 +146,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 4}
   - name: WalkAnimationFinalWhite_Frame_1
     originalName: 
-    pivot: {x: 0.6, y: -0.01587302}
+    pivot: {x: 0.5833334, y: -0.016129032}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -166,7 +166,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 144}
   - name: WalkAnimationFinalWhite_Frame_2
     originalName: 
-    pivot: {x: 0.6206897, y: -0.01587302}
+    pivot: {x: 0.6034483, y: -0.016393444}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -186,7 +186,7 @@ ScriptedImporter:
     uvTransform: {x: 43, y: 74}
   - name: WalkAnimationFinalWhite_Frame_3
     originalName: 
-    pivot: {x: 0.5416666, y: -0.01587302}
+    pivot: {x: 0.5208333, y: -0.016393444}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -206,7 +206,7 @@ ScriptedImporter:
     uvTransform: {x: 81, y: 4}
   - name: WalkAnimationFinalWhite_Frame_4
     originalName: 
-    pivot: {x: 0.49999997, y: -0.01587302}
+    pivot: {x: 0.47499996, y: -0.016129032}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -226,7 +226,7 @@ ScriptedImporter:
     uvTransform: {x: 113, y: 145}
   - name: WalkAnimationFinalWhite_Frame_5
     originalName: 
-    pivot: {x: 0.5500001, y: -0.01587302}
+    pivot: {x: 0.525, y: -0.015873017}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -246,7 +246,7 @@ ScriptedImporter:
     uvTransform: {x: 113, y: 74}
   - name: WalkAnimationFinalWhite_Frame_6
     originalName: 
-    pivot: {x: 0.5806452, y: -0.01587302}
+    pivot: {x: 0.5645161, y: -0.016129032}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -266,7 +266,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 74}
   - name: WalkAnimationFinalWhite_Frame_7
     originalName: 
-    pivot: {x: 0.6, y: -0.01587302}
+    pivot: {x: 0.5833334, y: -0.016129032}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -286,7 +286,7 @@ ScriptedImporter:
     uvTransform: {x: 43, y: 4}
   - name: WalkAnimationFinalWhite_Frame_8
     originalName: 
-    pivot: {x: 0.6666667, y: -0.01587302}
+    pivot: {x: 0.64814824, y: -0.016393444}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -306,7 +306,7 @@ ScriptedImporter:
     uvTransform: {x: 43, y: 143}
   - name: WalkAnimationFinalWhite_Frame_9
     originalName: 
-    pivot: {x: 0.5652174, y: -0.01587302}
+    pivot: {x: 0.54347825, y: -0.016393444}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -326,7 +326,7 @@ ScriptedImporter:
     uvTransform: {x: 81, y: 144}
   - name: WalkAnimationFinalWhite_Frame_10
     originalName: 
-    pivot: {x: 0.47619045, y: -0.01587302}
+    pivot: {x: 0.45238096, y: -0.016129032}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -346,7 +346,7 @@ ScriptedImporter:
     uvTransform: {x: 113, y: 4}
   - name: WalkAnimationFinalWhite_Frame_11
     originalName: 
-    pivot: {x: 0.47826093, y: -0.01587302}
+    pivot: {x: 0.45652172, y: -0.015873017}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -376,96 +376,96 @@ ScriptedImporter:
     - name: WalkAnimationFinalWhite_Frame_0
       frameIndex: 0
       cellRect:
-        x: 32
-        y: 20
+        x: 15
+        y: 1
         width: 31
         height: 62
       spriteId: 4b263a5635d5e4c4f9f1af4358b8fb6e
     - name: WalkAnimationFinalWhite_Frame_1
       frameIndex: 1
       cellRect:
-        x: 32
-        y: 20
+        x: 15
+        y: 1
         width: 30
         height: 62
       spriteId: 015e19d03f16add4cac3d6230f9e6024
     - name: WalkAnimationFinalWhite_Frame_2
       frameIndex: 2
       cellRect:
-        x: 32
-        y: 20
+        x: 15
+        y: 1
         width: 29
         height: 61
       spriteId: aab06203f73f98b4ab1456bc61e95671
     - name: WalkAnimationFinalWhite_Frame_3
       frameIndex: 3
       cellRect:
-        x: 37
-        y: 20
+        x: 20
+        y: 1
         width: 24
         height: 61
       spriteId: 5dc70c97e261ded488f6c3216c62e81b
     - name: WalkAnimationFinalWhite_Frame_4
       frameIndex: 4
       cellRect:
-        x: 40
-        y: 20
+        x: 23
+        y: 1
         width: 20
         height: 62
       spriteId: 29a2fd2379cb65e40a8bcba20aacacfa
     - name: WalkAnimationFinalWhite_Frame_5
       frameIndex: 5
       cellRect:
-        x: 39
-        y: 20
+        x: 22
+        y: 1
         width: 20
         height: 63
       spriteId: 5ed3f1b6b2bbb87479bdf7df986d6583
     - name: WalkAnimationFinalWhite_Frame_6
       frameIndex: 6
       cellRect:
-        x: 32
-        y: 20
+        x: 15
+        y: 1
         width: 31
         height: 62
       spriteId: 8504b6508c4b0464387332fa87f978ab
     - name: WalkAnimationFinalWhite_Frame_7
       frameIndex: 7
       cellRect:
-        x: 32
-        y: 20
+        x: 15
+        y: 1
         width: 30
         height: 62
       spriteId: 453d61c28a126764ab9946a9f57e2538
     - name: WalkAnimationFinalWhite_Frame_8
       frameIndex: 8
       cellRect:
-        x: 32
-        y: 20
+        x: 15
+        y: 1
         width: 27
         height: 61
       spriteId: c0844c8a264d97141a1958ef87e4f2a1
     - name: WalkAnimationFinalWhite_Frame_9
       frameIndex: 9
       cellRect:
-        x: 37
-        y: 20
+        x: 20
+        y: 1
         width: 23
         height: 61
       spriteId: eb7657d77d5edc749b1f85a9ade59281
     - name: WalkAnimationFinalWhite_Frame_10
       frameIndex: 10
       cellRect:
-        x: 40
-        y: 20
+        x: 23
+        y: 1
         width: 21
         height: 62
       spriteId: fcffbb91e940aa845a62f6384361bf54
     - name: WalkAnimationFinalWhite_Frame_11
       frameIndex: 11
       cellRect:
-        x: 39
-        y: 20
+        x: 22
+        y: 1
         width: 23
         height: 63
       spriteId: 04d8e3b6adf29d64db05ff5c99698393
@@ -522,4 +522,4 @@ ScriptedImporter:
     androidETC2FallbackOverride: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 100, y: 100}
+  canvasSize: {x: 65, y: 65}

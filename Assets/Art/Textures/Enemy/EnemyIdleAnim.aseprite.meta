@@ -1,0 +1,688 @@
+fileFormatVersion: 2
+guid: 1a6b989cc98151b498a5c355ffb51d9b
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  textureImporterSettings:
+    alphaSource: 1
+    mipMapMode: 0
+    enableMipMap: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+    convertToNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+    swizzle: 50462976
+    isReadable: 0
+    streamingMipmaps: 0
+    streamingMipmapsPriority: 0
+    vTOnly: 0
+    ignoreMipmapLimit: 0
+    nPOTScale: 1
+    sRGBTexture: 1
+    spriteMode: 2
+    spriteExtrude: 1
+    spriteMeshType: 1
+    alignment: 0
+    spritePivot: {x: 0.5, y: 0.5}
+    spritePixelsToUnits: 12
+    spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+    spriteGenerateFallbackPhysicsShape: 0
+    generateCubemap: 6
+    cubemapConvolution: 0
+    seamlessCubemap: 0
+    alphaIsTransparency: 1
+    spriteTessellationDetail: -1
+    textureType: 8
+    textureShape: 1
+    singleChannelComponent: 0
+    flipbookRows: 0
+    flipbookColumns: 0
+    ignorePngGamma: 0
+    cookieMode: 0
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+    normalMap: 0
+    textureFormat: 0
+    maxTextureSize: 0
+    lightmap: 0
+    compressionQuality: 0
+    linearTexture: 0
+    grayScaleToAlpha: 0
+    rGBM: 0
+    cubemapConvolutionSteps: 0
+    cubemapConvolutionExponent: 0
+    maxTextureSizeSet: 0
+    compressionQualitySet: 0
+    textureFormatSet: 0
+    applyGammaDecoding: 0
+  previousAsepriteImporterSettings:
+    fileImportMode: 1
+    importHiddenLayers: 0
+    layerImportMode: 1
+    defaultPivotSpace: 0
+    defaultPivotAlignment: 7
+    customPivotPosition: {x: 0.5, y: 0.5}
+    spritePadding: 0
+    generateModelPrefab: 1
+    generateAnimationClips: 1
+    addSortingGroup: 1
+    addShadowCasters: 0
+  asepriteImporterSettings:
+    fileImportMode: 1
+    importHiddenLayers: 0
+    layerImportMode: 1
+    defaultPivotSpace: 0
+    defaultPivotAlignment: 7
+    customPivotPosition: {x: 0.5, y: 0.5}
+    spritePadding: 0
+    generateModelPrefab: 1
+    generateAnimationClips: 1
+    addSortingGroup: 1
+    addShadowCasters: 0
+  importFileNodeState: 1
+  platformSettingsDirtyTick: 638276525185991665
+  textureAssetName: 
+  singleSpriteImportData:
+  - name: 
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    spriteID: 
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  animatedSpriteImportData:
+  - name: EnemyIdleAnim_Frame_0
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016129032}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 25
+      height: 62
+    spriteID: 64bb507113be0ca419dd0175a9a1bf51
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 4}
+  - name: EnemyIdleAnim_Frame_1
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016129032}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 74
+      width: 25
+      height: 62
+    spriteID: e11941b5153eb0648b951b56d247508c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 74}
+  - name: EnemyIdleAnim_Frame_2
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016129032}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 144
+      width: 25
+      height: 62
+    spriteID: c505e0e3473369847aa7585a7d15edc0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 144}
+  - name: EnemyIdleAnim_Frame_3
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016129032}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 37
+      y: 4
+      width: 25
+      height: 62
+    spriteID: 919a77e47277621468971481d21deff7
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 37, y: 4}
+  - name: EnemyIdleAnim_Frame_4
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016129032}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 37
+      y: 74
+      width: 25
+      height: 62
+    spriteID: fabb7ad3c712b384c923016c2c3a47d6
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 37, y: 74}
+  - name: EnemyIdleAnim_Frame_5
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016129032}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 37
+      y: 144
+      width: 25
+      height: 62
+    spriteID: 3ee686a5a043b9f4385525d4f18b4274
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 37, y: 144}
+  - name: EnemyIdleAnim_Frame_6
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016129032}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 70
+      y: 4
+      width: 25
+      height: 62
+    spriteID: 95f8276a959bf5448b8d5771f5ccb1a3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 70, y: 4}
+  - name: EnemyIdleAnim_Frame_7
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016129032}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 70
+      y: 74
+      width: 25
+      height: 62
+    spriteID: 780df7258014d834592ec8b18458908b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 70, y: 74}
+  - name: EnemyIdleAnim_Frame_8
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016129032}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 70
+      y: 144
+      width: 25
+      height: 62
+    spriteID: 865ee64528c6eae428cbc9a6c8f71e23
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 70, y: 144}
+  - name: EnemyIdleAnim_Frame_9
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016393444}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 103
+      y: 4
+      width: 25
+      height: 61
+    spriteID: 2768a550378d8bc4794c99b214a06c09
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 103, y: 4}
+  - name: EnemyIdleAnim_Frame_10
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016393444}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 103
+      y: 73
+      width: 25
+      height: 61
+    spriteID: 599bac0873f73e44c8d822aed7ccfd3c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 103, y: 73}
+  - name: EnemyIdleAnim_Frame_11
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016393444}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 103
+      y: 142
+      width: 25
+      height: 61
+    spriteID: a4614ebc711c8ad4aa72f3d1de856e87
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 103, y: 142}
+  - name: EnemyIdleAnim_Frame_12
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016393444}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 136
+      y: 4
+      width: 25
+      height: 61
+    spriteID: 6a072656117e59244a486297cc8d96d3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 136, y: 4}
+  - name: EnemyIdleAnim_Frame_13
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016393444}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 136
+      y: 73
+      width: 25
+      height: 61
+    spriteID: 0041ba48f97c6614aa71d48c5f5a93c2
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 136, y: 73}
+  - name: EnemyIdleAnim_Frame_14
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016393444}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 136
+      y: 142
+      width: 25
+      height: 61
+    spriteID: c06294979b6f4ff429bed74cb8c9031b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 136, y: 142}
+  - name: EnemyIdleAnim_Frame_15
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016393444}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 169
+      y: 4
+      width: 25
+      height: 61
+    spriteID: 02960b92ce589ce4581de0c5df5a360c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 169, y: 4}
+  - name: EnemyIdleAnim_Frame_16
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016393444}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 169
+      y: 73
+      width: 25
+      height: 61
+    spriteID: 7a304fbaa0959834f9feb26a8400e5dc
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 169, y: 73}
+  - name: EnemyIdleAnim_Frame_17
+    originalName: 
+    pivot: {x: 0.5799999, y: -0.016393444}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 169
+      y: 142
+      width: 25
+      height: 61
+    spriteID: 7b24c83e3e2c2aa4d95b0bbba1f22ce5
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 169, y: 142}
+  spriteSheetImportData: []
+  asepriteLayers:
+  - layerIndex: 0
+    guid: -1482246223
+    name: EnemyIdleAnim
+    layerFlags: 0
+    layerType: 0
+    blendMode: 0
+    cells:
+    - name: EnemyIdleAnim_Frame_0
+      frameIndex: 0
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 62
+      spriteId: 64bb507113be0ca419dd0175a9a1bf51
+    - name: EnemyIdleAnim_Frame_1
+      frameIndex: 1
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 62
+      spriteId: e11941b5153eb0648b951b56d247508c
+    - name: EnemyIdleAnim_Frame_2
+      frameIndex: 2
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 62
+      spriteId: c505e0e3473369847aa7585a7d15edc0
+    - name: EnemyIdleAnim_Frame_3
+      frameIndex: 3
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 62
+      spriteId: 919a77e47277621468971481d21deff7
+    - name: EnemyIdleAnim_Frame_4
+      frameIndex: 4
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 62
+      spriteId: fabb7ad3c712b384c923016c2c3a47d6
+    - name: EnemyIdleAnim_Frame_5
+      frameIndex: 5
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 62
+      spriteId: 3ee686a5a043b9f4385525d4f18b4274
+    - name: EnemyIdleAnim_Frame_6
+      frameIndex: 6
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 62
+      spriteId: 95f8276a959bf5448b8d5771f5ccb1a3
+    - name: EnemyIdleAnim_Frame_7
+      frameIndex: 7
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 62
+      spriteId: 780df7258014d834592ec8b18458908b
+    - name: EnemyIdleAnim_Frame_8
+      frameIndex: 8
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 62
+      spriteId: 865ee64528c6eae428cbc9a6c8f71e23
+    - name: EnemyIdleAnim_Frame_9
+      frameIndex: 9
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 61
+      spriteId: 2768a550378d8bc4794c99b214a06c09
+    - name: EnemyIdleAnim_Frame_10
+      frameIndex: 10
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 61
+      spriteId: 599bac0873f73e44c8d822aed7ccfd3c
+    - name: EnemyIdleAnim_Frame_11
+      frameIndex: 11
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 61
+      spriteId: a4614ebc711c8ad4aa72f3d1de856e87
+    - name: EnemyIdleAnim_Frame_12
+      frameIndex: 12
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 61
+      spriteId: 6a072656117e59244a486297cc8d96d3
+    - name: EnemyIdleAnim_Frame_13
+      frameIndex: 13
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 61
+      spriteId: 0041ba48f97c6614aa71d48c5f5a93c2
+    - name: EnemyIdleAnim_Frame_14
+      frameIndex: 14
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 61
+      spriteId: c06294979b6f4ff429bed74cb8c9031b
+    - name: EnemyIdleAnim_Frame_15
+      frameIndex: 15
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 61
+      spriteId: 02960b92ce589ce4581de0c5df5a360c
+    - name: EnemyIdleAnim_Frame_16
+      frameIndex: 16
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 61
+      spriteId: 7a304fbaa0959834f9feb26a8400e5dc
+    - name: EnemyIdleAnim_Frame_17
+      frameIndex: 17
+      cellRect:
+        x: 18
+        y: 1
+        width: 25
+        height: 61
+      spriteId: 7b24c83e3e2c2aa4d95b0bbba1f22ce5
+    linkedCells: []
+    parentIndex: -1
+  platformSettings:
+  - name: DefaultTexturePlatform
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Standalone
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Server
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: WebGL
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  secondarySpriteTextures: []
+  spritePackingTag: 
+  canvasSize: {x: 65, y: 65}

@@ -10,6 +10,7 @@ namespace Events
         public AudioPlay2DAction OnAudioPlay2D;
         public AudioPlayAttachedAction OnAudioPlayAttached;
         public AudioStopAction OnAudioStop;
+        public AudioGetStateAction OnAudioGetState;
         public AudioFadeAction OnAudioFade;
         public AudioCrossFadeAction OnAudioCrossFade;
 
@@ -37,7 +38,7 @@ namespace Events
         {
             AudioHandle audioHandle = AudioHandle.Invalid;
 
-            if (OnAudioPlay != null)
+            if (OnAudioPlay2D != null)
             {
                 audioHandle = OnAudioPlay2D.Invoke(audio, audioEventData);
             }
@@ -57,7 +58,7 @@ namespace Events
         {
             AudioHandle audioHandle = AudioHandle.Invalid;
 
-            if (OnAudioPlay != null)
+            if (OnAudioPlayAttached != null)
             {
                 audioHandle = OnAudioPlayAttached.Invoke(audio, audioEventData, gameObject);
             }
@@ -90,11 +91,29 @@ namespace Events
             return requestSucceed;
         }
 
+        public AudioStateInfo RaiseGetStateEvent(AudioHandle audioKey)
+        {
+            AudioStateInfo requestSucceed = null;
+
+            if (OnAudioGetState != null)
+            {
+                requestSucceed = OnAudioGetState.Invoke(audioKey);
+            }
+            else
+            {
+                Debug.LogWarning("An AudioGetState event was requested, but nobody picked it up. " +
+                                 "Check why there is no AudioManager already loaded, " +
+                                 "and make sure it's listening on this Audio Event channel.");
+            }
+
+            return requestSucceed;
+        }
+
         public bool RaiseFadeEvent(AudioHandle audioKey, float to, float duration)
         {
             bool requestSucceed = false;
 
-            if (OnAudioStop != null)
+            if (OnAudioFade != null)
             {
                 requestSucceed = OnAudioFade.Invoke(audioKey, to, duration);
             }
@@ -112,7 +131,7 @@ namespace Events
         {
             bool requestSucceed = false;
 
-            if (OnAudioStop != null)
+            if (OnAudioCrossFade != null)
             {
                 requestSucceed = OnAudioCrossFade.Invoke(audio, transitionAudio, duration);
             }
@@ -136,6 +155,8 @@ namespace Events
         GameObject gameObject);
 
     public delegate bool AudioStopAction(AudioHandle emitterKey, SoundFade soundFade);
+
+    public delegate AudioStateInfo AudioGetStateAction(AudioHandle emitterKey);
 
     public delegate bool AudioFadeAction(AudioHandle emitterKey, float to, float duration);
 

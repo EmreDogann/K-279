@@ -1,5 +1,6 @@
 using Checks;
 using GameEntities;
+using MyBox;
 using UnityEngine;
 
 namespace Capabilities
@@ -10,17 +11,23 @@ namespace Capabilities
         [Header("Patrol")]
         [SerializeField] private GameObject patrolLimitRightObject;
         [SerializeField] private GameObject patrolLimitLeftObject;
+        [SerializeField] private LayerMask levelWallLayer;
         [SerializeField] [Range(0, 5f)] private float patrolRandomness;
         [SerializeField] [Range(1, 20f)] private float rangeOfSight = 2f;
         [SerializeField] [Range(0, 5f)] private float timeTillReturnToPatrol;
         [SerializeField] private LayerMask layerToCatch;
+
         [Header("Movement")]
         [SerializeField] [Range(0, 10f)] private float _maxPatrolVelocity = 3f;
         [SerializeField] [Range(0, 20f)] private float _maxPatrolAcceleration = 20f;
         [SerializeField] [Range(0, 100f)] private float _maxPursueVelocity = 3f;
         [SerializeField] [Range(0, 100f)] private float _maxPursueAcceleration = 20f;
+
         [Header("Attack")]
         [SerializeField] [Range(0, 10f)] private float _attackRange = 2f;
+
+        [Separator("Animation")]
+        [SerializeField] private Animator _animator;
 
         private Rigidbody _body;
         private Ground _ground;
@@ -30,6 +37,7 @@ namespace Capabilities
         private Vector3 _initPosition;
         private Vector3 patrolLimitLeft, patrolLimitRight;
         public Vector3 _targetPosition;
+        public Vector3 _finalTargetPosition;
         private Vector2 _direction, _desiredVelocity, _velocity;
 
         private float _maxSpeedChange;
@@ -38,8 +46,10 @@ namespace Capabilities
         private float _hitCoolDown;
         private float _hitTimer;
 
+        private bool _isPaused;
         private bool _patrolActive;
         private bool _facingRight = true;
+        private static readonly int IsWalking = Animator.StringToHash("IsWalking");
 
         private void Awake()
         {
@@ -49,14 +59,37 @@ namespace Capabilities
             _dmgPerHit = GetComponent<EnemyEntity>().GetDmg();
             _hitCoolDown = GetComponent<EnemyEntity>().GetHitCoolDown();
 
-            _hitTimer = _hitCoolDown;
-            patrolLimitLeft = patrolLimitLeftObject.transform.position;
-            patrolLimitRight = patrolLimitRightObject.transform.position;
             _patrolActive = true;
+            _hitTimer = _hitCoolDown;
             rayOfSight.origin = gameObject.transform.position + new Vector3(0, 4, 0);
-            //_targetPosition = transform.position + new Vector3(patrolLimitRight.position.x, 0, 0);
-
             rayOfSight.direction = gameObject.transform.right;
+
+            if (patrolLimitLeftObject != null)
+            {
+                patrolLimitLeft = patrolLimitLeftObject.transform.position;
+            }
+            else
+            {
+                Ray direction = new Ray(rayOfSight.origin, rayOfSight.direction * -1);
+                if (Physics.Raycast(direction, out RaycastHit hitInfo, Mathf.Infinity, levelWallLayer))
+                {
+                    patrolLimitLeft = hitInfo.point;
+                }
+            }
+
+            if (patrolLimitRightObject != null)
+            {
+                patrolLimitRight = patrolLimitRightObject.transform.position;
+            }
+            else
+            {
+                if (Physics.Raycast(rayOfSight, out RaycastHit hitInfo, Mathf.Infinity, levelWallLayer))
+                {
+                    patrolLimitRight = hitInfo.point;
+                }
+            }
+
+            //_targetPosition = transform.position + new Vector3(patrolLimitRight.position.x, 0, 0);
             if (Random.Range(0, 1) > 0.5f)
             {
                 _facingRight = true;
@@ -114,6 +147,7 @@ namespace Capabilities
                 }
             }
 
+            _animator.SetBool(IsWalking, _patrolActive);
             if (_patrolActive)
             {
                 Move(_targetPosition, _maxPatrolVelocity, _maxPatrolAcceleration);

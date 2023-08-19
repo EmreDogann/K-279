@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Audio;
 using Interactables;
 using Lights;
 using UnityEngine;
@@ -28,6 +29,7 @@ namespace Rooms
     {
         [SerializeField] private RoomType roomType;
         [SerializeField] private float lightFadeDuration = 1.0f;
+        [SerializeField] private AudioSO roomAmbience;
 
         [SerializeField] private Collider2D cameraBounds;
         [SerializeField] private List<Door> roomDoors;
@@ -122,6 +124,8 @@ namespace Rooms
                 });
                 break;
             }
+
+            roomAmbience.Play2D(false, 2.0f);
         }
 
         public void ActivateRoom(RoomType exitingRoom)
@@ -147,6 +151,8 @@ namespace Rooms
                 });
                 break;
             }
+
+            roomAmbience.Play2D(false, 2.0f);
         }
 
         public Coroutine DeactivateRoom(RoomType exitingRoom)
@@ -165,6 +171,8 @@ namespace Rooms
                 });
                 break;
             }
+
+            roomAmbience.Stop(AudioHandle.Invalid, false, 2.0f);
 
             return StartCoroutine(WaitForLightsOff(lightFadeDuration));
         }
