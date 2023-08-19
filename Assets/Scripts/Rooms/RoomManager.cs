@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Rooms
 {
-    public class RoomSwitcher : MonoBehaviour
+    public class RoomManager : MonoBehaviour
     {
         [SerializeField] private float blackScreenWaitTime;
         [SerializeField] private CameraConfiner2DSwitcher cameraConfiner2DSwitcher;
@@ -19,16 +19,16 @@ namespace Rooms
         private List<Room> _rooms;
         private Room _currentRoom;
 
-        private void Start()
+        private void Awake()
         {
             _rooms = FindObjectsOfType<MonoBehaviour>(true)
                 .OfType<Room>()
                 .Where(a => a.isActiveAndEnabled)
                 .ToList();
 
-            _currentRoom = GetRoom(startingRoom);
             if (loadStartingRoomOnAwake)
             {
+                _currentRoom = GetRoom(startingRoom);
                 _currentRoom.ActivateRoom();
                 PlayDoorAmbiances(_currentRoom.GetDoors());
                 cameraConfiner2DSwitcher.SwitchConfinerTarget(_currentRoom.GetCameraBounds());
@@ -38,13 +38,13 @@ namespace Rooms
         private void OnEnable()
         {
             Door.OnRoomSwitching += SwitchRoom;
-            LightControl.OnLightControl += OnLightControl;
+            LightManager.OnLightControl += OnLightControl;
         }
 
         private void OnDisable()
         {
             Door.OnRoomSwitching -= SwitchRoom;
-            LightControl.OnLightControl -= OnLightControl;
+            LightManager.OnLightControl -= OnLightControl;
         }
 
         private void OnLightControl(bool turnOn, float duration)
@@ -52,7 +52,7 @@ namespace Rooms
             StartCoroutine(WaitForLights(turnOn, duration));
         }
 
-        private Room GetRoom(RoomType roomType)
+        public Room GetRoom(RoomType roomType)
         {
             return _rooms.Find(x => x.GetRoomType() == roomType);
         }
@@ -65,7 +65,7 @@ namespace Rooms
             }
         }
 
-        private void SwitchRoom(RoomType roomType, Action roomSwitchedCallback)
+        public void SwitchRoom(RoomType roomType, Action roomSwitchedCallback = null)
         {
             foreach (Room room in _rooms)
             {

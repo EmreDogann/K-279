@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Announcement_Low_Oxygen
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: 5af1a45ae8202d44b869a5a7588b3cf4, type: 3}
+  - {fileID: 8300000, guid: e048004df57ff054d8e098cc27da7c96, type: 3}
   audioMixer: {fileID: 24300002, guid: 7fe1db268aad06940860274baea04931, type: 2}
   volume:
     Min: 0.39910674

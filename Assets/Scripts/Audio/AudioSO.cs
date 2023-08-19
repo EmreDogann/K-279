@@ -124,7 +124,10 @@ namespace Audio
             // _handleToEventData = new List<KeyValuePair<AudioHandle, AudioEventData>>();
         }
 
-        protected override void OnEnd() {}
+        protected override void OnEnd()
+        {
+            _handleToEventData = null;
+        }
 
         protected override void OnEnable()
         {
@@ -145,6 +148,7 @@ namespace Audio
 #endif
 
             // _handleToEventData = new List<KeyValuePair<AudioHandle, AudioEventData>>();
+            // _handleToEventData = null;
         }
 
         private void SyncPitchAndSemitones()

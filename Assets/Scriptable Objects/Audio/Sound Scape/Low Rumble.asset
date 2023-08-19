@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Low Rumble
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: f54356760ab36c6408f7933068b1bf5e, type: 3}
+  - {fileID: 8300000, guid: f5880e5a6a2edbb48a106417e591c7e5, type: 3}
   audioMixer: {fileID: 24300002, guid: 7fe1db268aad06940860274baea04931, type: 2}
   volume:
     Min: 0.5

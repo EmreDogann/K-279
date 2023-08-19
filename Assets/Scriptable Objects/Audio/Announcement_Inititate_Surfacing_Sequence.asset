@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Announcement_Inititate_Surfacing_Sequence
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: fd4cce7b9b0031245858e8c3abbbfd9e, type: 3}
+  - {fileID: 8300000, guid: 6e7716ca8dc55304ebdb4382704306cd, type: 3}
   audioMixer: {fileID: 24300002, guid: 7fe1db268aad06940860274baea04931, type: 2}
   volume:
     Min: 0.5

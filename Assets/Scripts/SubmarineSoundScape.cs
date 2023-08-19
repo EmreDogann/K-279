@@ -164,7 +164,7 @@ public class SubmarineSoundScape : MonoBehaviour
     public void TriggerExplosion(bool shouldShake)
     {
         explosion.TriggerAudio(_player.transform.position, impulseListener);
-        if (shouldShake && Random.Range(0.0f, 1.0f) <= 0.5f)
+        if (shouldShake)
         {
             StartCoroutine(ForcePlaySoundScape(submarineSqueeze, Random.Range(0.0f, 0.5f), _player.transform.position));
         }

@@ -34,14 +34,15 @@ namespace Items
         private bool _isTextAnimating;
         private string _messageTarget;
 
-        private void Start()
+        private void Awake()
         {
+            // Turn on then off to call the object component's Awake functions.
+            text.gameObject.SetActive(true);
             text.gameObject.SetActive(false);
-            image.gameObject.SetActive(false);
-            Color imageColor = image.color;
-            imageColor.a = 1.0f;
 
-            image.color = imageColor;
+            image.gameObject.SetActive(true);
+            image.gameObject.SetActive(false);
+
             // confirmButton.gameObject.SetActive(false);
             // cancelButton.gameObject.SetActive(false);
         }
@@ -79,7 +80,7 @@ namespace Items
             image.gameObject.SetActive(true);
             image.sprite = item.GetItemInfo().inspectImage;
 
-            LightControl.OnLightControl?.Invoke(false, fadeDuration);
+            LightManager.Instance.ToggleLights(false, fadeDuration);
             StartCoroutine(DisplayMessage(_currentInspectionItem.GetItemInfo().itemName));
 
             pauseEvent.Raise(true);
@@ -108,7 +109,7 @@ namespace Items
             _currentController = null;
             _currentCallback = null;
 
-            LightControl.OnLightControl?.Invoke(true, fadeDuration);
+            LightManager.Instance.ToggleLights(true, fadeDuration);
             pauseEvent.Raise(false);
         }
 

@@ -42,13 +42,14 @@ namespace Rooms
 
         [Separator("Lights")]
         [SerializeField] private float lightFadeDuration = 1.0f;
-        [field: SerializeReference] public bool ActivateLightsOnRoomLoad { get; private set; } = true;
+        [field: SerializeReference] public bool LightsOn { get; private set; } = true;
 
         [Separator("Room Data")]
         [SerializeField] private Collider2D cameraBounds;
         [SerializeField] private List<Door> roomDoors;
         [SerializeField] private List<RoomLight> roomLights;
 
+        public static event Action<bool, float> OnLightsSwitch;
         public static event Action<RoomData> OnRoomPrepare;
         public static event Action<RoomData> OnRoomActivate;
         public static event Action<RoomData> OnRoomDeactivate;
@@ -148,7 +149,7 @@ namespace Rooms
 
         public void ActivateRoom()
         {
-            // Uses first room
+            // Uses first door
             if (roomDoors.Count > 0)
             {
                 OnRoomActivate?.Invoke(new RoomData
@@ -160,17 +161,18 @@ namespace Rooms
 
             foreach (RoomAmbience roomAmbience in roomAmbiences)
             {
-                roomAmbience.audio.Play2D(false, 2.0f);
+                roomAmbience.audio.Play2D(true, 2.0f);
             }
         }
 
         public void ActivateRoom(RoomType exitingRoom)
         {
-            if (ActivateLightsOnRoomLoad)
+            if (LightsOn)
             {
                 foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
                 {
                     roomLight.TurnOnLight(lightFadeDuration);
+                    OnLightsSwitch?.Invoke(true, lightFadeDuration);
                 }
             }
 
@@ -193,7 +195,7 @@ namespace Rooms
 
             foreach (RoomAmbience roomAmbience in roomAmbiences)
             {
-                roomAmbience.audio.Play2D(false, 2.0f);
+                roomAmbience.audio.Play2D(true, 2.0f);
             }
         }
 
@@ -216,7 +218,7 @@ namespace Rooms
 
             foreach (RoomAmbience roomAmbience in roomAmbiences)
             {
-                roomAmbience.audio.Stop(AudioHandle.Invalid, false, 2.0f);
+                roomAmbience.audio.Stop(AudioHandle.Invalid, true, 2.0f);
             }
 
 
@@ -225,6 +227,8 @@ namespace Rooms
 
         public Coroutine ControlLights(bool turnOn, float duration)
         {
+            LightsOn = turnOn;
+
             if (turnOn)
             {
                 return StartCoroutine(WaitForLightsOn(duration));
@@ -238,6 +242,7 @@ namespace Rooms
             foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
             {
                 roomLight.TurnOffLight(duration);
+                OnLightsSwitch?.Invoke(false, duration);
             }
 
             foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
@@ -254,6 +259,7 @@ namespace Rooms
             foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
             {
                 roomLight.TurnOnLight(duration);
+                OnLightsSwitch?.Invoke(true, duration);
             }
 
             foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))

@@ -229,7 +229,8 @@ namespace Audio
             {
                 emitter.Source.volume = 0.0f;
                 emitter.Source.Play();
-                emitter.Source.DOFade(audioEventData.SoundFade.Volume, audioEventData.SoundFade.Duration);
+                emitter.Source.DOFade(audioEventData.SoundFade.Volume, audioEventData.SoundFade.Duration)
+                    .SetUpdate(true);
             }
             else
             {
@@ -262,7 +263,8 @@ namespace Audio
             {
                 emitter.Source.volume = 0.0f;
                 emitter.Source.Play();
-                emitter.Source.DOFade(audioEventData.SoundFade.Volume, audioEventData.SoundFade.Duration);
+                emitter.Source.DOFade(audioEventData.SoundFade.Volume, audioEventData.SoundFade.Duration)
+                    .SetUpdate(true);
             }
             else
             {
@@ -294,7 +296,8 @@ namespace Audio
             {
                 emitter.Source.volume = 0.0f;
                 emitter.Source.Play();
-                emitter.Source.DOFade(audioEventData.SoundFade.Volume, audioEventData.SoundFade.Duration);
+                emitter.Source.DOFade(audioEventData.SoundFade.Volume, audioEventData.SoundFade.Duration)
+                    .SetUpdate(true);
             }
             else
             {
@@ -337,7 +340,8 @@ namespace Audio
             {
                 emitter.Source.volume = 0.0f;
                 emitter.Source.Play();
-                emitter.Source.DOFade(audioEventData.SoundFade.Volume, audioEventData.SoundFade.Duration);
+                emitter.Source.DOFade(audioEventData.SoundFade.Volume, audioEventData.SoundFade.Duration)
+                    .SetUpdate(true);
             }
             else
             {
@@ -374,7 +378,8 @@ namespace Audio
             {
                 emitter.Source.volume = 0.0f;
                 emitter.Source.Play();
-                emitter.Source.DOFade(audioEventData.SoundFade.Volume, audioEventData.SoundFade.Duration);
+                emitter.Source.DOFade(audioEventData.SoundFade.Volume, audioEventData.SoundFade.Duration)
+                    .SetUpdate(true);
             }
             else
             {

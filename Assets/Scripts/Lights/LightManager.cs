@@ -10,7 +10,6 @@ namespace Lights
 {
     public enum LightState
     {
-        Off,
         Normal,
         Alarm
     }
@@ -39,7 +38,7 @@ namespace Lights
         public static LightManager Instance { get; private set; }
 
         public static event Action<LightData> OnChangeColor;
-        public static event Action<LightState> OnLightStateChange;
+        public static event Action<bool, float> OnLightControl;
 
         private void Start()
         {
@@ -59,47 +58,60 @@ namespace Lights
             if (setOnAwake)
             {
                 _currentState = startingState;
-                OnLightStateChange?.Invoke(_currentState);
                 UpdateLightColor();
             }
         }
 
         [ButtonMethod]
-        public void SetOffState()
+        private void TurnOffLights()
         {
-            SetLightState(LightState.Off);
+            ToggleLights(false);
         }
 
         [ButtonMethod]
-        public void SetNormalState()
+        private void TurnOnLights()
         {
-            SetLightState(LightState.Normal);
+            ToggleLights(true);
         }
 
         [ButtonMethod]
-        public void SetAlarmState()
+        private void SetNormalState()
         {
-            SetLightState(LightState.Alarm);
+            ChangeLightColor(LightState.Normal);
         }
 
-        public void SetLightState(LightState state)
+        [ButtonMethod]
+        private void SetAlarmState()
         {
-            StartCoroutine(TransitionColors(state));
-            OnLightStateChange?.Invoke(state);
+            ChangeLightColor(LightState.Alarm);
+        }
+
+        public void ToggleLights(bool isOn, float duration = 0.3f)
+        {
+            StartCoroutine(TransitionLights(isOn, duration));
+        }
+
+        private IEnumerator TransitionLights(bool isOn, float duration)
+        {
+            OnLightControl?.Invoke(isOn, duration);
+            yield return new WaitForSecondsRealtime(1.1f);
+        }
+
+        public void ChangeLightColor(LightState state, float duration = 0.3f)
+        {
+            StartCoroutine(TransitionColors(state, duration));
             _currentState = state;
         }
 
-        private IEnumerator TransitionColors(LightState newState)
+        private IEnumerator TransitionColors(LightState newState, float duration)
         {
-            LightControl.OnLightControl?.Invoke(false, 0.3f);
+            OnLightControl?.Invoke(false, duration);
             yield return new WaitForSecondsRealtime(1.1f);
+
             UpdateLightColor();
 
-            if (newState != LightState.Off)
-            {
-                LightControl.OnLightControl?.Invoke(true, 0.3f);
-                yield return new WaitForSecondsRealtime(0.3f);
-            }
+            OnLightControl?.Invoke(true, duration);
+            yield return new WaitForSecondsRealtime(1.1f);
         }
 
         private void UpdateLightColor()
@@ -107,9 +119,6 @@ namespace Lights
             LightData lightData = new LightData { State = _currentState };
             switch (_currentState)
             {
-                case LightState.Off:
-                    alarmSound.Stop(true, 0.4f);
-                    return;
                 case LightState.Normal:
                     lightData.BgColor = Color.black;
                     lightData.FgColor = normalColor;

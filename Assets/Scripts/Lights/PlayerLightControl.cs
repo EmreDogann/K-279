@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Rooms;
+using UnityEngine;
 
 namespace Lights
 {
@@ -8,12 +9,14 @@ namespace Lights
 
         private void OnEnable()
         {
-            LightControl.OnLightControl += OnLightControl;
+            LightManager.OnLightControl += OnLightControl;
+            Room.OnLightsSwitch += OnLightControl;
         }
 
         private void OnDisable()
         {
-            LightControl.OnLightControl -= OnLightControl;
+            LightManager.OnLightControl -= OnLightControl;
+            Room.OnLightsSwitch -= OnLightControl;
         }
 
         private void OnLightControl(bool turnOn, float duration)
