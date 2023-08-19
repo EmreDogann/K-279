@@ -20,14 +20,14 @@ public class EventSequencer : MonoBehaviour {
     private SubmarineSoundScape submarineSoundScape;
 
     [SerializeField]
-    private AudioSO alarmSound;
-
+    private AudioSO explosionSound;
+    
     [SerializeField]
     private AudioSO lowOxygenVoice;
 
     [SerializeField]
     private LightManager lightManager;
-    
+
 #if UNITY_EDITOR
     [ButtonMethod]
     public void PlayWakeUpSequence() {
@@ -44,7 +44,9 @@ public class EventSequencer : MonoBehaviour {
 
 
         _wakeUpSequence
-            .AppendCallback(() => { LightControl.OnLightControl?.Invoke(false, 0.0f); })
+            .AppendCallback(() => {
+                LightControl.OnLightControl?.Invoke(false, 0.0f);
+            })
             .AppendCallback(() => {
                 var playerTransformPosition = playerTransform.position;
                 playerTransformPosition.x = 22;
@@ -54,17 +56,28 @@ public class EventSequencer : MonoBehaviour {
                 // Play ship explosion noise
                 submarineSoundScape.TriggerExplosion(true);
             })
+            .AppendInterval(0.1f)
+            .AppendCallback(() => {
+                // Play ship explosion noise
+                // submarineSoundScape.TriggerExplosion(true);
+                explosionSound.Play(playerTransform.position);
+            })
+            .AppendInterval(0.05f)
+            .AppendCallback(() => {
+                // Play ship explosion noise
+                submarineSoundScape.TriggerExplosion(true);
+            })
             .AppendInterval(1.5f)
             .AppendCallback(() => {
-                lightManager.SetLightState(LightState.Alarm);
                 // play Low Oxygen Voice
                 lowOxygenVoice.Play();
             })
             // .AppendInterval(lowOxygenVoice.GetPlaybackInfo(AudioHandle.Invalid).CurrentClipDuration)
             .AppendInterval(lowOxygenVoice.GetAudioClip().length)
             .AppendCallback(() => {
+                lightManager.SetLightState(LightState.Alarm);
                 // Fade to normal lights
-                LightControl.OnLightControl?.Invoke(true, 1.0f);
+                // LightControl.OnLightControl?.Invoke(true, 1.0f);
             }).Pause();
     }
 
