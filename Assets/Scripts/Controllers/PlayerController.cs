@@ -33,7 +33,7 @@ namespace Controllers
 
         public override bool RetrieveShootInput()
         {
-            return _fireAction.WasPressedThisFrame();
+            return _fireAction.IsPressed();
         }
     }
 }

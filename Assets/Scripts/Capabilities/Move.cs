@@ -23,14 +23,17 @@ namespace Capabilities
 
         private bool _isPaused;
         private bool _facingRight;
+        public bool _movementActive;
         private float _maxSpeedChange;
         private readonly int _isWalking = Animator.StringToHash("IsWalking");
+        private readonly int _isShooting = Animator.StringToHash("IsShooting");
 
         public static event Action<bool> OnFlipPlayer;
 
         private void Awake()
         {
             _facingRight = true;
+            _movementActive = true; ;
             _body = GetComponent<Rigidbody>();
             _ground = GetComponent<Ground>();
             _controller = GetComponent<Controller>();
@@ -59,17 +62,19 @@ namespace Capabilities
                 return;
             }
 
+            if (!_movementActive) return;
+
             _direction.x = _controller.input.RetrieveMoveInput(gameObject);
             _animator.SetBool(_isWalking, _direction.x != 0);
-
-            if (_direction.x > 0 && !_facingRight)
-            {
-                FlipPlayer();
-            }
-            else if (_direction.x < 0f && _facingRight)
-            {
-                FlipPlayer();
-            }
+            _animator.SetBool(_isShooting, false);
+            //if (_direction.x > 0 && !_facingRight)
+            //{
+            //    FlipPlayer();
+            //}
+            //else if (_direction.x < 0f && _facingRight)
+            //{
+            //    FlipPlayer();
+            //}
 
             _desiredVelocity = new Vector2(_direction.x, 0f) * Mathf.Max(_maxSpeed - _ground.Friction, 0f);
         }
@@ -84,7 +89,7 @@ namespace Capabilities
             _body.velocity = _velocity;
         }
 
-        private void FlipPlayer()
+        public void FlipPlayer()
         {
             //_sprite.flipX = !_sprite.flipX;
             _sprite.gameObject.transform.Rotate(0, -180, 0, Space.Self);
@@ -92,5 +97,18 @@ namespace Capabilities
 
             OnFlipPlayer?.Invoke(_facingRight);
         }
+
+        public void StopMovement()
+        {
+            _movementActive = false;
+            _body.velocity = Vector3.zero;
+            _desiredVelocity = Vector3.zero;
+        }
+
+        public void RestartMovement()
+        {
+            _movementActive = true;
+        }
+        
     }
 }
