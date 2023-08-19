@@ -499,9 +499,9 @@ MonoBehaviour:
   m_UseCameraSpace: 1
   m_ReactionSettings:
     m_SecondaryNoise: {fileID: 11400000, guid: e9ce97b7a206dc64d90931ea044e0c72, type: 2}
-    m_AmplitudeGain: 5
-    m_FrequencyGain: 0.3
-    m_Duration: 4
+    m_AmplitudeGain: 2
+    m_FrequencyGain: 3
+    m_Duration: 1
     m_NoiseOffsets: {x: -457.97885, y: -142.8555, z: 813.10034}
 --- !u!114 &147622456
 MonoBehaviour:
@@ -1745,8 +1745,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 937513558}
+  - component: {fileID: 937513559}
   m_Layer: 0
-  m_Name: Environment
+  m_Name: Rooms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1773,6 +1774,22 @@ Transform:
   - {fileID: 6730429435687745382}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &937513559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 937513557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ac1f45abe4144829eab27b4d5851c05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blackScreenWaitTime: 1.5
+  cameraConfiner2DSwitcher: {fileID: 147622454}
+  startingRoom: 0
+  loadStartingRoomOnAwake: 0
 --- !u!1 &979125280
 GameObject:
   m_ObjectHideFlags: 0
@@ -2318,8 +2335,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerOnAwake: 1
-  triggerDelay: 3
-  roomManager: {fileID: 1541677828}
+  triggerDelay: 4
+  roomManager: {fileID: 937513559}
   startingRoom: 0
   playerTransform: {fileID: 1877220591}
   doorTransform: {fileID: 9097725084458757335}
@@ -2337,7 +2354,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1191720810}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -32.51394, y: 6.665681, z: 214.02089}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2503,54 +2520,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Asset: {fileID: -944628639613478452, guid: d1a6d78b473c6914a8ba71719a82c98d, type: 3}
   m_ActionId: f07b3adf-f2de-4930-9293-e0926d52045b
---- !u!1 &1541677827
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1541677829}
-  - component: {fileID: 1541677828}
-  m_Layer: 0
-  m_Name: Room Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1541677828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1541677827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ac1f45abe4144829eab27b4d5851c05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blackScreenWaitTime: 1.5
-  cameraConfiner2DSwitcher: {fileID: 147622454}
-  startingRoom: 3
-  loadStartingRoomOnAwake: 0
---- !u!4 &1541677829
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1541677827}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1832155352}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1543670846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4048,7 +4017,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1667370661}
-  - {fileID: 1541677829}
   - {fileID: 344802096}
   - {fileID: 283225259}
   - {fileID: 1647743932}
@@ -4327,7 +4295,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   muzzleFlash: {fileID: 1417152446}
-  muzzleFlashLifetime: 0.1
+  muzzleFlashLifetime: 0.06
   gunshotAudio: {fileID: 11400000, guid: e45749301dfbeb545b4d7c61d17bb662, type: 2}
   shakeCameraOnGunshot: 1
   impulseListener: {fileID: 147622455}
@@ -5720,6 +5688,7 @@ SceneRoots:
   - {fileID: 1786696538}
   - {fileID: 798827827}
   - {fileID: 1832155352}
+  - {fileID: 1191720812}
   - {fileID: 533895709}
   - {fileID: 1877220591}
   - {fileID: 2105614318}
@@ -5727,6 +5696,5 @@ SceneRoots:
   - {fileID: 937513558}
   - {fileID: 6003331836911324644}
   - {fileID: 1994906801}
-  - {fileID: 1191720812}
   - {fileID: 1960134382}
   - {fileID: 1756468856}

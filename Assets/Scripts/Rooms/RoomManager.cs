@@ -19,13 +19,13 @@ namespace Rooms
         private List<Room> _rooms;
         private Room _currentRoom;
 
+        private void Awake()
+        {
+            _rooms = GetComponentsInChildren<Room>(true).ToList();
+        }
+
         private void Start()
         {
-            _rooms = FindObjectsOfType<MonoBehaviour>(true)
-                .OfType<Room>()
-                .Where(a => a.isActiveAndEnabled)
-                .ToList();
-
             if (loadStartingRoomOnAwake)
             {
                 _currentRoom = GetRoom(startingRoom);

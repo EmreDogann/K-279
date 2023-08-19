@@ -1,4 +1,3 @@
-using System.Collections;
 using Audio;
 using DG.Tweening;
 using Events;
@@ -32,11 +31,8 @@ namespace ScriptedEvents
 
         private Sequence _wakeUpSequence;
 
-        private IEnumerator Start()
+        private void Start()
         {
-            // Wait one frame for Room manager and other components to initialize.
-            yield return null;
-
             // Initialize starting room
             roomManager.GetRoom(startingRoom).ControlLights(false, 0.0f);
 
@@ -85,11 +81,9 @@ namespace ScriptedEvents
                     // LightControl.OnLightControl?.Invoke(true, 1.0f);
                 })
                 .AppendInterval(1.0f)
-                .AppendCallback(() =>
-                {
-                    LightManager.Instance.ChangeLightColor(LightState.Alarm, 0.4f);
-                    pauseEvent.Raise(false);
-                })
+                .AppendCallback(() => { LightManager.Instance.ChangeLightColor(LightState.Alarm, 0.4f); })
+                .AppendInterval(1.5f)
+                .AppendCallback(() => { pauseEvent.Raise(false); })
                 .SetUpdate(true)
                 .Pause();
 

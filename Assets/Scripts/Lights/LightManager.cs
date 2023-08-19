@@ -86,32 +86,32 @@ namespace Lights
             ChangeLightColor(LightState.Alarm);
         }
 
-        public void ToggleLights(bool isOn, float duration = 0.3f)
+        public void ToggleLights(bool isOn, float duration = 0.3f, float afterFadeWait = 1.1f)
         {
-            StartCoroutine(TransitionLights(isOn, duration));
+            StartCoroutine(TransitionLights(isOn, duration, afterFadeWait));
         }
 
-        private IEnumerator TransitionLights(bool isOn, float duration)
+        private IEnumerator TransitionLights(bool isOn, float duration, float afterFadeWait)
         {
             OnLightControl?.Invoke(isOn, duration);
-            yield return new WaitForSecondsRealtime(1.1f);
+            yield return new WaitForSecondsRealtime(afterFadeWait);
         }
 
-        public void ChangeLightColor(LightState state, float duration = 0.3f)
+        public void ChangeLightColor(LightState state, float lightFadeDuration = 0.3f, float afterFadeWait = 1.1f)
         {
-            StartCoroutine(TransitionColors(state, duration));
+            StartCoroutine(TransitionColors(state, lightFadeDuration, afterFadeWait));
             _currentState = state;
         }
 
-        private IEnumerator TransitionColors(LightState newState, float duration)
+        private IEnumerator TransitionColors(LightState newState, float lightFadeDuration, float afterFadeWait)
         {
-            OnLightControl?.Invoke(false, duration);
-            yield return new WaitForSecondsRealtime(1.1f);
+            OnLightControl?.Invoke(false, lightFadeDuration);
+            yield return new WaitForSecondsRealtime(afterFadeWait);
 
             UpdateLightColor();
 
-            OnLightControl?.Invoke(true, duration);
-            yield return new WaitForSecondsRealtime(1.1f);
+            OnLightControl?.Invoke(true, lightFadeDuration);
+            yield return new WaitForSecondsRealtime(afterFadeWait);
         }
 
         private void UpdateLightColor()
