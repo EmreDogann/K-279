@@ -2071,8 +2071,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeAlarmLight: 0
-  isStaticAlarm: 0
+  canBeAlarmLight: 1
+  isStaticAlarm: 1
+--- !u!66 &1086901346 stripped
+CompositeCollider2D:
+  m_CorrespondingSourceObject: {fileID: 1233287487850014623, guid: f1e866c1d83ef274f94a1062b3fc7245,
+    type: 3}
+  m_PrefabInstance: {fileID: 1568419015677098499}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1154501149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2087,6 +2093,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Asset: {fileID: -944628639613478452, guid: d1a6d78b473c6914a8ba71719a82c98d, type: 3}
   m_ActionId: 71d61e14-202f-48db-9a53-c4c0bf3e712d
+--- !u!1 &1191720810
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1191720812}
+  - component: {fileID: 1191720811}
+  m_Layer: 0
+  m_Name: Event Squence Tester
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1191720811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191720810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48b70385c515a5a499dce63f58b48679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 1877220591}
+  submarineSoundScape: {fileID: 1647743933}
+  explosionSound: {fileID: 11400000, guid: 7adb8ab2c64fa8b4e8a616865eed02da, type: 2}
+  lowOxygenVoice: {fileID: 11400000, guid: c9dac489cc734a349a3372f28ee971dc, type: 2}
+  lightManager: {fileID: 344802097}
+--- !u!4 &1191720812
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191720810}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -32.51394, y: 6.665681, z: 214.02089}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1440051791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2132,7 +2187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blackScreenWaitTime: 1.5
   cameraConfiner2DSwitcher: {fileID: 147622454}
-  startingRoom: 3
+  startingRoom: 0
   loadStartingRoomOnAwake: 1
 --- !u!4 &1541677829
 Transform:
@@ -4927,3 +4982,4 @@ SceneRoots:
   - {fileID: 6003331836911324644}
   - {fileID: 5500789309151927391}
   - {fileID: 1960134382}
+  - {fileID: 1191720812}

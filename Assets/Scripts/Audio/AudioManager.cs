@@ -202,7 +202,8 @@ namespace Audio
                 IsPlaying = emitter.Source.isPlaying,
                 IsPaused = emitter.IsPaused,
                 CurrentPlayTime = emitter.Source.time,
-                PlaybackPosition = emitter.Source.transform.position
+                PlaybackPosition = emitter.Source.transform.position,
+                CurrentClipDuration = emitter.Source.clip.length
             };
         }
 
