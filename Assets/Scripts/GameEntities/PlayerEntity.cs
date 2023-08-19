@@ -10,6 +10,7 @@ namespace GameEntities
         [SerializeField] private float hitCoolDown = 0.2f;
 
         private float currentHP;
+        private bool isAlive = true;
 
         public static event Action PlayerDeathEvent = delegate {};
 
@@ -26,7 +27,7 @@ namespace GameEntities
         public void Died()
         {
             Debug.Log("PlayerDead");
-            // gameObject.SetActive(false);
+            isAlive = false;
             PlayerDeathEvent?.Invoke();
         }
 
@@ -48,6 +49,10 @@ namespace GameEntities
         public float GetHitCoolDown()
         {
             return hitCoolDown;
+        }
+        public bool IsAlive()
+        {
+            return isAlive;
         }
     }
 }
