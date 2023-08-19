@@ -1144,6 +1144,7 @@ MonoBehaviour:
   roomAmbiences:
   - audio: {fileID: 11400000, guid: 101408abce9d2b848a276db2589ea7e1, type: 2}
     playInConnectingRooms: 0
+    useOriginalAudioVolume: 1
     connectingRoomVolume: 0
   lightFadeDuration: 0.5
   <ActivateLightsOnRoomLoad>k__BackingField: 1
@@ -1161,6 +1162,7 @@ MonoBehaviour:
   - {fileID: 5249770296185619978}
   - {fileID: 4129874874854771169}
   - {fileID: 5598235137994561624}
+  - {fileID: 4194832482112198604}
 --- !u!1 &3854015266519197489
 GameObject:
   m_ObjectHideFlags: 0
@@ -1921,13 +1923,14 @@ GameObject:
   - component: {fileID: 1291054654369386741}
   - component: {fileID: 6934116087566528508}
   - component: {fileID: 4194832482112198604}
+  - component: {fileID: 2231372598147949336}
   m_Layer: 0
   m_Name: Under Grating
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4061820594259038983
 Transform:
   m_ObjectHideFlags: 0
@@ -2042,6 +2045,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBeAlarmLight: 0
   isStaticAlarm: 0
+--- !u!114 &2231372598147949336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5093913346933936246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3727016179d4b2fa651cb7b4cf13ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followTarget: {fileID: 0}
+  followSpeed: 1
 --- !u!1 &5262869648585841002
 GameObject:
   m_ObjectHideFlags: 0
@@ -4163,6 +4180,11 @@ PrefabInstance:
         type: 3}
       propertyPath: connectingRoom
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2687446678122933772, guid: 303f159a3e9295844b8c141f9f1411a0,
+        type: 3}
+      propertyPath: <PlayConnectingRoomAmbience>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3567890794709096586, guid: 303f159a3e9295844b8c141f9f1411a0,
         type: 3}

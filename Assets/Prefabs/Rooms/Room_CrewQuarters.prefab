@@ -1794,7 +1794,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomType: 1
-  roomAmbience: {fileID: 11400000, guid: 101408abce9d2b848a276db2589ea7e1, type: 2}
+  roomAmbiences: []
   lightFadeDuration: 0.5
   <ActivateLightsOnRoomLoad>k__BackingField: 1
   cameraBounds: {fileID: 4480491494856283307}
