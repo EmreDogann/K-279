@@ -7,20 +7,21 @@ using UnityEngine.Serialization;
 
 
 // Flashing Light Script using Tween to Sequence. Works with any light as it simply Tweens between intensity.
+[RequireComponent(typeof(Light))]
 public class FlashingLight : MonoBehaviour {
     [SerializeField]
     [Tooltip("Minimum intensity between which to animate the light.")]
     [Min(0.01f)]
-    private float minIntensity;
+    private float minIntensity = 7.0f;
 
     [SerializeField]
     [Tooltip("Maximum intensity between which to animate the light.")]
-    private float maxIntensity;
+    private float maxIntensity = 10.0f;
 
     [SerializeField]
     [Tooltip("Duration of one cycle")]
     [Min(0.001f)]
-    private float oneCycleDuration;
+    private float oneCycleDuration = 1.0f;
 
     [SerializeField]
     [Tooltip("Easing of the light")]
