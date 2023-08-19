@@ -32,7 +32,7 @@ namespace Rooms
         public AudioSO audio;
         public bool playInConnectingRooms;
         [ConditionalField(nameof(playInConnectingRooms))] public bool useOriginalAudioVolume = true;
-        [ConditionalField(nameof(useOriginalAudioVolume), true)] public float connectingRoomVolume = 1.0f;
+        [ConditionalField(nameof(playInConnectingRooms))] public float connectingRoomVolume = 1.0f;
     }
 
     public class Room : MonoBehaviour
@@ -63,6 +63,16 @@ namespace Rooms
             if (roomLights == null)
             {
                 roomLights = GetComponentsInChildren<RoomLight>().ToList();
+            }
+
+            // Active then deactivate lights that start disabled so that their awake functions can get called.
+            foreach (RoomLight roomLight in roomLights)
+            {
+                if (!roomLight.gameObject.activeSelf)
+                {
+                    roomLight.gameObject.SetActive(true);
+                    roomLight.gameObject.SetActive(false);
+                }
             }
         }
 
@@ -105,7 +115,7 @@ namespace Rooms
 
         public void PrepareRoom(RoomType exitingRoom)
         {
-            foreach (RoomLight roomLight in roomLights)
+            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
             {
                 roomLight.TurnOffLight();
             }
@@ -138,16 +148,14 @@ namespace Rooms
 
         public void ActivateRoom()
         {
-            // TODO : Why not just use roomDoors[0]?
             // Uses first room
-            foreach (Door door in roomDoors)
+            if (roomDoors.Count > 0)
             {
                 OnRoomActivate?.Invoke(new RoomData
                 {
-                    StartingPosition = door.GetSpawnPoint(),
+                    StartingPosition = roomDoors[0].GetSpawnPoint(),
                     LightFadeDuration = lightFadeDuration
                 });
-                break;
             }
 
             foreach (RoomAmbience roomAmbience in roomAmbiences)
@@ -160,7 +168,7 @@ namespace Rooms
         {
             if (ActivateLightsOnRoomLoad)
             {
-                foreach (RoomLight roomLight in roomLights)
+                foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
                 {
                     roomLight.TurnOnLight(lightFadeDuration);
                 }
@@ -227,12 +235,12 @@ namespace Rooms
 
         private IEnumerator WaitForLightsOff(float duration)
         {
-            foreach (RoomLight roomLight in roomLights)
+            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
             {
                 roomLight.TurnOffLight(duration);
             }
 
-            foreach (RoomLight roomLight in roomLights)
+            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
             {
                 while (roomLight.IsOn())
                 {
@@ -243,12 +251,12 @@ namespace Rooms
 
         private IEnumerator WaitForLightsOn(float duration)
         {
-            foreach (RoomLight roomLight in roomLights)
+            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
             {
                 roomLight.TurnOnLight(duration);
             }
 
-            foreach (RoomLight roomLight in roomLights)
+            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
             {
                 while (!roomLight.IsOn())
                 {

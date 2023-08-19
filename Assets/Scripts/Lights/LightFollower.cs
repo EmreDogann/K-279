@@ -11,8 +11,11 @@ namespace Lights
 
         private void Update()
         {
-            transform.position = Vector3.SmoothDamp(transform.position, followTarget.position, ref velocity,
+            Vector3 position = Vector3.SmoothDamp(transform.position, followTarget.position, ref velocity,
                 1 / followSpeed, Mathf.Infinity);
+
+            position.y = transform.position.y;
+            transform.position = position;
         }
     }
 }

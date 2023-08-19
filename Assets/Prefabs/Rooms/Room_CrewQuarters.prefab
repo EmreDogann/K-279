@@ -1794,7 +1794,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomType: 1
-  roomAmbiences: []
+  roomAmbiences:
+  - audio: {fileID: 11400000, guid: 101408abce9d2b848a276db2589ea7e1, type: 2}
+    playInConnectingRooms: 0
+    useOriginalAudioVolume: 0
+    connectingRoomVolume: 0
   lightFadeDuration: 0.5
   <ActivateLightsOnRoomLoad>k__BackingField: 1
   cameraBounds: {fileID: 4480491494856283307}
@@ -4598,6 +4602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlledByRoom: 1
   canBeAlarmLight: 1
   isStaticAlarm: 1
 --- !u!1001 &1520814138473711677
@@ -4731,6 +4736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlledByRoom: 1
   canBeAlarmLight: 1
   isStaticAlarm: 0
 --- !u!1001 &4105635447724307599
@@ -5055,6 +5061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlledByRoom: 1
   canBeAlarmLight: 1
   isStaticAlarm: 1
 --- !u!4 &3191271804694107593 stripped

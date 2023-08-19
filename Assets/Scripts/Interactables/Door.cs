@@ -116,7 +116,7 @@ namespace Interactables
 
         public bool IsInteractable()
         {
-            return !isLocked;
+            return !isLocked && !_handleRemoved;
         }
 
         public void SetLocked(bool isLocked, bool playLockedSound)
@@ -133,6 +133,7 @@ namespace Interactables
         {
             turningValve.gameObject.SetActive(false);
             _handleRemoved = true;
+            isInspectable = true;
         }
 
         public void PlayLockedAudio()
@@ -172,6 +173,7 @@ namespace Interactables
                 turningValve.gameObject.SetActive(true);
                 _handleRemoved = false;
                 isLocked = false;
+                isInspectable = false;
                 // TODO: Play placing handle audio
 
                 return true;

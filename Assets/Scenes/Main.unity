@@ -908,7 +908,7 @@ Camera:
   far clip plane: 100
   field of view: 28
   orthographic: 0
-  orthographic size: 2.368421
+  orthographic size: 2.4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1109,7 +1109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setOnAwake: 1
-  startingState: 0
+  startingState: 1
   normalColor: {r: 1, g: 0.8794544, b: 0.646, a: 1}
   alarmColor: {r: 0.92156863, g: 0.24882351, b: 0.24882351, a: 1}
   _rendererData: {fileID: 11400000, guid: c40be3174f62c4acf8c1216858c64956, type: 2}
@@ -2071,14 +2071,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlledByRoom: 0
   canBeAlarmLight: 1
   isStaticAlarm: 1
---- !u!66 &1086901346 stripped
-CompositeCollider2D:
-  m_CorrespondingSourceObject: {fileID: 1233287487850014623, guid: f1e866c1d83ef274f94a1062b3fc7245,
-    type: 3}
-  m_PrefabInstance: {fileID: 1568419015677098499}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1154501149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2187,7 +2182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blackScreenWaitTime: 1.5
   cameraConfiner2DSwitcher: {fileID: 147622454}
-  startingRoom: 0
+  startingRoom: 3
   loadStartingRoomOnAwake: 1
 --- !u!4 &1541677829
 Transform:
