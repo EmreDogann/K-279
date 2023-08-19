@@ -38,9 +38,9 @@ namespace Lights
         public static LightManager Instance { get; private set; }
 
         public static event Action<LightData> OnChangeColor;
-        public static event Action OnLightStateChange;
+        public static event Action<LightState> OnLightStateChange;
 
-        private void Awake()
+        private void Start()
         {
             if (Instance == null)
             {
@@ -57,7 +57,9 @@ namespace Lights
 
             if (setOnAwake)
             {
-                SetLightState(startingState);
+                _currentState = startingState;
+                OnLightStateChange?.Invoke(_currentState);
+                UpdateLightColor();
             }
         }
 
@@ -76,7 +78,7 @@ namespace Lights
         public void SetLightState(LightState state)
         {
             StartCoroutine(TransitionColors());
-            OnLightStateChange?.Invoke();
+            OnLightStateChange?.Invoke(state);
             _currentState = state;
         }
 

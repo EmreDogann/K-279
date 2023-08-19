@@ -4,12 +4,12 @@ namespace Lights
 {
     public abstract class LightColorChangeListener : MonoBehaviour
     {
-        public virtual void OnEnable()
+        public virtual void Awake()
         {
             LightManager.OnChangeColor += OnChangeColor;
         }
 
-        public virtual void OnDisable()
+        public virtual void OnDestroy()
         {
             LightManager.OnChangeColor -= OnChangeColor;
         }

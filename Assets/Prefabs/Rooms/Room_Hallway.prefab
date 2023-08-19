@@ -2037,10 +2037,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickering: 0
-  flickeringAmplitude: 0
-  flickeringFrequency: 0
-  flickeringCooldown: 0
+  canBeAlarmLight: 0
+  isStaticAlarm: 0
 --- !u!1 &5262869648585841002
 GameObject:
   m_ObjectHideFlags: 0
@@ -3422,10 +3420,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickering: 0
-  flickeringAmplitude: 0
-  flickeringFrequency: 0
-  flickeringCooldown: 0
+  canBeAlarmLight: 1
+  isStaticAlarm: 1
 --- !u!1001 &877167340720992314
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3552,10 +3548,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickering: 0
-  flickeringAmplitude: 0
-  flickeringFrequency: 0
-  flickeringCooldown: 0
+  canBeAlarmLight: 1
+  isStaticAlarm: 0
 --- !u!1001 &1383099478074310288
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3870,10 +3864,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickering: 0
-  flickeringAmplitude: 0
-  flickeringFrequency: 0
-  flickeringCooldown: 0
+  canBeAlarmLight: 1
+  isStaticAlarm: 1
 --- !u!4 &9188859647648962267 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6233086385650932308, guid: 1e89ad47699baf846aa33d89d5609cb1,
@@ -3975,10 +3967,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickering: 0
-  flickeringAmplitude: 0
-  flickeringFrequency: 0
-  flickeringCooldown: 0
+  canBeAlarmLight: 1
+  isStaticAlarm: 1
 --- !u!4 &9034603770027531140 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6233086385650932308, guid: 1e89ad47699baf846aa33d89d5609cb1,
@@ -4100,10 +4090,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickering: 0
-  flickeringAmplitude: 0
-  flickeringFrequency: 0
-  flickeringCooldown: 0
+  canBeAlarmLight: 1
+  isStaticAlarm: 1
 --- !u!4 &7270366336248594881 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6233086385650932308, guid: 1e89ad47699baf846aa33d89d5609cb1,
@@ -4450,10 +4438,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickering: 0
-  flickeringAmplitude: 0
-  flickeringFrequency: 0
-  flickeringCooldown: 0
+  canBeAlarmLight: 1
+  isStaticAlarm: 0
 --- !u!1001 &8250912189581951965
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4574,10 +4560,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickering: 0
-  flickeringAmplitude: 0
-  flickeringFrequency: 0
-  flickeringCooldown: 0
+  canBeAlarmLight: 1
+  isStaticAlarm: 0
 --- !u!4 &2594495463813355913 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6233086385650932308, guid: 1e89ad47699baf846aa33d89d5609cb1,
