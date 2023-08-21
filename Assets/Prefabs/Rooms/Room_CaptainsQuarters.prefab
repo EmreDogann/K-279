@@ -1130,7 +1130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 1
+  roomCanControl: 1
   canBeAlarmLight: 1
   isStaticAlarm: 1
 --- !u!1 &3676166440565521338
@@ -2182,7 +2182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 1
+  roomCanControl: 1
   canBeAlarmLight: 0
   isStaticAlarm: 0
 --- !u!1 &6207392869942562575
@@ -2461,9 +2461,10 @@ GameObject:
   - component: {fileID: 2114487559698538684}
   - component: {fileID: 4958442776188636530}
   - component: {fileID: 5012150694382002445}
+  - component: {fileID: 3153873971693453569}
   m_Layer: 0
-  m_Name: Cube.063
-  m_TagString: Untagged
+  m_Name: Outside
+  m_TagString: RoomBounds
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2533,6 +2534,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3153873971693453569
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6756406227180098045}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.036037073, y: 0.019999994, z: 0.021601569}
+  m_Center: {x: 0.036037073, y: 9.313224e-10, z: 4.6566084e-10}
 --- !u!1 &6853005725440361693
 GameObject:
   m_ObjectHideFlags: 0
@@ -2672,7 +2694,7 @@ MonoBehaviour:
     useOriginalAudioVolume: 0
     connectingRoomVolume: 0
   lightFadeDuration: 0.5
-  <ActivateLightsOnRoomLoad>k__BackingField: 1
+  <LightsOn>k__BackingField: 1
   cameraBounds: {fileID: 4105816325208378523}
   roomDoors:
   - {fileID: 3081611069322405812}
@@ -2948,7 +2970,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3748103469815443260
 Transform:
   m_ObjectHideFlags: 0
@@ -3224,7 +3246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 1
+  roomCanControl: 1
   canBeAlarmLight: 0
   isStaticAlarm: 0
 --- !u!1 &8139213740959433999
@@ -3607,7 +3629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 1
+  roomCanControl: 1
   canBeAlarmLight: 1
   isStaticAlarm: 0
 --- !u!1 &8665726799612322363

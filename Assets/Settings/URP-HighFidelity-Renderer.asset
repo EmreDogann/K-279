@@ -20,8 +20,8 @@ MonoBehaviour:
     Source: 1
     NormalSamples: 1
     Intensity: 100
-    DirectLightingStrength: 1
-    Radius: 0.3
+    DirectLightingStrength: 0.733
+    Radius: 0.2
     Samples: 0
     BlurQuality: 0
     Falloff: 100
@@ -154,13 +154,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    showInSceneView: 1
+    showInSceneView: 0
     worldSpaceDither: 1
     ditherTex: {fileID: 2800000, guid: a45b2a91af8cf4948ab789d3525bd528, type: 3}
     useRampTexture: 0
     rampTex: {fileID: 2800000, guid: a9601c9d949192d4aa929fc05d5e5dda, type: 3}
     backgroundColor: {r: 0, g: 0, b: 0, a: 1}
-    foregroundColor: {r: 0.92156863, g: 0.24882351, b: 0.24882351, a: 1}
+    foregroundColor: {r: 1, g: 0.8794544, b: 0.646, a: 1}
     threshold: 0.6
     tiling: 300
     filterMode: 1

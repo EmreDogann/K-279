@@ -19,9 +19,8 @@ namespace Capabilities
         [SerializeField] private Inventory inventory;
 
         private Controller _controller;
+        private Transform _currentTransform;
         private IInteractableObjects _currentInteractable;
-        private IInspectable _currentInspectable;
-        private IItem _currentItem;
 
         private bool _interactionActive;
 
@@ -61,65 +60,61 @@ namespace Capabilities
             }
 
             bool isInteractKeyDown = _controller.input.RetrieveInteractInput();
-            if (!isInteractKeyDown)
+            if (!isInteractKeyDown || _currentInteractable == null || !_currentInteractable.IsInteractable())
             {
                 return;
             }
 
-            // Interactable
-            if (_currentInteractable != null && _currentInteractable.IsInteractable())
-            {
-                _currentInteractable.InteractionContinues(true);
-                return;
-            }
+            _currentInteractable.InteractionContinues(true);
 
-            // Inspection
-            if (_currentInspectable != null && _currentInspectable.IsInspectable())
+            IInspectable inspectableObject = _currentTransform.gameObject.GetComponent<IInspectable>();
+            if (inspectableObject != null)
             {
-                _interactionActive = false;
-                if (_currentInspectable.IsExpectingItem())
+                if (inspectableObject.IsExpectingItem(out ItemType expectedItem))
                 {
-                    ItemType expectedItem = _currentInspectable.GetExpectedItem();
                     if (inventory.ContainsItemType(expectedItem))
                     {
-                        // inspector.InspectWithConfirmation(_currentInspectable, wasConfirmed =>
-                        // {
-                        //     if (wasConfirmed)
-                        //     {
-                        //         inventory.TryGetItem(expectedItem).Consume();
-                        //     }
-                        //
-                        //     _interactionActive = true;
-                        // });
-
-                        StartCoroutine(PlaceItemAnimation(_currentInspectable, inventory.TryGetItem(expectedItem)));
+                        _interactionActive = false;
+                        StartCoroutine(PlaceItemAnimation(inspectableObject, inventory.TryGetItem(expectedItem)));
                     }
-                    else
+                    else if (inspectableObject.IsInspectable())
                     {
-                        inspector.Inspect(_currentInspectable, _ => StartCoroutine(DelayedInteractActivate()));
+                        _interactionActive = false;
+                        inspector.OpenInspect(inspectableObject, _ => StartCoroutine(DelayedInteractActivate()));
                     }
                 }
                 else
                 {
-                    inspector.Inspect(_currentInspectable, _ => StartCoroutine(DelayedInteractActivate()));
+                    if (inspectableObject.HasAvailableItem())
+                    {
+                        _interactionActive = false;
+                        StartCoroutine(TakeItemAnimation(inspectableObject));
+                    }
+                    else if (inspectableObject.IsInspectable())
+                    {
+                        _interactionActive = false;
+                        inspector.OpenInspect(inspectableObject, _ => StartCoroutine(DelayedInteractActivate()));
+                    }
                 }
 
                 return;
             }
 
-            // Item Pickup
-            if (_currentItem != null)
+            IItem item = _currentTransform.gameObject.GetComponent<IItem>();
+            if (item != null)
             {
                 _interactionActive = false;
-                itemInspector.InspectItem(_currentItem, _controller, wasConfirmed =>
+                itemInspector.InspectItem(item, _controller, wasConfirmed =>
                 {
                     if (wasConfirmed)
                     {
-                        inventory.AddItem(_currentItem);
-                        _currentItem.Pickup();
+                        inventory.AddItem(item);
+                        item.Pickup();
+
+                        _currentInteractable = null;
+                        _currentTransform = null;
                     }
 
-                    _currentItem = null;
                     _interactionActive = true;
                 });
             }
@@ -127,12 +122,25 @@ namespace Capabilities
 
         private IEnumerator PlaceItemAnimation(IInspectable inspectable, IItem item)
         {
-            _currentInspectable.GetCameraAngle().gameObject.SetActive(true);
+            inspectable.GetCameraAngle().gameObject.SetActive(true);
             yield return new WaitForSecondsRealtime(1.0f);
-            item.Consume();
             inspectable.TryItem(item);
             yield return new WaitForSecondsRealtime(1.0f);
-            _currentInspectable.GetCameraAngle().gameObject.SetActive(false);
+            inspectable.GetCameraAngle().gameObject.SetActive(false);
+
+            _interactionActive = true;
+        }
+
+        private IEnumerator TakeItemAnimation(IInspectable inspectable)
+        {
+            inspectable.GetCameraAngle().gameObject.SetActive(true);
+            yield return new WaitForSecondsRealtime(1.0f);
+
+            IItem item = inspectable.TryTakeItem();
+            inventory.AddItem(item);
+
+            yield return new WaitForSecondsRealtime(1.0f);
+            inspectable.GetCameraAngle().gameObject.SetActive(false);
 
             _interactionActive = true;
         }
@@ -155,35 +163,23 @@ namespace Capabilities
             {
                 interactableObject.InteractionStart();
                 _currentInteractable = interactableObject;
-            }
-
-            IInspectable inspectableObject = collision.gameObject.GetComponent<IInspectable>();
-            if (inspectableObject != null)
-            {
-                _currentInspectable = inspectableObject;
-            }
-
-            IItem item = collision.gameObject.GetComponent<IItem>();
-            if (_currentItem == null && item != null)
-            {
-                _currentItem = item;
+                _currentTransform = collision.transform;
             }
         }
 
         private void OnTriggerStay(Collider collision)
         {
-            if (!interactableLayerMask.Contains(collision.gameObject.layer))
+            if (!interactableLayerMask.Contains(collision.gameObject.layer) && _currentInteractable == null)
             {
                 return;
             }
 
-            if (_currentItem == null)
+            IInteractableObjects interactableObject = collision.gameObject.GetComponent<IInteractableObjects>();
+            if (interactableObject != null)
             {
-                IItem item = collision.gameObject.GetComponent<IItem>();
-                if (item != null)
-                {
-                    _currentItem = item;
-                }
+                interactableObject.InteractionStart();
+                _currentInteractable = interactableObject;
+                _currentTransform = collision.transform;
             }
         }
 
@@ -198,19 +194,12 @@ namespace Capabilities
             if (interactableObject != null)
             {
                 interactableObject.InteractionEnd();
-                _currentInteractable = null;
-            }
 
-            IInspectable inspectableObject = collision.gameObject.GetComponent<IInspectable>();
-            if (inspectableObject != null)
-            {
-                _currentInspectable = null;
-            }
-
-            IItem item = collision.gameObject.GetComponent<IItem>();
-            if (_currentItem == item)
-            {
-                _currentItem = null;
+                if (interactableObject == _currentInteractable)
+                {
+                    _currentInteractable = null;
+                    _currentTransform = null;
+                }
             }
         }
     }

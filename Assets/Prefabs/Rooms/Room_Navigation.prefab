@@ -140,7 +140,7 @@ MonoBehaviour:
     useOriginalAudioVolume: 0
     connectingRoomVolume: 0
   lightFadeDuration: 0.5
-  <ActivateLightsOnRoomLoad>k__BackingField: 1
+  <LightsOn>k__BackingField: 1
   cameraBounds: {fileID: 1233287487850014623}
   roomDoors:
   - {fileID: 8186094977514067202}
@@ -942,9 +942,10 @@ GameObject:
   - component: {fileID: 7615159309080091138}
   - component: {fileID: 565101426711534261}
   - component: {fileID: 8347794350978399368}
+  - component: {fileID: 9119950040183373914}
   m_Layer: 0
-  m_Name: Cube.070
-  m_TagString: Untagged
+  m_Name: Outside
+  m_TagString: RoomBounds
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1014,6 +1015,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &9119950040183373914
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5721751972753263277}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.05056873, y: 0.019999994, z: 0.021601569}
+  m_Center: {x: 0.10609639, y: 9.313224e-10, z: 4.6566084e-10}
 --- !u!1 &6202893189341623745
 GameObject:
   m_ObjectHideFlags: 0
@@ -1145,7 +1167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 1
+  roomCanControl: 1
   canBeAlarmLight: 0
   isStaticAlarm: 0
 --- !u!1 &6513066253848948110
@@ -1166,7 +1188,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2809830257136670808
 Transform:
   m_ObjectHideFlags: 0
@@ -1910,7 +1932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 1
+  roomCanControl: 1
   canBeAlarmLight: 1
   isStaticAlarm: 1
 --- !u!1 &7989160814462270642
@@ -2163,7 +2185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 1
+  roomCanControl: 1
   canBeAlarmLight: 1
   isStaticAlarm: 0
 --- !u!1 &8357522546286570428

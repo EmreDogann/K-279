@@ -36,26 +36,19 @@ namespace Items
             return itemInfo.resourceQuantity;
         }
 
-        public void Reset()
+        public Transform GetTransform()
         {
-            gameObject.SetActive(true);
+            return transform;
         }
 
         public void Pickup()
         {
-            _isAvailable = false;
             gameObject.SetActive(false);
         }
 
         public void Consume()
         {
-            _isAvailable = true;
             OnConsumed?.Invoke(this);
-        }
-
-        public bool IsAvailable()
-        {
-            return _isAvailable;
         }
     }
 }

@@ -6,7 +6,10 @@
 
         public override void OnRoomActivate(RoomData roomData)
         {
-            transform.position = roomData.StartingPosition.position;
+            if (roomData.StartingPosition != null)
+            {
+                transform.position = roomData.StartingPosition.position;
+            }
         }
 
         public override void OnRoomDeactivate(RoomData roomData) {}

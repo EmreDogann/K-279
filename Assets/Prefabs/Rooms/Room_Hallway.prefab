@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3671549842360397443
 Transform:
   m_ObjectHideFlags: 0
@@ -1423,9 +1423,10 @@ GameObject:
   - component: {fileID: 98217318743446528}
   - component: {fileID: 6856225750988347186}
   - component: {fileID: 5021767134608401592}
+  - component: {fileID: 734335505684260975}
   m_Layer: 0
-  m_Name: Cube.004
-  m_TagString: Untagged
+  m_Name: Outside
+  m_TagString: RoomBounds
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1496,6 +1497,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &734335505684260975
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4300326374559260929}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.65265, y: 0.12028248, z: 0.12098622}
+  m_Center: {x: 0.326325, y: 0.06014124, z: 0.060493127}
 --- !u!1 &4402621524323602114
 GameObject:
   m_ObjectHideFlags: 0
@@ -2043,7 +2065,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 0
+  roomCanControl: 1
   canBeAlarmLight: 0
   isStaticAlarm: 0
 --- !u!114 &2231372598147949336
@@ -3441,7 +3463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 1
+  roomCanControl: 1
   canBeAlarmLight: 1
   isStaticAlarm: 1
 --- !u!1001 &877167340720992314
@@ -3570,7 +3592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 1
+  roomCanControl: 1
   canBeAlarmLight: 1
   isStaticAlarm: 0
 --- !u!1001 &1383099478074310288
@@ -3722,6 +3744,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2687446678122933772, guid: 303f159a3e9295844b8c141f9f1411a0,
+        type: 3}
+      propertyPath: expectedItem
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2687446678122933772, guid: 303f159a3e9295844b8c141f9f1411a0,
         type: 3}
@@ -3887,7 +3914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 1
+  roomCanControl: 1
   canBeAlarmLight: 1
   isStaticAlarm: 1
 --- !u!4 &9188859647648962267 stripped
@@ -3991,7 +4018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 1
+  roomCanControl: 1
   canBeAlarmLight: 1
   isStaticAlarm: 1
 --- !u!4 &9034603770027531140 stripped
@@ -4115,7 +4142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 1
+  roomCanControl: 1
   canBeAlarmLight: 1
   isStaticAlarm: 1
 --- !u!4 &7270366336248594881 stripped
@@ -4469,7 +4496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 1
+  roomCanControl: 1
   canBeAlarmLight: 1
   isStaticAlarm: 0
 --- !u!1001 &8250912189581951965
@@ -4592,7 +4619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 1
+  roomCanControl: 1
   canBeAlarmLight: 1
   isStaticAlarm: 0
 --- !u!4 &2594495463813355913 stripped

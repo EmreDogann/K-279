@@ -83,7 +83,9 @@ namespace Capabilities
             _muzzleFlashSequence
                 .AppendCallback(() =>
                 {
-                    muzzleFlash.transform.position = transform.position + gunOffset;
+                    Vector3 position = transform.position + gunOffset;
+                    position.z = muzzleFlash.transform.position.z;
+                    muzzleFlash.transform.position = position;
                     muzzleFlash.gameObject.SetActive(true);
                 })
                 .AppendInterval(muzzleFlashLifetime)
@@ -133,7 +135,8 @@ namespace Capabilities
                 _shotCoolDownTimer += Time.deltaTime;
                 if (_shotCoolDownTimer <= _shootCoolDown)
                 {
-                    if (_shotCoolDownTimer >= _shootCoolDown * 0.95f)
+                    if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Shoot") &&
+                        _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
                     {
                         _isShootQueued = true;
                     }

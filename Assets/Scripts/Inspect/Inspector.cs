@@ -11,11 +11,7 @@ namespace Inspect
     public class Inspector : MonoBehaviour
     {
         [SerializeField] private Controller controller;
-        [SerializeField] private TextMeshProUGUI text;
-
-        [Separator("Buttons")]
-        [SerializeField] private TextMeshProUGUI confirmButton;
-        [SerializeField] private TextMeshProUGUI cancelButton;
+        [SerializeField] private TextMeshProUGUI textMesh;
 
         [Separator("Animation")]
         [Tooltip("Characters to show per second")]
@@ -23,8 +19,6 @@ namespace Inspect
 
         [Separator("Events")]
         [SerializeField] private BoolEventChannelSO pauseEvent;
-
-        private bool _waitingConfirmation;
 
         private bool _isTextAnimating;
         private string _messageTarget;
@@ -37,10 +31,10 @@ namespace Inspect
             {
                 if (controller.input.RetrieveInteractInput())
                 {
-                    text.maxVisibleCharacters = _messageTarget.Length;
+                    textMesh.maxVisibleCharacters = _messageTarget.Length;
                 }
             }
-            else if (!_waitingConfirmation)
+            else
             {
                 if (_currentInspectable != null && controller.input.RetrieveInteractInput())
                 {
@@ -50,21 +44,15 @@ namespace Inspect
             }
         }
 
-        public void Inspect(IInspectable inspectable, Action<bool> callback = null)
+        public void OpenInspect(IInspectable inspectable, Action<bool> onCompleteCallback = null)
         {
             _currentInspectable = inspectable;
-            _currentCallback = callback;
+            _currentCallback = onCompleteCallback;
 
             pauseEvent.Raise(true);
 
             inspectable.GetCameraAngle().gameObject.SetActive(true);
             StartCoroutine(DisplayMessage(_currentInspectable.GetMessage()));
-        }
-
-        public void InspectWithConfirmation(IInspectable inspectable, Action<bool> callback = null)
-        {
-            _waitingConfirmation = true;
-            Inspect(inspectable, callback);
         }
 
         public void ConfirmInspect()
@@ -83,13 +71,11 @@ namespace Inspect
         {
             _currentInspectable.GetCameraAngle().gameObject.SetActive(false);
 
-            text.gameObject.SetActive(false);
-            confirmButton.gameObject.SetActive(false);
-            cancelButton.gameObject.SetActive(false);
+            textMesh.text = string.Empty;
+            textMesh.gameObject.SetActive(false);
 
             _currentInspectable = null;
             _currentCallback = null;
-            _waitingConfirmation = false;
 
             pauseEvent.Raise(false);
         }
@@ -101,13 +87,13 @@ namespace Inspect
 
             _messageTarget = itemName;
 
-            text.gameObject.SetActive(true);
-            text.text = _messageTarget;
-            text.maxVisibleCharacters = 0;
+            textMesh.gameObject.SetActive(true);
+            textMesh.text = _messageTarget;
+            textMesh.maxVisibleCharacters = 0;
 
             foreach (char letter in _messageTarget)
             {
-                if (text.maxVisibleCharacters == _messageTarget.Length)
+                if (textMesh.maxVisibleCharacters == _messageTarget.Length)
                 {
                     break;
                 }
@@ -122,18 +108,12 @@ namespace Inspect
                 }
                 else
                 {
-                    text.maxVisibleCharacters++;
+                    textMesh.maxVisibleCharacters++;
+                    textMesh.ForceMeshUpdate(true);
+
                     yield return new WaitForSecondsRealtime(1 / textAnimationSpeed);
                 }
             }
-
-            // if (_waitingConfirmation)
-            // {
-            //     EventSystem.current.SetSelectedGameObject(confirmButton.gameObject);
-            //
-            //     confirmButton.gameObject.SetActive(true);
-            //     cancelButton.gameObject.SetActive(true);
-            // }
 
             _isTextAnimating = false;
         }

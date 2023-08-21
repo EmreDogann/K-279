@@ -7,7 +7,7 @@ namespace Lights
     [RequireComponent(typeof(Light))]
     public class RoomLight : MonoBehaviour
     {
-        [SerializeField] private bool controlledByRoom = true;
+        [SerializeField] private bool roomCanControl = true;
         [SerializeField] private bool canBeAlarmLight;
         [ConditionalField(nameof(canBeAlarmLight))] [SerializeField] private bool isStaticAlarm;
 
@@ -25,9 +25,9 @@ namespace Lights
             return _light.intensity > 0;
         }
 
-        public bool IsControlledByRoom()
+        public bool CanBeControlledByRoom()
         {
-            return controlledByRoom;
+            return roomCanControl;
         }
 
         public void TurnOffLight(float duration = 0.0f)
