@@ -10,9 +10,9 @@ E -> Interact
 Space -> Draw weapon & shoot
 
 ## Authors
+https://emredogan.itch.io/ - Graphics / Programming  
 https://itch.io/profile/poorly-rendered-games - 2D Art  
 https://breadcred.itch.io/ - Programming  
 https://x.com/notlf3d - 3D Art  
-https://mossyrodriguez.itch.io/ - Audio Designer  
-https://emredogan.itch.io/ - Programmer  
-https://www.aumpatel.co.uk/ - Programmer  
+https://mossyrodriguez.itch.io/ - Audio Design  
+https://www.aumpatel.co.uk/ - Programming  
