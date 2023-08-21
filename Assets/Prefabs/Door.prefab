@@ -135,6 +135,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 4844458059673925581}
   turningValueAudio: {fileID: 11400000, guid: c9dac489cc734a349a3372f28ee971dc, type: 2}
   closingDoorAudio: {fileID: 11400000, guid: 53c7285dd5cb022499628f52d144aeeb, type: 2}
+  <PlayConnectingRoomAmbience>k__BackingField: 0
   turningValve: {fileID: 6427883332284065605}
   valveTurnEulerAngle: 65
   valveTurnDuration: 1
@@ -142,9 +143,11 @@ MonoBehaviour:
   openEulerAngle: 32
   openDuration: 1
   openEasing: 4
+  expectedItem: 0
   isInspectable: 0
   inspectVirtualCamera: {fileID: 1459622638176061924}
   inspectMessage: 
+  isLocked: 0
 --- !u!65 &7626391866964606603
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -164,7 +167,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.3863602, y: 6.7167616, z: 6.934368}
+  m_Size: {x: 2.3395047, y: 6.7167616, z: 6.934368}
   m_Center: {x: 1.1353569, y: -0.047213078, z: 2.967184}
 --- !u!1 &5261271606054929343
 GameObject:

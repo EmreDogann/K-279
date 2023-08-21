@@ -32,6 +32,7 @@ namespace Interactables
         [SerializeField] private Ease openEasing = Ease.Linear;
 
         [Separator("Inspection")]
+        [SerializeField] private ItemType expectedItem;
         [SerializeField] private bool isInspectable;
         [SerializeField] private CinemachineVirtualCamera inspectVirtualCamera;
         [SerializeField] private string inspectMessage;
@@ -92,7 +93,7 @@ namespace Interactables
         {
             if (isInteractionKeyDown && !_doorOpenSequence.IsPlaying())
             {
-                if (isLocked)
+                if (isLocked || _handleRemoved)
                 {
                     // TODO: Play locked audio
                     return false;
@@ -116,12 +117,12 @@ namespace Interactables
 
         public bool IsInteractable()
         {
-            return !isLocked && !_handleRemoved;
+            return !isLocked;
         }
 
-        public void SetLocked(bool isLocked, bool playLockedSound)
+        public void SetLocked(bool locked, bool playLockedSound)
         {
-            this.isLocked = isLocked;
+            isLocked = locked;
             if (playLockedSound)
             {
                 // TODO: Play locking audio
@@ -133,12 +134,8 @@ namespace Interactables
         {
             turningValve.gameObject.SetActive(false);
             _handleRemoved = true;
+            isLocked = false;
             isInspectable = true;
-        }
-
-        public void PlayLockedAudio()
-        {
-            // TODO: Play locking audio
         }
 
         public CinemachineVirtualCamera GetCameraAngle()
@@ -156,20 +153,24 @@ namespace Interactables
             return isInspectable;
         }
 
-        public bool IsExpectingItem()
+        public bool IsExpectingItem(out ItemType itemType)
         {
+            itemType = expectedItem;
             return _handleRemoved;
         }
 
-        public ItemType GetExpectedItem()
+        public bool HasAvailableItem()
         {
-            return ItemType.Valve;
+            return false;
         }
 
         public bool TryItem(IItem item)
         {
-            if (IsExpectingItem() && item.GetItemType() == GetExpectedItem())
+            bool isExpectingItem = IsExpectingItem(out ItemType itemType);
+            if (isExpectingItem && item.GetItemType() == itemType)
             {
+                item.Consume();
+
                 turningValve.gameObject.SetActive(true);
                 _handleRemoved = false;
                 isLocked = false;
@@ -180,6 +181,11 @@ namespace Interactables
             }
 
             return false;
+        }
+
+        public IItem TryTakeItem()
+        {
+            return null;
         }
     }
 }

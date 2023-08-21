@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2600793160856632658}
+  - component: {fileID: 4513131967636997043}
   - component: {fileID: 8292517588833917477}
   - component: {fileID: 2480975044411633114}
   m_Layer: 7
@@ -35,6 +36,19 @@ Transform:
   - {fileID: 9075798164470642371}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4513131967636997043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2336952833739822332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 880c5aa26a3b463e8c5bae591bf7099a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isInteractable: 1
 --- !u!114 &8292517588833917477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +177,8 @@ GameObject:
   - component: {fileID: 9075798164470642371}
   - component: {fileID: 5715131769986963446}
   - component: {fileID: 8268171911209262641}
+  - component: {fileID: 741284130185243751}
+  - component: {fileID: 1850445001630841457}
   m_Layer: 7
   m_Name: Point Light
   m_TagString: Untagged
@@ -270,3 +286,31 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &741284130185243751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8380845552868636394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomCanControl: 0
+  canBeAlarmLight: 0
+  isStaticAlarm: 0
+--- !u!114 &1850445001630841457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8380845552868636394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81f6540d1e44477581482a37c9e34d71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controlLight: {fileID: 741284130185243751}

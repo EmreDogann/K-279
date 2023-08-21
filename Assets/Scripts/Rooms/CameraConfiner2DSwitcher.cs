@@ -1,8 +1,12 @@
 using Cinemachine;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Rooms
 {
+    [ExecuteInEditMode]
     [RequireComponent(typeof(CinemachineConfiner2D))]
     public class CameraConfiner2DSwitcher : MonoBehaviour
     {
@@ -11,9 +15,31 @@ namespace Rooms
         private void Awake()
         {
             _confiner2D = GetComponent<CinemachineConfiner2D>();
+
+#if UNITY_EDITOR
+            EditorApplication.playModeStateChanged += Editor_RemoveConfiner;
+#endif
         }
 
-        public void OnApplicationQuit()
+        private void OnDisable()
+        {
+#if UNITY_EDITOR
+            EditorApplication.playModeStateChanged -= Editor_RemoveConfiner;
+#endif
+        }
+
+#if UNITY_EDITOR
+        public void Editor_RemoveConfiner(PlayModeStateChange stateChange)
+        {
+            if (stateChange == PlayModeStateChange.EnteredEditMode)
+            {
+                _confiner2D.m_BoundingShape2D = null;
+                _confiner2D.InvalidateCache();
+            }
+        }
+#endif
+
+        public void RemoveConfiner()
         {
             _confiner2D.m_BoundingShape2D = null;
             _confiner2D.InvalidateCache();

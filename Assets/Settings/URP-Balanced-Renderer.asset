@@ -96,8 +96,7 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: -1547564641561800239}
   - {fileID: -1878332245247344467}
-  - {fileID: 4088849170584556914}
-  m_RendererFeatureMap: d111c16828f285eaadc0de57c6d2eee572d5d730a882be38
+  m_RendererFeatureMap: d111c16828f285eaadc0de57c6d2eee5
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -140,28 +139,3 @@ MonoBehaviour:
   m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
---- !u!114 &4088849170584556914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f8fe2f320d945740b00157de6a13b69, type: 3}
-  m_Name: Screen Dither
-  m_EditorClassIdentifier: 
-  m_Active: 1
-  settings:
-    showInSceneView: 0
-    worldSpaceDither: 0
-    ditherTex: {fileID: 0}
-    useRampTexture: 0
-    rampTex: {fileID: 0}
-    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
-    foregroundColor: {r: 0, g: 0, b: 0, a: 0}
-    threshold: 0.1
-    tiling: 192
-    filterMode: 1
-  renderPassEvent: 400

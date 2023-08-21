@@ -1256,9 +1256,10 @@ GameObject:
   - component: {fileID: 6385227103029525822}
   - component: {fileID: 3685579560863208983}
   - component: {fileID: 6558285160624856904}
+  - component: {fileID: 4652237293184292625}
   m_Layer: 0
-  m_Name: Cube.048
-  m_TagString: Untagged
+  m_Name: Outside
+  m_TagString: RoomBounds
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1328,6 +1329,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4652237293184292625
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3452941280955653354}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.07378288, y: 0.019999994, z: 0.021601569}
+  m_Center: {x: 0.053201247, y: 1.6543612e-23, z: 0.0000000032596286}
 --- !u!1 &3804370561254269880
 GameObject:
   m_ObjectHideFlags: 0
@@ -4336,7 +4358,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8982612217167846533
 Transform:
   m_ObjectHideFlags: 0
@@ -4666,7 +4688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 1
+  roomCanControl: 1
   canBeAlarmLight: 1
   isStaticAlarm: 1
 --- !u!1001 &1520814138473711677
@@ -4800,7 +4822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 1
+  roomCanControl: 1
   canBeAlarmLight: 1
   isStaticAlarm: 0
 --- !u!1001 &4105635447724307599
@@ -5125,7 +5147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlledByRoom: 1
+  roomCanControl: 1
   canBeAlarmLight: 1
   isStaticAlarm: 1
 --- !u!4 &3191271804694107593 stripped

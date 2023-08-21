@@ -139,7 +139,7 @@
 						real depth = SampleSceneDepth(input.uv);
 	                #else
 						// Adjust Z to match NDC for OpenGL ([-1, 1])
-						real depth = lerp(UNITY_NEAR_CLIP_VALUE, 1, SampleSceneDepth(UV));
+						real depth = lerp(UNITY_NEAR_CLIP_VALUE, 1, SampleSceneDepth(input.uv));
 	                #endif
             		// depth = Linear01Depth(depth, _ZBufferParams);
 	                

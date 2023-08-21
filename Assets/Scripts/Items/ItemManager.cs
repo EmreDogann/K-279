@@ -43,18 +43,5 @@ namespace Items
         {
             _inventoryItems.Add(item);
         }
-
-        public IItem TryRequestItem(ItemType itemType)
-        {
-            foreach (IItem item in _inventoryItems)
-            {
-                if (item.GetItemType() == itemType && item.IsAvailable())
-                {
-                    return item;
-                }
-            }
-
-            return null;
-        }
     }
 }

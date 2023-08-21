@@ -54,6 +54,8 @@ namespace Rooms
         public static event Action<RoomData> OnRoomActivate;
         public static event Action<RoomData> OnRoomDeactivate;
 
+        private BoxCollider _roomBounds;
+
         private void Awake()
         {
             if (roomDoors == null)
@@ -74,6 +76,24 @@ namespace Rooms
                     roomLight.gameObject.SetActive(true);
                     roomLight.gameObject.SetActive(false);
                 }
+            }
+
+            var roomBoundsCollider = GetComponentsInChildren<BoxCollider>();
+
+            foreach (BoxCollider bounds in roomBoundsCollider)
+            {
+                if (bounds.gameObject.CompareTag("RoomBounds"))
+                {
+                    _roomBounds = bounds;
+                    break;
+                }
+            }
+
+            if (_roomBounds == null)
+            {
+                Debug.LogError(
+                    $"{name} Error: Room bounds not found! Please create a BoxCollider game object" +
+                    "tagged \"RoomBounds\" that encapsulates the entire room.");
             }
         }
 
@@ -104,6 +124,11 @@ namespace Rooms
             }
         }
 
+        public Vector3 GetDoorSpawnPoint(int doorIndex)
+        {
+            return roomDoors[doorIndex].GetSpawnPoint().position;
+        }
+
         public RoomType GetRoomType()
         {
             return roomType;
@@ -114,9 +139,14 @@ namespace Rooms
             return cameraBounds;
         }
 
+        public bool ContainsPoint(Vector3 point)
+        {
+            return _roomBounds.bounds.Contains(point);
+        }
+
         public void PrepareRoom(RoomType exitingRoom)
         {
-            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
+            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.CanBeControlledByRoom()))
             {
                 roomLight.TurnOffLight();
             }
@@ -154,7 +184,7 @@ namespace Rooms
             {
                 OnRoomActivate?.Invoke(new RoomData
                 {
-                    StartingPosition = roomDoors[0].GetSpawnPoint(),
+                    StartingPosition = null,
                     LightFadeDuration = lightFadeDuration
                 });
             }
@@ -169,7 +199,7 @@ namespace Rooms
         {
             if (LightsOn)
             {
-                foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
+                foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.CanBeControlledByRoom()))
                 {
                     roomLight.TurnOnLight(lightFadeDuration);
                     OnLightsSwitch?.Invoke(true, lightFadeDuration);
@@ -239,13 +269,13 @@ namespace Rooms
 
         private IEnumerator WaitForLightsOff(float duration)
         {
-            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
+            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.CanBeControlledByRoom()))
             {
                 roomLight.TurnOffLight(duration);
                 OnLightsSwitch?.Invoke(false, duration);
             }
 
-            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
+            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.CanBeControlledByRoom()))
             {
                 while (roomLight.IsOn())
                 {
@@ -256,13 +286,13 @@ namespace Rooms
 
         private IEnumerator WaitForLightsOn(float duration)
         {
-            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
+            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.CanBeControlledByRoom()))
             {
                 roomLight.TurnOnLight(duration);
                 OnLightsSwitch?.Invoke(true, duration);
             }
 
-            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.IsControlledByRoom()))
+            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.CanBeControlledByRoom()))
             {
                 while (!roomLight.IsOn())
                 {

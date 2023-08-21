@@ -104,10 +104,20 @@ namespace RenderFeatures
             _activePass.SetColors(bg, fg);
         }
 
+        public Color GetBGColor()
+        {
+            return settings.backgroundColor;
+        }
+
         public void SetBGColors(Color bg)
         {
             settings.backgroundColor = bg;
             _activePass.SetColors(bg, settings.foregroundColor);
+        }
+
+        public Color GetFGColor()
+        {
+            return settings.foregroundColor;
         }
 
         public void SetFGColors(Color fg)

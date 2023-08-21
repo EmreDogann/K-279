@@ -4,7 +4,9 @@ using Audio;
 using MyBox;
 using RenderFeatures;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Lights
 {
@@ -21,6 +23,7 @@ namespace Lights
         public Color FgColor;
     }
 
+    [InitializeOnLoad]
     public class LightManager : MonoBehaviour
     {
         [SerializeField] private bool setOnAwake;
@@ -28,17 +31,18 @@ namespace Lights
 
         [SerializeField] private Color normalColor;
         [SerializeField] private Color alarmColor;
-        [SerializeField] private UniversalRendererData _rendererData;
+        [SerializeField] private ScreenDitherRenderFeature _ditherRenderFeature;
 
         [SerializeField] private AudioSO alarmSound;
 
         private LightState _currentState;
-        private ScreenDitherRenderFeature _ditherRenderFeature;
 
         public static LightManager Instance { get; private set; }
 
         public static event Action<LightData> OnChangeColor;
         public static event Action<bool, float> OnLightControl;
+
+        private LightData _originalColors;
 
         private void Start()
         {
@@ -51,9 +55,11 @@ namespace Lights
                 Destroy(gameObject);
             }
 
-            _ditherRenderFeature =
-                _rendererData.rendererFeatures.Find(x => x.GetType() == typeof(ScreenDitherRenderFeature)) as
-                    ScreenDitherRenderFeature;
+            _originalColors = new LightData
+            {
+                BgColor = _ditherRenderFeature.GetBGColor(),
+                FgColor = _ditherRenderFeature.GetFGColor()
+            };
 
             if (setOnAwake)
             {
@@ -62,28 +68,9 @@ namespace Lights
             }
         }
 
-        [ButtonMethod]
-        private void TurnOffLights()
+        private void OnDestroy()
         {
-            ToggleLights(false);
-        }
-
-        [ButtonMethod]
-        private void TurnOnLights()
-        {
-            ToggleLights(true);
-        }
-
-        [ButtonMethod]
-        private void SetNormalState()
-        {
-            ChangeLightColor(LightState.Normal);
-        }
-
-        [ButtonMethod]
-        private void SetAlarmState()
-        {
-            ChangeLightColor(LightState.Alarm);
+            _ditherRenderFeature.SetColors(_originalColors.BgColor, _originalColors.FgColor);
         }
 
         public void ToggleLights(bool isOn, float duration = 0.3f, float afterFadeWait = 1.1f)
@@ -99,11 +86,11 @@ namespace Lights
 
         public void ChangeLightColor(LightState state, float lightFadeDuration = 0.3f, float afterFadeWait = 1.1f)
         {
-            StartCoroutine(TransitionColors(state, lightFadeDuration, afterFadeWait));
+            StartCoroutine(TransitionColors(lightFadeDuration, afterFadeWait));
             _currentState = state;
         }
 
-        private IEnumerator TransitionColors(LightState newState, float lightFadeDuration, float afterFadeWait)
+        private IEnumerator TransitionColors(float lightFadeDuration, float afterFadeWait)
         {
             OnLightControl?.Invoke(false, lightFadeDuration);
             yield return new WaitForSecondsRealtime(afterFadeWait);
@@ -140,5 +127,43 @@ namespace Lights
         {
             return _currentState;
         }
+
+#if UNITY_EDITOR
+        [ButtonMethod]
+        private void TurnOffLights()
+        {
+            ToggleLights(false);
+        }
+
+        [ButtonMethod]
+        private void TurnOnLights()
+        {
+            ToggleLights(true);
+        }
+
+        [ButtonMethod]
+        private void SetNormalState()
+        {
+            if (!EditorApplication.isPlaying)
+            {
+                _ditherRenderFeature.SetColors(Color.black, normalColor);
+                return;
+            }
+
+            ChangeLightColor(LightState.Normal);
+        }
+
+        [ButtonMethod]
+        private void SetAlarmState()
+        {
+            if (!EditorApplication.isPlaying)
+            {
+                _ditherRenderFeature.SetColors(Color.black, alarmColor);
+                return;
+            }
+
+            ChangeLightColor(LightState.Alarm);
+        }
+#endif
     }
 }

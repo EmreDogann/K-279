@@ -1,4 +1,5 @@
 ﻿using ScriptableObjects;
+using UnityEngine;
 
 namespace Items
 {
@@ -19,9 +20,8 @@ namespace Items
         public ItemType GetItemType();
         public ItemInfoSO GetItemInfo();
         public float GetResourceQuantity();
-        public void Reset();
+        public Transform GetTransform();
         public void Pickup();
         public void Consume();
-        public bool IsAvailable();
     }
 }

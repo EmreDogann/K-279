@@ -21,7 +21,7 @@ namespace ScriptedEvents
         [SerializeField] private AudioSO doorLockSound;
         [SerializeField] private AudioSO lowOxygenVoiceSound;
 
-        private float squeezeSoundVolumeOverride = 0.2f;
+        // private float squeezeSoundVolumeOverride = 0.2f;
         private Sequence _bottleRollingSequence;
         private Vector3 bottlePosition;
 
