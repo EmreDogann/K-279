@@ -8,6 +8,7 @@ using GameEntities;
 using MyBox;
 using ScriptableObjects;
 using UnityEngine;
+using Items;
 
 namespace Capabilities
 {
@@ -19,12 +20,15 @@ namespace Capabilities
         [SerializeField] [Range(0, 100f)] private float gunRange = 10f;
         [SerializeField] [Range(0, 10f)] private float backToWalkingDelay = 3f;
         [SerializeField] [Range(0, 2f)] private float walkBtnPressDelay = 0.2f;
+        [SerializeField] private int maxAmmoCount = 5;
         [SerializeField] private LayerMask layerToHit;
 
         [Separator("Effects")]
         [SerializeField] private Light muzzleFlash;
         [SerializeField] private float muzzleFlashLifetime;
         [SerializeField] private AudioSO gunshotAudio;
+        [SerializeField] private AudioSO lowAmmoAudio;
+        [SerializeField] private AudioSO reloadAudio;
         [SerializeField] private bool shakeCameraOnGunshot;
         [ConditionalField(nameof(shakeCameraOnGunshot))]
         [SerializeField] private CinemachineImpulseListener impulseListener;
@@ -36,19 +40,22 @@ namespace Capabilities
         [SerializeField] private BoolEventListener pauseEvent;
 
         private Sequence _muzzleFlashSequence;
-
+        private PlayerEntity _playerEntity;
         private Controller _controller;
 
         private Ray _gunRay;
         private Vector2 _direction = Vector2.zero;
         private Animator _animator;
         private Move _move;
+        private Inventory _inventory;
 
         private bool _isPaused;
         private bool _facingRight;
         private bool _currentlyShooting;
-        private float _shotCoolDownTimer;
+
         private int _dmgPerHit;
+        private int _currentAmmoCount;
+        private float _shotCoolDownTimer;
         private float _shootCoolDown;
         private float _backToMovementTimer;
         private float _walkBtnPressTimer;
@@ -64,13 +71,17 @@ namespace Capabilities
         private void Awake()
         {
             _controller = GetComponent<Controller>();
-            _dmgPerHit = GetComponent<PlayerEntity>().GetDmg();
-            _shootCoolDown = GetComponent<PlayerEntity>().GetHitCoolDown();
+            _playerEntity = GetComponent<PlayerEntity>();
             _animator = GetComponentInChildren<Animator>();
             _move = GetComponent<Move>();
+            _inventory = GetComponent<Inventory>();
+
+            _dmgPerHit = _playerEntity.GetDmg();
+            _shootCoolDown = _playerEntity.GetHitCoolDown();
 
             _facingRight = true;
             _currentlyShooting = false;
+            _currentAmmoCount = maxAmmoCount;
             _shotCoolDownTimer = _shootCoolDown;
             _walkBtnPressTimer = 0;
             _gunRay.origin = transform.position + gunOffset;
@@ -116,6 +127,19 @@ namespace Capabilities
                 return;
             }
 
+            if (_controller.input.RetrieveReloadInput() && _currentAmmoCount < maxAmmoCount)
+            {
+                // Check if reload is possible
+                IItem item = _inventory.TryGetItem(ItemType.Ammo);
+                if (item != null)
+                {
+                    // If possible do the reload
+                    _currentAmmoCount = maxAmmoCount;
+                    item.Consume();
+                    reloadAudio.Play2D();
+                }
+                
+            }
             // Debug.DrawRay(_gunRay.origin, _gunRay.direction * gunRange, Color.green);
             if (_controller.input.RetrieveShootInput())
             {
@@ -232,9 +256,22 @@ namespace Capabilities
                 }
             }
         }
+        private void ReloadGun()
+        {
 
+        }
         private void FireGunshot()
         {
+            if (_currentAmmoCount <= 0)
+            {
+                lowAmmoAudio.Play2D();
+                return;
+            } else if (_currentAmmoCount == 1)
+            {
+                lowAmmoAudio.Play2D();
+            }
+
+            _currentAmmoCount -= 1;
             _shotCoolDownTimer = 0;
 
             _gunRay.origin = gameObject.transform.position + gunOffset;
@@ -248,6 +285,7 @@ namespace Capabilities
             _muzzleFlashSequence.Restart();
             gunshotAudio.Play2D();
 
+            
             if (shakeCameraOnGunshot && screenShakeProfile && impulseSource)
             {
                 impulseSource.m_ImpulseDefinition.m_ImpulseDuration = screenShakeProfile.impactTime;
