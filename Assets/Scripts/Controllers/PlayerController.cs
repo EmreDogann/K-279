@@ -10,6 +10,7 @@ namespace Controllers
         private InputAction _moveAction;
         private InputAction _fireAction;
         private InputAction _interactAction;
+        private InputAction _reloadAction;
 
         public override void SetPlayerInput(PlayerInput playerInput)
         {
@@ -17,6 +18,7 @@ namespace Controllers
             _moveAction = _playerInput.actions["Move"];
             _fireAction = _playerInput.actions["Fire"];
             _interactAction = _playerInput.actions["Interact"];
+            _reloadAction = _playerInput.actions["Reload"];
         }
 
         public override float RetrieveMoveInput(GameObject gameObject)
@@ -32,6 +34,11 @@ namespace Controllers
         public override bool RetrieveShootInput()
         {
             return _fireAction.IsPressed();
+        }
+
+        public override bool RetrieveReloadInput()
+        {
+            return _reloadAction.IsPressed();
         }
     }
 }

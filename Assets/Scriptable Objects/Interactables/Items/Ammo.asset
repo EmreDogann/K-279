@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcac9035840f42bc8bbcc3283825e923, type: 3}
   m_Name: Ammo
   m_EditorClassIdentifier: 
+  itemType: 0
   inspectImage: {fileID: 5232774719342438722, guid: 05984750ff7fe134a9c91cc19c1cfab2,
     type: 3}
   itemName: Handgun Ammo
+  resourceQuantity: 1

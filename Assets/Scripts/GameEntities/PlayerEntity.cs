@@ -9,6 +9,7 @@ namespace GameEntities
         [SerializeField] private int dmgPerHit = 50;
         [SerializeField] private float hitCoolDown = 0.2f;
 
+        private int currentAmmo;
         private float currentHP;
         private bool isAlive = true;
 
@@ -54,5 +55,6 @@ namespace GameEntities
         {
             return isAlive;
         }
+
     }
 }
