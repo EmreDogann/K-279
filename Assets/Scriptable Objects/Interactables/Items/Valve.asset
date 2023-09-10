@@ -16,4 +16,4 @@ MonoBehaviour:
   inspectImage: {fileID: 8504713174346758432, guid: 3b8ba5f609967134184278c0b28402e8,
     type: 3}
   itemName: Valve Wheel
-  resourceQuantity: 0
+  resourceQuantity: 1

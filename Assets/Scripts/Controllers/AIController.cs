@@ -26,5 +26,10 @@ namespace Controllers
         {
             return false;
         }
+
+        public override bool RetrieveReloadInput()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
