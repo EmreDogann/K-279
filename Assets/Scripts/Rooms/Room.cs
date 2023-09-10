@@ -177,14 +177,24 @@ namespace Rooms
             return roomDoors;
         }
 
-        public void ActivateRoom()
+        public void ActivateRoom(bool setPlayerPosition)
         {
+            if (LightsOn)
+            {
+                foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.CanBeControlledByRoom()))
+                {
+                    roomLight.TurnOnLight(lightFadeDuration);
+                }
+
+                OnLightsSwitch?.Invoke(true, lightFadeDuration);
+            }
+
             // Uses first door
             if (roomDoors.Count > 0)
             {
                 OnRoomActivate?.Invoke(new RoomData
                 {
-                    StartingPosition = null,
+                    StartingPosition = setPlayerPosition ? roomDoors[0].GetSpawnPoint() : null,
                     LightFadeDuration = lightFadeDuration
                 });
             }
@@ -202,8 +212,9 @@ namespace Rooms
                 foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.CanBeControlledByRoom()))
                 {
                     roomLight.TurnOnLight(lightFadeDuration);
-                    OnLightsSwitch?.Invoke(true, lightFadeDuration);
                 }
+
+                OnLightsSwitch?.Invoke(true, lightFadeDuration);
             }
 
             foreach (Door door in roomDoors)

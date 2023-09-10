@@ -44,8 +44,7 @@ assets/Plugins/Editor/JetBrains.meta
 assets/Plugins/Editor/JetBrains/*
 
 # Comment these out if you wish to commit the asset store tools plugins
-assets/AssetStoreTools*
-Assets/AssetStoreTools*
+[Aa]ssets/AssetStoreTools*
 AssetStoreTools.meta
 
 # Visual Studio cache directory

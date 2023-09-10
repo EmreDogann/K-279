@@ -3,12 +3,10 @@ using DG.Tweening;
 using MyBox;
 using UnityEngine;
 
-namespace ScriptedEvents
+namespace ScriptedEvents.Sequences
 {
-    public class CrewQuartersSequence : MonoBehaviour, IScriptedEvent
+    public class BottleRollingSequence : MonoBehaviour, IScriptedSequence
     {
-        // Move the player into position, play Ship explosion noise, play alarm, play low oxygen voice, fade to normal.
-
         [Separator("Transforms")]
         [SerializeField] private Transform playerTransform;
         [SerializeField] private Transform doorLockTransform;
@@ -16,27 +14,26 @@ namespace ScriptedEvents
 
         [Separator("Audio")]
         [SerializeField] private SubmarineSoundScape submarineSoundScape;
-        [SerializeField] private AudioSO squeezeSound;
+        [SerializeField] private Animator bottleAnimator;
+
         [SerializeField] private AudioSO bottleRollSound;
         [SerializeField] private AudioSO doorLockSound;
         [SerializeField] private AudioSO lowOxygenVoiceSound;
 
-        // private float squeezeSoundVolumeOverride = 0.2f;
         private Sequence _bottleRollingSequence;
-        private Vector3 bottlePosition;
+        private Vector3 _bottlePosition;
+        private static readonly int RollBottle = Animator.StringToHash("RollBottle");
 
 #if UNITY_EDITOR
         [ButtonMethod]
         public void PlayCrewQuartersSequenceButton()
         {
-            // _bottleRollingSequence.Play();
             PlayCrewQuartersSequence();
         }
 #endif
         public void PlayCrewQuartersSequence()
         {
             _bottleRollingSequence.Restart();
-            // _bottleRollingSequence.Play();
         }
 
         private void Start()
@@ -47,14 +44,12 @@ namespace ScriptedEvents
                 .AppendCallback(() =>
                 {
                     // Play ship explosion noise
-                    submarineSoundScape.TriggerExplosion(true);
+                    submarineSoundScape.TriggerSound(SoundType.Explosion, ShakeOverride.ForceShake, 0.1f, 1.0f);
                 })
-                .AppendInterval(0.1f)
+                .AppendInterval(0.5f)
                 .AppendCallback(() =>
                 {
-                    // Play ship explosion noise
-                    // submarineSoundScape.TriggerExplosion(true);
-                    // squeezeSound.Play(playerTransform.position, volumeOverride: squeezeSoundVolumeOverride);
+                    bottleAnimator.SetTrigger(RollBottle);
                     bottleRollSound.Play(bottleRollSoundTransformStart.position);
                 })
                 // .AppendInterval(0.05f)
@@ -76,6 +71,7 @@ namespace ScriptedEvents
                     // Fade to normal lights
                     // LightControl.OnLightControl?.Invoke(true, 1.0f);
                 })
+                .SetAutoKill(false)
                 .Pause();
         }
 

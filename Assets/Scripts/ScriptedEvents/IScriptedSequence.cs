@@ -1,6 +1,6 @@
 ﻿namespace ScriptedEvents
 {
-    public interface IScriptedEvent
+    public interface IScriptedSequence
     {
         public void PlaySequence();
     }

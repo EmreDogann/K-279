@@ -1,8 +1,9 @@
 {
   "dependencies": {
     "com.domybest.mybox": "https://github.com/Deadcows/MyBox.git",
-    "com.unity.cinemachine": "2.9.7",
+    "com.quickeye.icon-browser": "https://github.com/ErnSur/unity-editor-icons.git",
     "com.unity.ai.navigation": "1.1.4",
+    "com.unity.cinemachine": "2.9.7",
     "com.unity.feature.2d": "2.0.0",
     "com.unity.ide.rider": "3.0.24",
     "com.unity.ide.visualstudio": "2.0.20",

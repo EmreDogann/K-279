@@ -38,7 +38,7 @@ namespace Rooms
             }
             else
             {
-                currentRoom.ActivateRoom();
+                currentRoom.ActivateRoom(loadStartingRoomOnAwake);
                 PlayDoorAmbiances(currentRoom.GetDoors());
                 cameraConfiner2DSwitcher.SwitchConfinerTarget(currentRoom.GetCameraBounds());
             }
@@ -114,7 +114,7 @@ namespace Rooms
             }
             else
             {
-                newRoom.ActivateRoom();
+                newRoom.ActivateRoom(true);
             }
 
             PlayDoorAmbiances(newRoom.GetDoors());

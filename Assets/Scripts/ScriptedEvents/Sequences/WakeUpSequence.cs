@@ -6,9 +6,9 @@ using MyBox;
 using Rooms;
 using UnityEngine;
 
-namespace ScriptedEvents
+namespace ScriptedEvents.Sequences
 {
-    public class WakeUpEvent : MonoBehaviour, IScriptedEvent
+    public class WakeUpSequence : MonoBehaviour, IScriptedSequence
     {
         // Move the player into position, play Ship explosion noise, play alarm, play low oxygen voice, fade to normal.
         [SerializeField] private bool triggerOnAwake;
@@ -51,7 +51,7 @@ namespace ScriptedEvents
                 .AppendCallback(() =>
                 {
                     // Play ship explosion noise
-                    submarineSoundScape.TriggerExplosion(true);
+                    submarineSoundScape.TriggerSound(SoundType.Explosion);
                 })
                 .AppendInterval(0.1f)
                 .AppendCallback(() =>
@@ -64,7 +64,7 @@ namespace ScriptedEvents
                 .AppendCallback(() =>
                 {
                     // Play ship explosion noise
-                    submarineSoundScape.TriggerExplosion(true);
+                    submarineSoundScape.TriggerSound(SoundType.Explosion);
                 })
                 .AppendInterval(1.5f)
                 .AppendCallback(() =>

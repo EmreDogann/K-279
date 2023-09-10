@@ -31,7 +31,7 @@ namespace Lights
 
         [SerializeField] private Color normalColor;
         [SerializeField] private Color alarmColor;
-        [SerializeField] private ScreenDitherRenderFeature _ditherRenderFeature;
+        [SerializeField] private ScreenDitherRenderFeature ditherRenderFeature;
 
         [SerializeField] private AudioSO alarmSound;
 
@@ -57,8 +57,8 @@ namespace Lights
 
             _originalColors = new LightData
             {
-                BgColor = _ditherRenderFeature.GetBGColor(),
-                FgColor = _ditherRenderFeature.GetFGColor()
+                BgColor = ditherRenderFeature.GetBGColor(),
+                FgColor = ditherRenderFeature.GetFGColor()
             };
 
             if (setOnAwake)
@@ -70,7 +70,7 @@ namespace Lights
 
         private void OnDestroy()
         {
-            _ditherRenderFeature.SetColors(_originalColors.BgColor, _originalColors.FgColor);
+            ditherRenderFeature.SetColors(_originalColors.BgColor, _originalColors.FgColor);
         }
 
         public void ToggleLights(bool isOn, float duration = 0.3f, float afterFadeWait = 1.1f)
@@ -109,13 +109,13 @@ namespace Lights
                 case LightState.Normal:
                     lightData.BgColor = Color.black;
                     lightData.FgColor = normalColor;
-                    _ditherRenderFeature.SetColors(Color.black, normalColor);
+                    ditherRenderFeature.SetColors(Color.black, normalColor);
                     alarmSound.Stop(true, 0.4f);
                     break;
                 case LightState.Alarm:
                     lightData.BgColor = Color.black;
                     lightData.FgColor = alarmColor;
-                    _ditherRenderFeature.SetColors(Color.black, alarmColor);
+                    ditherRenderFeature.SetColors(Color.black, alarmColor);
                     alarmSound.Play2D();
                     break;
             }
@@ -146,7 +146,7 @@ namespace Lights
         {
             if (!EditorApplication.isPlaying)
             {
-                _ditherRenderFeature.SetColors(Color.black, normalColor);
+                ditherRenderFeature.SetColors(Color.black, normalColor);
                 return;
             }
 
@@ -158,7 +158,7 @@ namespace Lights
         {
             if (!EditorApplication.isPlaying)
             {
-                _ditherRenderFeature.SetColors(Color.black, alarmColor);
+                ditherRenderFeature.SetColors(Color.black, alarmColor);
                 return;
             }
 

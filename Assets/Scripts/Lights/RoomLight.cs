@@ -13,11 +13,19 @@ namespace Lights
 
         private Light _light;
         private float _originalIntensity;
+        private Tween _rotateLights;
 
         private void Awake()
         {
             _light = GetComponent<Light>();
             _originalIntensity = _light.intensity;
+
+            _rotateLights = transform.DORotate(new Vector3(0.0f, 360.0f, 0.0f), 1.0f, RotateMode.WorldAxisAdd)
+                .SetLoops(-1, LoopType.Incremental)
+                .SetEase(Ease.Linear)
+                .SetUpdate(true)
+                .SetAutoKill(false)
+                .Pause();
         }
 
         public bool IsOn()
@@ -44,7 +52,6 @@ namespace Lights
 
         public void TurnOnLight(float duration = 0.0f)
         {
-            transform.DOKill(true);
             if (LightManager.Instance.GetLightState() == LightState.Alarm)
             {
                 if (!canBeAlarmLight)
@@ -54,11 +61,8 @@ namespace Lights
 
                 if (!isStaticAlarm)
                 {
-                    transform.DORotate(new Vector3(0.0f, 360.0f, 0.0f), 1.0f, RotateMode.WorldAxisAdd)
-                        .SetLoops(-1, LoopType.Incremental)
-                        .SetEase(Ease.Linear)
-                        .SetUpdate(true)
-                        .SetAutoKill(false);
+                    _rotateLights.Rewind();
+                    _rotateLights.PlayForward();
                 }
             }
 

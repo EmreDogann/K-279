@@ -9,6 +9,13 @@
       },
       "hash": "bfeef611a0f631a7fdfe66c511c2501db866f62f"
     },
+    "com.quickeye.icon-browser": {
+      "version": "https://github.com/ErnSur/unity-editor-icons.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "07434fccd016a2fabab284e0aff30a592881c318"
+    },
     "com.unity.2d.animation": {
       "version": "9.0.3",
       "depth": 1,
