@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f453f694addf4275988fac205bc91968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BoundingShape2D: {fileID: 154034693}
+  m_BoundingShape2D: {fileID: 0}
   m_Damping: 0
   m_MaxWindowSize: 0
 --- !u!114 &147622452
@@ -398,12 +398,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!66 &154034693 stripped
-CompositeCollider2D:
-  m_CorrespondingSourceObject: {fileID: 4480491494856283307, guid: aa73b14c5646fa14bb811c1d8cd21d63,
-    type: 3}
-  m_PrefabInstance: {fileID: 5886207161442917513}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &209405136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -645,38 +639,6 @@ MonoBehaviour:
   spriteRenderer: {fileID: 213490013}
   ditherRenderFeature: {fileID: 9135710460360896709, guid: c40be3174f62c4acf8c1216858c64956,
     type: 2}
---- !u!1 &276840687
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 276840688}
-  m_Layer: 0
-  m_Name: Event Triggers
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &276840688
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 276840687}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1123970906}
-  m_Father: {fileID: 6315560507248462319}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &280219042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2061,93 +2023,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1098556866}
   m_CullTransparentMesh: 1
---- !u!1 &1123970905
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1123970906}
-  - component: {fileID: 1123970909}
-  - component: {fileID: 1123970908}
-  - component: {fileID: 1123970907}
-  m_Layer: 0
-  m_Name: Bottle Fall
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1123970906
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1123970905}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.28, y: 2.09, z: -6.56}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 276840688}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1123970907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1123970905}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cefab44ddef4786ab6f0013a8fe2f91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventTrigger:
-    _underlyingValue: {fileID: 1123970908}
-  scriptedSequence:
-    _underlyingValue: {fileID: 1191720813}
---- !u!114 &1123970908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1123970905}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aeb4b67aeb6f4e77895ac82f0c8ba950, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collisionLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  singleUse: 1
---- !u!65 &1123970909
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1123970905}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 6.0914936, z: 11.123838}
-  m_Center: {x: 0, y: 2.5457468, z: 1.0380735}
 --- !u!114 &1154501149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2172,7 +2047,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1191720812}
   - component: {fileID: 1191720811}
-  - component: {fileID: 1191720813}
   m_Layer: 0
   m_Name: Event Squence Tester
   m_TagString: Untagged
@@ -2219,29 +2093,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1191720813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1191720810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea082d5a82934b31aa4f26fb2a4a9da9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTransform: {fileID: 1877220591}
-  doorLockTransform: {fileID: 1684460082}
-  bottleRollSoundTransformStart: {fileID: 1782972559}
-  submarineSoundScape: {fileID: 1647743933}
-  squeezeSound: {fileID: 11400000, guid: 3a49dfecee8167e4f95ea1d67e70cb31, type: 2}
-  bottleRollSound: {fileID: 11400000, guid: 3afdd7608c8b92844a5c4b769f76675a, type: 2}
-  doorLockSound: {fileID: 11400000, guid: b9ca5840e6e7af642bcf1e2047ac97db, type: 2}
-  lowOxygenVoiceSound: {fileID: 11400000, guid: 9231e464731f69f42aa25b0837139370,
-    type: 2}
-  eventTriggers:
-  - {fileID: 0}
 --- !u!1 &1417152443
 GameObject:
   m_ObjectHideFlags: 0
@@ -2360,111 +2211,6 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!1 &1438521255
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1438521256}
-  - component: {fileID: 1438521259}
-  - component: {fileID: 1438521258}
-  - component: {fileID: 1438521257}
-  m_Layer: 0
-  m_Name: RollingBottle
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1438521256
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1438521255}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0.6390122, y: -0.30276015, z: 0.3027602, w: 0.63901174}
-  m_LocalPosition: {x: -0.21082, y: -0.01309, z: -0.05885}
-  m_LocalScale: {x: 0.9, y: 1.3056307, z: 1.3056307}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1541741989}
-  m_LocalEulerAnglesHint: {x: -39.297, y: -90, z: 90}
---- !u!95 &1438521257
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1438521255}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 30ee7594368efff4e9a94c02b57baf57, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!23 &1438521258
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1438521255}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1438521259
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1438521255}
-  m_Mesh: {fileID: 6483373102336730412, guid: 0721607e7a36ff04b99a9ba0c4587dd6, type: 3}
 --- !u!114 &1440051791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2479,12 +2225,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Asset: {fileID: -944628639613478452, guid: d1a6d78b473c6914a8ba71719a82c98d, type: 3}
   m_ActionId: f07b3adf-f2de-4930-9293-e0926d52045b
---- !u!4 &1541741989 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4471207508982193581, guid: aa73b14c5646fa14bb811c1d8cd21d63,
-    type: 3}
-  m_PrefabInstance: {fileID: 5886207161442917513}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1543670846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2984,30 +2724,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   impulseListener: {fileID: 147622455}
-  submarineSqueeze:
-    enabled: 1
-    audio: {fileID: 11400000, guid: 3a49dfecee8167e4f95ea1d67e70cb31, type: 2}
-    playChance: 0.2
-    playCooldown: 7
-    timer: 0
-    playRadius: 25
-    minPlayRadius: 5
-    triggerImpulse: 0
-    shakeProfile: {fileID: 11400000, guid: 7f9cf5a734b6951429d8656015f84d81, type: 2}
-    impulseSource: {fileID: 0}
-  sonar:
-    enabled: 1
-    audio: {fileID: 11400000, guid: 51d3f8925c0639b479e987f224c1a230, type: 2}
-    playChance: 0.1
-    playCooldown: 8
-    timer: 0
-    playRadius: 50
-    minPlayRadius: 5
-    triggerImpulse: 0
-    shakeProfile: {fileID: 0}
-    impulseSource: {fileID: 0}
-  explosion:
-    enabled: 1
+  ambientAudios:
+  - enabled: 1
+    soundType: 0
     audio: {fileID: 11400000, guid: d3b896292d7c26b48bbdb519f4e737ff, type: 2}
     playChance: 0.2
     playCooldown: 5
@@ -3017,6 +2736,28 @@ MonoBehaviour:
     triggerImpulse: 1
     shakeProfile: {fileID: 11400000, guid: 56fef7c7c8a430b409e44bb304016fe6, type: 2}
     impulseSource: {fileID: 2004793693}
+  - enabled: 1
+    soundType: 1
+    audio: {fileID: 11400000, guid: 3a49dfecee8167e4f95ea1d67e70cb31, type: 2}
+    playChance: 0.2
+    playCooldown: 7
+    timer: 0
+    playRadius: 25
+    minPlayRadius: 5
+    triggerImpulse: 0
+    shakeProfile: {fileID: 0}
+    impulseSource: {fileID: 0}
+  - enabled: 1
+    soundType: 2
+    audio: {fileID: 11400000, guid: 51d3f8925c0639b479e987f224c1a230, type: 2}
+    playChance: 0.1
+    playCooldown: 8
+    timer: 0
+    playRadius: 50
+    minPlayRadius: 5
+    triggerImpulse: 0
+    shakeProfile: {fileID: 0}
+    impulseSource: {fileID: 0}
 --- !u!1 &1661494745
 GameObject:
   m_ObjectHideFlags: 0
@@ -3146,12 +2887,6 @@ MonoBehaviour:
   Response:
     m_PersistentCalls:
       m_Calls: []
---- !u!4 &1684460082 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4098929572471512073, guid: aa73b14c5646fa14bb811c1d8cd21d63,
-    type: 3}
-  m_PrefabInstance: {fileID: 5886207161442917513}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1696038383
 GameObject:
   m_ObjectHideFlags: 0
@@ -3607,12 +3342,6 @@ MonoBehaviour:
   textMesh: {fileID: 1620239701}
   textAnimationSpeed: 30
   pauseEvent: {fileID: 11400000, guid: c4e820fd8becde94d91f53738c352eaa, type: 2}
---- !u!4 &1782972559 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3053351659219616180, guid: aa73b14c5646fa14bb811c1d8cd21d63,
-    type: 3}
-  m_PrefabInstance: {fileID: 5886207161442917513}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1786696537
 GameObject:
   m_ObjectHideFlags: 0
@@ -4931,17 +4660,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: Room_CrewQuarters
       objectReference: {fileID: 0}
+    - target: {fileID: 6048111766516324218, guid: aa73b14c5646fa14bb811c1d8cd21d63,
+        type: 3}
+      propertyPath: playerTransform
+      value: 
+      objectReference: {fileID: 1877220591}
+    - target: {fileID: 6048111766516324218, guid: aa73b14c5646fa14bb811c1d8cd21d63,
+        type: 3}
+      propertyPath: submarineSoundScape
+      value: 
+      objectReference: {fileID: 1647743933}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3496826348474721668, guid: aa73b14c5646fa14bb811c1d8cd21d63,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 276840688}
-    - targetCorrespondingSourceObject: {fileID: 4471207508982193581, guid: aa73b14c5646fa14bb811c1d8cd21d63,
-        type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 1438521256}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa73b14c5646fa14bb811c1d8cd21d63, type: 3}
 --- !u!1001 &6003331836911324644
