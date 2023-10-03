@@ -326,33 +326,43 @@ namespace Audio
             return AudioHandle.Invalid;
         }
 
-        public void StopAll()
+        /// <summary>
+        ///     Stop all currently playing audio instances
+        /// </summary>
+        /// <param name="fadeOut">Should audio fade out when stopping?</param>
+        /// <param name="fadeDuration">Length of audio fade out in seconds.</param>
+        public void StopAll(bool fadeOut = false, float fadeDuration = 1.0f)
         {
-            if (HandleToEventData.Count < 1)
+            if (HandleToEventData.Count == 0)
             {
-                audioEvent.RaiseStopEvent(AudioHandle.Invalid, null);
                 return;
             }
 
             var dataCopy = HandleToEventData.GetRange(0, HandleToEventData.Count);
             foreach (var entry in dataCopy)
             {
-                bool handleFound = audioEvent.RaiseStopEvent(entry.Key, null);
-
-                if (!handleFound)
-                {
-                    Debug.LogWarning($"Audio {entry.Key.Audio.name} could not be stopped. Handle is stale.");
-                }
+                Stop(entry.Key, fadeOut, fadeDuration);
             }
 
-            HandleToEventData.Clear();
+            // HandleToEventData.Clear();
         }
 
+        /// <summary>
+        ///     Stops the most recently playing audio instance if exists.
+        /// </summary>
+        /// <param name="fadeOut">Should audio fade out when stopping?</param>
+        /// <param name="fadeDuration">Length of audio fade out in seconds.</param>
         public void Stop(bool fadeOut = false, float fadeDuration = 1.0f)
         {
             Stop(AudioHandle.Invalid, fadeOut, fadeDuration);
         }
 
+        /// <summary>
+        ///     Stop a specific audio instance via the provided audio handle.
+        /// </summary>
+        /// <param name="audioHandle">The handle of the currently playing audio instance.</param>
+        /// <param name="fadeOut">Should audio fade out when stopping?</param>
+        /// <param name="fadeDuration">Length of audio fade out in seconds.</param>
         public void Stop(AudioHandle audioHandle, bool fadeOut = false, float fadeDuration = 1.0f)
         {
             if (HandleToEventData.Count == 0)

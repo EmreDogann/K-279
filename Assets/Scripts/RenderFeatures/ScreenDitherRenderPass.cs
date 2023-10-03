@@ -90,7 +90,7 @@ namespace RenderFeatures
             else
             {
                 _ditherMaterial.DisableKeyword("ENABLE_WORLD_SPACE_DITHER");
-                _tiling = settings.tiling + 500;
+                _tiling = settings.tiling + 650;
             }
 
             if (settings.useRampTexture)

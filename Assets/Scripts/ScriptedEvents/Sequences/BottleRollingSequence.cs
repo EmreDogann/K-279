@@ -1,3 +1,4 @@
+using System.Collections;
 using Audio;
 using DG.Tweening;
 using MyBox;
@@ -10,7 +11,7 @@ namespace ScriptedEvents.Sequences
         [Separator("Transforms")]
         [SerializeField] private Transform playerTransform;
         [SerializeField] private Transform doorLockTransform;
-        [SerializeField] private Transform bottleRollSoundTransformStart;
+        [SerializeField] private Transform bottleTransform;
 
         [Separator("Audio")]
         [SerializeField] private SubmarineSoundScape submarineSoundScape;
@@ -46,31 +47,22 @@ namespace ScriptedEvents.Sequences
                     // Play ship explosion noise
                     submarineSoundScape.TriggerSound(SoundType.Explosion, ShakeOverride.ForceShake, 0.1f, 1.0f);
                 })
-                .AppendInterval(0.5f)
+                .AppendInterval(0.25f)
                 .AppendCallback(() =>
                 {
                     bottleAnimator.SetTrigger(RollBottle);
-                    bottleRollSound.Play(bottleRollSoundTransformStart.position);
+                    StartCoroutine(WaitForAnimationFinished(bottleAnimator, "BottleRolling"));
                 })
-                // .AppendInterval(0.05f)
-                // .AppendCallback(() => {
-                //     // Play ship explosion noise
-                //     submarineSoundScape.TriggerExplosion(true);
-                // })
+                .AppendInterval(0.1f)
+                .AppendCallback(() => { bottleRollSound.PlayAttached(bottleTransform.gameObject); })
                 .AppendInterval(1.5f)
                 .AppendCallback(() =>
                 {
                     // play Low Oxygen Voice
                     doorLockSound.Play(doorLockTransform.position, volumeOverride: 0.1f);
                 })
-                // .AppendInterval(doorOpenSound.GetPlaybackInfo(AudioHandle.Invalid).CurrentClipDuration)
                 .AppendInterval(2.0f)
-                .AppendCallback(() =>
-                {
-                    lowOxygenVoiceSound.Play(playerTransform.position);
-                    // Fade to normal lights
-                    // LightControl.OnLightControl?.Invoke(true, 1.0f);
-                })
+                .AppendCallback(() => { lowOxygenVoiceSound.Play(playerTransform.position); })
                 .SetAutoKill(false)
                 .Pause();
         }
@@ -78,6 +70,17 @@ namespace ScriptedEvents.Sequences
         public void PlaySequence()
         {
             PlayCrewQuartersSequence();
+        }
+
+        private IEnumerator WaitForAnimationFinished(Animator animator, string animationName)
+        {
+            while (!animator.GetCurrentAnimatorStateInfo(0).IsName(animationName) ||
+                   animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+            {
+                yield return null;
+            }
+
+            bottleRollSound.Stop(true);
         }
     }
 }

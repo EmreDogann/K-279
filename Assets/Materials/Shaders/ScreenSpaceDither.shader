@@ -135,7 +135,7 @@
             {
                 float3 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv).xyz;
 
-            	// #if ENABLE_WORLD_SPACE_DITHER
+            	#if ENABLE_WORLD_SPACE_DITHER
             		float2 UV = input.positionHCS.xy / _ScaledScreenParams.xy;
 	                // Sample the depth from the Camera depth texture.
 	                #if UNITY_REVERSED_Z
@@ -176,10 +176,10 @@
 	                color += blending.y * SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, uvY * _NoiseTex_TexelSize.xy * _Tiling);
 
             		float ditherLum = color.r;
-            	// #else
-	            //     float3 dir = normalize(lerp(lerp(_BL, _TL, input.uv.y), lerp(_BR, _TR, input.uv.y), input.uv.x));
-	            //     float ditherLum = cubeProject(_NoiseTex, sampler_NoiseTex, _NoiseTex_TexelSize.xy, dir);
-            	// #endif
+            	#else
+	            float3 dir = normalize(lerp(lerp(_BL, _TL, input.uv.y), lerp(_BR, _TR, input.uv.y), input.uv.x));
+	            float ditherLum = cubeProject(_NoiseTex, sampler_NoiseTex, _NoiseTex_TexelSize.xy, dir);
+            	#endif
                 float lum = col.b;
                 
                 float2 edgeData = edge(input.uv, _MainTex_TexelSize.xy * 1.0f);

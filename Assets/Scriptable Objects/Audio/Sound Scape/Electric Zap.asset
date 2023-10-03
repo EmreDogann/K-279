@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762bf881f78a96948805b51818ab07d3, type: 3}
+  m_Name: Electric Zap
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 0b6710ebc0368ce4f8e591a2b0cf5431, type: 3}
+  - {fileID: 8300000, guid: 30b6a2ba8c68e834eb9a83ccbcae32bb, type: 3}
+  - {fileID: 8300000, guid: 88055943d7c9eb2428be92f614f77cf1, type: 3}
+  - {fileID: 8300000, guid: 017b6459477adf94c9b3c6ceb5b39c1d, type: 3}
+  - {fileID: 8300000, guid: 0b0e0993dd175a04baf614d2d127c5fc, type: 3}
+  - {fileID: 8300000, guid: 804e086b2f70bbc41af5f8547dfb06d9, type: 3}
+  - {fileID: 8300000, guid: 9fb3c4dea98989e4fa641cac4676bd98, type: 3}
+  - {fileID: 8300000, guid: cb2ae64cdcba49b4a8ff84ade2836816, type: 3}
+  - {fileID: 8300000, guid: d4ddf4142be99114bb57b6a4f68404b1, type: 3}
+  - {fileID: 8300000, guid: dbcadb42ee987bc4e8c7392bf4fd616f, type: 3}
+  - {fileID: 8300000, guid: a040ad97144a5c8458f21699eb1bbadd, type: 3}
+  - {fileID: 8300000, guid: b48c563349472bb47a06a840bd45df45, type: 3}
+  - {fileID: 8300000, guid: 45c40e4abf6808546b921e348ee3f73b, type: 3}
+  - {fileID: 8300000, guid: 6e4d5cf774c033b4e924b53004d79651, type: 3}
+  - {fileID: 8300000, guid: a3e87a2a91d3de24ca149eca80c95a49, type: 3}
+  - {fileID: 8300000, guid: 0206a83e6d4c6a2449b93d66f4aaf446, type: 3}
+  audioMixer: {fileID: 4294555966104890276, guid: 7fe1db268aad06940860274baea04931,
+    type: 2}
+  volume:
+    Min: 1
+    Max: 1
+  useSemitones: 1
+  semitones:
+    Min: -1
+    Max: 1
+  pitch:
+    Min: 0.94387704
+    Max: 1.05946
+  Looping: 0
+  CanBePaused: 1
+  playOrder: 0
+  currentPlayIndex: 11
+  audioEvent: {fileID: 11400000, guid: 3a82661986ebc2547842647dc3405e87, type: 2}

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8bf1cac09e531a41b6fab8e3a56a13e, type: 3}
+  m_Name: Explosion Flicker
+  m_EditorClassIdentifier: 
+  minIntensity: 0
+  maxIntensity: 150
+  frequency: 0.05
+  smoothing: 3
+  delay: 0
+  duration:
+    Min: 0.82464224
+    Max: 2.5224357
+  zapAudio: {fileID: 11400000, guid: 6f4f1b22fe98be643883bd326ecf8734, type: 2}
+  zapThreshold: 20

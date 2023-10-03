@@ -1,4 +1,6 @@
-﻿using DG.Tweening;
+﻿using System.Collections.Generic;
+using System.Linq;
+using DG.Tweening;
 using MyBox;
 using UnityEngine;
 
@@ -15,9 +17,14 @@ namespace Lights
         private float _originalIntensity;
         private Tween _rotateLights;
 
+        private List<ILightEffect> _lightEffects = new List<ILightEffect>();
+
         private void Awake()
         {
             _light = GetComponent<Light>();
+
+            _lightEffects = GetComponents<ILightEffect>().ToList();
+
             _originalIntensity = _light.intensity;
 
             _rotateLights = transform.DORotate(new Vector3(0.0f, 360.0f, 0.0f), 1.0f, RotateMode.WorldAxisAdd)
@@ -48,6 +55,14 @@ namespace Lights
             {
                 _light.DOIntensity(0.0f, duration).SetUpdate(true);
             }
+
+            if (_lightEffects.Count > 0)
+            {
+                foreach (ILightEffect lightEffect in _lightEffects)
+                {
+                    lightEffect.DisableEffect();
+                }
+            }
         }
 
         public void TurnOnLight(float duration = 0.0f)
@@ -73,6 +88,14 @@ namespace Lights
             else
             {
                 _light.DOIntensity(_originalIntensity, duration).SetUpdate(true);
+            }
+
+            if (_lightEffects.Count > 0)
+            {
+                foreach (ILightEffect lightEffect in _lightEffects)
+                {
+                    lightEffect.EnableEffect();
+                }
             }
         }
     }

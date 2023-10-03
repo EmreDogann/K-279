@@ -56,6 +56,29 @@ namespace Lights
                 .SetEase(easeType);
         }
 
+        private void OnValidate()
+        {
+            if (_flashingLightLoop != null)
+            {
+                _flashingLightLoop.Kill();
+
+                _flashingLightLoop = DOTween.Sequence();
+                // Set to minimum
+                _light.intensity = minIntensity;
+                // Set sequence to go max and then min, with random range in between, set infinite looping, set ease type
+
+                _flashingLightLoop
+                    .AppendCallback(LightToMax)
+                    .AppendInterval(oneCycleDuration / 2.0f)
+                    .AppendCallback(LightToMin)
+                    .AppendInterval(oneCycleDuration / 2.0f)
+                    .SetLoops(-1)
+                    .SetEase(easeType);
+
+                _flashingLightLoop.Play();
+            }
+        }
+
         // Start is called before the first frame update
         private void Start()
         {

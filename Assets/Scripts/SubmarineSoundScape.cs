@@ -57,7 +57,17 @@ public class AmbientAudioPlayback
         return triggerImpulse;
     }
 
-    public void TriggerAudio(Vector3 playbackPosition, CinemachineImpulseListener impulseListener,
+    /// <summary>
+    ///     Will trigger audio playback and trigger shake if enabled.
+    /// </summary>
+    /// <param name="playbackPosition">The world position at which to play the audio.</param>
+    /// <param name="impulseListener">The impulse listener to receive the shake.</param>
+    /// <param name="triggerImpulseOverride">The shake mode override. Default is ShakeOverride.DefaultShake.</param>
+    /// <param name="randomizePosition">Whether or not to randomize the playback and shake position.</param>
+    /// <param name="minRadius">The minimum radius for randomization.</param>
+    /// <param name="maxRadius">The maximum radius for randomization.</param>
+    /// <returns>The strength of the shake (0 means no shake).</returns>
+    public float TriggerPlayback(Vector3 playbackPosition, CinemachineImpulseListener impulseListener,
         ShakeOverride triggerImpulseOverride = ShakeOverride.DefaultShake, bool randomizePosition = true,
         float minRadius = -1.0f,
         float maxRadius = -1.0f)
@@ -75,8 +85,8 @@ public class AmbientAudioPlayback
         Vector3 position = playbackPosition;
         if (randomizePosition)
         {
-            Vector3 randomPoint = Random.onUnitSphere * maxRadius;
-            randomPoint -= Vector3.one * Random.Range(0.0f, minRadius);
+            Vector3 randomPoint = Random.onUnitSphere * (maxRadius - Random.Range(0.0f, maxRadius - minRadius));
+            // Debug.Log($"Random Point: {randomPoint.magnitude}");
             position += randomPoint;
         }
 
@@ -88,19 +98,22 @@ public class AmbientAudioPlayback
             case ShakeOverride.NoShake:
                 break;
             case ShakeOverride.ForceShake:
-                SetupAndShake(position, impulseListener);
-                break;
+                return SetupAndShake(playbackPosition, position, impulseListener);
             case ShakeOverride.DefaultShake:
                 if (triggerImpulse && shakeProfile && impulseSource)
                 {
-                    SetupAndShake(position, impulseListener);
+                    return SetupAndShake(playbackPosition, position, impulseListener);
                 }
 
                 break;
         }
+
+        // No shake.
+        return 0.0f;
     }
 
-    private void SetupAndShake(Vector3 playbackPosition, CinemachineImpulseListener impulseListener)
+    private float SetupAndShake(Vector3 playerPosition, Vector3 finalPlaybackPosition,
+        CinemachineImpulseListener impulseListener)
     {
         _impulseDefinition.m_ImpulseDuration = shakeProfile.impactTime;
         impulseSource.m_DefaultVelocity = shakeProfile.defaultVelocity;
@@ -108,8 +121,17 @@ public class AmbientAudioPlayback
         impulseListener.m_ReactionSettings.m_FrequencyGain = shakeProfile.listenerFrequency;
         impulseListener.m_ReactionSettings.m_Duration = shakeProfile.listenerDuration;
 
-        impulseSource.GenerateImpulseAtPositionWithVelocity(playbackPosition,
-            (impulseSource.transform.position - playbackPosition).normalized * shakeProfile.impactForce);
+        Vector3 velocity = impulseSource.transform.position - finalPlaybackPosition;
+        // Make velocity inversely proportional.
+        float newMagnitude = Mathf.Pow(1.3f,
+            (playRadius + (impulseSource.transform.position - playerPosition).magnitude -
+             velocity.magnitude) / 7.0f);
+        velocity = velocity.normalized * newMagnitude;
+
+        impulseSource.GenerateImpulseAtPositionWithVelocity(finalPlaybackPosition,
+            velocity * shakeProfile.impactForce);
+
+        return newMagnitude;
     }
 }
 
@@ -122,6 +144,8 @@ public class SubmarineSoundScape : MonoBehaviour
         new Dictionary<SoundType, AmbientAudioPlayback>();
 
     private GameObject _player;
+
+    public static event Action<float> ExplosionTriggered;
 
     private void Awake()
     {
@@ -164,14 +188,18 @@ public class SubmarineSoundScape : MonoBehaviour
         }
     }
 
-    private IEnumerator ForcePlaySoundScape(AmbientAudioPlayback ambientPlayback, float delay, Vector3 playbackPosition)
+    private IEnumerator ForcePlaySoundScape(AmbientAudioPlayback ambientAudio, float delay, Vector3 playbackPosition)
     {
         if (delay > 0.0f)
         {
             yield return new WaitForSecondsRealtime(delay);
         }
 
-        ambientPlayback.TriggerAudio(playbackPosition, impulseListener);
+        float shakeStrength = ambientAudio.TriggerPlayback(playbackPosition, impulseListener);
+        if (ambientAudio.soundType == SoundType.Explosion && shakeStrength > 0.0f)
+        {
+            ExplosionTriggered?.Invoke(shakeStrength);
+        }
     }
 
     private bool TryPlaySoundScape(AmbientAudioPlayback ambientAudio)
@@ -193,7 +221,11 @@ public class SubmarineSoundScape : MonoBehaviour
 
             if (Random.Range(0.0f, 1.0f) <= ambientAudio.playChance)
             {
-                ambientAudio.TriggerAudio(_player.transform.position, impulseListener);
+                float shakeStrength = ambientAudio.TriggerPlayback(_player.transform.position, impulseListener);
+                if (ambientAudio.soundType == SoundType.Explosion && shakeStrength > 0.0f)
+                {
+                    ExplosionTriggered?.Invoke(shakeStrength);
+                }
 
                 return true;
             }
@@ -205,25 +237,29 @@ public class SubmarineSoundScape : MonoBehaviour
     [ButtonMethod]
     public void TriggerSqueeze()
     {
-        _soundTypeToAudio[SoundType.Squeeze].TriggerAudio(_player.transform.position, impulseListener);
+        _soundTypeToAudio[SoundType.Squeeze].TriggerPlayback(_player.transform.position, impulseListener);
     }
 
     [ButtonMethod]
     public void TriggerSonar()
     {
-        _soundTypeToAudio[SoundType.Sonar].TriggerAudio(_player.transform.position, impulseListener);
+        _soundTypeToAudio[SoundType.Sonar].TriggerPlayback(_player.transform.position, impulseListener);
     }
 
     [ButtonMethod]
     private void TriggerExplosion()
     {
-        _soundTypeToAudio[SoundType.Explosion]
-            .TriggerAudio(_player.transform.position, impulseListener);
+        float shakeStrength = _soundTypeToAudio[SoundType.Explosion]
+            .TriggerPlayback(_player.transform.position, impulseListener);
+        if (shakeStrength > 0.0f)
+        {
+            ExplosionTriggered?.Invoke(shakeStrength);
+        }
 
         if (_soundTypeToAudio[SoundType.Explosion].IsImpulseEnabled() && Random.Range(0.0f, 1.0f) <= 0.5f)
         {
-            StartCoroutine(ForcePlaySoundScape(_soundTypeToAudio[SoundType.Squeeze], Random.Range(0.0f, 0.5f),
-                _player.transform.position));
+            // StartCoroutine(ForcePlaySoundScape(_soundTypeToAudio[SoundType.Squeeze], Random.Range(0.0f, 0.5f),
+            //     _player.transform.position));
         }
     }
 
@@ -231,15 +267,13 @@ public class SubmarineSoundScape : MonoBehaviour
         float minPlayRadius = -1.0f,
         float maxPlayRadius = -1.0f)
     {
-        foreach (AmbientAudioPlayback ambientAudio in ambientAudios)
+        float shakeStrength = _soundTypeToAudio[soundType].TriggerPlayback(_player.transform.position, impulseListener,
+            shakeOverride, true,
+            minPlayRadius,
+            maxPlayRadius);
+        if (_soundTypeToAudio[soundType].soundType == SoundType.Explosion && shakeStrength > 0.0f)
         {
-            if (ambientAudio.soundType != soundType)
-            {
-                continue;
-            }
-
-            ambientAudio.TriggerAudio(_player.transform.position, impulseListener, shakeOverride, true, minPlayRadius,
-                maxPlayRadius);
+            ExplosionTriggered?.Invoke(shakeStrength);
         }
     }
 }

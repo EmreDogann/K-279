@@ -205,7 +205,7 @@ namespace Rooms
             }
         }
 
-        public void ActivateRoom(RoomType exitingRoom)
+        public void ActivateRoom(RoomType exitingRoom, bool setPlayerPosition = true)
         {
             if (LightsOn)
             {
@@ -228,7 +228,7 @@ namespace Rooms
 
                 OnRoomActivate?.Invoke(new RoomData
                 {
-                    StartingPosition = door.GetSpawnPoint(),
+                    StartingPosition = setPlayerPosition ? door.GetSpawnPoint() : null,
                     LightFadeDuration = lightFadeDuration
                 });
                 break;

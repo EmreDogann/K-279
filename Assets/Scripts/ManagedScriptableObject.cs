@@ -29,7 +29,7 @@ public abstract class ManagedScriptableObject : ScriptableObject
         {
             OnBegin();
         }
-        else if (state == PlayModeStateChange.ExitingPlayMode)
+        else if (state == PlayModeStateChange.EnteredEditMode)
         {
             OnEnd();
         }

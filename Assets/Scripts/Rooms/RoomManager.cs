@@ -6,6 +6,9 @@ using Interactables;
 using Lights;
 using MyBox;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Rooms
 {
@@ -14,15 +17,17 @@ namespace Rooms
         [SerializeField] private float roomLoadWaitTime;
         [SerializeField] private CameraConfiner2DSwitcher cameraConfiner2DSwitcher;
 
-        [SerializeField] private RoomType startingRoom;
+        [Separator("Room Settings")]
         [SerializeField] private bool loadStartingRoomOnAwake;
-        [ConditionalField(nameof(loadStartingRoomOnAwake), true)]
-        [SerializeField] private List<Room> _rooms;
+        [SerializeField] private RoomType startingRoom;
+        [SerializeField] private RoomType startingRoomEnteringFrom;
+
+        [SerializeField] private List<Room> rooms;
         [ReadOnly] [SerializeField] private Room currentRoom;
 
         private void Awake()
         {
-            _rooms = GetComponentsInChildren<Room>(true).ToList();
+            rooms = GetComponentsInChildren<Room>(true).ToList();
         }
 
         private void Start()
@@ -38,7 +43,7 @@ namespace Rooms
             }
             else
             {
-                currentRoom.ActivateRoom(loadStartingRoomOnAwake);
+                currentRoom.ActivateRoom(startingRoomEnteringFrom, loadStartingRoomOnAwake);
                 PlayDoorAmbiances(currentRoom.GetDoors());
                 cameraConfiner2DSwitcher.SwitchConfinerTarget(currentRoom.GetCameraBounds());
             }
@@ -46,7 +51,7 @@ namespace Rooms
 
         private void OnValidate()
         {
-            _rooms = GetComponentsInChildren<Room>(true).ToList();
+            rooms = GetComponentsInChildren<Room>(true).ToList();
         }
 
         private void OnEnable()
@@ -68,12 +73,12 @@ namespace Rooms
 
         public Room GetRoom(RoomType roomType)
         {
-            return _rooms.Find(x => x.GetRoomType() == roomType);
+            return rooms.Find(x => x.GetRoomType() == roomType);
         }
 
         public Room GetRoomAtPoint(Vector3 point)
         {
-            return _rooms.Find(x => x.ContainsPoint(point));
+            return rooms.Find(x => x.ContainsPoint(point));
         }
 
         private IEnumerator WaitForLights(bool turnOn, float duration)
@@ -86,7 +91,7 @@ namespace Rooms
 
         public void SwitchRoom(RoomType roomType, Action roomSwitchedCallback = null)
         {
-            foreach (Room room in _rooms)
+            foreach (Room room in rooms)
             {
                 if (room.GetRoomType() == roomType)
                 {
@@ -104,6 +109,10 @@ namespace Rooms
                 StopDoorAmbiances(currentRoom.GetDoors());
                 newRoom.PrepareRoom(currentRoom.GetRoomType());
             }
+            else
+            {
+                yield break;
+            }
 
             cameraConfiner2DSwitcher.SwitchConfinerTarget(newRoom.GetCameraBounds());
             yield return new WaitForSecondsRealtime(roomLoadWaitTime);
@@ -111,10 +120,6 @@ namespace Rooms
             if (currentRoom)
             {
                 newRoom.ActivateRoom(currentRoom.GetRoomType());
-            }
-            else
-            {
-                newRoom.ActivateRoom(true);
             }
 
             PlayDoorAmbiances(newRoom.GetDoors());
@@ -176,7 +181,7 @@ namespace Rooms
         private void PlayerToRoom(RoomType roomType)
         {
             GameObject player = GameObject.FindWithTag("Player");
-            foreach (Room room in _rooms)
+            foreach (Room room in rooms)
             {
                 if (room.GetRoomType() == roomType)
                 {
@@ -188,40 +193,126 @@ namespace Rooms
             }
         }
 
-        [ButtonMethod]
-        private void PlayerToNavigation()
+#if UNITY_EDITOR
+        [CustomEditor(typeof(RoomManager))]
+        public class RoomManagerEditor : Editor
         {
-            PlayerToRoom(RoomType.Navigation);
-        }
+            private SerializedProperty _roomLoadWaitTimeProp;
+            private SerializedProperty _cameraConfiner2DSwitcherProp;
 
-        [ButtonMethod]
-        private void PlayerToHallway()
-        {
-            PlayerToRoom(RoomType.Hallway);
-        }
+            private SerializedProperty _startingRoomProp;
+            private SerializedProperty _startingRoomEnteringFromProp;
+            private SerializedProperty _loadStartingRoomOnAwakeProp;
 
-        [ButtonMethod]
-        private void PlayerToCaptainsQuarters()
-        {
-            PlayerToRoom(RoomType.CaptainQuarters);
-        }
+            private SerializedProperty _roomsProp;
+            private SerializedProperty _currentRoomProp;
 
-        [ButtonMethod]
-        private void PlayerToCrewQuarters()
-        {
-            PlayerToRoom(RoomType.CrewQuarters);
-        }
+            private int _selectedIndex;
+            private string[] _availableOptions = {};
+            private string[] _availableOptionsNicified = {};
 
-        [ButtonMethod]
-        private void PlayerToTorpedo()
-        {
-            PlayerToRoom(RoomType.Torpedo);
-        }
+            private void OnEnable()
+            {
+                _roomLoadWaitTimeProp = serializedObject.FindProperty(nameof(roomLoadWaitTime));
+                _cameraConfiner2DSwitcherProp = serializedObject.FindProperty(nameof(cameraConfiner2DSwitcher));
 
-        [ButtonMethod]
-        private void PlayerToEngine()
-        {
-            PlayerToRoom(RoomType.Engine);
+                _startingRoomProp = serializedObject.FindProperty(nameof(startingRoom));
+                _startingRoomEnteringFromProp = serializedObject.FindProperty(nameof(startingRoomEnteringFrom));
+                _loadStartingRoomOnAwakeProp = serializedObject.FindProperty(nameof(loadStartingRoomOnAwake));
+
+                _roomsProp = serializedObject.FindProperty(nameof(rooms));
+                _currentRoomProp = serializedObject.FindProperty(nameof(currentRoom));
+
+                (_availableOptions, _availableOptionsNicified) =
+                    GetAvailableRooms((RoomType)_startingRoomProp.enumValueIndex);
+                _selectedIndex = EditorPrefs.GetInt("RoomManager_StartingRoomSelectedDoor");
+            }
+
+            private void OnDisable()
+            {
+                EditorPrefs.SetInt("RoomManager_StartingRoomSelectedDoor", _selectedIndex);
+            }
+
+            public override void OnInspectorGUI()
+            {
+                serializedObject.Update();
+
+                EditorGUILayout.PropertyField(_roomLoadWaitTimeProp);
+                EditorGUILayout.PropertyField(_cameraConfiner2DSwitcherProp);
+
+                EditorGUILayout.PropertyField(_loadStartingRoomOnAwakeProp);
+                if (_loadStartingRoomOnAwakeProp.boolValue)
+                {
+                    EditorGUI.BeginChangeCheck();
+
+                    EditorGUILayout.PropertyField(_startingRoomProp);
+
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        (_availableOptions, _availableOptionsNicified) =
+                            GetAvailableRooms((RoomType)_startingRoomProp.enumValueIndex);
+
+                        Enum.TryParse(_availableOptions[0], out RoomType startingDoor);
+                        _startingRoomEnteringFromProp.enumValueIndex = (int)startingDoor;
+                        _selectedIndex = 0;
+                    }
+
+                    if (_availableOptions.Length <= 0)
+                    {
+                        GUIStyle labelStyle = new GUIStyle();
+                        labelStyle.alignment = TextAnchor.MiddleCenter;
+                        labelStyle.normal.textColor = Color.red;
+                        EditorGUILayout.LabelField("Room does not have any doors! Cannot spawn here!", labelStyle);
+                    }
+                    else
+                    {
+                        EditorGUI.BeginChangeCheck();
+                        _selectedIndex = EditorGUILayout.Popup(_startingRoomEnteringFromProp.displayName,
+                            _selectedIndex, _availableOptionsNicified);
+                        if (EditorGUI.EndChangeCheck())
+                        {
+                            Enum.TryParse(_availableOptions[_selectedIndex], out RoomType startingDoor);
+                            _startingRoomEnteringFromProp.enumValueIndex = (int)startingDoor;
+                        }
+                    }
+                }
+
+                EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
+
+                EditorGUILayout.PropertyField(_roomsProp);
+                EditorGUI.BeginDisabledGroup(true);
+                EditorGUILayout.PropertyField(_currentRoomProp);
+                EditorGUI.BeginDisabledGroup(false);
+
+                EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
+                foreach (RoomType roomType in Enum.GetValues(typeof(RoomType)))
+                {
+                    if (GUILayout.Button("Player  ->  " + ObjectNames.NicifyVariableName(roomType.ToString())))
+                    {
+                        ((RoomManager)serializedObject.targetObject).PlayerToRoom(roomType);
+                    }
+                }
+
+                serializedObject.ApplyModifiedProperties();
+            }
+
+            private Tuple<string[], string[]> GetAvailableRooms(RoomType selectedRoom)
+            {
+                RoomManager roomManager = (RoomManager)serializedObject.targetObject;
+
+                var availableRooms = new List<string>();
+                var availableRoomsNicified = new List<string>();
+                Room currentRoom = roomManager.GetRoom(selectedRoom);
+
+                foreach (Door door in currentRoom.GetDoors())
+                {
+                    availableRooms.Add(door.GetConnectingRoom().ToString());
+                    availableRoomsNicified.Add(ObjectNames.NicifyVariableName(door.GetConnectingRoom().ToString()));
+                }
+
+                return new Tuple<string[], string[]>(availableRooms.ToArray(), availableRoomsNicified.ToArray());
+            }
         }
+#endif
     }
 }
