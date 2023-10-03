@@ -73,12 +73,12 @@ public class LightFlickerEffect : MonoBehaviour, ILightEffect
 
     public void EnableEffect()
     {
-        enabled = true;
+        Enabled = true;
     }
 
     public void DisableEffect()
     {
-        enabled = false;
+        Enabled = false;
         if (_currentFlicker != null)
         {
             _currentFlicker.zapAudio.StopAll();
@@ -87,7 +87,7 @@ public class LightFlickerEffect : MonoBehaviour, ILightEffect
 
     private void Update()
     {
-        if (lightObj == null || _currentFlicker == null || !enabled)
+        if (lightObj == null || _currentFlicker == null || !Enabled)
         {
             return;
         }
