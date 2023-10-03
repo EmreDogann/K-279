@@ -33,6 +33,7 @@ namespace ScriptedEvents.Sequences
 
         private void Start()
         {
+            Debug.Log("Test 2");
             // Initialize starting room
             roomManager.GetRoom(startingRoom).ControlLights(false, 0.0f);
 

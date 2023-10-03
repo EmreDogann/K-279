@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762bf881f78a96948805b51818ab07d3, type: 3}
+  m_Name: Light Flick
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: b2a5acaae614679498644c2269f241af, type: 3}
+  - {fileID: 8300000, guid: 3ae62ea250bcbf64badbb68dae595bbf, type: 3}
+  - {fileID: 8300000, guid: e19bee0e23630e44b8a79872e2eea4b6, type: 3}
+  - {fileID: 8300000, guid: c11e32d5f97ab324497e9c6b0e34a185, type: 3}
+  - {fileID: 8300000, guid: 4001486bf9cfec2458d516040f0f1c9d, type: 3}
+  - {fileID: 8300000, guid: 2b9d5693472cd574ba1a8eac09ea18d1, type: 3}
+  - {fileID: 8300000, guid: 8875ad5711603ac4983a0b53f61cbd1e, type: 3}
+  - {fileID: 8300000, guid: 0f262a622ea958148acf02a621ad26fe, type: 3}
+  audioMixer: {fileID: 4294555966104890276, guid: 7fe1db268aad06940860274baea04931,
+    type: 2}
+  volume:
+    Min: 1
+    Max: 1
+  useSemitones: 1
+  semitones:
+    Min: -1
+    Max: 1
+  pitch:
+    Min: 0.94387704
+    Max: 1.05946
+  Looping: 0
+  CanBePaused: 1
+  playOrder: 0
+  currentPlayIndex: 7
+  audioEvent: {fileID: 11400000, guid: 3a82661986ebc2547842647dc3405e87, type: 2}

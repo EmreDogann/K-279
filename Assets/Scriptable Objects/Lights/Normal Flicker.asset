@@ -17,6 +17,9 @@ MonoBehaviour:
   frequency: 0.1
   smoothing: 4
   delay: 1
-  duration: 2
-  zapAudio: {fileID: 11400000, guid: 6f4f1b22fe98be643883bd326ecf8734, type: 2}
-  zapThreshold: 50
+  duration:
+    Min: 2.0196161
+    Max: 2.0196161
+  flickerAudios:
+  - audio: {fileID: 11400000, guid: 6f4f1b22fe98be643883bd326ecf8734, type: 2}
+    threshold: 50

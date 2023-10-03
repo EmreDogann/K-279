@@ -1,9 +1,19 @@
-﻿using Audio;
+﻿using System;
+using System.Collections.Generic;
+using Audio;
 using MyBox;
 using UnityEngine;
 
 namespace ScriptableObjects
 {
+    [Serializable]
+    public class LightFlickerAudio
+    {
+        public AudioSO audio;
+        [Tooltip("The minimum difference in intensity to trigger a zap. Set to 0 to always play a zap.")]
+        public float threshold = 50.0f;
+    }
+
     [CreateAssetMenu(fileName = "New Light Flicker Settings", menuName = "Light Flicker", order = 0)]
     public class LightFlickerSO : ScriptableObject
     {
@@ -25,8 +35,6 @@ namespace ScriptableObjects
         public RangedFloat duration = new RangedFloat(5, 5);
 
         [Separator("Audio")]
-        public AudioSO zapAudio;
-        [Tooltip("The minimum difference in intensity to trigger a zap. Set to 0 to always play a zap.")]
-        public float zapThreshold = 50.0f;
+        public List<LightFlickerAudio> flickerAudios;
     }
 }

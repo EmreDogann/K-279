@@ -95,7 +95,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638278159001342597
+  platformSettingsDirtyTick: 638319452820514899
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -121,7 +121,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: IdleFramebyFrame_Frame_0
     originalName: 
-    pivot: {x: 0.43749997, y: -0.015873017}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -141,7 +141,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 4}
   - name: IdleFramebyFrame_Frame_1
     originalName: 
-    pivot: {x: 0.43749997, y: -0.015873017}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -161,7 +161,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 75}
   - name: IdleFramebyFrame_Frame_2
     originalName: 
-    pivot: {x: 0.43749997, y: -0.015873017}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -181,7 +181,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 146}
   - name: IdleFramebyFrame_Frame_3
     originalName: 
-    pivot: {x: 0.43749997, y: -0.015873017}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -201,7 +201,7 @@ ScriptedImporter:
     uvTransform: {x: 36, y: 4}
   - name: IdleFramebyFrame_Frame_4
     originalName: 
-    pivot: {x: 0.43749997, y: -0.015873017}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -221,7 +221,7 @@ ScriptedImporter:
     uvTransform: {x: 36, y: 75}
   - name: IdleFramebyFrame_Frame_5
     originalName: 
-    pivot: {x: 0.43749997, y: -0.015873017}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -241,7 +241,7 @@ ScriptedImporter:
     uvTransform: {x: 36, y: 146}
   - name: IdleFramebyFrame_Frame_6
     originalName: 
-    pivot: {x: 0.43749997, y: -0.015873017}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -261,7 +261,7 @@ ScriptedImporter:
     uvTransform: {x: 68, y: 4}
   - name: IdleFramebyFrame_Frame_7
     originalName: 
-    pivot: {x: 0.43749997, y: -0.015873017}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -281,7 +281,7 @@ ScriptedImporter:
     uvTransform: {x: 68, y: 75}
   - name: IdleFramebyFrame_Frame_8
     originalName: 
-    pivot: {x: 0.43749997, y: -0.015873017}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -301,7 +301,7 @@ ScriptedImporter:
     uvTransform: {x: 68, y: 146}
   - name: IdleFramebyFrame_Frame_9
     originalName: 
-    pivot: {x: 0.43749997, y: -0.016129032}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -321,7 +321,7 @@ ScriptedImporter:
     uvTransform: {x: 100, y: 4}
   - name: IdleFramebyFrame_Frame_10
     originalName: 
-    pivot: {x: 0.43749997, y: -0.016129032}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -341,7 +341,7 @@ ScriptedImporter:
     uvTransform: {x: 100, y: 74}
   - name: IdleFramebyFrame_Frame_11
     originalName: 
-    pivot: {x: 0.43749997, y: -0.016129032}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -361,7 +361,7 @@ ScriptedImporter:
     uvTransform: {x: 100, y: 144}
   - name: IdleFramebyFrame_Frame_12
     originalName: 
-    pivot: {x: 0.43749997, y: -0.016129032}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -381,7 +381,7 @@ ScriptedImporter:
     uvTransform: {x: 132, y: 4}
   - name: IdleFramebyFrame_Frame_13
     originalName: 
-    pivot: {x: 0.43749997, y: -0.016129032}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -401,7 +401,7 @@ ScriptedImporter:
     uvTransform: {x: 132, y: 74}
   - name: IdleFramebyFrame_Frame_14
     originalName: 
-    pivot: {x: 0.43749997, y: -0.016129032}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -421,7 +421,7 @@ ScriptedImporter:
     uvTransform: {x: 132, y: 144}
   - name: IdleFramebyFrame_Frame_15
     originalName: 
-    pivot: {x: 0.43749997, y: -0.016129032}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -441,7 +441,7 @@ ScriptedImporter:
     uvTransform: {x: 164, y: 4}
   - name: IdleFramebyFrame_Frame_16
     originalName: 
-    pivot: {x: 0.43749997, y: -0.016129032}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -461,7 +461,7 @@ ScriptedImporter:
     uvTransform: {x: 164, y: 74}
   - name: IdleFramebyFrame_Frame_17
     originalName: 
-    pivot: {x: 0.43749997, y: -0.016129032}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:

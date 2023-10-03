@@ -95,7 +95,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638276525185991665
+  platformSettingsDirtyTick: 638319454676613397
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -121,7 +121,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: PlayerDarkWalkAnimFinal_Frame_0
     originalName: 
-    pivot: {x: 0.5322581, y: -0.016129032}
+    pivot: {x: 0.5322581, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -141,7 +141,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 4}
   - name: PlayerDarkWalkAnimFinal_Frame_1
     originalName: 
-    pivot: {x: 0.5500001, y: -0.016129032}
+    pivot: {x: 0.5500001, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -161,7 +161,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 144}
   - name: PlayerDarkWalkAnimFinal_Frame_2
     originalName: 
-    pivot: {x: 0.61111116, y: -0.016393444}
+    pivot: {x: 0.61111116, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -181,7 +181,7 @@ ScriptedImporter:
     uvTransform: {x: 43, y: 143}
   - name: PlayerDarkWalkAnimFinal_Frame_3
     originalName: 
-    pivot: {x: 0.6764706, y: -0.016393444}
+    pivot: {x: 0.6764706, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -201,7 +201,7 @@ ScriptedImporter:
     uvTransform: {x: 109, y: 4}
   - name: PlayerDarkWalkAnimFinal_Frame_4
     originalName: 
-    pivot: {x: 0.53124994, y: -0.016129032}
+    pivot: {x: 0.53124994, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -221,7 +221,7 @@ ScriptedImporter:
     uvTransform: {x: 109, y: 73}
   - name: PlayerDarkWalkAnimFinal_Frame_5
     originalName: 
-    pivot: {x: 0.47499996, y: -0.015873017}
+    pivot: {x: 0.47499996, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -241,7 +241,7 @@ ScriptedImporter:
     uvTransform: {x: 81, y: 4}
   - name: PlayerDarkWalkAnimFinal_Frame_6
     originalName: 
-    pivot: {x: 0.5322581, y: -0.016129032}
+    pivot: {x: 0.5322581, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -261,7 +261,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 74}
   - name: PlayerDarkWalkAnimFinal_Frame_7
     originalName: 
-    pivot: {x: 0.5500001, y: -0.016129032}
+    pivot: {x: 0.5500001, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -281,7 +281,7 @@ ScriptedImporter:
     uvTransform: {x: 43, y: 4}
   - name: PlayerDarkWalkAnimFinal_Frame_8
     originalName: 
-    pivot: {x: 0.58928573, y: -0.016393444}
+    pivot: {x: 0.58928573, y: -0.01639344}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -301,7 +301,7 @@ ScriptedImporter:
     uvTransform: {x: 43, y: 74}
   - name: PlayerDarkWalkAnimFinal_Frame_9
     originalName: 
-    pivot: {x: 0.6052631, y: -0.016393444}
+    pivot: {x: 0.6052631, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -321,7 +321,7 @@ ScriptedImporter:
     uvTransform: {x: 81, y: 146}
   - name: PlayerDarkWalkAnimFinal_Frame_10
     originalName: 
-    pivot: {x: 0.53124994, y: -0.016129032}
+    pivot: {x: 0.53124994, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -341,7 +341,7 @@ ScriptedImporter:
     uvTransform: {x: 109, y: 143}
   - name: PlayerDarkWalkAnimFinal_Frame_11
     originalName: 
-    pivot: {x: 0.47499996, y: -0.015873017}
+    pivot: {x: 0.47499996, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:

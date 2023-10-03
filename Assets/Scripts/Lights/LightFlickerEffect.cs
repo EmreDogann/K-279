@@ -49,12 +49,18 @@ public class LightFlickerEffect : MonoBehaviour, ILightEffect
 
     private void OnEnable()
     {
-        SubmarineSoundScape.ExplosionTriggered += OnExplosionTriggered;
+        if (explosionFlicker != null)
+        {
+            SubmarineSoundScape.ExplosionTriggered += OnExplosionTriggered;
+        }
     }
 
     private void OnDisable()
     {
-        SubmarineSoundScape.ExplosionTriggered -= OnExplosionTriggered;
+        if (explosionFlicker != null)
+        {
+            SubmarineSoundScape.ExplosionTriggered -= OnExplosionTriggered;
+        }
     }
 
     private void Start()
@@ -81,7 +87,10 @@ public class LightFlickerEffect : MonoBehaviour, ILightEffect
         Enabled = false;
         if (_currentFlicker != null)
         {
-            _currentFlicker.zapAudio.StopAll();
+            foreach (LightFlickerAudio flickerAudio in _currentFlicker.flickerAudios)
+            {
+                flickerAudio.audio.StopAll();
+            }
         }
     }
 
@@ -137,10 +146,14 @@ public class LightFlickerEffect : MonoBehaviour, ILightEffect
         // Calculate new smoothed average
         lightObj.intensity = _lastSum / _smoothQueue.Count;
 
-        if (Mathf.Abs(lightObj.intensity - prevIntensity) >= _currentFlicker.zapThreshold)
+        float diff = Mathf.Abs(lightObj.intensity - prevIntensity);
+        foreach (LightFlickerAudio flickerAudio in _currentFlicker.flickerAudios)
         {
-            // Play zap audio
-            _currentFlicker.zapAudio.Play(transform.position);
+            if (diff >= flickerAudio.threshold)
+            {
+                // Play zap audio
+                flickerAudio.audio.Play(transform.position);
+            }
         }
     }
 

@@ -47,6 +47,8 @@ namespace Lights
 
         public void TurnOffLight(float duration = 0.0f)
         {
+            _light.DOKill();
+
             if (duration <= 0.0f)
             {
                 _light.intensity = 0.0f;
@@ -67,10 +69,13 @@ namespace Lights
 
         public void TurnOnLight(float duration = 0.0f)
         {
+            _light.DOKill();
+
             if (LightManager.Instance.GetLightState() == LightState.Alarm)
             {
                 if (!canBeAlarmLight)
                 {
+                    TurnOffLight();
                     return;
                 }
 

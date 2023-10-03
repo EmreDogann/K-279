@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    showInSceneView: 0
+    showInSceneView: 1
     worldSpaceDither: 1
     ditherTex: {fileID: 2800000, guid: a45b2a91af8cf4948ab789d3525bd528, type: 3}
     useRampTexture: 0

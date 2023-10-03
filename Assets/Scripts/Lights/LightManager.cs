@@ -26,8 +26,7 @@ namespace Lights
     [InitializeOnLoad]
     public class LightManager : MonoBehaviour
     {
-        [SerializeField] private bool setOnAwake;
-        [ConditionalField(nameof(setOnAwake))] [SerializeField] private LightState startingState;
+        [SerializeField] private LightState startingState;
 
         [SerializeField] private Color normalColor;
         [SerializeField] private Color alarmColor;
@@ -61,11 +60,7 @@ namespace Lights
                 FgColor = ditherRenderFeature.GetFGColor()
             };
 
-            if (setOnAwake)
-            {
-                _currentState = startingState;
-                UpdateLightColor();
-            }
+            ChangeLightColor(startingState, 0.0f, 0.0f);
         }
 
         private void OnDestroy()
@@ -86,19 +81,25 @@ namespace Lights
 
         public void ChangeLightColor(LightState state, float lightFadeDuration = 0.3f, float afterFadeWait = 1.1f)
         {
-            StartCoroutine(TransitionColors(lightFadeDuration, afterFadeWait));
             _currentState = state;
+            StartCoroutine(TransitionColors(lightFadeDuration, afterFadeWait));
         }
 
         private IEnumerator TransitionColors(float lightFadeDuration, float afterFadeWait)
         {
             OnLightControl?.Invoke(false, lightFadeDuration);
-            yield return new WaitForSecondsRealtime(afterFadeWait);
+            if (afterFadeWait > 0.0f)
+            {
+                yield return new WaitForSecondsRealtime(afterFadeWait);
+            }
 
             UpdateLightColor();
 
             OnLightControl?.Invoke(true, lightFadeDuration);
-            yield return new WaitForSecondsRealtime(afterFadeWait);
+            if (afterFadeWait > 0.0f)
+            {
+                yield return new WaitForSecondsRealtime(afterFadeWait);
+            }
         }
 
         private void UpdateLightColor()

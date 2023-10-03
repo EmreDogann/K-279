@@ -100,7 +100,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638276684554733299
+  platformSettingsDirtyTick: 638319453418614549
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -126,7 +126,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: TransitionFromIdleToShootingFramebyFrame_Frame_0
     originalName: 
-    pivot: {x: 0.43749997, y: -0.015873017}
+    pivot: {x: 0.43749997, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -146,7 +146,7 @@ ScriptedImporter:
     uvTransform: {x: 83, y: 4}
   - name: TransitionFromIdleToShootingFramebyFrame_Frame_1
     originalName: 
-    pivot: {x: 0.36206892, y: -0.015873017}
+    pivot: {x: 0.36206892, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -166,7 +166,7 @@ ScriptedImporter:
     uvTransform: {x: 46, y: 4}
   - name: TransitionFromIdleToShootingFramebyFrame_Frame_2
     originalName: 
-    pivot: {x: 0.30882353, y: -0.015873017}
+    pivot: {x: 0.30882353, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:

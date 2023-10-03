@@ -20,5 +20,8 @@ MonoBehaviour:
   duration:
     Min: 1.2479227
     Max: 2.5224357
-  zapAudio: {fileID: 11400000, guid: 6f4f1b22fe98be643883bd326ecf8734, type: 2}
-  zapThreshold: 30
+  flickerAudios:
+  - audio: {fileID: 11400000, guid: b6bc56d89453c65479a9e97f322e8bbc, type: 2}
+    threshold: 20
+  - audio: {fileID: 11400000, guid: 6f4f1b22fe98be643883bd326ecf8734, type: 2}
+    threshold: 100

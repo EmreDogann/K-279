@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762bf881f78a96948805b51818ab07d3, type: 3}
+  m_Name: Bed Springs
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 03f3672c8ac02284cb17efbd96079a9d, type: 3}
+  - {fileID: 8300000, guid: de540206830ca2048a8f5c7159f2aec0, type: 3}
+  - {fileID: 8300000, guid: 7ad01c662e6691c4fbd9b7c0f165f182, type: 3}
+  - {fileID: 8300000, guid: d581464d5f781734fa5413deb970a638, type: 3}
+  - {fileID: 8300000, guid: e03cb2fe03c3b4b418fb4a792fcec8e6, type: 3}
+  - {fileID: 8300000, guid: b0f6c06441956444da7f98e4df7421d5, type: 3}
+  audioMixer: {fileID: 4294555966104890276, guid: 7fe1db268aad06940860274baea04931,
+    type: 2}
+  volume:
+    Min: 1
+    Max: 1
+  useSemitones: 1
+  semitones:
+    Min: -1
+    Max: 1
+  pitch:
+    Min: 0.94387704
+    Max: 1.05946
+  Looping: 0
+  CanBePaused: 1
+  playOrder: 0
+  currentPlayIndex: 2
+  audioEvent: {fileID: 11400000, guid: 3a82661986ebc2547842647dc3405e87, type: 2}

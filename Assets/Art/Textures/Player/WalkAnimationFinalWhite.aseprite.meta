@@ -100,7 +100,7 @@ ScriptedImporter:
     addSortingGroup: 1
     addShadowCasters: 0
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638278892490211504
+  platformSettingsDirtyTick: 638319453821933197
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -126,7 +126,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: WalkAnimationFinalWhite_Frame_0
     originalName: 
-    pivot: {x: 0.5645161, y: -0.016129032}
+    pivot: {x: 0.5645161, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -146,7 +146,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 4}
   - name: WalkAnimationFinalWhite_Frame_1
     originalName: 
-    pivot: {x: 0.5833334, y: -0.016129032}
+    pivot: {x: 0.5833334, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -166,7 +166,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 144}
   - name: WalkAnimationFinalWhite_Frame_2
     originalName: 
-    pivot: {x: 0.6034483, y: -0.016393444}
+    pivot: {x: 0.6034483, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -186,7 +186,7 @@ ScriptedImporter:
     uvTransform: {x: 43, y: 74}
   - name: WalkAnimationFinalWhite_Frame_3
     originalName: 
-    pivot: {x: 0.5208333, y: -0.016393444}
+    pivot: {x: 0.5208333, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -206,7 +206,7 @@ ScriptedImporter:
     uvTransform: {x: 81, y: 4}
   - name: WalkAnimationFinalWhite_Frame_4
     originalName: 
-    pivot: {x: 0.47499996, y: -0.016129032}
+    pivot: {x: 0.47499996, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -226,7 +226,7 @@ ScriptedImporter:
     uvTransform: {x: 113, y: 145}
   - name: WalkAnimationFinalWhite_Frame_5
     originalName: 
-    pivot: {x: 0.525, y: -0.015873017}
+    pivot: {x: 0.525, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -246,7 +246,7 @@ ScriptedImporter:
     uvTransform: {x: 113, y: 74}
   - name: WalkAnimationFinalWhite_Frame_6
     originalName: 
-    pivot: {x: 0.5645161, y: -0.016129032}
+    pivot: {x: 0.5645161, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -266,7 +266,7 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 74}
   - name: WalkAnimationFinalWhite_Frame_7
     originalName: 
-    pivot: {x: 0.5833334, y: -0.016129032}
+    pivot: {x: 0.5833334, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -286,7 +286,7 @@ ScriptedImporter:
     uvTransform: {x: 43, y: 4}
   - name: WalkAnimationFinalWhite_Frame_8
     originalName: 
-    pivot: {x: 0.64814824, y: -0.016393444}
+    pivot: {x: 0.64814824, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -306,7 +306,7 @@ ScriptedImporter:
     uvTransform: {x: 43, y: 143}
   - name: WalkAnimationFinalWhite_Frame_9
     originalName: 
-    pivot: {x: 0.54347825, y: -0.016393444}
+    pivot: {x: 0.54347825, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -326,7 +326,7 @@ ScriptedImporter:
     uvTransform: {x: 81, y: 144}
   - name: WalkAnimationFinalWhite_Frame_10
     originalName: 
-    pivot: {x: 0.45238096, y: -0.016129032}
+    pivot: {x: 0.45238096, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -346,7 +346,7 @@ ScriptedImporter:
     uvTransform: {x: 113, y: 4}
   - name: WalkAnimationFinalWhite_Frame_11
     originalName: 
-    pivot: {x: 0.45652172, y: -0.015873017}
+    pivot: {x: 0.45652172, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:

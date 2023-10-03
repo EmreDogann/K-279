@@ -271,7 +271,7 @@ Transform:
   m_GameObject: {fileID: 147622448}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 66.39, y: 6.559103, z: -19.55}
+  m_LocalPosition: {x: 174.58525, y: 6.5682673, z: -19.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -796,7 +796,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 66.39, y: 6.559103, z: -19.55}
+  m_LocalPosition: {x: 174.58525, y: 6.5682673, z: -19.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -971,7 +971,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32649f4dc9b64f9eb2ede91fe0f49c4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setOnAwake: 1
   startingState: 1
   normalColor: {r: 1, g: 0.8794544, b: 0.646, a: 1}
   alarmColor: {r: 0.92156863, g: 0.24882351, b: 0.24882351, a: 1}
@@ -1200,28 +1199,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Asset: {fileID: -944628639613478452, guid: d1a6d78b473c6914a8ba71719a82c98d, type: 3}
   m_ActionId: ed48ab52-6e92-45a0-a977-eb7ef0e56421
---- !u!1 &789071902 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7590848039011992626, guid: aa73b14c5646fa14bb811c1d8cd21d63,
-    type: 3}
-  m_PrefabInstance: {fileID: 5886207161442917513}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &789071907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 789071902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b07692fa79dd804c8e20aed33b82356, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Enabled: 1
-  lightObj: {fileID: 0}
-  normalFlicker: {fileID: 0}
-  explosionFlicker: {fileID: 11400000, guid: 3435b02b164ca824abe89b92e93a1c50, type: 2}
 --- !u!1 &798827824
 GameObject:
   m_ObjectHideFlags: 0
@@ -1558,9 +1535,9 @@ Transform:
   - {fileID: 2801266111139615802}
   - {fileID: 6730429435687745382}
   - {fileID: 1150171556451311884}
-  - {fileID: 6315560507248462319}
   - {fileID: 543450651859795681}
   - {fileID: 8379200903076653579}
+  - {fileID: 6315560507248462319}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &937513559
@@ -1578,15 +1555,15 @@ MonoBehaviour:
   roomLoadWaitTime: 0.7
   cameraConfiner2DSwitcher: {fileID: 147622454}
   loadStartingRoomOnAwake: 1
-  startingRoom: 1
-  startingRoomEnteringFrom: 0
+  startingRoom: 2
+  startingRoomEnteringFrom: 3
   rooms:
   - {fileID: 2801266111139615803}
   - {fileID: 6730429435687745383}
   - {fileID: 1150171556451311885}
-  - {fileID: 6315560507248462320}
   - {fileID: 543450651859795682}
   - {fileID: 8379200903076653580}
+  - {fileID: 6315560507248462320}
   currentRoom: {fileID: 0}
 --- !u!1 &979125280
 GameObject:
@@ -2759,7 +2736,7 @@ MonoBehaviour:
     triggerImpulse: 1
     shakeProfile: {fileID: 11400000, guid: 56fef7c7c8a430b409e44bb304016fe6, type: 2}
     impulseSource: {fileID: 2004793693}
-  - enabled: 0
+  - enabled: 1
     soundType: 1
     audio: {fileID: 11400000, guid: 3a49dfecee8167e4f95ea1d67e70cb31, type: 2}
     playChance: 0.2
@@ -2770,7 +2747,7 @@ MonoBehaviour:
     triggerImpulse: 0
     shakeProfile: {fileID: 0}
     impulseSource: {fileID: 0}
-  - enabled: 0
+  - enabled: 1
     soundType: 2
     audio: {fileID: 11400000, guid: 51d3f8925c0639b479e987f224c1a230, type: 2}
     playChance: 0.1
@@ -3042,6 +3019,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ammo Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 3229440970882805500, guid: 856ae4877cfce244aa2eecbb0d4e270b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3852646784047690665, guid: 856ae4877cfce244aa2eecbb0d4e270b,
         type: 3}
@@ -3391,7 +3373,7 @@ Transform:
   m_GameObject: {fileID: 1786696537}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 63.39, y: 1.6329966, z: 5.499998}
+  m_LocalPosition: {x: 171.58525, y: 1.6421609, z: 5.500001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3521,7 +3503,7 @@ Transform:
   m_GameObject: {fileID: 1877220588}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 63.39, y: 1.6329966, z: 5.499998}
+  m_LocalPosition: {x: 171.58525, y: 1.6421609, z: 5.500001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3649,9 +3631,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.93
-  m_Height: 5.3
+  m_Height: 5.3725696
   m_Direction: 1
-  m_Center: {x: -0.06, y: 2.72019, z: 0}
+  m_Center: {x: -0.060000002, y: 2.6839054, z: 0}
 --- !u!81 &1877220600
 AudioListener:
   m_ObjectHideFlags: 0
@@ -4420,6 +4402,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5521708913095295725, guid: 2478209f45b2a6e45aff0975ea873352,
+        type: 3}
+      propertyPath: m_Name
+      value: FuseSlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 9059997279272671600, guid: 2478209f45b2a6e45aff0975ea873352,
+        type: 3}
+      propertyPath: m_Name
+      value: FuseSlot Mesh
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4610,6 +4602,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fuse
       objectReference: {fileID: 0}
+    - target: {fileID: 3183242104648838913, guid: 330c99c29d10d544e91f94a1f3b73ca4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6988992522724097764, guid: 330c99c29d10d544e91f94a1f3b73ca4,
         type: 3}
       propertyPath: controlLight
@@ -4678,17 +4675,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3777208694363602192, guid: aa73b14c5646fa14bb811c1d8cd21d63,
-        type: 3}
-      propertyPath: Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3777208694363602192, guid: aa73b14c5646fa14bb811c1d8cd21d63,
-        type: 3}
-      propertyPath: explosionFlicker
-      value: 
-      objectReference: {fileID: 11400000, guid: 977b50df37e6f184bb0767dfa1041e80,
-        type: 2}
     - target: {fileID: 4203746041545136628, guid: aa73b14c5646fa14bb811c1d8cd21d63,
         type: 3}
       propertyPath: playerTransform
@@ -4704,19 +4690,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Room_CrewQuarters
       objectReference: {fileID: 0}
-    - target: {fileID: 8992396055770404985, guid: aa73b14c5646fa14bb811c1d8cd21d63,
-        type: 3}
-      propertyPath: <LightsOn>k__BackingField
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7590848039011992626, guid: aa73b14c5646fa14bb811c1d8cd21d63,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 789071907}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa73b14c5646fa14bb811c1d8cd21d63, type: 3}
 --- !u!1001 &6003331836911324644
 PrefabInstance:
@@ -4730,6 +4707,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Valve Wheel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2336952833739822332, guid: 486dc048a5034ff4d83f2955c11f1f72,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2600793160856632658, guid: 486dc048a5034ff4d83f2955c11f1f72,
         type: 3}

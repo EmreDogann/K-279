@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using Audio;
 using DG.Tweening;
 using MyBox;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ScriptedEvents.Sequences
 {
@@ -10,16 +13,19 @@ namespace ScriptedEvents.Sequences
     {
         [Separator("Transforms")]
         [SerializeField] private Transform playerTransform;
-        [SerializeField] private Transform doorLockTransform;
         [SerializeField] private Transform bottleTransform;
+        [SerializeField] private List<Transform> bedTransforms;
+
+        [Separator("Animations")]
+        [SerializeField] private Animator bottleAnimator;
 
         [Separator("Audio")]
         [SerializeField] private SubmarineSoundScape submarineSoundScape;
-        [SerializeField] private Animator bottleAnimator;
 
         [SerializeField] private AudioSO bottleRollSound;
-        [SerializeField] private AudioSO doorLockSound;
         [SerializeField] private AudioSO lowOxygenVoiceSound;
+
+        [SerializeField] private AudioSO bedSpringsSound;
 
         private Sequence _bottleRollingSequence;
         private Vector3 _bottlePosition;
@@ -46,6 +52,10 @@ namespace ScriptedEvents.Sequences
                 {
                     // Play ship explosion noise
                     submarineSoundScape.TriggerSound(SoundType.Explosion, ShakeOverride.ForceShake, 0.1f, 1.0f);
+                    foreach (Transform bedTransform in bedTransforms)
+                    {
+                        StartCoroutine(RandomDelay(() => { bedSpringsSound.Play(bedTransform.position); }));
+                    }
                 })
                 .AppendInterval(0.25f)
                 .AppendCallback(() =>
@@ -55,13 +65,7 @@ namespace ScriptedEvents.Sequences
                 })
                 .AppendInterval(0.1f)
                 .AppendCallback(() => { bottleRollSound.PlayAttached(bottleTransform.gameObject); })
-                .AppendInterval(1.5f)
-                .AppendCallback(() =>
-                {
-                    // play Low Oxygen Voice
-                    doorLockSound.Play(doorLockTransform.position, volumeOverride: 0.1f);
-                })
-                .AppendInterval(2.0f)
+                .AppendInterval(5.0f)
                 .AppendCallback(() => { lowOxygenVoiceSound.Play(playerTransform.position); })
                 .SetAutoKill(false)
                 .Pause();
@@ -81,6 +85,12 @@ namespace ScriptedEvents.Sequences
             }
 
             bottleRollSound.Stop(true);
+        }
+
+        private IEnumerator RandomDelay(Action delayFinishedCallback)
+        {
+            yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
+            delayFinishedCallback?.Invoke();
         }
     }
 }

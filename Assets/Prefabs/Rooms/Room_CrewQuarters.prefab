@@ -83,6 +83,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &125255842543586922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3933069277162557767}
+  m_Layer: 0
+  m_Name: Bed1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3933069277162557767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125255842543586922}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.493, y: 1.597, z: -3.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 744231469308163884}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &154822210284385806
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,7 +126,7 @@ GameObject:
   - component: {fileID: 4801721283779808589}
   - component: {fileID: 7927378979795661617}
   m_Layer: 0
-  m_Name: Cube.060
+  m_Name: LockerRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,12 +140,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 154822210284385806}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.006119826, w: 0.9999813}
-  m_LocalPosition: {x: -0.19485389, y: 0.056033894, z: -0.032500204}
-  m_LocalScale: {x: 0.9999999, y: 0.9999999, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.02831}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4471207508982193581}
+  m_Father: {fileID: 9197886621218017613}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4801721283779808589
 MeshFilter:
@@ -779,7 +810,11 @@ Transform:
   m_LocalPosition: {x: 25.92, y: 2.16, z: -5.26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3933069277162557767}
+  - {fileID: 931583291696448034}
+  - {fileID: 8251320390751766733}
+  - {fileID: 7181114511600695553}
   m_Father: {fileID: 6894264833190247233}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &79920508946660452
@@ -848,14 +883,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 0}
-  doorLockTransform: {fileID: 4098929572471512073}
   bottleTransform: {fileID: 5177378985871416987}
-  submarineSoundScape: {fileID: 0}
+  bedTransforms:
+  - {fileID: 3933069277162557767}
+  - {fileID: 931583291696448034}
+  - {fileID: 8251320390751766733}
+  - {fileID: 7181114511600695553}
   bottleAnimator: {fileID: 5592442318719981469}
+  submarineSoundScape: {fileID: 0}
   bottleRollSound: {fileID: 11400000, guid: 3afdd7608c8b92844a5c4b769f76675a, type: 2}
-  doorLockSound: {fileID: 11400000, guid: b9ca5840e6e7af642bcf1e2047ac97db, type: 2}
   lowOxygenVoiceSound: {fileID: 11400000, guid: 9231e464731f69f42aa25b0837139370,
     type: 2}
+  bedSpringsSound: {fileID: 11400000, guid: 9165b82f34e1ff149904f34b833f5224, type: 2}
 --- !u!1 &1823225917191703989
 GameObject:
   m_ObjectHideFlags: 0
@@ -1034,7 +1073,7 @@ GameObject:
   - component: {fileID: 5367869150628137827}
   - component: {fileID: 1964581178222746643}
   m_Layer: 0
-  m_Name: Cube.059
+  m_Name: LockerLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1459,6 +1498,91 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.07378288, y: 0.019999994, z: 0.021601569}
   m_Center: {x: 0.053201247, y: 1.6543612e-23, z: 0.0000000032596286}
+--- !u!1 &3464611620005429577
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9197886621218017613}
+  - component: {fileID: 1889754886636952869}
+  m_Layer: 0
+  m_Name: LockerRight_Parent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9197886621218017613
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464611620005429577}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 2.3283064e-10, z: 0.006119826, w: 0.9999813}
+  m_LocalPosition: {x: -0.19372006, y: 0.055380177, z: -0.060751513}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6364174720249141805}
+  m_Father: {fileID: 4471207508982193581}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1889754886636952869
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464611620005429577}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 34d74b7c2be74d342ab55bbb17784884, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &3485879323421566398
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 931583291696448034}
+  m_Layer: 0
+  m_Name: Bed2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &931583291696448034
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3485879323421566398}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.493, y: 1.597, z: 3.64}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 744231469308163884}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3804370561254269880
 GameObject:
   m_ObjectHideFlags: 0
@@ -1911,7 +2035,6 @@ Transform:
   - {fileID: 8982612217167846533}
   - {fileID: 6391738541509392911}
   - {fileID: 4111489728081278231}
-  - {fileID: 4098929572471512073}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &8992396055770404985
@@ -3027,6 +3150,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6824410325203187061
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8251320390751766733}
+  m_Layer: 0
+  m_Name: Bed3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8251320390751766733
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6824410325203187061}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -15.53, y: 1.597, z: 3.64}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 744231469308163884}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6994054730830172736
 GameObject:
   m_ObjectHideFlags: 0
@@ -3276,6 +3430,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &7320859571024408293
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7181114511600695553}
+  m_Layer: 0
+  m_Name: Bed4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7181114511600695553
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7320859571024408293}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -15.53, y: 1.597, z: -4.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 744231469308163884}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7350322494002731447
 GameObject:
   m_ObjectHideFlags: 0
@@ -4412,7 +4597,7 @@ Transform:
   - {fileID: 9101159653024030744}
   - {fileID: 3699904804012059974}
   - {fileID: 5788536344419017158}
-  - {fileID: 6364174720249141805}
+  - {fileID: 9197886621218017613}
   - {fileID: 5941888180064826709}
   - {fileID: 6382508103791215503}
   - {fileID: 7797321499161447502}
@@ -4556,37 +4741,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &9037040855302016514
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4098929572471512073}
-  m_Layer: 0
-  m_Name: CrewQuartersMiscDoorsEmpty
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4098929572471512073
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9037040855302016514}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 31.4, y: 5.26, z: -11.35}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3496826348474721668}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9101483125003117740
 GameObject:
   m_ObjectHideFlags: 0
@@ -5018,6 +5172,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 9182013969855658395}
+    - targetCorrespondingSourceObject: {fileID: 8954027372522884111, guid: 1e89ad47699baf846aa33d89d5609cb1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 704669046071969867}
   m_SourcePrefab: {fileID: 100100000, guid: 1e89ad47699baf846aa33d89d5609cb1, type: 3}
 --- !u!4 &4871587948359979625 stripped
 Transform:
@@ -5046,6 +5204,22 @@ MonoBehaviour:
   roomCanControl: 1
   canBeAlarmLight: 1
   isStaticAlarm: 0
+--- !u!114 &704669046071969867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7590848039011992626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b07692fa79dd804c8e20aed33b82356, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Enabled: 1
+  lightObj: {fileID: 0}
+  normalFlicker: {fileID: 0}
+  explosionFlicker: {fileID: 11400000, guid: 3435b02b164ca824abe89b92e93a1c50, type: 2}
 --- !u!1001 &4105635447724307599
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5354,12 +5528,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3777208694363602192}
   m_SourcePrefab: {fileID: 100100000, guid: 1e89ad47699baf846aa33d89d5609cb1, type: 3}
---- !u!108 &117606778880965682 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 8892394268991140783, guid: 1e89ad47699baf846aa33d89d5609cb1,
-    type: 3}
-  m_PrefabInstance: {fileID: 8847870980103540637}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &471448265915024274 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8954027372522884111, guid: 1e89ad47699baf846aa33d89d5609cb1,
@@ -5393,15 +5561,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b07692fa79dd804c8e20aed33b82356, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  light: {fileID: 117606778880965682}
-  minIntensity: 50
-  maxIntensity: 400
-  frequency: 0.05
-  smoothing: 4
-  delay: 1
-  duration: 2
-  zapAudio: {fileID: 11400000, guid: 6f4f1b22fe98be643883bd326ecf8734, type: 2}
-  zapThreshold: 50
+  Enabled: 1
+  lightObj: {fileID: 0}
+  normalFlicker: {fileID: 0}
+  explosionFlicker: {fileID: 11400000, guid: 977b50df37e6f184bb0767dfa1041e80, type: 2}
 --- !u!4 &3191271804694107593 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6233086385650932308, guid: 1e89ad47699baf846aa33d89d5609cb1,
