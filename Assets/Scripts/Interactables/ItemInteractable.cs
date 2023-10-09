@@ -6,18 +6,16 @@ namespace Interactables
     {
         [SerializeField] private bool isInteractable = true;
 
-        public bool InteractionContinues(bool isInteractionKeyDown)
-        {
-            return true;
-        }
-
+        public void InteractionStart() {}
+        public void InteractionContinues() {}
         public void InteractionEnd() {}
+
+        public void InteractionAreaEnter() {}
+        public void InteractionAreaExit() {}
 
         public bool IsInteractable()
         {
             return isInteractable;
         }
-
-        public void InteractionStart() {}
     }
 }

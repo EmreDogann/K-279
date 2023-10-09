@@ -26,11 +26,6 @@ namespace Controllers
             return _moveAction.ReadValue<Vector2>().x;
         }
 
-        public override bool RetrieveInteractInput()
-        {
-            return _interactAction.WasPressedThisFrame();
-        }
-
         public override bool RetrieveShootInput()
         {
             return _fireAction.IsPressed();
@@ -39,6 +34,21 @@ namespace Controllers
         public override bool RetrieveReloadInput()
         {
             return _reloadAction.IsPressed();
+        }
+
+        public override bool RetrieveInteractPress()
+        {
+            return _interactAction.WasPressedThisFrame();
+        }
+
+        public override bool RetrieveInteractInput()
+        {
+            return _interactAction.IsPressed();
+        }
+
+        public override bool RetrieveInteractRelease()
+        {
+            return _interactAction.WasReleasedThisFrame();
         }
     }
 }

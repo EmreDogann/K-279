@@ -3,8 +3,10 @@ namespace Interactables
     public interface IInteractableObjects
     {
         public void InteractionStart();
-        public bool InteractionContinues(bool isInteractionKeyDown);
+        public void InteractionContinues();
         public void InteractionEnd();
+        public void InteractionAreaEnter();
+        public void InteractionAreaExit();
         public bool IsInteractable();
     }
 }

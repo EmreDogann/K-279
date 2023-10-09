@@ -29,7 +29,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6e4d5cf774c033b4e924b53004d79651, type: 3}
   - {fileID: 8300000, guid: a3e87a2a91d3de24ca149eca80c95a49, type: 3}
   - {fileID: 8300000, guid: 0206a83e6d4c6a2449b93d66f4aaf446, type: 3}
-  audioMixer: {fileID: 4294555966104890276, guid: 7fe1db268aad06940860274baea04931,
+  audioMixer: {fileID: -1048630447409298985, guid: 7fe1db268aad06940860274baea04931,
     type: 2}
   volume:
     Min: 1
@@ -44,5 +44,5 @@ MonoBehaviour:
   Looping: 0
   CanBePaused: 1
   playOrder: 0
-  currentPlayIndex: 11
+  currentPlayIndex: 3
   audioEvent: {fileID: 11400000, guid: 3a82661986ebc2547842647dc3405e87, type: 2}

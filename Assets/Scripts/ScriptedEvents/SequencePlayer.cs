@@ -22,6 +22,14 @@ namespace ScriptedEvents
             }
         }
 
+        private void OnDestroy()
+        {
+            if (eventTrigger.Value != null)
+            {
+                eventTrigger.Value.EventTriggered -= PlaySequence;
+            }
+        }
+
         private void Reset()
         {
             eventTrigger = new InterfaceReference<IEventTrigger, MonoBehaviour>(GetComponent<IEventTrigger>());

@@ -29,14 +29,12 @@ namespace Interactables
             inspectVirtualCamera.gameObject.SetActive(false);
         }
 
-        public bool InteractionContinues(bool isInteractionKeyDown)
-        {
-            return true;
-        }
-
-        public void InteractionEnd() {}
+        public void InteractionContinues() {}
 
         public void InteractionStart() {}
+        public void InteractionEnd() {}
+        public void InteractionAreaEnter() {}
+        public void InteractionAreaExit() {}
 
         public bool IsInteractable()
         {

@@ -54,18 +54,27 @@ namespace Capabilities
 
         private void Update()
         {
-            if (!_interactionActive)
+            if (!_interactionActive || _currentInteractable == null || !_currentInteractable.IsInteractable())
             {
                 return;
             }
 
-            bool isInteractKeyDown = _controller.input.RetrieveInteractInput();
-            if (!isInteractKeyDown || _currentInteractable == null || !_currentInteractable.IsInteractable())
+            if (_controller.input.RetrieveInteractPress())
+            {
+                _currentInteractable.InteractionStart();
+            }
+            else if (_controller.input.RetrieveInteractInput())
+            {
+                _currentInteractable.InteractionContinues();
+            }
+            else if (_controller.input.RetrieveInteractRelease())
+            {
+                _currentInteractable.InteractionEnd();
+            }
+            else
             {
                 return;
             }
-
-            _currentInteractable.InteractionContinues(true);
 
             IInspectable inspectableObject = _currentTransform.gameObject.GetComponent<IInspectable>();
             if (inspectableObject != null)
@@ -161,7 +170,7 @@ namespace Capabilities
             IInteractableObjects interactableObject = collision.gameObject.GetComponent<IInteractableObjects>();
             if (interactableObject != null)
             {
-                interactableObject.InteractionStart();
+                interactableObject.InteractionAreaEnter();
                 _currentInteractable = interactableObject;
                 _currentTransform = collision.transform;
             }
@@ -177,7 +186,7 @@ namespace Capabilities
             IInteractableObjects interactableObject = collision.gameObject.GetComponent<IInteractableObjects>();
             if (interactableObject != null)
             {
-                interactableObject.InteractionStart();
+                interactableObject.InteractionAreaEnter();
                 _currentInteractable = interactableObject;
                 _currentTransform = collision.transform;
             }
@@ -193,7 +202,7 @@ namespace Capabilities
             IInteractableObjects interactableObject = collision.gameObject.GetComponent<IInteractableObjects>();
             if (interactableObject != null)
             {
-                interactableObject.InteractionEnd();
+                interactableObject.InteractionAreaExit();
 
                 if (interactableObject == _currentInteractable)
                 {

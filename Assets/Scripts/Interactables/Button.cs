@@ -9,35 +9,25 @@ namespace Interactables
         [SerializeField] private List<SerializableInterface<IReactableObjects>> reactables;
         [SerializeField] private bool isInteractable;
 
-        private bool isButtonOn;
 
-        public bool InteractionContinues(bool isInteractionKeyDown)
+        public void InteractionContinues() {}
+
+        public void InteractionStart()
         {
-            if (isInteractionKeyDown)
-            {
-                if (isButtonOn)
-                {
-                    reactables.ForEach(c => c.Value?.ReactionEventStart());
-                }
-                else
-                {
-                    reactables.ForEach(c => c.Value?.ReactionEventEnd());
-                }
-
-                isButtonOn = !isButtonOn;
-                return true;
-            }
-
-            return false;
+            reactables.ForEach(c => c.Value?.ReactionEventStart());
         }
 
-        public void InteractionEnd() {}
+        public void InteractionEnd()
+        {
+            reactables.ForEach(c => c.Value?.ReactionEventEnd());
+        }
+
+        public void InteractionAreaEnter() {}
+        public void InteractionAreaExit() {}
 
         public bool IsInteractable()
         {
             return isInteractable;
         }
-
-        public void InteractionStart() {}
     }
 }

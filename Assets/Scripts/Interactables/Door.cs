@@ -19,6 +19,9 @@ namespace Interactables
         [Separator("Audio")]
         [SerializeField] private AudioSO turningValueAudio;
         [SerializeField] private AudioSO closingDoorAudio;
+        [SerializeField] private AudioSO lockingAudio;
+        [SerializeField] private AudioSO doorLockedAudio;
+
         [field: SerializeReference] public bool PlayConnectingRoomAmbience { get; private set; }
 
         [Separator("Open Animation")]
@@ -38,7 +41,7 @@ namespace Interactables
         [SerializeField] private string inspectMessage;
 
         [Separator("Door State")]
-        [SerializeField] private bool isLocked;
+        [ReadOnly] [SerializeField] private bool isLocked;
 
         private bool _handleRemoved;
         private Vector3 _valveStartingRotation;
@@ -89,48 +92,59 @@ namespace Interactables
             closingDoorAudio.Play(transform.position);
         }
 
-        public bool InteractionContinues(bool isInteractionKeyDown)
+
+        public void InteractionStart()
         {
-            if (isInteractionKeyDown && !_doorOpenSequence.IsPlaying())
+            if (!_doorOpenSequence.IsPlaying())
             {
-                if (isLocked || _handleRemoved)
+                if (isLocked)
                 {
-                    // TODO: Play locked audio
-                    return false;
+                    doorLockedAudio.Play(transform.position);
                 }
 
-                // TODO: Pause Game
-                // TODO: Stop audio in room.
+                if (isLocked || _handleRemoved)
+                {
+                    return;
+                }
 
                 turningValueAudio.Play(transform.position);
                 _doorOpenSequence.PlayForward();
-
-                return true;
             }
-
-            return false;
         }
 
+        public void InteractionContinues() {}
         public void InteractionEnd() {}
-
-        public void InteractionStart() {}
+        public void InteractionAreaEnter() {}
+        public void InteractionAreaExit() {}
 
         public bool IsInteractable()
         {
-            return !isLocked;
+            return true;
         }
 
-        public void SetLocked(bool locked, bool playLockedSound)
+        public void SetLocked(bool locked, bool playLockedSound = true)
         {
             isLocked = locked;
             if (playLockedSound)
             {
-                // TODO: Play locking audio
+                lockingAudio.Play(transform.position);
             }
         }
 
         [ButtonMethod]
-        public void RemoveHandle()
+        private void LockDoor()
+        {
+            SetLocked(true);
+        }
+
+        [ButtonMethod]
+        private void UnlockDoor()
+        {
+            SetLocked(false);
+        }
+
+        [ButtonMethod]
+        private void RemoveHandle()
         {
             turningValve.gameObject.SetActive(false);
             _handleRemoved = true;

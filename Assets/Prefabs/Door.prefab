@@ -135,6 +135,8 @@ MonoBehaviour:
   spawnPoint: {fileID: 4844458059673925581}
   turningValueAudio: {fileID: 11400000, guid: c9dac489cc734a349a3372f28ee971dc, type: 2}
   closingDoorAudio: {fileID: 11400000, guid: 53c7285dd5cb022499628f52d144aeeb, type: 2}
+  lockingAudio: {fileID: 11400000, guid: 042218884d7530747bf49b355f5a30ff, type: 2}
+  doorLockedAudio: {fileID: 11400000, guid: b9ca5840e6e7af642bcf1e2047ac97db, type: 2}
   <PlayConnectingRoomAmbience>k__BackingField: 0
   turningValve: {fileID: 6427883332284065605}
   valveTurnEulerAngle: 65

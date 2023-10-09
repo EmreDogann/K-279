@@ -19,7 +19,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8043639d026ac214db8fb85f3a06f432, type: 3}
   - {fileID: 8300000, guid: 393674b13d53fac4f828b48edbbad21b, type: 3}
   - {fileID: 8300000, guid: 9fa2705f0fd0d9945ac369996e6f2384, type: 3}
-  audioMixer: {fileID: 24300002, guid: 7fe1db268aad06940860274baea04931, type: 2}
+  audioMixer: {fileID: 4294555966104890276, guid: 7fe1db268aad06940860274baea04931,
+    type: 2}
   volume:
     Min: 0.41298065
     Max: 0.41298065

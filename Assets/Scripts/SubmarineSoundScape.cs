@@ -235,13 +235,13 @@ public class SubmarineSoundScape : MonoBehaviour
     }
 
     [ButtonMethod]
-    public void TriggerSqueeze()
+    private void TriggerSqueeze()
     {
         _soundTypeToAudio[SoundType.Squeeze].TriggerPlayback(_player.transform.position, impulseListener);
     }
 
     [ButtonMethod]
-    public void TriggerSonar()
+    private void TriggerSonar()
     {
         _soundTypeToAudio[SoundType.Sonar].TriggerPlayback(_player.transform.position, impulseListener);
     }

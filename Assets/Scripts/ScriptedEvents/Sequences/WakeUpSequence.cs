@@ -11,7 +11,6 @@ namespace ScriptedEvents.Sequences
     public class WakeUpSequence : MonoBehaviour, IScriptedSequence
     {
         // Move the player into position, play Ship explosion noise, play alarm, play low oxygen voice, fade to normal.
-        [SerializeField] private bool triggerOnAwake;
         [ConditionalField(nameof(triggerOnAwake))] [SerializeField] private float triggerDelay;
         [SerializeField] private RoomManager roomManager;
         [SerializeField] private RoomType startingRoom;
@@ -29,11 +28,14 @@ namespace ScriptedEvents.Sequences
         [Separator("Events")]
         [SerializeField] private BoolEventChannelSO pauseEvent;
 
+        [Separator("Debugging")]
+        [SerializeField] private bool triggerOnAwake;
+        [SerializeField] private bool skipToEndOfSequence;
+
         private Sequence _wakeUpSequence;
 
         private void Start()
         {
-            Debug.Log("Test 2");
             // Initialize starting room
             roomManager.GetRoom(startingRoom).ControlLights(false, 0.0f);
 

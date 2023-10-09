@@ -14,19 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clips:
   - {fileID: 8300000, guid: f799964bb59f2fd4fba0b7ea1f6e329c, type: 3}
-  audioMixer: {fileID: 24300002, guid: 7fe1db268aad06940860274baea04931, type: 2}
+  audioMixer: {fileID: 4294555966104890276, guid: 7fe1db268aad06940860274baea04931,
+    type: 2}
   volume:
     Min: 0.5
     Max: 0.5
   useSemitones: 0
   semitones:
-    Min: 0
+    Min: -1
     Max: 0
   pitch:
-    Min: 0.99672276
-    Max: 0.99672276
+    Min: 0.96997285
+    Max: 1.0234727
   Looping: 0
   CanBePaused: 0
-  playOrder: 0
+  playOrder: 1
   currentPlayIndex: 0
   audioEvent: {fileID: 11400000, guid: 3a82661986ebc2547842647dc3405e87, type: 2}
