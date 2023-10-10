@@ -25,6 +25,8 @@ namespace Rooms
         [SerializeField] private List<Room> rooms;
         [ReadOnly] [SerializeField] private Room currentRoom;
 
+        private bool _switchingInProgress;
+
         private void Awake()
         {
             rooms = GetComponentsInChildren<Room>(true).ToList();
@@ -32,6 +34,11 @@ namespace Rooms
 
         private void Start()
         {
+            if (currentRoom != null || _switchingInProgress)
+            {
+                return;
+            }
+
             GameObject player = GameObject.FindWithTag("Player");
             currentRoom = loadStartingRoomOnAwake
                 ? GetRoom(startingRoom)
@@ -89,33 +96,33 @@ namespace Rooms
             }
         }
 
-        public void SwitchRoom(RoomType roomType, Action roomSwitchedCallback = null)
+        public void SwitchRoom(RoomType roomType, float transitionWaitTime = -1.0f, Action roomSwitchedCallback = null)
         {
             foreach (Room room in rooms)
             {
                 if (room.GetRoomType() == roomType)
                 {
-                    StartCoroutine(TransitionRooms(room, roomSwitchedCallback));
+                    StartCoroutine(TransitionRooms(room, transitionWaitTime, roomSwitchedCallback));
                     break;
                 }
             }
         }
 
-        private IEnumerator TransitionRooms(Room newRoom, Action roomSwitchedCallback)
+        private IEnumerator TransitionRooms(Room newRoom, float roomLoadWaitTimeOverride, Action roomSwitchedCallback)
         {
+            _switchingInProgress = true;
+
             if (currentRoom)
             {
                 yield return currentRoom.DeactivateRoom(newRoom.GetRoomType());
                 StopDoorAmbiances(currentRoom.GetDoors());
                 newRoom.PrepareRoom(currentRoom.GetRoomType());
             }
-            else
-            {
-                yield break;
-            }
 
             cameraConfiner2DSwitcher.SwitchConfinerTarget(newRoom.GetCameraBounds());
-            yield return new WaitForSecondsRealtime(roomLoadWaitTime);
+            yield return new WaitForSecondsRealtime(roomLoadWaitTimeOverride > 0.0f
+                ? roomLoadWaitTimeOverride
+                : roomLoadWaitTime);
 
             if (currentRoom)
             {
@@ -126,6 +133,8 @@ namespace Rooms
 
             roomSwitchedCallback?.Invoke();
             currentRoom = newRoom;
+
+            _switchingInProgress = false;
         }
 
         private void PlayDoorAmbiances(List<Door> doors)

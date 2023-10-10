@@ -50,7 +50,7 @@ namespace Interactables
 
         private Sequence _doorOpenSequence;
 
-        public static event Action<RoomType, Action> OnRoomSwitching;
+        public static event Action<RoomType, float, Action> OnRoomSwitching;
 
         private void Awake()
         {
@@ -71,7 +71,7 @@ namespace Interactables
                     .SetEase(openEasing)
                     .OnComplete(() =>
                     {
-                        OnRoomSwitching?.Invoke(connectingRoom, () => { _doorOpenSequence.SmoothRewind(); });
+                        OnRoomSwitching?.Invoke(connectingRoom, -1.0f, () => { _doorOpenSequence.SmoothRewind(); });
                     }))
                 .SetAutoKill(false)
                 .Pause();

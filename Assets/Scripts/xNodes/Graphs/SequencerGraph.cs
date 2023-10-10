@@ -14,7 +14,19 @@ namespace xNodes.Graphs
         {
             if (startNode == null)
             {
-                startNode = nodes[0] as BaseNode;
+                foreach (Node node in nodes)
+                {
+                    if (node is StartNode baseNode)
+                    {
+                        startNode = baseNode;
+                        break;
+                    }
+                }
+
+                if (startNode == null)
+                {
+                    Debug.LogError("No start node found!");
+                }
             }
 
             currentNode = startNode;

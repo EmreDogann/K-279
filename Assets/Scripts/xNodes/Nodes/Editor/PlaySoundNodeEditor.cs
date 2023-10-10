@@ -1,4 +1,7 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Linq;
+using UnityEditor;
+using UnityEngine;
 using XNode;
 using XNodeEditor;
 
@@ -7,26 +10,25 @@ namespace xNodes.Nodes.Editor
     [CustomNodeEditor(typeof(PlaySoundNode))]
     public class PlaySoundNodeEditor : NodeEditor
     {
-        private PlaySoundNode _playSoundNode;
-
-        private SerializedProperty _audioProperty;
+        private SerializedProperty _audioDataListProperty;
         private SerializedProperty _playModeProperty;
-        private SerializedProperty _transformProperty;
+
+        private int _selectedIndex;
+        private string[] _enumNamesToDisplay;
+
+        private const string PlayModeLabel = "Global Play Mode";
 
         public override void OnCreate()
         {
-            _audioProperty = serializedObject.FindProperty("audio");
-            _playModeProperty = serializedObject.FindProperty("playMode");
-            _transformProperty = serializedObject.FindProperty("transform");
+            _audioDataListProperty = serializedObject.FindProperty("audioDataList");
+            _playModeProperty = serializedObject.FindProperty("playModeGlobal");
+
+            string[] allNames = Enum.GetNames(typeof(PlaySoundNode.PlayMode));
+            _enumNamesToDisplay = allNames.Where(n => n != PlaySoundNode.PlayMode.GlobalOverride.ToString()).ToArray();
         }
 
         public override void OnBodyGUI()
         {
-            if (_playSoundNode == null)
-            {
-                _playSoundNode = target as PlaySoundNode;
-            }
-
             // Update serialized object's representation
             serializedObject.Update();
 
@@ -35,20 +37,15 @@ namespace xNodes.Nodes.Editor
                 NodeEditorGUILayout.PortField(port);
             }
 
-            NodeEditorGUILayout.PropertyField(_playModeProperty);
-            NodeEditorGUILayout.PropertyField(_audioProperty);
+            float initLabelWidth = EditorGUIUtility.labelWidth;
+            EditorGUIUtility.labelWidth =
+                EditorStyles.label.CalcSize(new GUIContent(PlayModeLabel)).x + 64;
+            _selectedIndex = EditorGUILayout.Popup(PlayModeLabel, _selectedIndex, _enumNamesToDisplay);
+            _playModeProperty.enumValueIndex =
+                (int)Enum.Parse<PlaySoundNode.PlayMode>(_enumNamesToDisplay[_selectedIndex]);
+            EditorGUIUtility.labelWidth = initLabelWidth;
 
-            switch ((PlaySoundNode.PlayMode)_playModeProperty.enumValueIndex)
-            {
-                case PlaySoundNode.PlayMode.ThreeD:
-                    NodeEditorGUILayout.PropertyField(_transformProperty);
-
-                    break;
-                case PlaySoundNode.PlayMode.Attached:
-                    NodeEditorGUILayout.PropertyField(_transformProperty);
-
-                    break;
-            }
+            EditorGUILayout.PropertyField(_audioDataListProperty);
 
             // Apply property modifications
             serializedObject.ApplyModifiedProperties();

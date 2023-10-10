@@ -42,7 +42,7 @@ namespace Capabilities
             Room.OnRoomActivate -= OnRoomActivate;
         }
 
-        private void OnRoomSwitching(RoomType roomType, Action callback)
+        private void OnRoomSwitching(RoomType roomType, float transitionTime, Action callback)
         {
             _interactionActive = false;
         }

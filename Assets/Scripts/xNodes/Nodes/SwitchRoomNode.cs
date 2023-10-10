@@ -10,10 +10,11 @@ namespace xNodes.Nodes
     {
         [NodeEnum] [SerializeField] private RoomType roomType;
         [SerializeField] private RoomManager roomManager;
+        [SerializeField] private float transitionTime = -1.0f;
 
         public override void Execute()
         {
-            roomManager.SwitchRoom(roomType);
+            roomManager.SwitchRoom(roomType, transitionTime);
             NextNode("exit");
         }
     }
