@@ -145,7 +145,7 @@ MonoBehaviour:
   openEulerAngle: 32
   openDuration: 1
   openEasing: 4
-  expectedItem: 0
+  expectedItem: {fileID: 11400000, guid: 5ddb81db6ec1c7c42be612cf86e00016, type: 2}
   isInspectable: 0
   inspectVirtualCamera: {fileID: 1459622638176061924}
   inspectMessage: 

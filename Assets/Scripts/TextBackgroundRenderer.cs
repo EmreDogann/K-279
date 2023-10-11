@@ -3,7 +3,7 @@ using UnityEngine;
 using Utils;
 
 /*
- * READ BEFORE USING!!!
+ * READ BEFORE USING!!!a
  * For this to work properly,
  * the text object muse be a child of the background rect transform.
  *
@@ -20,7 +20,7 @@ public class TextBackgroundRenderer : MonoBehaviour
     [SerializeField] private RectTransform backgroundRectTransform;
     [SerializeField] private TextMeshProUGUI textMeshPro;
 
-    private void Update()
+    private void LateUpdate()
     {
         if (textMeshPro.text != string.Empty)
         {

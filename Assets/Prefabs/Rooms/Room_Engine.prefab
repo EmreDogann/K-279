@@ -1365,7 +1365,7 @@ MonoBehaviour:
   <Interactable>k__BackingField: 1
   fuseInPlaceMesh: {fileID: 3354880163807330248}
   isInspectable: 1
-  expectedItem: 2
+  expectedItem: {fileID: 11400000, guid: cab404c415027844d8844e2171ca1f9e, type: 2}
   inspectVirtualCamera: {fileID: 3185232511656141039}
   inspectMessage: Needs a Fuse
 --- !u!65 &7739868873653774675

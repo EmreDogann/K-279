@@ -5,6 +5,7 @@ using Inspect;
 using Interactables;
 using Items;
 using Rooms;
+using ScriptableObjects;
 using UnityEngine;
 using Utils;
 
@@ -59,7 +60,8 @@ namespace Capabilities
                 return;
             }
 
-            if (_controller.input.RetrieveInteractPress())
+            bool interactPressed = _controller.input.RetrieveInteractPress();
+            if (interactPressed)
             {
                 _currentInteractable.InteractionStart();
             }
@@ -76,15 +78,27 @@ namespace Capabilities
                 return;
             }
 
+            if (!interactPressed)
+            {
+                return;
+            }
+
             IInspectable inspectableObject = _currentTransform.gameObject.GetComponent<IInspectable>();
             if (inspectableObject != null)
             {
-                if (inspectableObject.IsExpectingItem(out ItemType expectedItem))
+                if (inspectableObject.IsExpectingItem(out ItemInfoSO expectedItem))
                 {
                     if (inventory.ContainsItemType(expectedItem))
                     {
                         _interactionActive = false;
-                        StartCoroutine(PlaceItemAnimation(inspectableObject, inventory.TryGetItem(expectedItem)));
+                        if (inspectableObject.IsInspectable() && inspectableObject.ShouldPlayInspectAnimation())
+                        {
+                            StartCoroutine(PlaceItemAnimation(inspectableObject, inventory.TryGetItem(expectedItem)));
+                        }
+                        else
+                        {
+                            inspectableObject.TryItem(inventory.TryGetItem(expectedItem));
+                        }
                     }
                     else if (inspectableObject.IsInspectable())
                     {

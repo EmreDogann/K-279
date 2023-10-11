@@ -17,8 +17,8 @@ TagManager:
   - Interactable
   - Enemy
   - Levelwall
-  - 
-  - 
+  - PlayerCamera
+  - InspectCamera
   - 
   - 
   - 

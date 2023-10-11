@@ -51,14 +51,14 @@ namespace Items
         {
             if (_isTextAnimating)
             {
-                if (_currentController != null && _currentController.input.RetrieveInteractInput())
+                if (_currentController != null && _currentController.input.RetrieveInteractPress())
                 {
                     text.maxVisibleCharacters = _messageTarget.Length;
                 }
             }
             else
             {
-                if (_currentController != null && _currentController.input.RetrieveInteractInput())
+                if (_currentController != null && _currentController.input.RetrieveInteractPress())
                 {
                     _currentCallback?.Invoke(true);
                     ClosePopup();

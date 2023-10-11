@@ -21,11 +21,6 @@ namespace Items
             ItemManager.Instance.RegisterItem(this);
         }
 
-        public ItemType GetItemType()
-        {
-            return itemInfo.itemType;
-        }
-
         public ItemInfoSO GetItemInfo()
         {
             return itemInfo;

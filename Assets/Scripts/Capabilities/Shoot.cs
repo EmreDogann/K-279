@@ -5,10 +5,10 @@ using Controllers;
 using DG.Tweening;
 using Events;
 using GameEntities;
+using Items;
 using MyBox;
 using ScriptableObjects;
 using UnityEngine;
-using Items;
 
 namespace Capabilities
 {
@@ -22,6 +22,7 @@ namespace Capabilities
         [SerializeField] [Range(0, 2f)] private float walkBtnPressDelay = 0.2f;
         [SerializeField] private int maxAmmoCount = 5;
         [SerializeField] private LayerMask layerToHit;
+        [SerializeField] private ItemInfoSO ammoItemInfo;
 
         [Separator("Effects")]
         [SerializeField] private Light muzzleFlash;
@@ -130,7 +131,7 @@ namespace Capabilities
             if (_controller.input.RetrieveReloadInput() && _currentAmmoCount < maxAmmoCount)
             {
                 // Check if reload is possible
-                IItem item = _inventory.TryGetItem(ItemType.Ammo);
+                IItem item = _inventory.TryGetItem(ammoItemInfo);
                 if (item != null)
                 {
                     // If possible do the reload
@@ -138,8 +139,8 @@ namespace Capabilities
                     item.Consume();
                     reloadAudio.Play2D();
                 }
-                
             }
+
             // Debug.DrawRay(_gunRay.origin, _gunRay.direction * gunRange, Color.green);
             if (_controller.input.RetrieveShootInput())
             {
@@ -256,17 +257,18 @@ namespace Capabilities
                 }
             }
         }
-        private void ReloadGun()
-        {
 
-        }
+        private void ReloadGun() {}
+
         private void FireGunshot()
         {
             if (_currentAmmoCount <= 0)
             {
                 lowAmmoAudio.Play2D();
                 return;
-            } else if (_currentAmmoCount == 1)
+            }
+
+            if (_currentAmmoCount == 1)
             {
                 lowAmmoAudio.Play2D();
             }
@@ -285,7 +287,7 @@ namespace Capabilities
             _muzzleFlashSequence.Restart();
             gunshotAudio.Play2D();
 
-            
+
             if (shakeCameraOnGunshot && screenShakeProfile && impulseSource)
             {
                 impulseSource.m_ImpulseDefinition.m_ImpulseDuration = screenShakeProfile.impactTime;

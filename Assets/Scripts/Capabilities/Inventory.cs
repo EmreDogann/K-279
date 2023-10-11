@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Items;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Capabilities
@@ -32,11 +33,11 @@ namespace Capabilities
             return _items.Contains(item);
         }
 
-        public bool ContainsItemType(ItemType itemType)
+        public bool ContainsItemType(ItemInfoSO itemInfo)
         {
             foreach (IItem item in _items)
             {
-                if (item.GetItemType() == itemType)
+                if (item.GetItemInfo() == itemInfo)
                 {
                     return true;
                 }
@@ -45,16 +46,16 @@ namespace Capabilities
             return false;
         }
 
-        public IItem TryGetItem(ItemType itemType)
+        public IItem TryGetItem(ItemInfoSO itemInfo)
         {
             foreach (IItem item in _items)
             {
-                if (item.GetItemType() == itemType)
+                if (item.GetItemInfo() == itemInfo)
                 {
                     return item;
                 }
             }
-            
+
 
             return null;
         }

@@ -3,6 +3,7 @@ using Cinemachine;
 using Inspect;
 using Items;
 using MyBox;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Interactables
@@ -15,7 +16,7 @@ namespace Interactables
 
         [Separator("Inspection")]
         [SerializeField] private bool isInspectable;
-        [SerializeField] private ItemType expectedItem;
+        [SerializeField] private ItemInfoSO expectedItem;
 
         [SerializeField] private CinemachineVirtualCamera inspectVirtualCamera;
         [SerializeField] private string inspectMessage;
@@ -56,10 +57,15 @@ namespace Interactables
             return isInspectable;
         }
 
-        public bool IsExpectingItem(out ItemType itemType)
+        public bool IsExpectingItem(out ItemInfoSO itemType)
         {
             itemType = expectedItem;
             return _fuseItem == null;
+        }
+
+        public bool ShouldPlayInspectAnimation()
+        {
+            return true;
         }
 
         public bool HasAvailableItem()
@@ -69,8 +75,8 @@ namespace Interactables
 
         public bool TryItem(IItem item)
         {
-            bool isExpectingItem = IsExpectingItem(out ItemType itemType);
-            if (isExpectingItem && item.GetItemType() == itemType)
+            bool isExpectingItem = IsExpectingItem(out ItemInfoSO itemInfo);
+            if (isExpectingItem && item.GetItemInfo() == itemInfo)
             {
                 item.Consume();
                 _fuseItem = item;

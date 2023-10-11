@@ -5,11 +5,15 @@ using Events;
 using MyBox;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 
 namespace Inspect
 {
     public class Inspector : MonoBehaviour
     {
+        [SerializeField] private Camera playerCam;
+        [SerializeField] private Camera inspectCam;
+
         [SerializeField] private Controller controller;
         [SerializeField] private TextMeshProUGUI textMesh;
 
@@ -24,19 +28,31 @@ namespace Inspect
         private string _messageTarget;
         private Action<bool> _currentCallback;
         private IInspectable _currentInspectable;
+        private PixelPerfectCamera _inspectPixelPerfectCamera;
+
+        private void Start()
+        {
+            if (inspectCam == null)
+            {
+                Debug.LogError("Inspect cam must be assigned!");
+                return;
+            }
+
+            _inspectPixelPerfectCamera = inspectCam.GetComponent<PixelPerfectCamera>();
+        }
 
         private void Update()
         {
             if (_isTextAnimating)
             {
-                if (controller.input.RetrieveInteractInput())
+                if (controller.input.RetrieveInteractPress())
                 {
                     textMesh.maxVisibleCharacters = _messageTarget.Length;
                 }
             }
             else
             {
-                if (_currentInspectable != null && controller.input.RetrieveInteractInput())
+                if (_currentInspectable != null && controller.input.RetrieveInteractPress())
                 {
                     _currentCallback?.Invoke(false);
                     ClosePopup();
@@ -51,7 +67,9 @@ namespace Inspect
 
             pauseEvent.Raise(true);
 
-            inspectable.GetCameraAngle().gameObject.SetActive(true);
+            ToggleInspectCam(true);
+
+            _currentInspectable.GetCameraAngle().gameObject.SetActive(true);
             StartCoroutine(DisplayMessage(_currentInspectable.GetMessage()));
         }
 
@@ -71,6 +89,8 @@ namespace Inspect
         {
             _currentInspectable.GetCameraAngle().gameObject.SetActive(false);
 
+            ToggleInspectCam(false);
+
             textMesh.text = string.Empty;
             textMesh.gameObject.SetActive(false);
 
@@ -78,6 +98,17 @@ namespace Inspect
             _currentCallback = null;
 
             pauseEvent.Raise(false);
+        }
+
+        private void ToggleInspectCam(bool active)
+        {
+            playerCam.gameObject.SetActive(!active);
+            inspectCam.gameObject.SetActive(active);
+
+            if (_inspectPixelPerfectCamera != null)
+            {
+                _inspectPixelPerfectCamera.enabled = !active;
+            }
         }
 
         private IEnumerator DisplayMessage(string itemName)

@@ -6,6 +6,7 @@ using Inspect;
 using Items;
 using MyBox;
 using Rooms;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Interactables
@@ -35,7 +36,7 @@ namespace Interactables
         [SerializeField] private Ease openEasing = Ease.Linear;
 
         [Separator("Inspection")]
-        [SerializeField] private ItemType expectedItem;
+        [SerializeField] private ItemInfoSO expectedItem;
         [SerializeField] private bool isInspectable;
         [SerializeField] private CinemachineVirtualCamera inspectVirtualCamera;
         [SerializeField] private string inspectMessage;
@@ -167,10 +168,15 @@ namespace Interactables
             return isInspectable;
         }
 
-        public bool IsExpectingItem(out ItemType itemType)
+        public bool IsExpectingItem(out ItemInfoSO item)
         {
-            itemType = expectedItem;
+            item = expectedItem;
             return _handleRemoved;
+        }
+
+        public bool ShouldPlayInspectAnimation()
+        {
+            return true;
         }
 
         public bool HasAvailableItem()
@@ -180,8 +186,8 @@ namespace Interactables
 
         public bool TryItem(IItem item)
         {
-            bool isExpectingItem = IsExpectingItem(out ItemType itemType);
-            if (isExpectingItem && item.GetItemType() == itemType)
+            bool isExpectingItem = IsExpectingItem(out ItemInfoSO itemInfo);
+            if (isExpectingItem && item.GetItemInfo() == itemInfo)
             {
                 item.Consume();
 
