@@ -3748,7 +3748,7 @@ PrefabInstance:
     - target: {fileID: 2687446678122933772, guid: 303f159a3e9295844b8c141f9f1411a0,
         type: 3}
       propertyPath: expectedItem
-      value: 3
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2687446678122933772, guid: 303f159a3e9295844b8c141f9f1411a0,
         type: 3}
@@ -4330,6 +4330,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2687446678122933772, guid: 303f159a3e9295844b8c141f9f1411a0,
+        type: 3}
+      propertyPath: isLocked
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2687446678122933772, guid: 303f159a3e9295844b8c141f9f1411a0,
         type: 3}

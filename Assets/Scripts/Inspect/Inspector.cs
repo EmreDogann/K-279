@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using Controllers;
 using Events;
 using MyBox;
@@ -20,15 +21,22 @@ namespace Inspect
         [Separator("Animation")]
         [Tooltip("Characters to show per second")]
         [SerializeField] private float textAnimationSpeed;
+        [Tooltip("Character to show per second when reaching ellipsis")]
+        [SerializeField] private float ellipsisSpeed;
+        [Tooltip("The time to wait in seconds when reaching punctuation")]
+        [SerializeField] private float punctuationWaitTime;
 
         [Separator("Events")]
         [SerializeField] private BoolEventChannelSO pauseEvent;
 
         private bool _isTextAnimating;
+        private bool _isAtEllipsis;
         private string _messageTarget;
         private Action<bool> _currentCallback;
         private IInspectable _currentInspectable;
         private PixelPerfectCamera _inspectPixelPerfectCamera;
+
+        private readonly char[] _punctuation = { ',', '.', '-', '?', '!' };
 
         private void Start()
         {
@@ -122,8 +130,9 @@ namespace Inspect
             textMesh.text = _messageTarget;
             textMesh.maxVisibleCharacters = 0;
 
-            foreach (char letter in _messageTarget)
+            for (int i = 0; i < _messageTarget.Length; i++)
             {
+                char letter = _messageTarget[i];
                 if (textMesh.maxVisibleCharacters == _messageTarget.Length)
                 {
                     break;
@@ -142,11 +151,44 @@ namespace Inspect
                     textMesh.maxVisibleCharacters++;
                     textMesh.ForceMeshUpdate(true);
 
-                    yield return new WaitForSecondsRealtime(1 / textAnimationSpeed);
+                    if (!_isAtEllipsis && !CheckForEllipsis(i))
+                    {
+                        if (_punctuation.Contains(letter))
+                        {
+                            yield return new WaitForSecondsRealtime(punctuationWaitTime);
+                            continue;
+                        }
+                    }
+
+                    if (letter != '.')
+                    {
+                        _isAtEllipsis = false;
+                    }
+
+                    yield return new WaitForSecondsRealtime(
+                        1 / (_isAtEllipsis ? ellipsisSpeed : textAnimationSpeed));
                 }
             }
 
             _isTextAnimating = false;
+        }
+
+        private bool CheckForEllipsis(int i)
+        {
+            if (_messageTarget.Length - i < 3)
+            {
+                return false;
+            }
+
+            char currentLetter = _messageTarget[i];
+
+            if (currentLetter == '.' && _messageTarget[i + 1] == '.' && _messageTarget[i + 2] == '.')
+            {
+                _isAtEllipsis = true;
+                return true;
+            }
+
+            return false;
         }
     }
 }
