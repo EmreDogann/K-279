@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Interactables
 {
-    public class Door : MonoBehaviour, IInteractableObjects, IInspectable
+    public class Door : MonoBehaviour, IInteractableObjects, IInspectable, IItemUser
     {
         [Separator("Room Settings")]
         [SerializeField] private RoomType connectingRoom;
@@ -174,14 +174,14 @@ namespace Interactables
             return _handleRemoved;
         }
 
+        public bool HasItem()
+        {
+            return false;
+        }
+
         public bool ShouldPlayInspectAnimation()
         {
             return true;
-        }
-
-        public bool HasAvailableItem()
-        {
-            return false;
         }
 
         public bool TryItem(IItem item)

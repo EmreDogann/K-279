@@ -1,38 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
-using MyBox;
 using UnityEngine;
 
 namespace Lights
 {
     [RequireComponent(typeof(Light))]
-    public class RoomLight : ControlLight
+    public class ItemLight : ControlLight
     {
-        [SerializeField] private bool roomCanControl = true;
-        [SerializeField] private bool canBeAlarmLight;
-        [ConditionalField(nameof(canBeAlarmLight))] [SerializeField] private bool isStaticAlarm;
+        [SerializeField] private bool roomCanControl;
 
         private Light _light;
         private float _originalIntensity;
-        private Tween _rotateLights;
 
         private List<ILightEffect> _lightEffects = new List<ILightEffect>();
 
         private void Awake()
         {
             _light = GetComponent<Light>();
-
             _lightEffects = GetComponents<ILightEffect>().ToList();
-
             _originalIntensity = _light.intensity;
-
-            _rotateLights = transform.DORotate(new Vector3(0.0f, 360.0f, 0.0f), 1.0f, RotateMode.WorldAxisAdd)
-                .SetLoops(-1, LoopType.Incremental)
-                .SetEase(Ease.Linear)
-                .SetUpdate(true)
-                .SetAutoKill(false)
-                .Pause();
         }
 
         public bool IsOn()
@@ -71,21 +58,6 @@ namespace Lights
         {
             _light.DOKill();
 
-            if (LightManager.Instance.GetLightState() == LightState.Alarm)
-            {
-                if (!canBeAlarmLight)
-                {
-                    TurnOffLight();
-                    return;
-                }
-
-                if (!isStaticAlarm)
-                {
-                    _rotateLights.Rewind();
-                    _rotateLights.PlayForward();
-                }
-            }
-
             if (duration <= 0.0f)
             {
                 _light.intensity = _originalIntensity;
@@ -101,30 +73,6 @@ namespace Lights
                 {
                     lightEffect.EnableEffect();
                 }
-            }
-        }
-
-        public void ChangeLightState(LightState state)
-        {
-            switch (state)
-            {
-                case LightState.Normal:
-                    _rotateLights.Rewind();
-                    break;
-                case LightState.Alarm:
-                    if (!canBeAlarmLight)
-                    {
-                        TurnOffLight();
-                        return;
-                    }
-
-                    if (!isStaticAlarm)
-                    {
-                        _rotateLights.Rewind();
-                        _rotateLights.PlayForward();
-                    }
-
-                    break;
             }
         }
     }

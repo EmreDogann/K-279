@@ -2777,6 +2777,12 @@ MonoBehaviour:
   state: 0
   freezeMode: 0
   pauseEvent: {fileID: 11400000, guid: c4e820fd8becde94d91f53738c352eaa, type: 2}
+--- !u!1 &840881870 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1863988710295400838, guid: 2478209f45b2a6e45aff0975ea873352,
+    type: 3}
+  m_PrefabInstance: {fileID: 100160254207592782}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &862360453
 GameObject:
   m_ObjectHideFlags: 0
@@ -3119,9 +3125,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomLoadWaitTime: 0.7
   cameraConfiner2DSwitcher: {fileID: 147622454}
-  loadStartingRoomOnAwake: 0
-  startingRoom: 1
-  startingRoomEnteringFrom: 0
+  loadStartingRoomOnAwake: 1
+  startingRoom: 2
+  startingRoomEnteringFrom: 3
   rooms:
   - {fileID: 2801266111139615803}
   - {fileID: 6730429435687745383}
@@ -4206,7 +4212,7 @@ MonoBehaviour:
   entry: 0
   exit: 0
   state: 0
-  gameObject: {fileID: 0}
+  gameObject: {fileID: 840881870}
   setActive: 0
 --- !u!1 &1417152443
 GameObject:
@@ -5645,57 +5651,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1804572414859661861, guid: 856ae4877cfce244aa2eecbb0d4e270b,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.45
-      objectReference: {fileID: 0}
     - target: {fileID: 3229440970882805500, guid: 856ae4877cfce244aa2eecbb0d4e270b,
         type: 3}
       propertyPath: m_Name
       value: Ammo Box
       objectReference: {fileID: 0}
-    - target: {fileID: 3229440970882805500, guid: 856ae4877cfce244aa2eecbb0d4e270b,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852646784047690665, guid: 856ae4877cfce244aa2eecbb0d4e270b,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852646784047690665, guid: 856ae4877cfce244aa2eecbb0d4e270b,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.202
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852646784047690665, guid: 856ae4877cfce244aa2eecbb0d4e270b,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.529
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852646784047690665, guid: 856ae4877cfce244aa2eecbb0d4e270b,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852646784047690665, guid: 856ae4877cfce244aa2eecbb0d4e270b,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3852646784047690665, guid: 856ae4877cfce244aa2eecbb0d4e270b,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4838877940051921743, guid: 856ae4877cfce244aa2eecbb0d4e270b,
-        type: 3}
-      propertyPath: itemInfo
-      value: 
-      objectReference: {fileID: 11400000, guid: 01bf41be68c364c4ba9452a70f6554d1,
-        type: 2}
     - target: {fileID: 4929259812571253960, guid: 856ae4877cfce244aa2eecbb0d4e270b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7471,7 +7431,7 @@ PrefabInstance:
     - target: {fileID: 4253648581163454541, guid: 2478209f45b2a6e45aff0975ea873352,
         type: 3}
       propertyPath: inspectMessage
-      value: Oxygen depleted...Need to find a new tank...What, can i do?
+      value: Oxygen depleted...Need to find a new tank...
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7613,20 +7573,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Oxygen Tank
       objectReference: {fileID: 0}
-    - target: {fileID: 3056945305945761950, guid: 6847508ad3b0c924c9c207e981d9e4c6,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3729192796650750293, guid: 6847508ad3b0c924c9c207e981d9e4c6,
-        type: 3}
-      propertyPath: m_Range
-      value: 3.3
-      objectReference: {fileID: 0}
     - target: {fileID: 7477514277828132604, guid: 6847508ad3b0c924c9c207e981d9e4c6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 157.44
+      value: 164
       objectReference: {fileID: 0}
     - target: {fileID: 7477514277828132604, guid: 6847508ad3b0c924c9c207e981d9e4c6,
         type: 3}
@@ -7741,16 +7691,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fuse
       objectReference: {fileID: 0}
-    - target: {fileID: 3183242104648838913, guid: 330c99c29d10d544e91f94a1f3b73ca4,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6988992522724097764, guid: 330c99c29d10d544e91f94a1f3b73ca4,
-        type: 3}
-      propertyPath: controlLight
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7846,11 +7786,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Valve Wheel
-      objectReference: {fileID: 0}
-    - target: {fileID: 2336952833739822332, guid: 486dc048a5034ff4d83f2955c11f1f72,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2600793160856632658, guid: 486dc048a5034ff4d83f2955c11f1f72,
         type: 3}

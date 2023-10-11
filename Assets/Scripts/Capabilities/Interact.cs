@@ -83,45 +83,61 @@ namespace Capabilities
                 return;
             }
 
-            IInspectable inspectableObject = _currentTransform.gameObject.GetComponent<IInspectable>();
-            if (inspectableObject != null)
+            bool willTakeItem = false;
+            bool willUseItem = false;
+            ItemInfoSO expectedItem = null;
+            IItemUser itemUser = _currentTransform.gameObject.GetComponent<IItemUser>();
+            if (itemUser != null)
             {
-                if (inspectableObject.IsExpectingItem(out ItemInfoSO expectedItem))
+                if (itemUser.IsExpectingItem(out expectedItem))
                 {
                     if (inventory.ContainsItemType(expectedItem))
                     {
                         _interactionActive = false;
-                        if (inspectableObject.IsInspectable() && inspectableObject.ShouldPlayInspectAnimation())
-                        {
-                            StartCoroutine(PlaceItemAnimation(inspectableObject, inventory.TryGetItem(expectedItem)));
-                        }
-                        else
-                        {
-                            inspectableObject.TryItem(inventory.TryGetItem(expectedItem));
-                            _interactionActive = true;
-                        }
-                    }
-                    else if (inspectableObject.IsInspectable())
-                    {
-                        _interactionActive = false;
-                        inspector.OpenInspect(inspectableObject, _ => StartCoroutine(DelayedInteractActivate()));
+                        willUseItem = true;
                     }
                 }
-                else
+                else if (itemUser.HasItem())
                 {
-                    if (inspectableObject.HasAvailableItem())
-                    {
-                        _interactionActive = false;
-                        StartCoroutine(TakeItemAnimation(inspectableObject));
-                    }
-                    else if (inspectableObject.IsInspectable())
-                    {
-                        _interactionActive = false;
-                        inspector.OpenInspect(inspectableObject, _ => StartCoroutine(DelayedInteractActivate()));
-                    }
+                    _interactionActive = false;
+                    willTakeItem = true;
                 }
+            }
 
-                return;
+            bool canInspectItem = false;
+            IInspectable inspectableObject = _currentTransform.gameObject.GetComponent<IInspectable>();
+            if (inspectableObject != null)
+            {
+                canInspectItem = inspectableObject.IsInspectable();
+            }
+
+            if (willUseItem && expectedItem != null)
+            {
+                // Use item while inspecting
+                if (canInspectItem)
+                {
+                    StartCoroutine(PlaceItemAnimation(inspectableObject, itemUser, inventory.TryGetItem(expectedItem)));
+                }
+                else // Use item WITHOUT inspecting
+                {
+                    itemUser.TryItem(inventory.TryGetItem(expectedItem));
+                    _interactionActive = true;
+                }
+            }
+
+            if (!willUseItem)
+            {
+                // Inspect & Take item
+                if (willTakeItem && canInspectItem)
+                {
+                    _interactionActive = false;
+                    StartCoroutine(TakeItemAnimation(inspectableObject, itemUser));
+                }
+                else if (canInspectItem) // Regular inspection
+                {
+                    _interactionActive = false;
+                    inspector.OpenInspect(inspectableObject, _ => StartCoroutine(DelayedInteractActivate()));
+                }
             }
 
             IItem item = _currentTransform.gameObject.GetComponent<IItem>();
@@ -144,23 +160,23 @@ namespace Capabilities
             }
         }
 
-        private IEnumerator PlaceItemAnimation(IInspectable inspectable, IItem item)
+        private IEnumerator PlaceItemAnimation(IInspectable inspectable, IItemUser itemUser, IItem item)
         {
             inspectable.GetCameraAngle().gameObject.SetActive(true);
             yield return new WaitForSecondsRealtime(1.0f);
-            inspectable.TryItem(item);
+            itemUser.TryItem(item);
             yield return new WaitForSecondsRealtime(1.0f);
             inspectable.GetCameraAngle().gameObject.SetActive(false);
 
             _interactionActive = true;
         }
 
-        private IEnumerator TakeItemAnimation(IInspectable inspectable)
+        private IEnumerator TakeItemAnimation(IInspectable inspectable, IItemUser itemUser)
         {
             inspectable.GetCameraAngle().gameObject.SetActive(true);
             yield return new WaitForSecondsRealtime(1.0f);
 
-            IItem item = inspectable.TryTakeItem();
+            IItem item = itemUser.TryTakeItem();
             inventory.AddItem(item);
 
             yield return new WaitForSecondsRealtime(1.0f);

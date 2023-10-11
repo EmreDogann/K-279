@@ -9,7 +9,8 @@ using UnityEngine;
 
 namespace ScriptedEvents.EventTriggers
 {
-    public class ItemInteractionEventTrigger : MonoBehaviour, IEventTrigger, IInteractableObjects, IInspectable
+    public class ItemInteractionEventTrigger : MonoBehaviour, IEventTrigger, IInteractableObjects, IInspectable,
+        IItemUser
     {
         [Separator("Optional Values")]
         [SerializeField] private ItemInfoSO expectedItem;
@@ -72,12 +73,7 @@ namespace ScriptedEvents.EventTriggers
             return !_isTriggered;
         }
 
-        public bool ShouldPlayInspectAnimation()
-        {
-            return false;
-        }
-
-        public bool HasAvailableItem()
+        public bool HasItem()
         {
             return false;
         }

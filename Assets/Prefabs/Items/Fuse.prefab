@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5728710409071792940}
   - component: {fileID: 1559043316310289554}
   - component: {fileID: 2192522381033459823}
-  - component: {fileID: 3502424445988625735}
+  - component: {fileID: 1076947103046125594}
   - component: {fileID: 7955617316181485254}
   m_Layer: 7
   m_Name: Point Light
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!114 &3502424445988625735
+--- !u!114 &1076947103046125594
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,12 +129,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1858488330961987845}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a284b4459e924ba0a88f344b0b63f2dd, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ff22a7fd2d64da6ba293de6a23760a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   roomCanControl: 0
-  canBeAlarmLight: 0
-  isStaticAlarm: 0
 --- !u!114 &7955617316181485254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81f6540d1e44477581482a37c9e34d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlLight: {fileID: 3502424445988625735}
+  controlLight: {fileID: 1076947103046125594}
 --- !u!1 &2613268862926244553
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +256,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3183242104648838913}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000006094012, y: 0.40896222, z: 0.000000013598075, w: 0.91255134}
+  m_LocalRotation: {x: 0, y: 0.40895957, z: 0, w: 0.9125525}
   m_LocalPosition: {x: 166.22, y: 1.624, z: 5.658}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

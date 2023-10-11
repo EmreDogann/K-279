@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Interactables
 {
-    public class FuseSlot : MonoBehaviour, IInteractableObjects, IInspectable
+    public class FuseSlot : MonoBehaviour, IInteractableObjects, IInspectable, IItemUser
     {
         [field: Separator("Interaction")]
         [field: SerializeField] public bool Interactable { get; set; } = true;
@@ -28,6 +28,12 @@ namespace Interactables
         private void Awake()
         {
             inspectVirtualCamera.gameObject.SetActive(false);
+
+            Transform firstChild = transform.GetChild(0);
+            if (firstChild != null)
+            {
+                _fuseItem = firstChild.GetComponent<IItem>();
+            }
         }
 
         public void InteractionContinues() {}
@@ -63,14 +69,14 @@ namespace Interactables
             return _fuseItem == null;
         }
 
+        public bool HasItem()
+        {
+            return _fuseItem != null;
+        }
+
         public bool ShouldPlayInspectAnimation()
         {
             return true;
-        }
-
-        public bool HasAvailableItem()
-        {
-            return _fuseItem != null;
         }
 
         public bool TryItem(IItem item)
