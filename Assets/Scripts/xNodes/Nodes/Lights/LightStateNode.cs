@@ -1,8 +1,9 @@
 using Attributes;
 using Lights;
 using UnityEngine;
+using xNodes.Nodes.Delay;
 
-namespace xNodes.Nodes
+namespace xNodes.Nodes.Lights
 {
     [NodeWidth(300)]
     [CreateNodeMenu("Actions/Lights/Light State")]

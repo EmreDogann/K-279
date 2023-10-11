@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace xNodes.Nodes
+namespace xNodes.Nodes.Sound
 {
     public class PlaySoundNode_AudioDataAttribute : PropertyAttribute {}
 }

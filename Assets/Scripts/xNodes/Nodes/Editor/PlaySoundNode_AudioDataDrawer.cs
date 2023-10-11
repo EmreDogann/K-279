@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using xNodes.Nodes.Sound;
 
 namespace xNodes.Nodes.Editor
 {

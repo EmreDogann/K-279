@@ -1,8 +1,9 @@
 using Attributes;
 using Rooms;
 using UnityEngine;
+using xNodes.Nodes.Delay;
 
-namespace xNodes.Nodes
+namespace xNodes.Nodes.Lights
 {
     [NodeWidth(300)]
     [CreateNodeMenu("Actions/Lights/Room Lights")]

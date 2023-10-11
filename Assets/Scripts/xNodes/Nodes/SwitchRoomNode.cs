@@ -1,6 +1,7 @@
 using Attributes;
 using Rooms;
 using UnityEngine;
+using xNodes.Nodes.Delay;
 
 namespace xNodes.Nodes
 {

@@ -14,7 +14,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "d43f7966a1f50c663216f0ba66ce287122c46be8"
+      "hash": "c1bf519440e07d9eabd28a759a2b7e9a7b605b49"
     },
     "com.quickeye.icon-browser": {
       "version": "https://github.com/ErnSur/unity-editor-icons.git",

@@ -1,5 +1,6 @@
 using Attributes;
 using UnityEngine;
+using xNodes.Nodes.Delay;
 
 namespace xNodes.Nodes
 {

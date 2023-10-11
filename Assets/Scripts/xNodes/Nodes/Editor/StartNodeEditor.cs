@@ -5,7 +5,7 @@ using XNodeEditor;
 namespace xNodes.Nodes.Editor
 {
     [CustomNodeEditor(typeof(StartNode))]
-    public class StartNodeEditor : NodeEditor
+    public class StartNodeEditor : BaseNodeEditor
     {
         private GUIStyle headerStyle;
         private GUIStyle headerLabelStyle;

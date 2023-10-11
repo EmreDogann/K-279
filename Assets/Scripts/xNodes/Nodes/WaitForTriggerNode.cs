@@ -2,6 +2,7 @@ using System;
 using AYellowpaper;
 using ScriptedEvents;
 using UnityEngine;
+using xNodes.Nodes.Delay;
 
 namespace xNodes.Nodes
 {
@@ -23,7 +24,11 @@ namespace xNodes.Nodes
             {
                 eventTrigger.Value.EventTriggered += OnEventTrigger;
             }
-            else
+        }
+
+        public override void Execute()
+        {
+            if (eventTrigger.Value == null)
             {
                 Debug.LogError("Trigger Node " + name + " is not assigned an event trigger!");
             }

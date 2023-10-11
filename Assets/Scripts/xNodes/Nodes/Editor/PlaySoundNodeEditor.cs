@@ -4,11 +4,12 @@ using UnityEditor;
 using UnityEngine;
 using XNode;
 using XNodeEditor;
+using xNodes.Nodes.Sound;
 
 namespace xNodes.Nodes.Editor
 {
     [CustomNodeEditor(typeof(PlaySoundNode))]
-    public class PlaySoundNodeEditor : NodeEditor
+    public class PlaySoundNodeEditor : BaseNodeEditor
     {
         private SerializedProperty _audioDataListProperty;
         private SerializedProperty _playModeProperty;

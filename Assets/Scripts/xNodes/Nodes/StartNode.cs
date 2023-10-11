@@ -1,4 +1,5 @@
 ﻿using System;
+using xNodes.Nodes.Delay;
 
 namespace xNodes.Nodes
 {
@@ -11,7 +12,7 @@ namespace xNodes.Nodes
         [Serializable]
         public class StartNodeOutput {}
 
-        [Output] public StartNodeOutput nodeExit;
+        [Output(connectionType: ConnectionType.Override)] public StartNodeOutput nodeExit;
 
         public override void Execute()
         {

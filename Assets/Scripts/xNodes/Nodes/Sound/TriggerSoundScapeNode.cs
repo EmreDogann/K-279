@@ -1,6 +1,7 @@
 using UnityEngine;
+using xNodes.Nodes.Delay;
 
-namespace xNodes.Nodes
+namespace xNodes.Nodes.Sound
 {
     [NodeWidth(400)]
     [CreateNodeMenu("Actions/Sound/Trigger Sound Scape")]

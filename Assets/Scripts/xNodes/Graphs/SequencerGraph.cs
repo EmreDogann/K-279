@@ -1,14 +1,22 @@
 ﻿using UnityEngine;
 using XNode;
 using xNodes.Nodes;
+using xNodes.Nodes.Delay;
 
 namespace xNodes.Graphs
 {
     [CreateAssetMenu(fileName = "New Node Graph", menuName = "NodeGraph/Sequencer Graph")]
     public class SequencerGraph : NodeGraph
     {
+        [SerializeField] private string sequenceName;
+
         public BaseNode startNode;
         public BaseNode currentNode;
+
+        public string GetName()
+        {
+            return sequenceName;
+        }
 
         public void Start()
         {

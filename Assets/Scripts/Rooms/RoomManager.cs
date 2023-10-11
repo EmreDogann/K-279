@@ -128,6 +128,10 @@ namespace Rooms
             {
                 newRoom.ActivateRoom(currentRoom.GetRoomType());
             }
+            else
+            {
+                newRoom.ActivateRoom(true);
+            }
 
             PlayDoorAmbiances(newRoom.GetDoors());
 
