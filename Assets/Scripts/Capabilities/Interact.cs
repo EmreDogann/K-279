@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Controllers;
 using Inspect;
 using Interactables;
@@ -14,14 +15,19 @@ namespace Capabilities
     [RequireComponent(typeof(Controller))]
     public class Interact : MonoBehaviour
     {
+        private class InteractableData
+        {
+            public IInteractableObjects Interactable;
+            public Transform Transform;
+        }
+
         [SerializeField] private LayerMask interactableLayerMask;
         [SerializeField] private ItemInspector itemInspector;
         [SerializeField] private Inspector inspector;
         [SerializeField] private Inventory inventory;
 
         private Controller _controller;
-        private Transform _currentTransform;
-        private IInteractableObjects _currentInteractable;
+        private readonly List<InteractableData> _currentInteractables = new List<InteractableData>();
 
         private bool _interactionActive;
 
@@ -55,108 +61,116 @@ namespace Capabilities
 
         private void Update()
         {
-            if (!_interactionActive || _currentInteractable == null || !_currentInteractable.IsInteractable())
+            if (!_interactionActive || _currentInteractables.Count <= 0)
             {
                 return;
             }
 
-            bool interactPressed = _controller.input.RetrieveInteractPress();
-            if (interactPressed)
+            foreach (InteractableData data in _currentInteractables)
             {
-                _currentInteractable.InteractionStart();
-            }
-            else if (_controller.input.RetrieveInteractInput())
-            {
-                _currentInteractable.InteractionContinues();
-            }
-            else if (_controller.input.RetrieveInteractRelease())
-            {
-                _currentInteractable.InteractionEnd();
-            }
-            else
-            {
-                return;
-            }
-
-            if (!interactPressed)
-            {
-                return;
-            }
-
-            bool willTakeItem = false;
-            bool willUseItem = false;
-            ItemInfoSO expectedItem = null;
-            IItemUser itemUser = _currentTransform.gameObject.GetComponent<IItemUser>();
-            if (itemUser != null)
-            {
-                if (itemUser.IsExpectingItem(out expectedItem))
+                if (!data.Interactable.IsInteractable())
                 {
-                    if (inventory.ContainsItemType(expectedItem))
+                    continue;
+                }
+
+                bool interactPressed = _controller.input.RetrieveInteractPress();
+                if (interactPressed)
+                {
+                    data.Interactable.InteractionStart();
+                }
+                else if (_controller.input.RetrieveInteractInput())
+                {
+                    data.Interactable.InteractionContinues();
+                }
+                else if (_controller.input.RetrieveInteractRelease())
+                {
+                    data.Interactable.InteractionEnd();
+                }
+                else
+                {
+                    continue;
+                }
+
+                if (!interactPressed)
+                {
+                    continue;
+                }
+
+                bool willTakeItem = false;
+                bool willUseItem = false;
+                ItemInfoSO expectedItem = null;
+                IItemUser itemUser = data.Transform.GetComponent<IItemUser>();
+                if (itemUser != null)
+                {
+                    if (itemUser.IsExpectingItem(out expectedItem))
+                    {
+                        if (inventory.ContainsItemType(expectedItem))
+                        {
+                            _interactionActive = false;
+                            willUseItem = true;
+                        }
+                    }
+                    else if (itemUser.HasItem())
                     {
                         _interactionActive = false;
-                        willUseItem = true;
+                        willTakeItem = true;
                     }
                 }
-                else if (itemUser.HasItem())
-                {
-                    _interactionActive = false;
-                    willTakeItem = true;
-                }
-            }
 
-            bool canInspectItem = false;
-            IInspectable inspectableObject = _currentTransform.gameObject.GetComponent<IInspectable>();
-            if (inspectableObject != null)
-            {
-                canInspectItem = inspectableObject.IsInspectable();
-            }
+                bool canInspectItem = false;
+                IInspectable inspectableObject = data.Transform.GetComponent<IInspectable>();
+                if (inspectableObject != null)
+                {
+                    canInspectItem = inspectableObject.IsInspectable();
+                }
 
-            if (willUseItem && expectedItem != null)
-            {
-                // Use item while inspecting
-                if (canInspectItem)
+                if (willUseItem && expectedItem != null)
                 {
-                    StartCoroutine(PlaceItemAnimation(inspectableObject, itemUser, inventory.TryGetItem(expectedItem)));
-                }
-                else // Use item WITHOUT inspecting
-                {
-                    itemUser.TryItem(inventory.TryGetItem(expectedItem));
-                    _interactionActive = true;
-                }
-            }
-
-            if (!willUseItem)
-            {
-                // Inspect & Take item
-                if (willTakeItem && canInspectItem)
-                {
-                    _interactionActive = false;
-                    StartCoroutine(TakeItemAnimation(inspectableObject, itemUser));
-                }
-                else if (canInspectItem) // Regular inspection
-                {
-                    _interactionActive = false;
-                    inspector.OpenInspect(inspectableObject, _ => StartCoroutine(DelayedInteractActivate()));
-                }
-            }
-
-            IItem item = _currentTransform.gameObject.GetComponent<IItem>();
-            if (item != null)
-            {
-                _interactionActive = false;
-                itemInspector.InspectItem(item, _controller, wasConfirmed =>
-                {
-                    if (wasConfirmed)
+                    // Use item while inspecting
+                    if (canInspectItem)
                     {
-                        inventory.AddItem(item);
-                        item.Pickup();
-
-                        _currentInteractable = null;
-                        _currentTransform = null;
+                        StartCoroutine(PlaceItemAnimation(inspectableObject, itemUser,
+                            inventory.TryGetItem(expectedItem)));
                     }
+                    else // Use item WITHOUT inspecting
+                    {
+                        itemUser.TryItem(inventory.TryGetItem(expectedItem));
+                        _interactionActive = true;
+                    }
+                }
 
-                    _interactionActive = true;
-                });
+                if (!willUseItem)
+                {
+                    // Inspect & Take item
+                    if (willTakeItem && canInspectItem)
+                    {
+                        _interactionActive = false;
+                        StartCoroutine(TakeItemAnimation(inspectableObject, itemUser));
+                    }
+                    else if (canInspectItem) // Regular inspection
+                    {
+                        _interactionActive = false;
+                        inspector.OpenInspect(inspectableObject, _ => StartCoroutine(DelayedInteractActivate()));
+                    }
+                }
+
+                IItem item = data.Transform.GetComponent<IItem>();
+                if (item != null)
+                {
+                    _interactionActive = false;
+                    itemInspector.InspectItem(item, _controller, wasConfirmed =>
+                    {
+                        if (wasConfirmed)
+                        {
+                            inventory.AddItem(item);
+                            item.Pickup();
+
+                            _currentInteractables.Remove(data);
+                        }
+
+                        _interactionActive = true;
+                    });
+                }
             }
         }
 
@@ -198,30 +212,39 @@ namespace Capabilities
                 return;
             }
 
-            IInteractableObjects interactableObject = collision.gameObject.GetComponent<IInteractableObjects>();
-            if (interactableObject != null)
+            var interactableObjects = collision.gameObject.GetComponents<IInteractableObjects>();
+            foreach (IInteractableObjects interactableObject in interactableObjects)
             {
+                if (interactableObject == null)
+                {
+                    continue;
+                }
+
                 interactableObject.InteractionAreaEnter();
-                _currentInteractable = interactableObject;
-                _currentTransform = collision.transform;
+
+                if (!_currentInteractables.Exists(x => x.Interactable == interactableObject))
+                {
+                    _currentInteractables.Add(new InteractableData
+                        { Interactable = interactableObject, Transform = collision.transform });
+                }
             }
         }
 
-        private void OnTriggerStay(Collider collision)
-        {
-            if (!interactableLayerMask.Contains(collision.gameObject.layer) && _currentInteractable == null)
-            {
-                return;
-            }
-
-            IInteractableObjects interactableObject = collision.gameObject.GetComponent<IInteractableObjects>();
-            if (interactableObject != null)
-            {
-                interactableObject.InteractionAreaEnter();
-                _currentInteractable = interactableObject;
-                _currentTransform = collision.transform;
-            }
-        }
+        // private void OnTriggerStay(Collider collision)
+        // {
+        //     if (!interactableLayerMask.Contains(collision.gameObject.layer))
+        //     {
+        //         return;
+        //     }
+        //
+        //     IInteractableObjects interactableObject = collision.gameObject.GetComponent<IInteractableObjects>();
+        //     if (interactableObject != null && !_currentInteractables.Contains(interactableObject))
+        //     {
+        //         interactableObject.InteractionAreaEnter();
+        //         _currentInteractables.Add(interactableObject);
+        //         _currentTransform = collision.transform;
+        //     }
+        // }
 
         private void OnTriggerExit(Collider collision)
         {
@@ -230,16 +253,17 @@ namespace Capabilities
                 return;
             }
 
-            IInteractableObjects interactableObject = collision.gameObject.GetComponent<IInteractableObjects>();
-            if (interactableObject != null)
+            var interactableObjects = collision.gameObject.GetComponents<IInteractableObjects>();
+            foreach (IInteractableObjects interactableObject in interactableObjects)
             {
+                if (interactableObject == null)
+                {
+                    continue;
+                }
+
                 interactableObject.InteractionAreaExit();
 
-                if (interactableObject == _currentInteractable)
-                {
-                    _currentInteractable = null;
-                    _currentTransform = null;
-                }
+                _currentInteractables.RemoveAll(x => x.Interactable == interactableObject);
             }
         }
     }

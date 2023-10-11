@@ -3438,10 +3438,20 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 568503080355219765}
+    - targetCorrespondingSourceObject: {fileID: 8954027372522884111, guid: 1e89ad47699baf846aa33d89d5609cb1,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6728589038145895410}
   m_SourcePrefab: {fileID: 100100000, guid: 1e89ad47699baf846aa33d89d5609cb1, type: 3}
 --- !u!4 &6907790404801598627 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6233086385650932308, guid: 1e89ad47699baf846aa33d89d5609cb1,
+    type: 3}
+  m_PrefabInstance: {fileID: 674759072645451511}
+  m_PrefabAsset: {fileID: 0}
+--- !u!108 &8229511057474764120 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 8892394268991140783, guid: 1e89ad47699baf846aa33d89d5609cb1,
     type: 3}
   m_PrefabInstance: {fileID: 674759072645451511}
   m_PrefabAsset: {fileID: 0}
@@ -3466,6 +3476,22 @@ MonoBehaviour:
   roomCanControl: 1
   canBeAlarmLight: 1
   isStaticAlarm: 1
+--- !u!114 &6728589038145895410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8439219831304667896}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b07692fa79dd804c8e20aed33b82356, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Enabled: 1
+  lightObj: {fileID: 8229511057474764120}
+  normalFlicker: {fileID: 11400000, guid: d82567e97535351479e1cda65e90c008, type: 2}
+  explosionFlicker: {fileID: 0}
 --- !u!1001 &877167340720992314
 PrefabInstance:
   m_ObjectHideFlags: 0

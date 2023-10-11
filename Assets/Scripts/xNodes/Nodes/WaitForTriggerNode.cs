@@ -11,7 +11,6 @@ namespace xNodes.Nodes
     public class WaitForTriggerNode : BaseNode
     {
         [SerializeField] private InterfaceReference<IEventTrigger, MonoBehaviour> eventTrigger;
-        public Transform playerTransform;
 
         protected override void Init()
         {

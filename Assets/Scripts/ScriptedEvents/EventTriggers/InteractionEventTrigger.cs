@@ -40,7 +40,7 @@ namespace ScriptedEvents.EventTriggers
 
         public bool IsInteractable()
         {
-            return true;
+            return !_isTriggered;
         }
 
         private void OnEventTriggered()

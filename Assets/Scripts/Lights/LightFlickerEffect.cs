@@ -4,6 +4,7 @@ using MyBox;
 using ScriptableObjects;
 using UnityEngine;
 
+// Modified by Emre Dogan 2023 - For K-279
 // Written by Steve Streeting 2017
 // License: CC0 Public Domain http://creativecommons.org/publicdomain/zero/1.0/
 
@@ -27,7 +28,7 @@ public class LightFlickerEffect : MonoBehaviour, ILightEffect
 
     // Continuous average calculation via FIFO queue
     // Saves us iterating every time we update, we just change by the delta
-    private Queue<float> _smoothQueue;
+    private Queue<float> _smoothQueue = new Queue<float>();
     private float _lastSum;
     private float _currentTimeDelay;
     private float _currentTimeFlick;

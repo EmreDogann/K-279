@@ -1,18 +1,30 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 using xNodes.Nodes.Delay;
 
 namespace xNodes.Nodes
 {
-    [NodeWidth(250)]
+    [NodeWidth(450)]
     [CreateNodeMenu("Actions/Set Active State")]
     public class SetActiveNode : BaseNode
     {
-        [SerializeField] private GameObject gameObject;
-        [SerializeField] private bool setActive;
+        [Serializable]
+        private class GameObjectState
+        {
+            public GameObject gameObject;
+            public bool setActive;
+        }
+
+        [SerializeField] private List<GameObjectState> gameObjects;
 
         public override void Execute()
         {
-            gameObject.SetActive(setActive);
+            foreach (GameObjectState objectState in gameObjects)
+            {
+                objectState.gameObject.SetActive(objectState.setActive);
+            }
+
             NextNode("exit");
         }
     }
