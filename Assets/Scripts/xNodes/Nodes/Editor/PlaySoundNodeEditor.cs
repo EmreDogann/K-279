@@ -26,6 +26,15 @@ namespace xNodes.Nodes.Editor
 
             string[] allNames = Enum.GetNames(typeof(PlaySoundNode.PlayMode));
             _enumNamesToDisplay = allNames.Where(n => n != PlaySoundNode.PlayMode.GlobalOverride.ToString()).ToArray();
+
+            for (int i = 0; i < _enumNamesToDisplay.Length; i++)
+            {
+                if (_enumNamesToDisplay[i] == ((PlaySoundNode.PlayMode)_playModeProperty.enumValueIndex).ToString())
+                {
+                    _selectedIndex = i;
+                    break;
+                }
+            }
         }
 
         public override void OnBodyGUI()

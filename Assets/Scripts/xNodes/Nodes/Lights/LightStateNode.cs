@@ -11,12 +11,14 @@ namespace xNodes.Nodes.Lights
     {
         [NodeEnum] [SerializeField] private LightState lightState;
         [Space]
-        [SerializeField] private float changeDuration = 0.3f;
-        [SerializeField] private float afterChangeWaitDuration = 1.1f;
+        [SerializeField] private LightChangeMode changeMode;
+
+        [SerializeField] private float fadeDuration = 0.3f;
+        [SerializeField] private float afterFadeWaitDuration = 1.1f;
 
         public override void Execute()
         {
-            LightManager.Instance.ChangeLightColor(lightState, changeDuration, afterChangeWaitDuration);
+            LightManager.Instance.ChangeState(lightState, changeMode, fadeDuration, afterFadeWaitDuration);
             NextNode("exit");
         }
     }

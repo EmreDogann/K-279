@@ -6,12 +6,12 @@ namespace Lights
     {
         public virtual void Awake()
         {
-            LightManager.OnChangeColor += OnChangeColor;
+            LightManager.OnChangeState += OnChangeColor;
         }
 
         public virtual void OnDestroy()
         {
-            LightManager.OnChangeColor -= OnChangeColor;
+            LightManager.OnChangeState -= OnChangeColor;
         }
 
         public abstract void OnChangeColor(LightData data);

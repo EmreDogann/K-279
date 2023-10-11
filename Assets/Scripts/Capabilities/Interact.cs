@@ -98,6 +98,7 @@ namespace Capabilities
                         else
                         {
                             inspectableObject.TryItem(inventory.TryGetItem(expectedItem));
+                            _interactionActive = true;
                         }
                     }
                     else if (inspectableObject.IsInspectable())

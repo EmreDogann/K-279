@@ -103,5 +103,29 @@ namespace Lights
                 }
             }
         }
+
+        public void ChangeLightState(LightState state)
+        {
+            switch (state)
+            {
+                case LightState.Normal:
+                    _rotateLights.Rewind();
+                    break;
+                case LightState.Alarm:
+                    if (!canBeAlarmLight)
+                    {
+                        TurnOffLight();
+                        return;
+                    }
+
+                    if (!isStaticAlarm)
+                    {
+                        _rotateLights.Rewind();
+                        _rotateLights.PlayForward();
+                    }
+
+                    break;
+            }
+        }
     }
 }

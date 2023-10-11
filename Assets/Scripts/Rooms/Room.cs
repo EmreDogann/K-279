@@ -266,6 +266,14 @@ namespace Rooms
             return StartCoroutine(WaitForLightsOff(lightFadeDuration));
         }
 
+        public void ControlLightState(LightState state)
+        {
+            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.CanBeControlledByRoom()))
+            {
+                roomLight.ChangeLightState(state);
+            }
+        }
+
         public Coroutine ControlLights(bool turnOn, float duration)
         {
             LightsOn = turnOn;

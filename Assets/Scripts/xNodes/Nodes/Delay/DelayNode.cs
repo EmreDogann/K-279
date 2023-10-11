@@ -22,7 +22,7 @@ namespace xNodes.Nodes.Delay
 
         protected override IEnumerator WaitForTime(float waitTime, Action callback = null)
         {
-            yield return useTimeScale ? new WaitForSecondsRealtime(waitTime) : new WaitForSeconds(waitTime);
+            yield return !useTimeScale ? new WaitForSecondsRealtime(waitTime) : new WaitForSeconds(waitTime);
             callback?.Invoke();
 
             NextNode("exit");

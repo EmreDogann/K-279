@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using XNode;
 using xNodes.Graphs;
@@ -35,7 +37,8 @@ namespace xNodes.Nodes.Delay
 
         public void NextNode(string exitNode)
         {
-            BaseNode baseNode = null;
+            state = State.None;
+            var baseNodes = new List<BaseNode>();
             foreach (NodePort p in Ports)
             {
                 if (p.fieldName == exitNode)
@@ -46,20 +49,22 @@ namespace xNodes.Nodes.Delay
                         return;
                     }
 
-                    baseNode = p.Connection.node as BaseNode;
+                    baseNodes.AddRange(p.GetConnections().Select(connection => connection.node as BaseNode));
                     break;
                 }
             }
 
-            state = State.None;
-            if (baseNode != null)
+            if (baseNodes.Count > 0)
             {
                 SequencerGraph sequencerGraph = graph as SequencerGraph;
                 if (sequencerGraph != null)
                 {
-                    baseNode.state = State.Running;
-                    sequencerGraph.currentNode = baseNode;
-                    sequencerGraph.Execute();
+                    foreach (BaseNode baseNode in baseNodes)
+                    {
+                        baseNode.state = State.Running;
+                        sequencerGraph.currentNode = baseNode;
+                        sequencerGraph.Execute();
+                    }
                 }
                 else
                 {
@@ -70,7 +75,8 @@ namespace xNodes.Nodes.Delay
 
         public void TriggerOutput(string outputName)
         {
-            BaseNode baseNode = null;
+            state = State.None;
+            var baseNodes = new List<BaseNode>();
             foreach (NodePort p in Ports)
             {
                 if (p.fieldName == outputName)
@@ -81,19 +87,21 @@ namespace xNodes.Nodes.Delay
                         return;
                     }
 
-                    baseNode = p.Connection.node as BaseNode;
+                    baseNodes.AddRange(p.GetConnections().Select(connection => connection.node as BaseNode));
                     break;
                 }
             }
 
-            state = State.None;
-            if (baseNode != null)
+            if (baseNodes.Count > 0)
             {
                 SequencerGraph sequencerGraph = graph as SequencerGraph;
                 if (sequencerGraph != null)
                 {
-                    baseNode.state = State.Running;
-                    baseNode.Execute();
+                    foreach (BaseNode baseNode in baseNodes)
+                    {
+                        baseNode.state = State.Running;
+                        baseNode.Execute();
+                    }
                 }
                 else
                 {

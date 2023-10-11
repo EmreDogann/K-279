@@ -16,6 +16,13 @@ namespace Lights
         Alarm
     }
 
+    public enum LightChangeMode
+    {
+        LeaveAsIs,
+        Off,
+        On
+    }
+
     public class LightData
     {
         public LightState State;
@@ -38,7 +45,7 @@ namespace Lights
 
         public static LightManager Instance { get; private set; }
 
-        public static event Action<LightData> OnChangeColor;
+        public static event Action<LightData> OnChangeState;
         public static event Action<bool, float> OnLightControl;
 
         private LightData _originalColors;
@@ -60,7 +67,7 @@ namespace Lights
                 FgColor = ditherRenderFeature.GetFGColor()
             };
 
-            ChangeLightColor(startingState, 0.0f, 0.0f);
+            ChangeState(startingState, LightChangeMode.LeaveAsIs, 0.0f, 0.0f);
         }
 
         private void OnDestroy()
@@ -79,26 +86,34 @@ namespace Lights
             yield return new WaitForSecondsRealtime(afterFadeWait);
         }
 
-        public void ChangeLightColor(LightState state, float lightFadeDuration = 0.3f, float afterFadeWait = 1.1f)
+        public void ChangeState(LightState state, LightChangeMode changeMode = LightChangeMode.LeaveAsIs,
+            float lightFadeDuration = 0.3f,
+            float afterFadeWait = 1.1f)
         {
             _currentState = state;
-            StartCoroutine(TransitionColors(lightFadeDuration, afterFadeWait));
+            StartCoroutine(TransitionColors(changeMode, lightFadeDuration, afterFadeWait));
         }
 
-        private IEnumerator TransitionColors(float lightFadeDuration, float afterFadeWait)
+        private IEnumerator TransitionColors(LightChangeMode changeMode, float lightFadeDuration, float afterFadeWait)
         {
-            OnLightControl?.Invoke(false, lightFadeDuration);
-            if (afterFadeWait > 0.0f)
+            if (changeMode == LightChangeMode.Off || changeMode == LightChangeMode.On)
             {
-                yield return new WaitForSecondsRealtime(afterFadeWait);
+                OnLightControl?.Invoke(false, lightFadeDuration);
+                if (afterFadeWait > 0.0f)
+                {
+                    yield return new WaitForSecondsRealtime(afterFadeWait);
+                }
             }
 
             UpdateLightColor();
 
-            OnLightControl?.Invoke(true, lightFadeDuration);
-            if (afterFadeWait > 0.0f)
+            if (changeMode == LightChangeMode.On)
             {
-                yield return new WaitForSecondsRealtime(afterFadeWait);
+                OnLightControl?.Invoke(true, lightFadeDuration);
+                if (afterFadeWait > 0.0f)
+                {
+                    yield return new WaitForSecondsRealtime(afterFadeWait);
+                }
             }
         }
 
@@ -117,11 +132,12 @@ namespace Lights
                     lightData.BgColor = Color.black;
                     lightData.FgColor = alarmColor;
                     ditherRenderFeature.SetColors(Color.black, alarmColor);
+                    alarmSound.StopAll();
                     alarmSound.Play2D();
                     break;
             }
 
-            OnChangeColor?.Invoke(lightData);
+            OnChangeState?.Invoke(lightData);
         }
 
         public LightState GetLightState()
@@ -151,7 +167,7 @@ namespace Lights
                 return;
             }
 
-            ChangeLightColor(LightState.Normal);
+            ChangeState(LightState.Normal);
         }
 
         [ButtonMethod]
@@ -163,7 +179,7 @@ namespace Lights
                 return;
             }
 
-            ChangeLightColor(LightState.Alarm);
+            ChangeState(LightState.Alarm);
         }
 #endif
     }

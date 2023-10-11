@@ -65,17 +65,14 @@ namespace Rooms
         {
             Door.OnRoomSwitching += SwitchRoom;
             LightManager.OnLightControl += OnLightControl;
+            LightManager.OnChangeState += OnLightStateChange;
         }
 
         private void OnDisable()
         {
             Door.OnRoomSwitching -= SwitchRoom;
             LightManager.OnLightControl -= OnLightControl;
-        }
-
-        private void OnLightControl(bool turnOn, float duration)
-        {
-            StartCoroutine(WaitForLights(turnOn, duration));
+            LightManager.OnChangeState -= OnLightStateChange;
         }
 
         public Room GetRoom(RoomType roomType)
@@ -86,6 +83,19 @@ namespace Rooms
         public Room GetRoomAtPoint(Vector3 point)
         {
             return rooms.Find(x => x.ContainsPoint(point));
+        }
+
+        private void OnLightStateChange(LightData data)
+        {
+            if (currentRoom != null)
+            {
+                currentRoom.ControlLightState(data.State);
+            }
+        }
+
+        private void OnLightControl(bool turnOn, float duration)
+        {
+            StartCoroutine(WaitForLights(turnOn, duration));
         }
 
         private IEnumerator WaitForLights(bool turnOn, float duration)

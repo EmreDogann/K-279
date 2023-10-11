@@ -84,7 +84,10 @@ namespace ScriptedEvents.Sequences
                     // LightControl.OnLightControl?.Invoke(true, 1.0f);
                 })
                 .AppendInterval(1.0f)
-                .AppendCallback(() => { LightManager.Instance.ChangeLightColor(LightState.Alarm, 0.4f); })
+                .AppendCallback(() =>
+                {
+                    LightManager.Instance.ChangeState(LightState.Alarm, LightChangeMode.On, 0.4f);
+                })
                 .AppendInterval(1.5f)
                 .AppendCallback(() => { pauseEvent.Raise(false); })
                 .SetUpdate(true)
