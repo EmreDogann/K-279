@@ -14,8 +14,10 @@ namespace RenderFeatures
         private readonly Material _ditherMaterial;
         private readonly Material _thresholdMaterial;
         private Color _backgroundColor;
+        private readonly Color _middleColor;
         private Color _foregroundColor;
         private readonly float _threshold;
+        private readonly float _middleColorThreshold;
         private readonly float _tiling;
         private readonly bool _worldSpaceDither;
         private readonly FilterMode _filterMode;
@@ -29,6 +31,7 @@ namespace RenderFeatures
         // Shader property IDs
         private readonly int _noiseTexProperty = Shader.PropertyToID("_NoiseTex");
         private readonly int _colorRampTexProperty = Shader.PropertyToID("_ColorRampTex");
+        private readonly int _mgThresholdProperty = Shader.PropertyToID("_MGThreshold");
         private readonly int _thresholdProperty = Shader.PropertyToID("_Threshold");
         private readonly int _tilingProperty = Shader.PropertyToID("_Tiling");
 
@@ -41,6 +44,7 @@ namespace RenderFeatures
 
         private readonly int _fgID = Shader.PropertyToID("_FG");
         private readonly int _bgID = Shader.PropertyToID("_BG");
+        private readonly int _mgID = Shader.PropertyToID("_MG");
 
         // The constructor of the pass. Here you can set any material properties that do not need to be updated on a per-frame basis.
         public ScreenDitherRenderPass(string profilerTag, RenderPassEvent renderEvent,
@@ -49,10 +53,12 @@ namespace RenderFeatures
             _profilerTag = profilerTag;
             renderPassEvent = renderEvent;
 
+            _middleColorThreshold = settings.middleColorThreshold;
             _threshold = settings.threshold;
             _tiling = settings.tiling;
 
             _backgroundColor = settings.backgroundColor;
+            _middleColor = settings.middleColor;
             _foregroundColor = settings.foregroundColor;
 
             _worldSpaceDither = settings.worldSpaceDither;
@@ -69,9 +75,11 @@ namespace RenderFeatures
                 }
 
                 _ditherMaterial.SetTexture(_colorRampTexProperty, settings.rampTex);
+                _ditherMaterial.SetFloat(_mgThresholdProperty, settings.middleColorThreshold);
                 _ditherMaterial.SetFloat(_thresholdProperty, settings.threshold);
                 _ditherMaterial.SetFloat(_tilingProperty, settings.tiling);
                 _ditherMaterial.SetColor(_bgID, settings.backgroundColor);
+                _ditherMaterial.SetColor(_mgID, settings.middleColor);
                 _ditherMaterial.SetColor(_fgID, settings.foregroundColor);
             }
 
@@ -90,7 +98,7 @@ namespace RenderFeatures
             else
             {
                 _ditherMaterial.DisableKeyword("ENABLE_WORLD_SPACE_DITHER");
-                _tiling = settings.tiling + 650;
+                _tiling = settings.tiling + 650; // magic number to match screen-space and world-space dither.
             }
 
             if (settings.useRampTexture)
@@ -169,18 +177,20 @@ namespace RenderFeatures
                 _ditherMaterial.SetVector(_brID, corners[3]);
             }
 
+            _ditherMaterial.SetFloat(_mgThresholdProperty, _middleColorThreshold);
             _ditherMaterial.SetFloat(_thresholdProperty, _threshold);
             _ditherMaterial.SetFloat(_tilingProperty, _tiling);
 
             _ditherMaterial.SetColor(_bgID, _backgroundColor);
+            _ditherMaterial.SetColor(_mgID, _middleColor);
             _ditherMaterial.SetColor(_fgID, _foregroundColor);
             _thresholdMaterial.SetColor(_bgID, _backgroundColor);
             _thresholdMaterial.SetColor(_fgID, _foregroundColor);
         }
 
-        public void SetTarget(RenderTargetIdentifier camerColorTarget)
+        public void SetTarget(RenderTargetIdentifier cameraColorTarget)
         {
-            _colorTarget = camerColorTarget;
+            _colorTarget = cameraColorTarget;
         }
 
         // The actual execution of the pass. This is where custom rendering occurs.

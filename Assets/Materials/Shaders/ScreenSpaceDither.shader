@@ -45,9 +45,9 @@
             struct Varyings
             {
                 float4 positionHCS : SV_POSITION;
+                float2 uv : TEXCOORD0;
             	float3 positionWS : TEXCOORD1;
             	float3 positionOAS : TEXCOORD2;
-                float2 uv : TEXCOORD0;
             };
 
             CBUFFER_START(UnityPerMaterial)
@@ -60,10 +60,12 @@
 			    float4 _BR;
 
 	            float4 _BG;
+	            float4 _MG;
 	            float4 _FG;
 
 	            float _Tiling;
 	            float _Threshold;
+				float _MGThreshold;
             CBUFFER_END
 
             TEXTURE2D(_MainTex);
@@ -117,6 +119,32 @@
 				                  max(distance(centre.rg, left.rg), distance(centre.rg, right.rg))));
 			}
 
+            float4 sampleTexWithFilter(float2 uv)
+            {
+	            int samples = 50;
+            	half2 dx = ddx(uv);
+            	half2 dy = ddy(uv);
+
+            	int sx = 1 + int(4 * clamp(length(dx), 0, float(samples - 1)));
+            	int sy = 1 + int(4 * clamp(length(dy), 0, float(samples - 1)));
+
+            	float4 color = float4(0,0,0,0);
+
+            	for (int j=0; j < samples; j++)
+            	{
+            		for (int i=0; i < samples; i++)
+            		{
+            			if (j < sy && i < sx)
+            			{
+							half2 st = (float(i), float(j)) / half2(float(sx), float(sy));
+							color += SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, (uv + st.x * dx + st.y * dy) * _NoiseTex_TexelSize.xy * _Tiling);
+            			}
+            		}
+            	}
+
+            	return color / float(sx * sy);
+            }
+
             Varyings Vertex(Attributes input)
             {
                 Varyings output;
@@ -126,13 +154,19 @@
 				// OAS - Object Aligned Space
                 // Apply only the scale to the object space vertex in order to compensate for rotation.
                 output.positionOAS = input.positionOS.xyz;
-            	
+
                 output.uv = input.uv;
                 return output;
             }
             
             float4 Fragment(Varyings input) : SV_Target
             {
+            	// float4 cameraPos = mul(unity_WorldToCamera, float4(_WorldSpaceCameraPos, 1.00001f));
+            	// cameraPos.z = -cameraPos.z;
+            	// float4 cameraClipPos = mul(unity_CameraProjection, cameraPos);
+            	// float2 UV = (cameraClipPos.xy / cameraClipPos.w) * 0.5 + 0.5;
+            	// UV *= -1;
+            	// UV *= 0.95f;
                 float3 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv).xyz;
 
             	#if ENABLE_WORLD_SPACE_DITHER
@@ -172,25 +206,30 @@
 	                blending /= dot(blending, float3(1,1,1));
 
 	                float4 color = blending.z * SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, uvZ * _NoiseTex_TexelSize.xy * _Tiling);
+            		// color += sampleTexWithFilter(uvX);
 	                color += blending.x * SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, uvX * _NoiseTex_TexelSize.xy * _Tiling);
 	                color += blending.y * SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, uvY * _NoiseTex_TexelSize.xy * _Tiling);
 
             		float ditherLum = color.r;
-            	#else
-	            float3 dir = normalize(lerp(lerp(_BL, _TL, input.uv.y), lerp(_BR, _TR, input.uv.y), input.uv.x));
-	            float ditherLum = cubeProject(_NoiseTex, sampler_NoiseTex, _NoiseTex_TexelSize.xy, dir);
-            	#endif
+				#else
+						float3 dir = normalize(lerp(lerp(_BL, _TL, input.uv.y), lerp(_BR, _TR, input.uv.y), input.uv.x));
+						float ditherLum = cubeProject(_NoiseTex, sampler_NoiseTex, _NoiseTex_TexelSize.xy, dir);
+						// float ditherLum = SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, _NoiseTex_TexelSize.xy * _Tiling * (input.uv + UV)).r;
+				#endif
                 float lum = col.b;
+            	ditherLum = clamp(ditherLum, 0.0f, 1.0f);
                 
                 float2 edgeData = edge(input.uv, _MainTex_TexelSize.xy * 1.0f);
                 lum = (edgeData.y < _Threshold) ? lum : ((edgeData.x < 0.1f) ? 1.0f : 0.0f);
                 
-                float ramp = (lum <= clamp(ditherLum, 0.0f, 1.0f)) ? 0.0f : 1.0f;
-            	
+                float ramp = (lum <= ditherLum) ? 0.0f : 1.0f;
+
             	#if USE_RAMP_TEX
 					float3 output = SAMPLE_TEXTURE2D(_ColorRampTex, sampler_ColorRampTex, float2(ramp, 0.5f));
             	#else
-            		float3 output = lerp(_BG, _FG, round(ramp));
+            		// float3 output = lerp(_BG, _FG, round(ramp));
+            		float3 output = lerp(_MG, _FG, step(_MGThreshold, abs(lum - ditherLum)));
+            		output = lerp(_BG, output, round(ramp));
             	#endif
 
             	// Normals computed from screen-space derivatives.

@@ -13,13 +13,18 @@ namespace RenderFeatures
             public bool showInSceneView;
             public bool worldSpaceDither;
 
+            [Space]
             public Texture2D ditherTex;
             public bool useRampTexture;
             [ConditionalField(nameof(useRampTexture))] public Texture2D rampTex;
 
+            [Space]
             [ConditionalField(nameof(useRampTexture), true)] public Color backgroundColor;
+            [ConditionalField(nameof(useRampTexture), true)] public Color middleColor;
             [ConditionalField(nameof(useRampTexture), true)] public Color foregroundColor;
 
+            [Space]
+            [Range(0.0f, 1.0f)] public float middleColorThreshold = 0.15f;
             public float threshold = 0.1f;
             public float tiling = 192.0f;
             public FilterMode filterMode = FilterMode.Bilinear;

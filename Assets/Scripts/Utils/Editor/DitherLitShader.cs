@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEditor.Rendering.Universal.ShaderGUI;
 using UnityEngine;
 
-namespace Editor
+namespace Utils.Editor
 {
     internal class DitherLitShader : BaseShaderGUI
     {
