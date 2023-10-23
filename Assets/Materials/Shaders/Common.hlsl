@@ -166,7 +166,7 @@ float3 FlowUVW(float2 uv, float2 flowVector, float2 jump, float flowOffset, floa
 }
 
 // ================ Water Rendering Functions ================
-float3 ColorBelowWater(float4 screenPos)
+float4 ColorBelowWater(float4 screenPos)
 {
 	float2 uv = screenPos.xy / screenPos.w;
 	#if UNITY_REVERSED_Z
@@ -180,8 +180,9 @@ float3 ColorBelowWater(float4 screenPos)
 	float surfaceDepth = UNITY_Z_0_FAR_FROM_CLIPSPACE(screenPos.z);
 	float depthDiff = depth - surfaceDepth;
 
-	float3 color = SampleSceneColor(uv);
+	// float3 color = SampleSceneColor(uv);
 	float fogFactor = exp2(-_WaterDensity * depthDiff);
 
-	return lerp(_WaterShallowColor, color, fogFactor);
+	// return lerp(_WaterShallowColor, color, fogFactor);
+	return lerp(_WaterDeepColor, _WaterShallowColor, fogFactor);
 }

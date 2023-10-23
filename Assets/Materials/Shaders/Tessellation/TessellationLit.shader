@@ -19,7 +19,7 @@ Shader "Custom/TessellationLit"
 		_VJump ("Flow Map V jump per phase", Range(-0.25, 0.25)) = 0.25
 
         [Header(Water Surface)] [Space]
-        _Specular ("Specular", Range(0,1)) = 0.5
+//        _Specular ("Specular", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
         _Smoothness("Smoothness", Float) = 0
         _WaterShallowColor ("Water Shallow Color", Color) = (0, 0, 0, 0)
@@ -62,6 +62,9 @@ Shader "Custom/TessellationLit"
         _WireframeColor ("Wireframe Color", Color) = (0, 0, 0, 1)
 		_WireframeSmoothing ("Wireframe Smoothing", Range(0, 10)) = 1
 		_WireframeThickness ("Wireframe Thickness", Range(0, 10)) = 1
+
+        [ToggleOff] _SpecularHighlights("Specular Highlights", Float) = 1.0
+        [ToggleOff] _EnvironmentReflections("Environment Reflections", Float) = 1.0
     }
     
     SubShader
@@ -93,6 +96,9 @@ Shader "Custom/TessellationLit"
             
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
+
+            #pragma shader_feature_local_fragment _SPECULARHIGHLIGHTS_OFF
+            #pragma shader_feature_local_fragment _ENVIRONMENTREFLECTIONS_OFF
 
             // Material keywords - Lighting
             #pragma multi_compile _ LIGHTMAP_ON
@@ -126,6 +132,9 @@ Shader "Custom/TessellationLit"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareOpaqueTexture.hlsl"
 
+            #define UNITY_SAMPLE_TEXCUBE(tex,coord) tex.Sample (sampler##tex,coord)
+            #define UNITY_SAMPLE_TEXCUBE_LOD(tex,coord,lod) tex.SampleLevel (sampler##tex,coord, lod)
+
             Texture2D _MainTex; SamplerState sampler_MainTex;
             
             Texture2D _WaterNormal1; SamplerState sampler_WaterNormal1;
@@ -140,11 +149,11 @@ Shader "Custom/TessellationLit"
                 float4 _MainTex_ST;
                 float4 _BaseColor;
                 float _Smoothness;
-                float _Specular;
+                // float _Specular;
                 float _Metallic;
 
-                float3 _WaterShallowColor;
-                float3 _WaterDeepColor;
+                float4 _WaterShallowColor;
+                float4 _WaterDeepColor;
                 float _WaterDensity;
 
                 float _UJump;
@@ -386,18 +395,33 @@ Shader "Custom/TessellationLit"
                 lightingInput.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
                 lightingInput.bakedGI = SAMPLE_GI(input.lightmapUV, input.vertexSH, lightingInput.normalWS);
 
+                #if defined(_ENVIRONMENTREFLECTIONS)
+                    half3 reflectDir = reflect(-input.viewDir, normalWS);
+                    // half4 reflectData = UNITY_SAMPLE_TEXCUBE_LOD(unity_SpecCube0, reflectDir, _Smoothness);
+                    half4 reflectData = SAMPLE_TEXTURECUBE_LOD(unity_SpecCube0, samplerunity_SpecCube0, reflectDir, _Smoothness);
+                    half3 reflectionProbeColor = DecodeHDREnvironment(reflectData, unity_SpecCube0_HDR);
+                    color *= reflectionProbeColor;
+                #endif
+
+                #if defined(_SPECULARHIGHLIGHTS)
+                    half3 specular = _Specular;
+                #else
+                    half3 specular = 0;
+                #endif
+
+                float4 colorBelowWater = ColorBelowWater(input.screenPos);
                 SurfaceData surfaceInput = (SurfaceData)0; // Holds info about the surface material's physical properties (e.g. color).
                 surfaceInput.albedo = color.rgb;
-                surfaceInput.alpha = color.a;
-                surfaceInput.emission = ColorBelowWater(input.screenPos) * (1 - color.a);
-                surfaceInput.specular = _Specular;
+                surfaceInput.alpha = colorBelowWater.a;
+                surfaceInput.emission = colorBelowWater * (1 - color.a);
+                surfaceInput.specular = specular;
                 surfaceInput.metallic = _Metallic;
                 surfaceInput.smoothness = _Smoothness;
                 surfaceInput.normalTS = normalTS;
                 surfaceInput.occlusion = 1;
 
                 float4 finalColor = UniversalFragmentPBR(lightingInput, surfaceInput);
-                finalColor.a = 1;
+                // finalColor.a = 1;
                 return finalColor;
             }
             ENDHLSL
