@@ -35,7 +35,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 3302065f671a8450b82c9ddf07426f3a, type: 3}
   - {fileID: 2800000, guid: 56a77a3e8d64f47b6afe9e3c95cb57d5, type: 3}
   m_Shader: {fileID: 4800000, guid: 0849e84e3d62649e8882e9d6f056a017, type: 3}
---- !u!114 &11400000
+--- !u!114 &-1368255857199147718
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -81,10 +81,10 @@ MonoBehaviour:
   m_AssetVersion: 2
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8183
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 119
+    m_Bits: 127
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 0
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_RenderingMode: 2
   m_DepthPrimingMode: 0
   m_CopyDepthMode: 0
-  m_AccurateGbufferNormals: 1
+  m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
 --- !u!114 &6310368705445960933
 MonoBehaviour:
@@ -115,7 +115,7 @@ MonoBehaviour:
     passTag: Render Characters
     Event: 450
     filterSettings:
-      RenderQueueType: 1
+      RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
         m_Bits: 8
@@ -127,7 +127,7 @@ MonoBehaviour:
     overrideMode: 0
     overrideDepthState: 0
     depthCompareFunction: 4
-    enableWrite: 1
+    enableWrite: 0
     stencilSettings:
       overrideStencilState: 0
       stencilReference: 0
@@ -154,16 +154,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    showInSceneView: 1
+    showInSceneView: 0
     worldSpaceDither: 1
-    ditherTex: {fileID: 2800000, guid: 0dafe293c44a19f4a95c8bbbf5cc6da6, type: 3}
+    ditherTex: {fileID: 2800000, guid: a45b2a91af8cf4948ab789d3525bd528, type: 3}
     useRampTexture: 0
     rampTex: {fileID: 2800000, guid: a9601c9d949192d4aa929fc05d5e5dda, type: 3}
     backgroundColor: {r: 0, g: 0, b: 0, a: 1}
     middleColor: {r: 0.504, g: 0.34024358, b: 0.13960798, a: 1}
     foregroundColor: {r: 1, g: 0.8794544, b: 0.646, a: 1}
-    middleColorThreshold: 0.15
-    threshold: 0.6
+    middleColorThreshold: 0.224
+    threshold: 0.8
     tiling: 400
     filterMode: 0
-  renderPassEvent: 300
+  renderPassEvent: 500

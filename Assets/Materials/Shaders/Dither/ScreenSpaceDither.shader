@@ -33,6 +33,7 @@
 
             // #include "DecodeDepthNormals.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareNormalsTexture.hlsl"
 
@@ -216,7 +217,7 @@
 						float ditherLum = cubeProject(_NoiseTex, sampler_NoiseTex, _NoiseTex_TexelSize.xy, dir);
 						// float ditherLum = SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, _NoiseTex_TexelSize.xy * _Tiling * (input.uv + UV)).r;
 				#endif
-                float lum = col.b;
+                float lum = Luminance(col);
             	ditherLum = clamp(ditherLum, 0.0f, 1.0f);
                 
                 float2 edgeData = edge(input.uv, _MainTex_TexelSize.xy * 1.0f);

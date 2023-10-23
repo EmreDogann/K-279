@@ -1,3 +1,4 @@
+using System.Collections;
 using Cinemachine;
 using MyBox;
 using ScriptableObjects;
@@ -17,16 +18,41 @@ public class Footsteps : MonoBehaviour
     [ConditionalField(nameof(shakeCameraOnStep))] [SerializeField] private CinemachineImpulseSource impulseSource;
     [ConditionalField(nameof(shakeCameraOnStep))] [SerializeField] private ScreenShakeProfile screenShakeProfile;
 
-    private RaycastHit _hit;
+    [Separator("Water Interaction Settings")]
+    [SerializeField] private GameObject footstepMesh;
+    [SerializeField] private float meshLifetime;
+
+    private readonly RaycastHit[] _hits = new RaycastHit[5];
+    private Coroutine _coroutine;
+    private Material _footstepMaterial;
+
+    private void Awake()
+    {
+        if (footstepMesh != null)
+        {
+            footstepMesh.SetActive(false);
+            _footstepMaterial = footstepMesh.GetComponent<MeshRenderer>().sharedMaterial;
+            _footstepMaterial.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+        }
+    }
 
     private void TriggerFootstep()
     {
-        if (Physics.SphereCast(transform.position + Vector3.up * (collisionRadius + 0.5f), collisionRadius,
-                Vector3.down, out _hit,
-                collisionRadius,
-                collisionDetectionLayerMask))
+        int hitNum = Physics.SphereCastNonAlloc(transform.position + Vector3.up * (collisionRadius + 0.5f),
+            collisionRadius,
+            Vector3.down, _hits,
+            collisionRadius,
+            collisionDetectionLayerMask);
+
+        if (hitNum <= 0)
         {
-            if (_hit.transform.TryGetComponent(out ISteppable component))
+            return;
+        }
+
+        for (int i = 0; i < hitNum; i++)
+        {
+            RaycastHit hit = _hits[i];
+            if (hit.transform.TryGetComponent(out ISteppable component))
             {
                 if (!play3D)
                 {
@@ -50,5 +76,25 @@ public class Footsteps : MonoBehaviour
                 }
             }
         }
+
+        if (footstepMesh != null)
+        {
+            if (_coroutine != null)
+            {
+                StopCoroutine(_coroutine);
+            }
+
+            _coroutine = StartCoroutine(ToggleFootstep());
+        }
+    }
+
+    private IEnumerator ToggleFootstep()
+    {
+        _footstepMaterial.color = new Color(0.05f, 0.0f, 0.0f, 1.0f);
+
+        footstepMesh.SetActive(true);
+        yield return meshLifetime == 0 ? new WaitForEndOfFrame() : new WaitForSeconds(meshLifetime);
+        footstepMesh.SetActive(false);
+        _footstepMaterial.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
     }
 }
