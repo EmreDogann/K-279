@@ -85,6 +85,10 @@ namespace Lights
                     _rotateLights.PlayForward();
                 }
             }
+            else
+            {
+                _rotateLights.Rewind();
+            }
 
             if (duration <= 0.0f)
             {
@@ -106,6 +110,8 @@ namespace Lights
 
         public void ChangeLightState(LightState state)
         {
+            _light.DOKill();
+
             switch (state)
             {
                 case LightState.Normal:

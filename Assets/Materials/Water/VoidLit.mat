@@ -12,6 +12,7 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _ENVIRONMENTREFLECTIONS_OFF
   - _PARTITIONING_INTEGER
   - _TESSELLATION_FACTOR_SCREEN
   - _TESSELLATION_SMOOTHING_PHONG
@@ -19,7 +20,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -74,6 +75,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _PlanarReflectionTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -115,7 +124,7 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EnvironmentReflections: 1
+    - _EnvironmentReflections: 0
     - _FlowOffset: -0.5
     - _FlowStrength: 0.3
     - _FrustumCullTolerance: 2
@@ -123,6 +132,7 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _HeightMapAltitude: 10
+    - _MaxDistance: 8
     - _Metallic: 0
     - _NormalMapSize: 20
     - _NormalMapStrength: 0.3
@@ -132,19 +142,23 @@ Material:
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _SimulationNormalStrength: 0.3
-    - _Smoothness: 0.63
+    - _Reflectionexponent: 1
+    - _Resolution: 0.3
+    - _SimulationNormalStrength: 1
+    - _Smoothness: 0.9
     - _SmoothnessTextureChannel: 0
     - _Specular: 1
     - _SpecularHighlights: 1
     - _Speed: 0.1
     - _SrcBlend: 1
+    - _Steps: 5
     - _Surface: 0
     - _TESSELLATION_FACTOR: 2
     - _TESSELLATION_SMOOTHING: 1
     - _TessellationBias: 0
     - _TessellationFactor: 50
     - _TessellationSmoothing: 0.75
+    - _Thickness: 0.5
     - _Tiling: 0.3
     - _Triplanar: 0
     - _TriplanarAligned: 0
@@ -153,7 +167,7 @@ Material:
     - _TriplanarScale: 1
     - _UJump: 0.25
     - _VJump: 0.25
-    - _WaterDensity: 0.279
+    - _WaterDensity: 0
     - _WaterFogDensity: 0
     - _Wireframe: 0
     - _WireframeSmoothing: 1
@@ -161,13 +175,13 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0, g: 0, b: 0, a: 0.70980394}
+    - _BaseColor: {r: 0.1792453, g: 0.1792453, b: 0.1792453, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _WaterDeepColor: {r: 0, g: 0, b: 0, a: 0.6039216}
+    - _WaterDeepColor: {r: 0, g: 0, b: 0, a: 0.98039216}
     - _WaterFogColor: {r: 1, g: 1, b: 1, a: 1}
-    - _WaterShallowColor: {r: 1, g: 1, b: 1, a: 0.5058824}
+    - _WaterShallowColor: {r: 1, g: 1, b: 1, a: 1}
     - _WireframeColor: {r: 0.21960784, g: 0.69803923, b: 0.48305523, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &1523543194001443010

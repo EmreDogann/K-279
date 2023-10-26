@@ -55,7 +55,9 @@ MonoBehaviour:
   - {fileID: -1878332245247344467}
   - {fileID: 9135710460360896709}
   - {fileID: 6310368705445960933}
-  m_RendererFeatureMap: adc0de57c6d2eee5c5b0a1b84290c87ee51cd961e7ee9257
+  - {fileID: 4615802709430903479}
+  - {fileID: 282998563997250798}
+  m_RendererFeatureMap: adc0de57c6d2eee5c5b0a1b84290c87ee51cd961e7ee9257b722ead01ba00e40ee7400cfb169ed03
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -84,7 +86,7 @@ MonoBehaviour:
     m_Bits: 8183
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 127
+    m_Bits: 111
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 0
@@ -92,12 +94,49 @@ MonoBehaviour:
     passOperation: 2
     failOperation: 0
     zFailOperation: 0
-  m_ShadowTransparentReceive: 0
-  m_RenderingMode: 2
+  m_ShadowTransparentReceive: 1
+  m_RenderingMode: 1
   m_DepthPrimingMode: 0
   m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
+--- !u!114 &282998563997250798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4268db87361095c4ca643764150c94d6, type: 3}
+  m_Name: DepthPyramid
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  depthPyramidShader: {fileID: 7200000, guid: b2ead2c2a0fb2bc4d8ff715cbf4b0403, type: 3}
+--- !u!114 &4615802709430903479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a864f588276bab54f97335821add48a7, type: 3}
+  m_Name: LimSSR
+  m_EditorClassIdentifier: 
+  m_Active: 0
+  Settings:
+    tracingMode: 1
+    stepStrideLength: 0.13
+    maxSteps: 64
+    downSample: 0
+    minSmoothness: 0.5
+    reflectSky: 0
+    ditherType: 1
+    SSR_Instance: {fileID: 0}
+    SSRShader: {fileID: 4800000, guid: 03f5601bba0a8034aa526644e8b9aaeb, type: 3}
 --- !u!114 &6310368705445960933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,7 +152,7 @@ MonoBehaviour:
   m_Active: 1
   settings:
     passTag: Render Characters
-    Event: 250
+    Event: 210
     filterSettings:
       RenderQueueType: 0
       LayerMask:
@@ -154,16 +193,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
     showInSceneView: 0
     worldSpaceDither: 1
-    ditherTex: {fileID: 2800000, guid: a45b2a91af8cf4948ab789d3525bd528, type: 3}
+    ditherTex: {fileID: 2800000, guid: 0dafe293c44a19f4a95c8bbbf5cc6da6, type: 3}
     useRampTexture: 0
     rampTex: {fileID: 2800000, guid: a9601c9d949192d4aa929fc05d5e5dda, type: 3}
     backgroundColor: {r: 0, g: 0, b: 0, a: 1}
-    middleColor: {r: 0.504, g: 0.34024358, b: 0.13960798, a: 1}
+    middleColor: {r: 1, g: 0, b: 0, a: 1}
     foregroundColor: {r: 1, g: 0.8794544, b: 0.646, a: 1}
-    middleColorThreshold: 0.224
-    threshold: 0.8
+    middleColorThreshold: 0
     tiling: 400
+    threshold: 0.8
     filterMode: 0
-  renderPassEvent: 500
+  renderPassEvent: 550

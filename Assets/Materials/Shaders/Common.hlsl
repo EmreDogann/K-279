@@ -186,3 +186,15 @@ float4 ColorBelowWater(float4 screenPos)
 	// return lerp(_WaterShallowColor, color, fogFactor);
 	return lerp(_WaterDeepColor, _WaterShallowColor, fogFactor);
 }
+
+half3 Custom_GetWorldSpaceNormalizeViewDir(float3 positionWS, float3 camOffsetWS)
+{
+	if (IsPerspectiveProjection())
+	{
+		// Perspective
+		float3 V = (GetCurrentViewPosition() + camOffsetWS) - positionWS;
+		return half3(normalize(V));
+	}
+	// Orthographic
+	return half3(-GetViewForwardDir());
+}

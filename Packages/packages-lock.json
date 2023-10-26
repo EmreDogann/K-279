@@ -16,6 +16,13 @@
       "dependencies": {},
       "hash": "c1bf519440e07d9eabd28a759a2b7e9a7b605b49"
     },
+    "com.limworks.urpssrpackage": {
+      "version": "https://github.com/JoshuaLim007/Unity-ScreenSpaceReflections-URP.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "8d6ef2aceb8b0957efebff28d6d46c8b6e456841"
+    },
     "com.quickeye.icon-browser": {
       "version": "https://github.com/ErnSur/unity-editor-icons.git",
       "depth": 0,

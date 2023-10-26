@@ -30,7 +30,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _A: 0.49058262
-    - _Amplitude: 3
+    - _Amplitude: 2
     - _Attenuation: 0.965
     - _DeltaUV: 1
     - _S2: 0.372

@@ -10,6 +10,9 @@ namespace RenderFeatures
         [Serializable]
         public class Settings
         {
+            [Header("Draw Renderers Settings")]
+            public LayerMask layerMask = 1;
+
             public bool showInSceneView;
             public bool worldSpaceDither;
 
@@ -25,9 +28,9 @@ namespace RenderFeatures
 
             [Space]
             [Range(0.0f, 1.0f)] public float middleColorThreshold = 0.15f;
-            public float threshold = 0.1f;
             public float tiling = 192.0f;
-            public FilterMode filterMode = FilterMode.Bilinear;
+            [HideInInspector] public float threshold = 0.1f;                      // Not used.
+            [HideInInspector] public FilterMode filterMode = FilterMode.Bilinear; // Not used.
         }
 
         [SerializeField] private Settings settings = new Settings();

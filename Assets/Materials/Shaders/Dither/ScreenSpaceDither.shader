@@ -48,7 +48,6 @@
                 float4 positionHCS : SV_POSITION;
                 float2 uv : TEXCOORD0;
             	float3 positionWS : TEXCOORD1;
-            	float3 positionOAS : TEXCOORD2;
             };
 
             CBUFFER_START(UnityPerMaterial)
@@ -81,7 +80,7 @@
             TEXTURE2D(_ColorRampTex);
 			SAMPLER(sampler_ColorRampTex);
 
-            float cubeProject(Texture2D tex, SamplerState texSampler, float2 texel, float3 dir)
+            float4 cubeProject(Texture2D tex, SamplerState texSampler, float2 texel, float3 dir)
 			{
 				float3x3 rotDirMatrix = {
 					0.9473740, -0.1985178, 0.2511438,
@@ -104,7 +103,7 @@
 					uvCoords = dir.xz; // Y axis
 				}
 
-				return SAMPLE_TEXTURE2D(tex, texSampler, texel * _Tiling * uvCoords).r;
+				return SAMPLE_TEXTURE2D(tex, texSampler, texel * _Tiling * uvCoords);
 			}
 
 			float2 edge(float2 uv, float2 delta)
@@ -120,41 +119,12 @@
 				                  max(distance(centre.rg, left.rg), distance(centre.rg, right.rg))));
 			}
 
-            float4 sampleTexWithFilter(float2 uv)
-            {
-	            int samples = 50;
-            	half2 dx = ddx(uv);
-            	half2 dy = ddy(uv);
-
-            	int sx = 1 + int(4 * clamp(length(dx), 0, float(samples - 1)));
-            	int sy = 1 + int(4 * clamp(length(dy), 0, float(samples - 1)));
-
-            	float4 color = float4(0,0,0,0);
-
-            	for (int j=0; j < samples; j++)
-            	{
-            		for (int i=0; i < samples; i++)
-            		{
-            			if (j < sy && i < sx)
-            			{
-							half2 st = (float(i), float(j)) / half2(float(sx), float(sy));
-							color += SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, (uv + st.x * dx + st.y * dy) * _NoiseTex_TexelSize.xy * _Tiling);
-            			}
-            		}
-            	}
-
-            	return color / float(sx * sy);
-            }
-
             Varyings Vertex(Attributes input)
             {
                 Varyings output;
             	VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
                 output.positionHCS = vertexInput.positionCS;
             	output.positionWS = vertexInput.positionWS;
-				// OAS - Object Aligned Space
-                // Apply only the scale to the object space vertex in order to compensate for rotation.
-                output.positionOAS = input.positionOS.xyz;
 
                 output.uv = input.uv;
                 return output;
@@ -162,13 +132,7 @@
             
             float4 Fragment(Varyings input) : SV_Target
             {
-            	// float4 cameraPos = mul(unity_WorldToCamera, float4(_WorldSpaceCameraPos, 1.00001f));
-            	// cameraPos.z = -cameraPos.z;
-            	// float4 cameraClipPos = mul(unity_CameraProjection, cameraPos);
-            	// float2 UV = (cameraClipPos.xy / cameraClipPos.w) * 0.5 + 0.5;
-            	// UV *= -1;
-            	// UV *= 0.95f;
-                float3 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv).xyz;
+                float3 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv).rgb;
 
             	#if ENABLE_WORLD_SPACE_DITHER
             		float2 UV = input.positionHCS.xy / _ScaledScreenParams.xy;
@@ -182,15 +146,20 @@
             		// depth = Linear01Depth(depth, _ZBufferParams);
 
 	                float3 worldPos = ComputeWorldSpacePosition(UV, depth, UNITY_MATRIX_I_VP);
+            		float3 localPos = TransformWorldToObject(worldPos);
             		float3 normalWS = SampleSceneNormals(UV);
+            		float3 normalOS = TransformWorldToObject(normalWS);
 
 	                // References: https://www.patreon.com/posts/quick-game-art-16714688
 	                // https://catlikecoding.com/unity/tutorials/advanced-rendering/triplanar-mapping/
 	                // https://bgolus.medium.com/normal-mapping-for-a-triplanar-shader-10bf39dca05a#1997
 	                // https://forum.unity.com/threads/box-triplanar-mapping-following-object-rotation.501252/
-					float3 uvScaled = worldPos * 0.1f;
-					float3 blending = abs(normalWS);
-					half3 axisSign = sign(normalWS); // Get the sign (-1 or 1) of the surface normal.
+
+            		// Current version based on Cheap as chips triplanar:
+            		// https://www.reddit.com/r/unrealengine/comments/70o0js/material_super_cheap_triplanar_mapping_solution/
+            		// https://imgur.com/aHAPPor
+					float3 uvScaled = localPos * 0.1f;
+					float3 blending = abs(normalOS);
 
 	                // Triplanar uvs
 	                float2 uvX = uvScaled.yz; // x facing plane
@@ -198,39 +167,36 @@
 	                float2 uvZ = uvScaled.xy; // z facing plane
 
 	                // Flip UVs to correct for mirroring
+					half3 axisSign = sign(normalWS); // Get the sign (-1 or 1) of the surface normal.
 	                uvX.x *= axisSign.x;
 	                uvY.x *= axisSign.y;
 	                uvZ.x *= -axisSign.z;
 
-	                blending = saturate(blending);
-	                blending = pow(blending, 5);
+	                blending = pow(blending, 160);
 	                blending /= dot(blending, float3(1,1,1));
 
-	                float4 color = blending.z * SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, uvZ * _NoiseTex_TexelSize.xy * _Tiling);
-            		// color += sampleTexWithFilter(uvX);
-	                color += blending.x * SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, uvX * _NoiseTex_TexelSize.xy * _Tiling);
-	                color += blending.y * SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, uvY * _NoiseTex_TexelSize.xy * _Tiling);
+            		float2 projectionUV = (uvZ * blending.z) + ((uvX * blending.x) + (uvY * blending.y));
+            		float4 color = SAMPLE_TEXTURE2D_GRAD(_NoiseTex, sampler_NoiseTex, projectionUV * _NoiseTex_TexelSize.xy * _Tiling, ddx(projectionUV), ddy(projectionUV));
 
-            		float ditherLum = color.r;
+            		float ditherLum = Luminance(color);
 				#else
 						float3 dir = normalize(lerp(lerp(_BL, _TL, input.uv.y), lerp(_BR, _TR, input.uv.y), input.uv.x));
-						float ditherLum = cubeProject(_NoiseTex, sampler_NoiseTex, _NoiseTex_TexelSize.xy, dir);
-						// float ditherLum = SAMPLE_TEXTURE2D(_NoiseTex, sampler_NoiseTex, _NoiseTex_TexelSize.xy * _Tiling * (input.uv + UV)).r;
+						float ditherLum = Luminance(cubeProject(_NoiseTex, sampler_NoiseTex, _NoiseTex_TexelSize.xy, dir));
 				#endif
                 float lum = Luminance(col);
-            	ditherLum = clamp(ditherLum, 0.0f, 1.0f);
+
+                // float2 edgeData = edge(input.uv, _MainTex_TexelSize.xy * 1.0f);
+                // lum = (edgeData.y < _Threshold) ? lum : ((edgeData.x < 0.1f) ? 1.0f : 0.0f);
                 
-                float2 edgeData = edge(input.uv, _MainTex_TexelSize.xy * 1.0f);
-                lum = (edgeData.y < _Threshold) ? lum : ((edgeData.x < 0.1f) ? 1.0f : 0.0f);
-                
-                float ramp = (lum <= ditherLum) ? 0.0f : 1.0f;
+                float ramp = step(ditherLum, lum);
 
             	#if USE_RAMP_TEX
 					float3 output = SAMPLE_TEXTURE2D(_ColorRampTex, sampler_ColorRampTex, float2(ramp, 0.5f));
             	#else
             		// float3 output = lerp(_BG, _FG, round(ramp));
             		float3 output = lerp(_MG, _FG, step(_MGThreshold, abs(lum - ditherLum)));
-            		output = lerp(_BG, output, round(ramp));
+            		output = lerp(_BG, output, ramp);
+            		// float3 output = lerp(_BG, col, round(ramp)); // No thresholding
             	#endif
 
             	// Normals computed from screen-space derivatives.

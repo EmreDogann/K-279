@@ -30,7 +30,9 @@ namespace Lights
         public Color FgColor;
     }
 
+#if UNITY_EDITOR
     [InitializeOnLoad]
+#endif
     public class LightManager : MonoBehaviour
     {
         [SerializeField] private LightState startingState;

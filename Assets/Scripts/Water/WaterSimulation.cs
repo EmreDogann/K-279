@@ -7,8 +7,8 @@ namespace DeepDreams.Water
 {
     public class WaterSimulation : MonoBehaviour
     {
-        [Separator("General")]
-        [SerializeField] private float waterSize;
+        // [Separator("General")]
+        // [SerializeField] private float waterSize;
 
         [Separator("Textures")]
         [SerializeField] private CustomRenderTexture simulationTexture;
@@ -54,7 +54,7 @@ namespace DeepDreams.Water
             _simulationMapWidthID = Shader.PropertyToID("_HeightMap_Width");
             _simulationMapHeightID = Shader.PropertyToID("_HeightMap_Height");
 
-            transform.localScale = new Vector3(waterSize, waterSize, waterSize);
+            // transform.localScale = new Vector3(waterSize, waterSize, waterSize);
 
             simulationTexture.Release();
             simulationTexture.initializationColor = Color.black;
@@ -89,8 +89,8 @@ namespace DeepDreams.Water
             );
 
             _cmdBuffer.SetProjectionMatrix(Matrix4x4.Ortho(
-                -waterSize, waterSize,
-                -waterSize, waterSize,
+                -transform.lossyScale.x, transform.lossyScale.x,
+                -transform.lossyScale.z, transform.lossyScale.z,
                 0.0f, 10.0f)
             );
 
@@ -98,7 +98,8 @@ namespace DeepDreams.Water
 
             for (int i = 0; i < _collisionMeshes.Length; i++)
             {
-                _cmdBuffer.DrawRenderer(_collisionMeshes[i], _collisionMeshes[i].sharedMaterial, _collisionMeshes[i].subMeshStartIndex,
+                _cmdBuffer.DrawRenderer(_collisionMeshes[i], _collisionMeshes[i].sharedMaterial,
+                    _collisionMeshes[i].subMeshStartIndex,
                     0);
             }
 
@@ -136,7 +137,7 @@ namespace DeepDreams.Water
                 collisionTexture.Create();
             }
 
-            transform.localScale = new Vector3(waterSize, waterSize, waterSize);
+            // transform.localScale = new Vector3(waterSize, waterSize, waterSize);
 
             CalculateA();
             simulationTexture.material.SetFloat(_aID, a);
@@ -144,7 +145,11 @@ namespace DeepDreams.Water
             simulationTexture.material.SetFloat(_uvScaleID, simulationUVScale);
             simulationTexture.material.SetFloat(_attenuationID, waveAttenuation);
 
-            if (_cmdBuffer != null) _cmdBuffer.Release();
+            if (_cmdBuffer != null)
+            {
+                _cmdBuffer.Release();
+            }
+
             _cmdBuffer = new CommandBuffer();
             _cmdBuffer.name = "Water Collision";
             _cmdBuffer.SetRenderTarget(collisionTexture);
@@ -156,8 +161,8 @@ namespace DeepDreams.Water
             );
 
             _cmdBuffer.SetProjectionMatrix(Matrix4x4.Ortho(
-                -waterSize, waterSize,
-                -waterSize, waterSize,
+                -transform.lossyScale.x, transform.lossyScale.x,
+                -transform.lossyScale.z, transform.lossyScale.z,
                 0.0f, 10.0f)
             );
 
@@ -167,7 +172,8 @@ namespace DeepDreams.Water
             {
                 for (int i = 0; i < _collisionMeshes.Length; i++)
                 {
-                    _cmdBuffer.DrawRenderer(_collisionMeshes[i], _collisionMeshes[i].sharedMaterial, _collisionMeshes[i].subMeshStartIndex,
+                    _cmdBuffer.DrawRenderer(_collisionMeshes[i], _collisionMeshes[i].sharedMaterial,
+                        _collisionMeshes[i].subMeshStartIndex,
                         0);
                 }
             }
@@ -176,7 +182,10 @@ namespace DeepDreams.Water
         private void Update()
         {
             // Skip first frame of scene load to allow render textures and materials to fully set their initial values before rendering. 
-            if (Time.frameCount - _frameCountAtSceneStart > 1) DrawCollisionMeshes();
+            if (Time.frameCount - _frameCountAtSceneStart > 1)
+            {
+                DrawCollisionMeshes();
+            }
         }
 
         private void FixedUpdate()
@@ -222,12 +231,18 @@ namespace DeepDreams.Water
                     if (goArray[i].layer == layer)
                     {
                         if (goArray[i].TryGetComponent(out MeshRenderer meshRenderer))
+                        {
                             goList.Add(meshRenderer);
+                        }
                     }
                 }
             }
 
-            if (goList.Count == 0) return null;
+            if (goList.Count == 0)
+            {
+                return null;
+            }
+
             return goList.ToArray();
         }
 
@@ -236,7 +251,8 @@ namespace DeepDreams.Water
             if (enableDebugView)
             {
                 GUI.DrawTexture(new Rect(0, 0, 512, 512), collisionTexture, ScaleMode.ScaleToFit, false, 1);
-                GUI.DrawTexture(new Rect(0, 512, 512, 512), simulationTexture.GetDoubleBufferRenderTexture(), ScaleMode.ScaleToFit, false,
+                GUI.DrawTexture(new Rect(0, 512, 512, 512), simulationTexture.GetDoubleBufferRenderTexture(),
+                    ScaleMode.ScaleToFit, false,
                     1);
             }
         }
