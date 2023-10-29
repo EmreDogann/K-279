@@ -24,9 +24,9 @@ namespace Controllers
             return true;
         }
 
-        public override float RetrieveMoveInput(GameObject gameObject)
+        public override Vector2 RetrieveMoveInput(GameObject gameObject)
         {
-            return 0f;
+            return Vector2.zero;
         }
 
         public override bool RetrieveShootInput()

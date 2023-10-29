@@ -29,6 +29,7 @@ struct TessellationControlPoint
 	float3 positionOAS : TEXCOORD3;
 	float3 normalOS : TEXCOORD4;
 	float4 tangentWS : TEXCOORD5;
+	float2 uv_SmoothnessMap : TEXCOORD6;
 	UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 

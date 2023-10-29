@@ -6,13 +6,13 @@ using UnityEditor;
 
 public class ExitGameOnInput : MonoBehaviour
 {
-    [SerializeField] private PlayerInput playerInput;
-
+    private PlayerInput _playerInput;
     private InputAction _quitAction;
 
     private void Awake()
     {
-        _quitAction = playerInput.actions["Quit"];
+        _playerInput = GameObject.FindWithTag("Player").GetComponent<PlayerInput>();
+        _quitAction = _playerInput.actions["Quit"];
     }
 
     private void Update()

@@ -3,12 +3,15 @@ using Checks;
 using Controllers;
 using Events;
 using MyBox;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Splines;
+using Vertx.Debugging;
 
 namespace Capabilities
 {
     [RequireComponent(typeof(Controller))]
-    public class Move : MonoBehaviour, IMover
+    public class MoveFollowPath : MonoBehaviour, IMover
     {
         [Separator("Movement")]
         [SerializeField] [Range(0f, 100f)] private float maxSpeed = 4f;
@@ -16,11 +19,15 @@ namespace Capabilities
 
         [Separator("Other")]
         [SerializeField] private Animator animator;
+        [SerializeField] private SplineContainer path;
         [SerializeField] private BoolEventListener pauseEvent;
+
+        [Separator("Debug")]
+        [SerializeField] private bool enableDebug;
 
         private Controller _controller;
         private SpriteRenderer _sprite;
-        private Vector2 _direction, _desiredVelocity, _velocity;
+        private Vector3 _direction, _desiredVelocity, _velocity;
         private Rigidbody _body;
         private Ground _ground;
 
@@ -42,7 +49,7 @@ namespace Capabilities
         {
             _facingRight = true;
             _movementActive = true;
-            ;
+
             _body = GetComponent<Rigidbody>();
             _ground = GetComponent<Ground>();
             _controller = GetComponent<Controller>();
@@ -66,12 +73,7 @@ namespace Capabilities
 
         private void Update()
         {
-            if (_isPaused)
-            {
-                return;
-            }
-
-            if (!_movementActive)
+            if (_isPaused || !_movementActive)
             {
                 return;
             }
@@ -88,7 +90,28 @@ namespace Capabilities
             //    FlipPlayer();
             //}
 
-            _desiredVelocity = new Vector2(_direction.x, 0f) * Mathf.Max(maxSpeed - _ground.Friction, 0f);
+            float distance =
+                SplineUtility.GetNearestPoint(path.Spline, path.transform.InverseTransformPoint(transform.position),
+                    out float3 nearestPoint, out float t);
+
+            if (distance > 0.01f)
+            {
+                transform.position = path.transform.TransformPoint(nearestPoint);
+            }
+
+            Vector3 forward = Vector3.Normalize(path.EvaluateTangent(t));
+            forward *= _direction.x;
+
+
+            _desiredVelocity = forward * Mathf.Max(maxSpeed - _ground.Friction, 0f);
+
+            if (enableDebug)
+            {
+                D.raw(new Shape.Text(transform.position - new Vector3(0, 0, 1.0f), $"Path %: {t}")); // Path percentage
+                D.raw(new Shape.Arrow(transform.position, forward), Color.blue); // Forward direction
+                D.raw(new Shape.Arrow(transform.position, _desiredVelocity), Color.red); // Target velocity
+                D.raw(new Shape.Arrow(transform.position, _body.velocity), Color.green); // Current velocity
+            }
         }
 
         private void FixedUpdate()
@@ -96,9 +119,9 @@ namespace Capabilities
             _velocity = _body.velocity;
 
             _maxSpeedChange = maxAcceleration * Time.deltaTime;
-            _velocity.x = Mathf.MoveTowards(_velocity.x, _desiredVelocity.x, _maxSpeedChange);
+            _velocity = Vector3.MoveTowards(_velocity, _desiredVelocity, _maxSpeedChange);
 
-            _body.velocity = _velocity;
+            _body.velocity = new Vector3(_velocity.x, _body.velocity.y, _velocity.z);
         }
 
         public void SwitchDirection()

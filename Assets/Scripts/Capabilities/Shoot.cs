@@ -1,5 +1,6 @@
 using System.Collections;
 using Audio;
+using Capabilities.Movement;
 using Cinemachine;
 using Controllers;
 using DG.Tweening;
@@ -47,7 +48,7 @@ namespace Capabilities
         private Ray _gunRay;
         private Vector2 _direction = Vector2.zero;
         private Animator _animator;
-        private Move _move;
+        private IMover _move;
         private Inventory _inventory;
 
         private bool _isPaused;
@@ -74,7 +75,7 @@ namespace Capabilities
             _controller = GetComponent<Controller>();
             _playerEntity = GetComponent<PlayerEntity>();
             _animator = GetComponentInChildren<Animator>();
-            _move = GetComponent<Move>();
+            _move = GetComponent<IMover>();
             _inventory = GetComponent<Inventory>();
 
             _dmgPerHit = _playerEntity.GetDmg();
@@ -226,7 +227,7 @@ namespace Capabilities
                 //     return;
                 // }
 
-                float moveInput = _controller.input.RetrieveMoveInput(gameObject);
+                float moveInput = _controller.input.RetrieveMoveInput(gameObject).x;
                 if (moveInput != 0)
                 {
                     if (_walkBtnDelayCoroutine == null)
@@ -249,7 +250,7 @@ namespace Capabilities
                 {
                     _currentlyShooting = false;
                     // Go back to Idle
-                    _move.RestartMovement();
+                    _move.StartMovement();
                     _backToMovementTimer = 0;
                     _shotCoolDownTimer = _shootCoolDown;
                     _animator.SetBool(_isWalking, false);
@@ -303,15 +304,15 @@ namespace Capabilities
 
         private void FixedUpdate()
         {
-            _direction.x = _controller.input.RetrieveMoveInput(gameObject);
+            _direction.x = _controller.input.RetrieveMoveInput(gameObject).x;
             if (_direction.x > 0f && !_facingRight)
             {
-                _move.FlipPlayer();
+                _move.SwitchDirection();
                 FlipGun();
             }
             else if (_direction.x < 0f && _facingRight)
             {
-                _move.FlipPlayer();
+                _move.SwitchDirection();
                 FlipGun();
             }
         }
@@ -339,7 +340,7 @@ namespace Capabilities
                 _walkBtnPressTimer += Time.deltaTime;
                 if (_walkBtnPressTimer > walkBtnPressDelay)
                 {
-                    _move.RestartMovement();
+                    _move.StartMovement();
                     _currentlyShooting = false;
                     _animator.SetBool(_isWalking, true);
                     _animator.SetBool(_isShooting, false);
@@ -348,7 +349,7 @@ namespace Capabilities
                     yield break;
                 }
 
-                moveInput = _controller.input.RetrieveMoveInput(gameObject);
+                moveInput = _controller.input.RetrieveMoveInput(gameObject).x;
                 yield return null;
             }
         }

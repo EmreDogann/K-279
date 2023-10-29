@@ -18,6 +18,7 @@ Shader "Custom/TessellationLit"
         _FlowOffset ("Flow Offset", Float) = 0
         _UJump ("Flow Map U jump per phase", Range(-0.25, 0.25)) = 0.25
         _VJump ("Flow Map V jump per phase", Range(-0.25, 0.25)) = 0.25
+        _SmoothnessMap("Smoothness Map", 2D) = "black" {}
 
 
         [Header(Water Surface)] [Space]
@@ -91,8 +92,8 @@ Shader "Custom/TessellationLit"
             Cull Back
             ZWrite On
             ZTest LEqual
-            ColorMask RGB
-            Blend SrcAlpha OneMinusSrcAlpha
+//            ColorMask RGB
+//            Blend SrcAlpha OneMinusSrcAlpha
 
             HLSLPROGRAM
             #pragma target 5.0 // 5.0 required for tessellation.
@@ -138,6 +139,9 @@ Shader "Custom/TessellationLit"
             Texture2D _MainTex;
             SamplerState sampler_MainTex;
 
+            Texture2D _SmoothnessMap;
+            SamplerState sampler_SmoothnessMap;
+
             Texture2D _WaterNormal1;
             SamplerState sampler_WaterNormal1;
             Texture2D _WaterNormal2;
@@ -154,6 +158,7 @@ Shader "Custom/TessellationLit"
             CBUFFER_START(UnityPerMaterial)
                 float4 _MainTex_ST;
                 float4 _BaseColor;
+                float4 _SmoothnessMap_ST;
                 float _Smoothness;
                 float _Specular;
                 float _Metallic;
@@ -194,13 +199,6 @@ Shader "Custom/TessellationLit"
 
                 float _HeightMap_Width;
                 float _HeightMap_Height;
-
-                // Extract scale from object to world matrix.
-                static float3 scale = float3(
-                    length(unity_ObjectToWorld._m00_m10_m20),
-                    length(unity_ObjectToWorld._m01_m11_m21),
-                    length(unity_ObjectToWorld._m02_m12_m22)
-                );
             CBUFFER_END
 
             #include "Assets/Materials/Shaders/Common.hlsl"
@@ -214,6 +212,7 @@ Shader "Custom/TessellationLit"
                 float2 uv : TEXCOORD0;
                 DECLARE_LIGHTMAP_OR_SH(lightmapUV, vertexSH, 1);
                 float2 uv_MainTex : TEXCOORD2;
+                float2 uv_SmoothnessMap : TEXCOORD3;
                 float3 normalOS : TEXCOORD4;
                 float4 tangentWS : TEXCOORD5;
                 float3 viewDir : TEXCOORD6;
@@ -243,6 +242,7 @@ Shader "Custom/TessellationLit"
                 output.tangentWS = float4(normalInputs.tangentWS, input.tangentOS.w); // tangent.w contains bitangent multiplier;
                 output.uv = input.uv;
                 output.uv_MainTex = TRANSFORM_TEX(input.uv, _MainTex);
+                output.uv_SmoothnessMap = TRANSFORM_TEX(input.uv, _SmoothnessMap);
                 output.lightMap = input.lightMap;
 
                 return output;
@@ -287,6 +287,7 @@ Shader "Custom/TessellationLit"
                 BARYCENTRIC_INTERPOLATE(normalOS);
                 BARYCENTRIC_INTERPOLATE(uv);
                 BARYCENTRIC_INTERPOLATE(uv_MainTex);
+                BARYCENTRIC_INTERPOLATE(uv_SmoothnessMap);
 
                 // Apply height map.
                 const float height = SAMPLE_TEXTURE2D_LOD(_HeightMap, sampler_HeightMap, output.uv, 0).r * _HeightMapAltitude;
@@ -352,8 +353,10 @@ Shader "Custom/TessellationLit"
                 float3 flow = SAMPLE_TEXTURE2D(_WaterFlowMap, sampler_WaterFlowMap, input.uv * _Tiling).rgb;
                 flow.xy = flow.xy * 2 - 1; // Map is in 0-1 range. We have to map it back to -1-1 range using *2-1.
                 flow *= _FlowStrength;
+
                 float noise = SAMPLE_TEXTURE2D(_WaterFlowMap, sampler_WaterFlowMap, input.uv * _Tiling).a; // Greyscale noise in alpha channel.
                 float time = _Time.x * _Speed + noise;
+
                 float2 jump = float2(_UJump, _VJump);
                 float3 flowUVW_A = FlowUVW(input.uv, flow.xy, jump, _FlowOffset, _Tiling, time, false);
                 float3 flowUVW_B = FlowUVW(input.uv, flow.xy, jump, _FlowOffset, _Tiling, time, true);
@@ -367,6 +370,7 @@ Shader "Custom/TessellationLit"
                     SAMPLE_TEXTURE2D(_WaterNormal1, sampler_WaterNormal1, flowUVW_B.xy * _NormalMapSize), _NormalMapStrength) * flowUVW_B.z;
                 float3 waterNormal2_B = UnpackNormalScale(
                     SAMPLE_TEXTURE2D(_WaterNormal2, sampler_WaterNormal2, flowUVW_B.xy * _NormalMapSize - time * 2), _NormalMapStrength) * flowUVW_B.z;
+
                 // float3 normalTS = BlendNormal(BlendNormal(waterNormal1_A, waterNormal1_B), BlendNormal(waterNormal2_A, waterNormal2_B)) * flow.z;
                 float3 normalTS = ((waterNormal1_A + waterNormal1_B) + (waterNormal2_A + waterNormal2_B)) * flow.z;
                 normalTS = BlendNormal(normalTS, GenerateNormalFromHeightMap(input.uv));
@@ -496,7 +500,7 @@ Shader "Custom/TessellationLit"
                 #if defined(_SPECULARHIGHLIGHTS)
                     half3 specular = _Specular;
                 #else
-                half3 specular = 0;
+                    half3 specular = 0;
                 #endif
 
                 float4 colorBelowWater = ColorBelowWater(input.screenPos);
@@ -506,7 +510,7 @@ Shader "Custom/TessellationLit"
                 surfaceInput.emission = colorBelowWater * (1 - color.a);
                 surfaceInput.specular = specular;
                 surfaceInput.metallic = _Metallic;
-                surfaceInput.smoothness = _Smoothness;
+                surfaceInput.smoothness = _Smoothness * SAMPLE_TEXTURE2D(_SmoothnessMap, sampler_SmoothnessMap, input.uv_SmoothnessMap);
                 surfaceInput.normalTS = normalTS;
                 surfaceInput.occlusion = 1;
 
@@ -575,6 +579,9 @@ Shader "Custom/TessellationLit"
             Texture2D _MainTex;
             SamplerState sampler_MainTex;
 
+            Texture2D _SmoothnessMap;
+            SamplerState sampler_SmoothnessMap;
+
             Texture2D _WaterNormal1;
             SamplerState sampler_WaterNormal1;
             Texture2D _WaterNormal2;
@@ -591,8 +598,9 @@ Shader "Custom/TessellationLit"
             CBUFFER_START(UnityPerMaterial)
                 float4 _MainTex_ST;
                 float4 _BaseColor;
+                float4 _SmoothnessMap_ST;
                 float _Smoothness;
-                // float _Specular;
+                float _Specular;
                 float _Metallic;
 
                 float4 _WaterShallowColor;
@@ -651,6 +659,7 @@ Shader "Custom/TessellationLit"
                 float2 uv : TEXCOORD0;
                 DECLARE_LIGHTMAP_OR_SH(lightmapUV, vertexSH, 1);
                 float2 uv_MainTex : TEXCOORD2;
+                float2 uv_SmoothnessMap : TEXCOORD3;
                 float3 normalOS : TEXCOORD4;
                 float4 tangentWS : TEXCOORD5;
                 float3 viewDir : TEXCOORD6;
@@ -680,6 +689,7 @@ Shader "Custom/TessellationLit"
                 output.tangentWS = float4(normalInputs.tangentWS, input.tangentOS.w); // tangent.w contains bitangent multiplier;
                 output.uv = input.uv;
                 output.uv_MainTex = TRANSFORM_TEX(input.uv, _MainTex);
+                output.uv_SmoothnessMap = TRANSFORM_TEX(input.uv, _SmoothnessMap);
                 output.lightMap = input.lightMap;
 
                 return output;
@@ -724,6 +734,7 @@ Shader "Custom/TessellationLit"
                 BARYCENTRIC_INTERPOLATE(normalOS);
                 BARYCENTRIC_INTERPOLATE(uv);
                 BARYCENTRIC_INTERPOLATE(uv_MainTex);
+                BARYCENTRIC_INTERPOLATE(uv_SmoothnessMap);
 
                 // Apply height map.
                 const float height = SAMPLE_TEXTURE2D_LOD(_HeightMap, sampler_HeightMap, output.uv, 0).r * _HeightMapAltitude;
@@ -793,17 +804,17 @@ Shader "Custom/TessellationLit"
                 float time = _Time.x * _Speed + noise;
                 float2 jump = float2(_UJump, _VJump);
                 float3 flowUVW_A = FlowUVW(input.uv, flow.xy, jump, _FlowOffset, _Tiling, time, false);
-                float3 flowUVW_B = FlowUVW(input.uv, flow.xy, jump, _FlowOffset, _Tiling, time, true);
+                float3 flowUVW_B = FlowUVW(input.uv, flow.xy, jump, _FlowOffset, _Tiling, time*2, true);
 
                 float3 waterNormal1_A = UnpackNormalScale(
                     SAMPLE_TEXTURE2D(_WaterNormal1, sampler_WaterNormal1, flowUVW_A.xy * _NormalMapSize), _NormalMapStrength) * flowUVW_A.z;
                 float3 waterNormal2_A = UnpackNormalScale(
-                    SAMPLE_TEXTURE2D(_WaterNormal2, sampler_WaterNormal2, flowUVW_A.xy * _NormalMapSize - time * 2), _NormalMapStrength) * flowUVW_A.z;
+                    SAMPLE_TEXTURE2D(_WaterNormal2, sampler_WaterNormal2, flowUVW_A.xy * _NormalMapSize), _NormalMapStrength) * flowUVW_A.z;
 
                 float3 waterNormal1_B = UnpackNormalScale(
                     SAMPLE_TEXTURE2D(_WaterNormal1, sampler_WaterNormal1, flowUVW_B.xy * _NormalMapSize), _NormalMapStrength) * flowUVW_B.z;
                 float3 waterNormal2_B = UnpackNormalScale(
-                    SAMPLE_TEXTURE2D(_WaterNormal2, sampler_WaterNormal2, flowUVW_B.xy * _NormalMapSize - time * 2), _NormalMapStrength) * flowUVW_B.z;
+                    SAMPLE_TEXTURE2D(_WaterNormal2, sampler_WaterNormal2, flowUVW_B.xy * _NormalMapSize), _NormalMapStrength) * flowUVW_B.z;
                 // float3 normalTS = BlendNormal(BlendNormal(waterNormal1_A, waterNormal1_B), BlendNormal(waterNormal2_A, waterNormal2_B)) * flow.z;
                 float3 normalTS = ((waterNormal1_A + waterNormal1_B) + (waterNormal2_A + waterNormal2_B)) * flow.z;
                 normalTS = BlendNormal(normalTS, GenerateNormalFromHeightMap(input.uv));
@@ -814,7 +825,7 @@ Shader "Custom/TessellationLit"
                 half3 normViewDir = normalize(input.viewDir);
                 InputData lightingInput = (InputData)0; // Info about position and orientation of mesh at current fragment.
                 lightingInput.positionWS = input.positionWS;
-                lightingInput.normalWS = normalWS;
+                lightingInput.normalWS = lerp(normalWS, input.normalWS, SAMPLE_TEXTURE2D_LOD(_HeightMap, sampler_HeightMap, input.uv, 0).r * 1000);
                 lightingInput.viewDirectionWS = normViewDir;
                 lightingInput.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
                 lightingInput.bakedGI = SAMPLE_GI(input.lightmapUV, input.vertexSH, lightingInput.normalWS);
@@ -939,11 +950,12 @@ Shader "Custom/TessellationLit"
                 float4 colorBelowWater = ColorBelowWater(input.screenPos);
                 SurfaceData surfaceInput = (SurfaceData)0; // Holds info about the surface material's physical properties (e.g. color).
                 surfaceInput.albedo = color;
-                surfaceInput.alpha = colorBelowWater.a;
-                surfaceInput.emission = colorBelowWater * (1 - color.a);
+                // surfaceInput.alpha = colorBelowWater.a;
+                // surfaceInput.emission = colorBelowWater * (1 - color.a);
                 surfaceInput.specular = specular;
                 surfaceInput.metallic = _Metallic;
-                surfaceInput.smoothness = _Smoothness;
+                // surfaceInput.smoothness = _Smoothness - SAMPLE_TEXTURE2D(_SmoothnessMap, sampler_SmoothnessMap, input.uv_SmoothnessMap);
+                surfaceInput.smoothness = lerp(_Smoothness, 0.0f, (SAMPLE_TEXTURE2D_LOD(_HeightMap, sampler_HeightMap, input.uv, 0).r * 100));
                 surfaceInput.normalTS = normalTS;
                 surfaceInput.occlusion = 1;
 

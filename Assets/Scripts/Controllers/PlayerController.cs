@@ -21,9 +21,9 @@ namespace Controllers
             _reloadAction = _playerInput.actions["Reload"];
         }
 
-        public override float RetrieveMoveInput(GameObject gameObject)
+        public override Vector2 RetrieveMoveInput(GameObject gameObject)
         {
-            return _moveAction.ReadValue<Vector2>().x;
+            return _moveAction.ReadValue<Vector2>();
         }
 
         public override bool RetrieveShootInput()
