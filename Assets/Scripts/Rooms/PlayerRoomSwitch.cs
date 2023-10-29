@@ -1,4 +1,6 @@
-﻿namespace Rooms
+﻿using Capabilities.Movement;
+
+namespace Rooms
 {
     public class PlayerRoomSwitch : RoomSwitchListener
     {
@@ -6,10 +8,7 @@
 
         public override void OnRoomActivate(RoomData roomData)
         {
-            if (roomData.StartingPosition != null)
-            {
-                transform.position = roomData.StartingPosition.position;
-            }
+            GetComponent<IMover>()?.SetMovementParams(roomData);
         }
 
         public override void OnRoomDeactivate(RoomData roomData) {}

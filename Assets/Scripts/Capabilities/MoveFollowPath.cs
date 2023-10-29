@@ -3,6 +3,7 @@ using Checks;
 using Controllers;
 using Events;
 using MyBox;
+using Rooms;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Splines;
@@ -19,7 +20,6 @@ namespace Capabilities
 
         [Separator("Other")]
         [SerializeField] private Animator animator;
-        [SerializeField] private SplineContainer path;
         [SerializeField] private BoolEventListener pauseEvent;
 
         [Separator("Debug")]
@@ -30,6 +30,8 @@ namespace Capabilities
         private Vector3 _direction, _desiredVelocity, _velocity;
         private Rigidbody _body;
         private Ground _ground;
+        private SplineContainer _path;
+        private int _currentPathIndex;
 
         private bool _isPaused;
         private bool _facingRight;
@@ -90,25 +92,40 @@ namespace Capabilities
             //    FlipPlayer();
             //}
 
-            float distance =
-                SplineUtility.GetNearestPoint(path.Spline, path.transform.InverseTransformPoint(transform.position),
-                    out float3 nearestPoint, out float t);
-
-            if (distance > 0.01f)
+            Vector3 forward = new Vector3(1, 0, 0); // Move left and right.
+            float t = 0.0f;
+            if (_path != null)
             {
-                transform.position = path.transform.TransformPoint(nearestPoint);
+                float distance =
+                    SplineUtility.GetNearestPoint(_path.Splines[_currentPathIndex],
+                        _path.transform.InverseTransformPoint(transform.position),
+                        out float3 nearestPoint, out t);
+
+                if (distance > 0.01f)
+                {
+                    transform.position = _path.transform.TransformPoint(nearestPoint);
+                }
+
+                forward = Vector3.Normalize(_path.EvaluateTangent(t));
+                forward *= _direction.x;
             }
-
-            Vector3 forward = Vector3.Normalize(path.EvaluateTangent(t));
-            forward *= _direction.x;
-
+            else
+            {
+                transform.position =
+                    new Vector3(transform.position.x, transform.position.y, 5.5f); // 5.5f = Room Center
+            }
 
             _desiredVelocity = forward * Mathf.Max(maxSpeed - _ground.Friction, 0f);
 
             if (enableDebug)
             {
-                D.raw(new Shape.Text(transform.position - new Vector3(0, 0, 1.0f), $"Path %: {t}")); // Path percentage
-                D.raw(new Shape.Arrow(transform.position, forward), Color.blue); // Forward direction
+                if (_path != null)
+                {
+                    D.raw(new Shape.Text(transform.position - new Vector3(0, 0, 1.0f),
+                        $"Path %: {t}")); // Path percentage
+                }
+
+                D.raw(new Shape.Arrow(transform.position, forward), Color.blue);         // Forward direction
                 D.raw(new Shape.Arrow(transform.position, _desiredVelocity), Color.red); // Target velocity
                 D.raw(new Shape.Arrow(transform.position, _body.velocity), Color.green); // Current velocity
             }
@@ -131,6 +148,18 @@ namespace Capabilities
             _facingRight = !_facingRight;
 
             OnSwitchingDirection?.Invoke(_facingRight);
+        }
+
+        public void SetMovementParams(RoomData roomData)
+        {
+            if (roomData.StartingPosition != null)
+            {
+                transform.position = roomData.StartingPosition.position;
+            }
+
+            _path = roomData.RoomPath;
+            _currentPathIndex = roomData.PathIndex;
+            Debug.Log(_currentPathIndex);
         }
 
         public void StartMovement()

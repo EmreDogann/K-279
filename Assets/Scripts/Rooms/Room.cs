@@ -6,7 +6,9 @@ using Audio;
 using Interactables;
 using Lights;
 using MyBox;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Splines;
 
 namespace Rooms
 {
@@ -22,6 +24,8 @@ namespace Rooms
 
     public class RoomData
     {
+        public SplineContainer RoomPath;
+        public int PathIndex;
         public Transform StartingPosition;
         public float LightFadeDuration;
     }
@@ -48,6 +52,7 @@ namespace Rooms
         [SerializeField] private Collider2D cameraBounds;
         [SerializeField] private List<Door> roomDoors;
         [SerializeField] private List<RoomLight> roomLights;
+        [SerializeField] private SplineContainer roomPath;
 
         public static event Action<bool, float> OnLightsSwitch;
         public static event Action<RoomData> OnRoomPrepare;
@@ -89,6 +94,8 @@ namespace Rooms
                 }
             }
 
+            roomPath = GetComponentInChildren<SplineContainer>();
+
             if (_roomBounds == null)
             {
                 Debug.LogError(
@@ -122,6 +129,8 @@ namespace Rooms
                     }
                 }
             }
+
+            roomPath = GetComponentInChildren<SplineContainer>();
         }
 
         public Vector3 GetDoorSpawnPoint(int doorIndex)
@@ -160,6 +169,8 @@ namespace Rooms
 
                 OnRoomPrepare?.Invoke(new RoomData
                 {
+                    RoomPath = roomPath,
+                    PathIndex = GetNearestSplineIndex(door.GetSpawnPoint().position),
                     StartingPosition = door.GetSpawnPoint(),
                     LightFadeDuration = lightFadeDuration
                 });
@@ -194,6 +205,8 @@ namespace Rooms
             {
                 OnRoomActivate?.Invoke(new RoomData
                 {
+                    RoomPath = roomPath,
+                    PathIndex = setPlayerPosition ? GetNearestSplineIndex(roomDoors[0].GetSpawnPoint().position) : 0,
                     StartingPosition = setPlayerPosition ? roomDoors[0].GetSpawnPoint() : null,
                     LightFadeDuration = lightFadeDuration
                 });
@@ -228,6 +241,8 @@ namespace Rooms
 
                 OnRoomActivate?.Invoke(new RoomData
                 {
+                    RoomPath = roomPath,
+                    PathIndex = setPlayerPosition ? GetNearestSplineIndex(door.GetSpawnPoint().position) : 0,
                     StartingPosition = setPlayerPosition ? door.GetSpawnPoint() : null,
                     LightFadeDuration = lightFadeDuration
                 });
@@ -251,6 +266,8 @@ namespace Rooms
 
                 OnRoomDeactivate?.Invoke(new RoomData
                 {
+                    RoomPath = roomPath,
+                    PathIndex = GetNearestSplineIndex(door.GetSpawnPoint().position),
                     StartingPosition = door.GetSpawnPoint(),
                     LightFadeDuration = lightFadeDuration
                 });
@@ -318,6 +335,28 @@ namespace Rooms
                     yield return null;
                 }
             }
+        }
+
+        private int GetNearestSplineIndex(Vector3 point)
+        {
+            float closestDistance = Mathf.Infinity;
+            int closestIndex = 0;
+
+            int index = 0;
+            foreach (Spline path in roomPath.Splines)
+            {
+                float distance = SplineUtility.GetNearestPoint(path, roomPath.transform.InverseTransformPoint(point),
+                    out float3 _, out float _);
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestIndex = index;
+                }
+
+                index++;
+            }
+
+            return closestIndex;
         }
     }
 }

@@ -3,6 +3,7 @@ using Checks;
 using Controllers;
 using Events;
 using MyBox;
+using Rooms;
 using UnityEngine;
 
 namespace Capabilities
@@ -108,6 +109,14 @@ namespace Capabilities
             _facingRight = !_facingRight;
 
             OnSwitchingDirection?.Invoke(_facingRight);
+        }
+
+        public void SetMovementParams(RoomData roomData)
+        {
+            if (roomData.StartingPosition != null)
+            {
+                transform.position = roomData.StartingPosition.position;
+            }
         }
 
         public void StartMovement()
