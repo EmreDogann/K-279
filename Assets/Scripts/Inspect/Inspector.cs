@@ -122,6 +122,10 @@ namespace Inspect
         private IEnumerator DisplayMessage(string itemName)
         {
             _isTextAnimating = true;
+
+            // Will skip to end if we don't wait a frame due to input state.
+            yield return null;
+
             bool isAddingRichTextTag = false;
 
             _messageTarget = itemName;

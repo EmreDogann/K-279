@@ -159,7 +159,6 @@ namespace Capabilities
 
             _path = roomData.RoomPath;
             _currentPathIndex = roomData.PathIndex;
-            Debug.Log(_currentPathIndex);
         }
 
         public void StartMovement()
