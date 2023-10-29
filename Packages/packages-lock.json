@@ -16,6 +16,13 @@
       "dependencies": {},
       "hash": "c1bf519440e07d9eabd28a759a2b7e9a7b605b49"
     },
+    "com.handzlikchris.fastscriptreload": {
+      "version": "https://github.com/handzlikchris/FastScriptReload.git?path=Assets",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "62d78e6122c522964787566ddd59cfc4817a9ce8"
+    },
     "com.limworks.urpssrpackage": {
       "version": "https://github.com/JoshuaLim007/Unity-ScreenSpaceReflections-URP.git",
       "depth": 0,
@@ -153,7 +160,7 @@
     },
     "com.unity.collections": {
       "version": "1.2.4",
-      "depth": 2,
+      "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.unity.burst": "1.6.6",
@@ -282,6 +289,17 @@
         "com.unity.searcher": "4.9.2"
       }
     },
+    "com.unity.splines": {
+      "version": "2.3.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.settings-manager": "1.0.3",
+        "com.unity.mathematics": "1.2.1",
+        "com.unity.ugui": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.test-framework": {
       "version": "1.1.33",
       "depth": 1,
@@ -322,6 +340,15 @@
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0"
       }
+    },
+    "com.vertx.debugging": {
+      "version": "https://github.com/vertxxyz/Vertx.Debugging.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.collections": "0.9.0-preview.6"
+      },
+      "hash": "4986c28517ace563c06985334bf4b17429aa5997"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
