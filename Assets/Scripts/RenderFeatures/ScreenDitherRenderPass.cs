@@ -12,7 +12,6 @@ namespace RenderFeatures
 
         // Resources
         private readonly Material _ditherMaterial;
-        private readonly Material _thresholdMaterial;
         private Color _backgroundColor;
         private readonly Color _middleColor;
         private Color _foregroundColor;
@@ -23,9 +22,9 @@ namespace RenderFeatures
         private readonly FilterMode _filterMode;
 
         // Render Targets
-        private RenderTargetIdentifier _colorTarget;
-        private readonly RenderTargetIdentifier _superTarget;
-        private readonly RenderTargetIdentifier _halfTarget;
+        private RTHandle _camColorTarget;
+        private RTHandle _superTarget;
+        private RTHandle _halfTarget;
         private RenderTextureDescriptor _cameraDescriptor, _targetsDescriptor;
 
         // Shader property IDs
@@ -104,14 +103,6 @@ namespace RenderFeatures
                 _ditherMaterial.SetColor(_fgID, settings.foregroundColor);
             }
 
-            if (_thresholdMaterial == null)
-            {
-                _thresholdMaterial = CoreUtils.CreateEngineMaterial("Hidden/Dither/Threshold");
-                _thresholdMaterial.SetTexture(_colorRampTexProperty, settings.rampTex);
-                _thresholdMaterial.SetColor(_bgID, settings.backgroundColor);
-                _thresholdMaterial.SetColor(_fgID, settings.foregroundColor);
-            }
-
             if (_worldSpaceDither)
             {
                 _ditherMaterial.EnableKeyword("ENABLE_WORLD_SPACE_DITHER");
@@ -125,16 +116,11 @@ namespace RenderFeatures
             if (settings.useRampTexture)
             {
                 _ditherMaterial.EnableKeyword("USE_RAMP_TEX");
-                _thresholdMaterial.EnableKeyword("USE_RAMP_TEX");
             }
             else
             {
                 _ditherMaterial.DisableKeyword("USE_RAMP_TEX");
-                _thresholdMaterial.DisableKeyword("USE_RAMP_TEX");
             }
-
-            _superTarget = new RenderTargetIdentifier(_superID);
-            _halfTarget = new RenderTargetIdentifier(_halfID);
         }
 
         public void SetColors(Color bg, Color fg)
@@ -146,12 +132,6 @@ namespace RenderFeatures
             {
                 _ditherMaterial.SetColor(_bgID, _backgroundColor);
                 _ditherMaterial.SetColor(_fgID, _foregroundColor);
-            }
-
-            if (_thresholdMaterial == null)
-            {
-                _thresholdMaterial.SetColor(_bgID, _backgroundColor);
-                _thresholdMaterial.SetColor(_fgID, _foregroundColor);
             }
         }
 
@@ -173,11 +153,13 @@ namespace RenderFeatures
 
             // _targetsDescriptor.width <<= 1;
             // _targetsDescriptor.height <<= 1;
-            cmd.GetTemporaryRT(_superID, _targetsDescriptor, _filterMode);
+            RenderingUtils.ReAllocateIfNeeded(ref _superTarget, _targetsDescriptor, _filterMode,
+                name: _superID.ToString());
 
             // _targetsDescriptor.width >>= 1;
             // _targetsDescriptor.height >>= 1;
-            cmd.GetTemporaryRT(_halfID, _targetsDescriptor, _filterMode);
+            RenderingUtils.ReAllocateIfNeeded(ref _halfTarget, _targetsDescriptor, _filterMode,
+                name: _halfID.ToString());
 
             if (!_worldSpaceDither)
             {
@@ -205,13 +187,17 @@ namespace RenderFeatures
             _ditherMaterial.SetColor(_bgID, _backgroundColor);
             _ditherMaterial.SetColor(_mgID, _middleColor);
             _ditherMaterial.SetColor(_fgID, _foregroundColor);
-            _thresholdMaterial.SetColor(_bgID, _backgroundColor);
-            _thresholdMaterial.SetColor(_fgID, _foregroundColor);
+
+            // Output pass result into camera color buffer.
+            ConfigureTarget(_camColorTarget);
+
+            // Don't need to clear camera color buffer as URP already does this for us.
+            // ConfigureClear(ClearFlag.Color, Color.black);
         }
 
-        public void SetTarget(RenderTargetIdentifier cameraColorTarget)
+        public void SetTarget(RTHandle cameraColorHandle)
         {
-            _colorTarget = cameraColorTarget;
+            _camColorTarget = cameraColorHandle;
         }
 
         // The actual execution of the pass. This is where custom rendering occurs.
@@ -220,12 +206,8 @@ namespace RenderFeatures
             CommandBuffer cmd = CommandBufferPool.Get();
             using (new ProfilingScope(cmd, new ProfilingSampler(_profilerTag)))
             {
-                Blit(cmd, _colorTarget, _superTarget, _ditherMaterial);
-                Blit(cmd, _superTarget, _colorTarget);
-
-                // Blit(cmd, _colorTarget, _superTarget);
-                // Blit(cmd, _superTarget, _halfTarget, _ditherMaterial);
-                // Blit(cmd, _halfTarget, _colorTarget);
+                Blitter.BlitCameraTexture(cmd, _camColorTarget, _superTarget, _ditherMaterial, 0);
+                Blitter.BlitCameraTexture(cmd, _superTarget, _camColorTarget, Vector2.one);
             }
 
             // Execute the command buffer and release it.
@@ -244,16 +226,17 @@ namespace RenderFeatures
             {
                 throw new ArgumentNullException(nameof(cmd));
             }
+        }
 
-            // Since we created a temporary render texture in OnCameraSetup, we need to release the memory here to avoid a leak.
-            cmd.ReleaseTemporaryRT(_superID);
-            cmd.ReleaseTemporaryRT(_halfID);
+        public void ReleaseTargets()
+        {
+            _superTarget?.Release();
+            _halfTarget?.Release();
         }
 
         public void Dispose()
         {
             CoreUtils.Destroy(_ditherMaterial);
-            CoreUtils.Destroy(_thresholdMaterial);
         }
     }
 }

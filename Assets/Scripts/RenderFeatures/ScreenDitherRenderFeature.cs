@@ -108,6 +108,11 @@ namespace RenderFeatures
             }
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            _activePass.ReleaseTargets();
+        }
+
         public void SetColors(Color bg, Color fg)
         {
             settings.backgroundColor = bg;
