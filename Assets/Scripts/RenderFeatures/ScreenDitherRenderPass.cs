@@ -29,7 +29,10 @@ namespace RenderFeatures
         private RenderTextureDescriptor _cameraDescriptor, _targetsDescriptor;
 
         // Shader property IDs
-        private readonly int _noiseTexProperty = Shader.PropertyToID("_NoiseTex");
+        private readonly int _blueNoiseTexProperty = Shader.PropertyToID("_BlueNoiseTex");
+        private readonly int _whiteNoiseTexProperty = Shader.PropertyToID("_WhiteNoiseTex");
+        private readonly int _igNoiseTexProperty = Shader.PropertyToID("_IGNoiseTex");
+        private readonly int _bayerNoiseTexProperty = Shader.PropertyToID("_BayerNoiseTex");
         private readonly int _colorRampTexProperty = Shader.PropertyToID("_ColorRampTex");
         private readonly int _mgThresholdProperty = Shader.PropertyToID("_MGThreshold");
         private readonly int _thresholdProperty = Shader.PropertyToID("_Threshold");
@@ -67,11 +70,29 @@ namespace RenderFeatures
             if (_ditherMaterial == null)
             {
                 _ditherMaterial = CoreUtils.CreateEngineMaterial("Hidden/Dither/ScreenSpaceDither");
-                Texture2D blueNoiseTexture = settings.ditherTex;
+                Texture2D blueNoiseTexture = settings.blueDitherTex;
+                Texture2D whiteNoiseTexture = settings.whiteDitherTex;
+                Texture2D igNoiseTexture = settings.interleavedGradientDitherTex;
+                Texture2D bayerNoiseTexture = settings.bayerDitherTex;
 
                 if (blueNoiseTexture != null)
                 {
-                    _ditherMaterial.SetTexture(_noiseTexProperty, blueNoiseTexture);
+                    _ditherMaterial.SetTexture(_blueNoiseTexProperty, blueNoiseTexture);
+                }
+
+                if (whiteNoiseTexture != null)
+                {
+                    _ditherMaterial.SetTexture(_whiteNoiseTexProperty, whiteNoiseTexture);
+                }
+
+                if (igNoiseTexture != null)
+                {
+                    _ditherMaterial.SetTexture(_igNoiseTexProperty, igNoiseTexture);
+                }
+
+                if (bayerNoiseTexture != null)
+                {
+                    _ditherMaterial.SetTexture(_bayerNoiseTexProperty, bayerNoiseTexture);
                 }
 
                 _ditherMaterial.SetTexture(_colorRampTexProperty, settings.rampTex);

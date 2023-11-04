@@ -1,5 +1,6 @@
 using System;
 using UnityEditor;
+using UnityEditor.Rendering;
 using UnityEditor.Rendering.Universal.ShaderGUI;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace Editor
         private static readonly string[] workflowModeNames = Enum.GetNames(typeof(LitGUI.WorkflowMode));
 
         private LitGUI.LitProperties litProperties;
+        private MaterialProperty _noiseTypeProperty;
         private MaterialProperty _noiseMapProperty;
         private MaterialProperty _colorRampMapProperty;
 
@@ -24,6 +26,7 @@ namespace Editor
         {
             base.FindProperties(properties);
             litProperties = new LitGUI.LitProperties(properties);
+            _noiseTypeProperty = ShaderGUI.FindProperty("_NoiseType", properties);
             _noiseMapProperty = ShaderGUI.FindProperty("_NoiseMap", properties);
             _colorRampMapProperty = ShaderGUI.FindProperty("_ColorRampMap", properties);
 
@@ -57,6 +60,9 @@ namespace Editor
         // material main surface inputs
         public override void DrawSurfaceInputs(Material material)
         {
+            materialEditor.IntSliderShaderProperty(_noiseTypeProperty, 1, 4,
+                new GUIContent("Noise Type",
+                    "Noise type to use in post processing shader.\n 1 = Blue noise,\n 2 = White Noise,\n 3 = Interleaved-Gradient Noise,\n 4 = Bayer Noise"));
             materialEditor.TexturePropertySingleLine(new GUIContent("Dither Map", "Pattern to use for dithering."),
                 _noiseMapProperty);
             materialEditor.ShaderProperty(_useRampTexProperty, _useRampTexProperty.displayName);

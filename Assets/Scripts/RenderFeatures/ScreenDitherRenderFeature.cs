@@ -10,14 +10,17 @@ namespace RenderFeatures
         [Serializable]
         public class Settings
         {
-            [Header("Draw Renderers Settings")]
-            public LayerMask layerMask = 1;
+            // [Header("Draw Renderers Settings")]
+            // public LayerMask layerMask = 1;
 
             public bool showInSceneView;
             public bool worldSpaceDither;
 
             [Space]
-            public Texture2D ditherTex;
+            public Texture2D blueDitherTex;
+            public Texture2D whiteDitherTex;
+            public Texture2D interleavedGradientDitherTex;
+            public Texture2D bayerDitherTex;
             public bool useRampTexture;
             [ConditionalField(nameof(useRampTexture))] public Texture2D rampTex;
 

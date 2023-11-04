@@ -3,6 +3,7 @@ Shader "Universal Render Pipeline/Custom/DitherLit"
     Properties
     {
         // Dither Properties
+        [SliderInt] _NoiseType("Noise Type", Int) = 0
         [NoScaleOffset] _NoiseMap("Noise Map", 2D) = "white" {}
         [Toggle] _UseRampTex("Use Ramp Texture", Int) = 0
         _ColorRampMap("Color Ramp Map", 2D) = "white" {}
@@ -232,7 +233,7 @@ Shader "Universal Render Pipeline/Custom/DitherLit"
 
             // -------------------------------------
             // Includes
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "DitherLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl"
             ENDHLSL
         }
@@ -264,7 +265,7 @@ Shader "Universal Render Pipeline/Custom/DitherLit"
             // -------------------------------------
             // Shader Stages
             #pragma vertex LitGBufferPassVertex
-            #pragma fragment LitGBufferPassFragment
+            #pragma fragment DitherLitGBufferPassFragment
 
             // -------------------------------------
             // Material Keywords
@@ -313,8 +314,59 @@ Shader "Universal Render Pipeline/Custom/DitherLit"
 
             // -------------------------------------
             // Includes
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "DitherLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/LitGBufferPass.hlsl"
+
+
+            // Used in Standard (Physically Based) shader
+            FragmentOutput DitherLitGBufferPassFragment(Varyings input)
+            {
+                UNITY_SETUP_INSTANCE_ID(input);
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
+
+            #if defined(_PARALLAXMAP)
+                #if defined(REQUIRES_TANGENT_SPACE_VIEW_DIR_INTERPOLATOR)
+                    half3 viewDirTS = input.viewDirTS;
+                #else
+                    half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
+                    half3 viewDirTS = GetViewDirectionTangentSpace(input.tangentWS, input.normalWS, viewDirWS);
+                #endif
+                ApplyPerPixelDisplacement(viewDirTS, input.uv);
+            #endif
+
+                SurfaceData surfaceData;
+                InitializeStandardLitSurfaceData(input.uv, surfaceData);
+
+            #ifdef LOD_FADE_CROSSFADE
+                LODFadeCrossFade(input.positionCS);
+            #endif
+
+                InputData inputData;
+                InitializeInputData(input, surfaceData.normalTS, inputData);
+                SETUP_DEBUG_TEXTURE_DATA(inputData, input.uv, _BaseMap);
+
+            #ifdef _DBUFFER
+                ApplyDecalToSurfaceData(input.positionCS, surfaceData, inputData);
+            #endif
+
+                // Stripped down version of UniversalFragmentPBR().
+
+                // in LitForwardPass GlobalIllumination (and temporarily LightingPhysicallyBased) are called inside UniversalFragmentPBR
+                // in Deferred rendering we store the sum of these values (and of emission as well) in the GBuffer
+                BRDFData brdfData;
+                InitializeBRDFData(surfaceData.albedo, surfaceData.metallic, surfaceData.specular, surfaceData.smoothness, surfaceData.alpha, brdfData);
+
+                Light mainLight = GetMainLight(inputData.shadowCoord, inputData.positionWS, inputData.shadowMask);
+                MixRealtimeAndBakedGI(mainLight, inputData.normalWS, inputData.bakedGI, inputData.shadowMask);
+                half3 color = GlobalIllumination(brdfData, inputData.bakedGI, surfaceData.occlusion, inputData.positionWS, inputData.normalWS, inputData.viewDirectionWS);
+
+                FragmentOutput fragmentOutput = BRDFDataToGbuffer(brdfData, inputData, surfaceData.smoothness, surfaceData.emission + color, surfaceData.occlusion);
+
+                fragmentOutput.GBuffer1.g = 0.1f * round(_NoiseType);
+
+                return fragmentOutput;
+            }
+
             ENDHLSL
         }
 
@@ -357,7 +409,7 @@ Shader "Universal Render Pipeline/Custom/DitherLit"
 
             // -------------------------------------
             // Includes
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "DitherLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/DepthOnlyPass.hlsl"
             ENDHLSL
         }
@@ -408,7 +460,7 @@ Shader "Universal Render Pipeline/Custom/DitherLit"
 
             // -------------------------------------
             // Includes
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "DitherLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/LitDepthNormalsPass.hlsl"
             ENDHLSL
         }
@@ -448,7 +500,7 @@ Shader "Universal Render Pipeline/Custom/DitherLit"
 
             // -------------------------------------
             // Includes
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "DitherLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/LitMetaPass.hlsl"
 
             ENDHLSL
@@ -486,7 +538,7 @@ Shader "Universal Render Pipeline/Custom/DitherLit"
 
             // -------------------------------------
             // Includes
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "DitherLitInput.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/Shaders/Utils/Universal2D.hlsl"
             ENDHLSL
         }

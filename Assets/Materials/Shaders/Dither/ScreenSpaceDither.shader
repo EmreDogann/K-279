@@ -3,7 +3,10 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-		_NoiseTex("Noise Texture", 2D) = "white" {}
+		_BlueNoiseTex("Blue Noise Texture", 2D) = "white" {}
+		_WhiteNoiseTex("White Noise Texture", 2D) = "white" {}
+		_IGNoiseTex("Interleaved Gradient Noise Texture", 2D) = "white" {}
+		_BayerNoiseTex("Bayer Noise Texture", 2D) = "white" {}
 		_ColorRampTex("Color Ramp", 2D) = "white" {}
     	
     	_BG("Background Color", Color) = (0,0,0,1)
@@ -31,7 +34,6 @@
             #pragma shader_feature _ ENABLE_WORLD_SPACE_DITHER
             #pragma shader_feature _ USE_RAMP_TEX
 
-            // #include "DecodeDepthNormals.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
@@ -52,8 +54,11 @@
 
             CBUFFER_START(UnityPerMaterial)
 				float4 _MainTex_TexelSize;
-				float4 _NoiseTex_TexelSize;
-            
+				float4 _BlueNoiseTex_TexelSize;
+				float4 _WhiteNoiseTex_TexelSize;
+				float4 _IGNoiseTex_TexelSize;
+				float4 _BayerNoiseTex_TexelSize;
+
 	            float4 _BL;
 			    float4 _TL;
 			    float4 _TR;
@@ -71,11 +76,20 @@
             TEXTURE2D(_MainTex);
 			SAMPLER(sampler_MainTex);
 
-            TEXTURE2D(_UVBuffer);
-			SAMPLER(sampler_UVBuffer);
+            TEXTURE2D(_GBuffer1);		// R: Reflectivity (metallic) / specular        G: Dither Type        B: specular (Unused)        A: occlusion
+			SAMPLER(sampler_GBuffer1);
 
-            TEXTURE2D(_NoiseTex);
-			SAMPLER(sampler_NoiseTex);
+            TEXTURE2D(_BlueNoiseTex);
+			SAMPLER(sampler_BlueNoiseTex);
+
+            TEXTURE2D(_WhiteNoiseTex);
+			SAMPLER(sampler_WhiteNoiseTex);
+
+            TEXTURE2D(_IGNoiseTex);
+			SAMPLER(sampler_IGNoiseTex);
+
+            TEXTURE2D(_BayerNoiseTex);
+			SAMPLER(sampler_BayerNoiseTex);
 
             TEXTURE2D(_ColorRampTex);
 			SAMPLER(sampler_ColorRampTex);
@@ -133,6 +147,7 @@
             float4 Fragment(Varyings input) : SV_Target
             {
                 float3 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv).rgb;
+            	int ditherType = round(SAMPLE_TEXTURE2D(_GBuffer1, sampler_GBuffer1, input.uv).g * 10);
 
             	#if ENABLE_WORLD_SPACE_DITHER
             		float2 UV = input.positionHCS.xy / _ScaledScreenParams.xy;
@@ -176,12 +191,25 @@
 	                blending /= dot(blending, float3(1,1,1));
 
             		float2 projectionUV = (uvZ * blending.z) + ((uvX * blending.x) + (uvY * blending.y));
-            		float4 color = SAMPLE_TEXTURE2D_GRAD(_NoiseTex, sampler_NoiseTex, projectionUV * _NoiseTex_TexelSize.xy * _Tiling, ddx(projectionUV), ddy(projectionUV));
+            		float4 color;
+            		if (ditherType == 0 || ditherType == 1) // Blue Noise
+            		{
+						color = SAMPLE_TEXTURE2D_GRAD(_BlueNoiseTex, sampler_BlueNoiseTex, projectionUV * _BlueNoiseTex_TexelSize.xy * _Tiling, ddx(projectionUV), ddy(projectionUV));
+            		} else if (ditherType == 2) // White Noise
+            		{
+						color = SAMPLE_TEXTURE2D_GRAD(_WhiteNoiseTex, sampler_WhiteNoiseTex, projectionUV * _WhiteNoiseTex_TexelSize.xy * _Tiling, ddx(projectionUV), ddy(projectionUV));
+            		} else if (ditherType == 3) // Interleaved-Gradient Noise
+            		{
+						color = SAMPLE_TEXTURE2D_GRAD(_IGNoiseTex, sampler_IGNoiseTex, projectionUV * _IGNoiseTex_TexelSize.xy * _Tiling, ddx(projectionUV), ddy(projectionUV));
+            		} else if (ditherType == 4) // Bayer Noise
+            		{
+						color = SAMPLE_TEXTURE2D_GRAD(_BayerNoiseTex, sampler_BayerNoiseTex, projectionUV * _BayerNoiseTex_TexelSize.xy * _Tiling, ddx(projectionUV), ddy(projectionUV));
+            		}
 
             		float ditherLum = Luminance(color);
 				#else
 						float3 dir = normalize(lerp(lerp(_BL, _TL, input.uv.y), lerp(_BR, _TR, input.uv.y), input.uv.x));
-						float ditherLum = Luminance(cubeProject(_NoiseTex, sampler_NoiseTex, _NoiseTex_TexelSize.xy, dir));
+						float ditherLum = Luminance(cubeProject(_BlueNoiseTex, sampler_BlueNoiseTex, _BlueNoiseTex_TexelSize.xy, dir));
 				#endif
                 float lum = Luminance(col);
 

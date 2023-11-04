@@ -14,6 +14,7 @@
 // NOTE: Do not ifdef the properties here as SRP batcher can not handle different layouts.
 CBUFFER_START(UnityPerMaterial)
 	// Dither Params
+	int _NoiseType;
 	float4 _NoiseMap_TexelSize;
 	float4 _SpriteUVRange;
 
