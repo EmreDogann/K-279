@@ -4353,7 +4353,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomLoadWaitTime: 0.7
   cameraConfiner2DSwitcher: {fileID: 147622454}
-  loadStartingRoomOnAwake: 1
+  loadStartingRoomOnAwake: 0
   startingRoom: 0
   startingRoomEnteringFrom: 1
   rooms:
@@ -9897,11 +9897,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 937513558}
     m_Modifications:
+    - target: {fileID: 1326160923348014659, guid: c1c97929653bb97429538a944b00265b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 672e1bb81270eee4fb10f9ade0ee0a50, type: 2}
+    - target: {fileID: 2100216070277594281, guid: c1c97929653bb97429538a944b00265b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 672e1bb81270eee4fb10f9ade0ee0a50, type: 2}
     - target: {fileID: 3458455094440751839, guid: c1c97929653bb97429538a944b00265b,
         type: 3}
       propertyPath: m_Name
       value: Room_Hallway
       objectReference: {fileID: 0}
+    - target: {fileID: 5021767134608401592, guid: c1c97929653bb97429538a944b00265b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 95d2b4b01ab91ef4ab17c128fefcb830, type: 2}
     - target: {fileID: 5340639789766143029, guid: c1c97929653bb97429538a944b00265b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9952,6 +9967,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6029790411270715058, guid: c1c97929653bb97429538a944b00265b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 672e1bb81270eee4fb10f9ade0ee0a50, type: 2}
+    - target: {fileID: 7029197146547343099, guid: c1c97929653bb97429538a944b00265b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 672e1bb81270eee4fb10f9ade0ee0a50, type: 2}
+    - target: {fileID: 7090215660516212926, guid: c1c97929653bb97429538a944b00265b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 672e1bb81270eee4fb10f9ade0ee0a50, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

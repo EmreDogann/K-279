@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using TNRD;
+using AYellowpaper;
 using UnityEngine;
 
 namespace Interactables
 {
     public class PressureSwitch : MonoBehaviour, IInteractableObjects
     {
-        [SerializeField] private List<SerializableInterface<IReactableObjects>> reactables;
+        [SerializeField] private List<InterfaceReference<IReactableObjects, MonoBehaviour>> reactables;
         [SerializeField] private bool isInteractable;
 
         public void InteractionContinues() {}

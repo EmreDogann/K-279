@@ -158,7 +158,8 @@ MonoBehaviour:
       LayerMask:
         serializedVersion: 2
         m_Bits: 8
-      PassNames: []
+      PassNames:
+      - UniversalForward
     overrideMaterial: {fileID: 2100000, guid: f5161c313b19d8b468933b702b5c1206, type: 2}
     overrideMaterialPassIndex: 0
     overrideShader: {fileID: 0}
@@ -193,12 +194,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 1
     showInSceneView: 0
     worldSpaceDither: 1
-    ditherTex: {fileID: 2800000, guid: 0dafe293c44a19f4a95c8bbbf5cc6da6, type: 3}
+    blueDitherTex: {fileID: 2800000, guid: 0dafe293c44a19f4a95c8bbbf5cc6da6, type: 3}
+    whiteDitherTex: {fileID: 2800000, guid: 741a4bc96b66e7640abf342e299698dc, type: 3}
+    interleavedGradientDitherTex: {fileID: 2800000, guid: 8d5f695c3a19e4643a6fdee750689b0f,
+      type: 3}
+    bayerDitherTex: {fileID: 2800000, guid: c1c6e4b81820b68478e744e1e14228cc, type: 3}
     useRampTexture: 0
     rampTex: {fileID: 2800000, guid: a9601c9d949192d4aa929fc05d5e5dda, type: 3}
     backgroundColor: {r: 0, g: 0, b: 0, a: 1}
