@@ -19,6 +19,8 @@ namespace RenderFeatures
         private readonly float _middleColorThreshold;
         private readonly float _tiling;
         private readonly bool _worldSpaceDither;
+        private readonly bool _shouldSupersample;
+        private readonly bool _hqFiltering;
         private readonly FilterMode _filterMode;
 
         // Render Targets
@@ -52,6 +54,8 @@ namespace RenderFeatures
         public ScreenDitherRenderPass(string profilerTag, RenderPassEvent renderEvent,
             ScreenDitherRenderFeature.Settings settings)
         {
+            RTHandles.Initialize(Screen.width, Screen.height);
+
             _profilerTag = profilerTag;
             renderPassEvent = renderEvent;
 
@@ -64,6 +68,8 @@ namespace RenderFeatures
             _foregroundColor = settings.foregroundColor;
 
             _worldSpaceDither = settings.worldSpaceDither;
+            _shouldSupersample = settings.supersample;
+            _hqFiltering = settings.highQualityDitherFiltering;
             _filterMode = settings.filterMode;
 
             if (_ditherMaterial == null)
@@ -113,6 +119,15 @@ namespace RenderFeatures
                 _tiling = settings.tiling + 650; // magic number to match screen-space and world-space dither.
             }
 
+            if (_hqFiltering)
+            {
+                _ditherMaterial.EnableKeyword("ENABLE_HQ_FILTERING");
+            }
+            else
+            {
+                _ditherMaterial.DisableKeyword("ENABLE_HQ_FILTERING");
+            }
+
             if (settings.useRampTexture)
             {
                 _ditherMaterial.EnableKeyword("USE_RAMP_TEX");
@@ -153,13 +168,24 @@ namespace RenderFeatures
 
             // _targetsDescriptor.width <<= 1;
             // _targetsDescriptor.height <<= 1;
-            RenderingUtils.ReAllocateIfNeeded(ref _superTarget, _targetsDescriptor, _filterMode,
-                name: _superID.ToString());
+            if (_shouldSupersample)
+            {
+                if (_superTarget == null)
+                {
+                    _superTarget = RTHandles.Alloc(size => new Vector2Int(3840, 2160), _targetsDescriptor, _filterMode,
+                        name: _superID.ToString());
+                }
+            }
+            else
+            {
+                RenderingUtils.ReAllocateIfNeeded(ref _superTarget, _targetsDescriptor, _filterMode,
+                    name: _superID.ToString());
+            }
 
             // _targetsDescriptor.width >>= 1;
             // _targetsDescriptor.height >>= 1;
-            RenderingUtils.ReAllocateIfNeeded(ref _halfTarget, _targetsDescriptor, _filterMode,
-                name: _halfID.ToString());
+            // RenderingUtils.ReAllocateIfNeeded(ref _halfTarget, _targetsDescriptor, _filterMode,
+            //     name: _halfID.ToString());
 
             if (!_worldSpaceDither)
             {
@@ -231,7 +257,7 @@ namespace RenderFeatures
         public void ReleaseTargets()
         {
             _superTarget?.Release();
-            _halfTarget?.Release();
+            // _halfTarget?.Release();
         }
 
         public void Dispose()

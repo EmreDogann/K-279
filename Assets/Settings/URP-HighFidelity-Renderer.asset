@@ -190,12 +190,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f8fe2f320d945740b00157de6a13b69, type: 3}
-  m_Name: Screen Dither
+  m_Name: Screen-Space Dither
   m_EditorClassIdentifier: 
   m_Active: 1
+  renderPassEvent: 240
   settings:
-    showInSceneView: 0
+    showInSceneView: 1
     worldSpaceDither: 1
+    filterMode: 0
+    supersample: 0
+    highQualityDitherFiltering: 1
     blueDitherTex: {fileID: 2800000, guid: 0dafe293c44a19f4a95c8bbbf5cc6da6, type: 3}
     whiteDitherTex: {fileID: 2800000, guid: 741a4bc96b66e7640abf342e299698dc, type: 3}
     interleavedGradientDitherTex: {fileID: 2800000, guid: 8d5f695c3a19e4643a6fdee750689b0f,
@@ -206,8 +210,6 @@ MonoBehaviour:
     backgroundColor: {r: 0, g: 0, b: 0, a: 1}
     middleColor: {r: 0.333, g: 0.23754838, b: 0.05194799, a: 1}
     foregroundColor: {r: 1, g: 0.8794544, b: 0.646, a: 1}
-    middleColorThreshold: 0.15
+    middleColorThreshold: 0.1
     tiling: 400
     threshold: 0.8
-    filterMode: 0
-  renderPassEvent: 240

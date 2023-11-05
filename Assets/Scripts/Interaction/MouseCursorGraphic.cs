@@ -19,8 +19,6 @@ namespace Interaction
 
         [ReadOnly] private float _interactionRange;
 
-        // [SerializeField] private AnimationCurve scaleDistanceCurve;
-
         private Camera _main;
         private float _originalAlpha;
         private bool _interactableState;
@@ -30,12 +28,6 @@ namespace Interaction
             _main = Camera.main;
             _originalAlpha = cursorImage.color.a;
 
-            Cursor.lockState = cursorLockMode;
-            Cursor.visible = cursorVisible;
-        }
-
-        private void OnValidate()
-        {
             Cursor.lockState = cursorLockMode;
             Cursor.visible = cursorVisible;
         }
@@ -74,22 +66,11 @@ namespace Interaction
                 cursorImage.DOFade(_originalAlpha, nonInteractableFadeDuration);
                 _interactableState = true;
             }
-
-            // cursorImage.rectTransform.localScale = Vector3.one * scaleDistanceCurve.Evaluate(distance);
         }
 
         public void SetInteractionRange(float range)
         {
             _interactionRange = range;
-        }
-
-        private void OnApplicationFocus(bool hasFocus)
-        {
-            if (hasFocus)
-            {
-                Cursor.lockState = cursorLockMode;
-                Cursor.visible = cursorVisible;
-            }
         }
     }
 }

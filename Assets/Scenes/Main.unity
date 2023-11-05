@@ -739,7 +739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b1f104b01894445ac51cc893f726d6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cursorLockMode: 2
+  cursorLockMode: 0
   cursorVisible: 0
   cursorImage: {fileID: 130267119}
   playerCollider: {fileID: 1723302001}
@@ -9982,6 +9982,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 672e1bb81270eee4fb10f9ade0ee0a50, type: 2}
+    - target: {fileID: 8229511057474764120, guid: c1c97929653bb97429538a944b00265b,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 182
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

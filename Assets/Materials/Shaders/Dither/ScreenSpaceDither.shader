@@ -31,6 +31,7 @@
             #pragma vertex Vert
             #pragma fragment Fragment
 
+            #pragma shader_feature _ ENABLE_HQ_FILTERING
             #pragma shader_feature _ ENABLE_WORLD_SPACE_DITHER
             #pragma shader_feature _ USE_RAMP_TEX
 
@@ -81,6 +82,16 @@
             TEXTURE2D(_ColorRampTex);
 			SAMPLER(sampler_ColorRampTex);
 
+            #if ENABLE_HQ_FILTERING
+				// Divide by texelsize other tiling will need to be orders or magnitude larger in order to work
+				// -0.05f as some energy is lost due to the smoothing done by the bicubic filtering.
+				#define SAMPLE_DITHER_TEX(textureName, uv) \
+					textureBicubic(textureName, sampler##textureName, uv / textureName##_TexelSize.xy * _Tiling, textureName##_TexelSize.xy) - 0.1f;
+            #else
+				#define SAMPLE_DITHER_TEX(textureName, uv) \
+					SAMPLE_TEXTURE2D_GRAD(textureName, sampler##textureName, uv * textureName##_TexelSize.xy * _Tiling, ddx(uv), ddy(uv));
+            #endif
+
             float4 cubeProject(Texture2D tex, SamplerState texSampler, float2 texel, float3 dir)
 			{
 				float3x3 rotDirMatrix = {
@@ -120,14 +131,62 @@
 				                  max(distance(centre.rg, left.rg), distance(centre.rg, right.rg))));
 			}
 
+			// from http://www.java-gaming.org/index.php?topic=35123.0
+			float4 cubic(float v)
+			{
+				float4 n = float4(1.0, 2.0, 3.0, 4.0) - v;
+				float4 s = n * n * n;
+				float x = s.x;
+				float y = s.y - 4.0 * s.x;
+				float z = s.z - 4.0 * s.y + 6.0 * s.x;
+				float w = 6.0 - x - y - z;
+				return float4(x, y, z, w) * (1.0 / 6.0);
+			}
+
+            // From: https://stackoverflow.com/a/42179924
+            // Other Resources: https://vec3.ca/bicubic-filtering-in-fewer-taps/
+            // https://http.download.nvidia.com/developer/SDK/Individual_Samples/DEMOS/OpenGL/src/fast_third_order/docs/Gems2_ch20_SDK.pdf
+			float4 textureBicubic(Texture2D tex, SamplerState samplerTex, float2 uv, float2 texelSize)
+			{
+				float2 texCoords = uv * texelSize - 0.5;
+
+				float2 fxy = frac(texCoords);
+				texCoords -= fxy;
+
+				float4 xcubic = cubic(fxy.x);
+				float4 ycubic = cubic(fxy.y);
+
+				float4 c = texCoords.xxyy + float2(-0.5, 1.5).xyxy;
+
+				float4 s = float4(xcubic.xz + xcubic.yw, ycubic.xz + ycubic.yw);
+				float4 offset = c + float4(xcubic.yw, ycubic.yw) / s;
+
+				offset *= texelSize.xxyy;
+
+				float4 sample0 = tex.Sample(samplerTex, offset.xz);
+				float4 sample1 = tex.Sample(samplerTex, offset.yz);
+				float4 sample2 = tex.Sample(samplerTex, offset.xw);
+				float4 sample3 = tex.Sample(samplerTex, offset.yw);
+
+				float sx = s.x / (s.x + s.y);
+				float sy = s.z / (s.z + s.w);
+
+				return lerp(
+					lerp(sample3, sample2, sx),
+					lerp(sample1, sample0, sx),
+					sy
+				);
+			}
+
             float4 Fragment(Varyings input) : SV_Target
             {
                 float3 sourceColor = SAMPLE_TEXTURE2D(_BlitTexture, sampler_BlitTexture, input.texcoord).rgb;
+            	// Multiplied by 10 because we mapped the types are integers scaled down to multiples of 0.1.
             	int ditherType = round(SAMPLE_TEXTURE2D(_GBuffer1, sampler_GBuffer1, input.texcoord).g * 10);
 
             	float4 ditherColor;
             	#if ENABLE_WORLD_SPACE_DITHER
-					float2 UV = input.positionCS.xy / _ScaledScreenParams.xy;
+            		float2 UV = input.texcoord;
 					// Sample the depth from the Camera depth texture.
 					#if UNITY_REVERSED_Z
 						real depth = SampleSceneDepth(UV);
@@ -170,16 +229,16 @@
 					float2 projectionUV = (uvZ * blending.z) + ((uvX * blending.x) + (uvY * blending.y));
 					if (ditherType == 0 || ditherType == 1) // Blue Noise
 					{
-						ditherColor = SAMPLE_TEXTURE2D_GRAD(_BlueNoiseTex, sampler_BlueNoiseTex, projectionUV * _BlueNoiseTex_TexelSize.xy * _Tiling, ddx(projectionUV), ddy(projectionUV));
+						ditherColor = SAMPLE_DITHER_TEX(_BlueNoiseTex, projectionUV);
 					} else if (ditherType == 2) // White Noise
 					{
-						ditherColor = SAMPLE_TEXTURE2D_GRAD(_WhiteNoiseTex, sampler_WhiteNoiseTex, projectionUV * _WhiteNoiseTex_TexelSize.xy * _Tiling, ddx(projectionUV), ddy(projectionUV));
+						ditherColor = SAMPLE_DITHER_TEX(_WhiteNoiseTex, projectionUV);
 					} else if (ditherType == 3) // Interleaved-Gradient Noise
 					{
-						ditherColor = SAMPLE_TEXTURE2D_GRAD(_IGNoiseTex, sampler_IGNoiseTex, projectionUV * _IGNoiseTex_TexelSize.xy * _Tiling, ddx(projectionUV), ddy(projectionUV));
+						ditherColor = SAMPLE_DITHER_TEX(_IGNoiseTex, projectionUV);
 					} else if (ditherType == 4) // Bayer Noise
 					{
-						ditherColor = SAMPLE_TEXTURE2D_GRAD(_BayerNoiseTex, sampler_BayerNoiseTex, projectionUV * _BayerNoiseTex_TexelSize.xy * _Tiling, ddx(projectionUV), ddy(projectionUV));
+						ditherColor = SAMPLE_DITHER_TEX(_BayerNoiseTex, projectionUV);
 					}
 				#else
 					float3 dir = normalize(lerp(lerp(_BL, _TL, input.texcoord.y), lerp(_BR, _TR, input.texcoord.y), input.texcoord.x));
@@ -196,7 +255,6 @@
 					{
 						ditherColor = cubeProject(_BayerNoiseTex, sampler_BayerNoiseTex, _BayerNoiseTex_TexelSize.xy, dir);
 					}
-
 				#endif
             	float ditherLum = Luminance(ditherColor);
                 float lum = Luminance(sourceColor);
