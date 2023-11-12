@@ -54,8 +54,6 @@ namespace RenderFeatures
         public ScreenDitherRenderPass(string profilerTag, RenderPassEvent renderEvent,
             ScreenDitherRenderFeature.Settings settings)
         {
-            RTHandles.Initialize(Screen.width, Screen.height);
-
             _profilerTag = profilerTag;
             renderPassEvent = renderEvent;
 

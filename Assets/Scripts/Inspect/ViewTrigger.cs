@@ -11,13 +11,13 @@ namespace Inspect
         [ButtonMethod]
         private void ShowView()
         {
-            UIManager.Instance.Show(view);
+            ViewManager.Instance.Show(view);
         }
 
         [ButtonMethod]
         private void CloseView()
         {
-            UIManager.Instance.Back();
+            ViewManager.Instance.Back();
         }
     }
 }

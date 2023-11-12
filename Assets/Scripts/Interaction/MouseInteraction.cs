@@ -14,14 +14,16 @@ namespace Interaction
 
         [Tooltip("The distance from the character that the player can interact with in world space units.")]
         [SerializeField] private float interactionRange;
+        [SerializeField] private Collider interacterCollider;
 
         [SerializeField] private bool blockedByUI;
         [SerializeField] private LayerMask mask;
 
         private InteractableBase _hoverTarget;
         private InteractableBase _activeTarget;
-        private RaycastHit2D _hit;
+        private RaycastHit _hit;
         private Camera _mainCamera;
+        private bool _isInRange = true;
 
         private bool _isPaused;
         private BoolEventListener _onGamePausedEvent;
@@ -33,7 +35,6 @@ namespace Interaction
         private void Awake()
         {
             _mainCamera = Camera.main;
-            cursorGraphic.SetInteractionRange(interactionRange);
 
             _onGamePausedEvent = GetComponent<BoolEventListener>();
         }
@@ -50,7 +51,34 @@ namespace Interaction
 
         private void Update()
         {
-            CheckForInteraction();
+            if (!_isPaused && IsInInteractionRange())
+            {
+                CheckForInteraction();
+            }
+        }
+
+        private bool IsInInteractionRange()
+        {
+            Vector3 mousePosSS = Mouse.current.position.value;
+            mousePosSS.z = Mathf.Abs(_mainCamera.transform.position.z - interacterCollider.transform.position.z);
+
+            Vector3 cursorPos = _mainCamera.ScreenToWorldPoint(mousePosSS);
+            Vector2 playerPos = interacterCollider.ClosestPointOnBounds(cursorPos);
+            float distance = Vector2.Distance(playerPos, cursorPos);
+
+            if (distance > interactionRange && _isInRange)
+            {
+                cursorGraphic.SetInteractState(false);
+                _isInRange = false;
+            }
+            else if (distance < interactionRange && !_isInRange)
+            {
+                cursorGraphic.SetInteractState(true);
+                _isInRange = true;
+            }
+
+
+            return _isInRange;
         }
 
         public InteractableBase CheckForInteraction()
@@ -83,7 +111,7 @@ namespace Interaction
             }
             else
             {
-                if (inputHandler.RetrieveInteractPress())
+                if (inputHandler.IsInteractPressed())
                 {
                     _activeTarget = _hoverTarget;
                     _activeTarget?.OnStartInteract();
@@ -115,11 +143,12 @@ namespace Interaction
             }
 
             // Send ray out from cursor position.
-            _hit = Physics2D.Raycast(_mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue()),
-                Vector2.zero, Mathf.Infinity, mask);
+            Vector3 mousePos = Mouse.current.position.ReadValue();
+            mousePos.z = _mainCamera.nearClipPlane;
+            bool isHit = Physics.Raycast(_mainCamera.ScreenPointToRay(mousePos), out _hit, Mathf.Infinity, mask);
             InteractableBase newTarget = null;
 
-            if (_hit.collider && !IsBlockedByUI())
+            if (isHit && !IsBlockedByUI())
             {
                 // Will use the last InteractableBase found on the GameObject which is active.
                 var interactables = _hit.collider.GetComponents<InteractableBase>();

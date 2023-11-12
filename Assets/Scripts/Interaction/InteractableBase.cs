@@ -7,9 +7,7 @@ namespace Interaction
     [Serializable]
     public abstract class InteractableBase : MonoBehaviour, IInteractable
     {
-        [Separator("Base Interactable Settings")]
-        [SerializeField] protected string tooltipName;
-
+        [field: Separator("Base Interactable Settings")]
         [field: SerializeField] public float HoldDuration { get; protected set; }
         [field: SerializeField] public bool HoldInteract { get; protected set; }
         // Not used right now
@@ -50,11 +48,6 @@ namespace Interaction
         public bool IsHoldInteractFinished()
         {
             return HoldProgress >= HoldDuration;
-        }
-
-        public virtual string GetTooltipName()
-        {
-            return tooltipName;
         }
     }
 }

@@ -102,7 +102,11 @@ namespace RenderFeatures
 
         protected override void Dispose(bool disposing)
         {
-            _activePass.ReleaseTargets();
+            base.Dispose(disposing);
+            if (disposing)
+            {
+                _activePass.ReleaseTargets();
+            }
         }
 
         public void SetColors(Color bg, Color fg)

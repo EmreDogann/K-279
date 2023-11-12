@@ -21,9 +21,11 @@ namespace Capabilities
             public Transform Transform;
         }
 
+        [SerializeField] private bool globalInteractActive = true;
+
         [SerializeField] private LayerMask interactableLayerMask;
         [SerializeField] private ItemInspector itemInspector;
-        [SerializeField] private Inspector inspector;
+        [SerializeField] private TextAnimatorUpdate inspector;
         [SerializeField] private Inventory inventory;
 
         private Controller _controller;
@@ -61,7 +63,7 @@ namespace Capabilities
 
         private void Update()
         {
-            if (!_interactionActive || _currentInteractables.Count <= 0)
+            if (!globalInteractActive || !_interactionActive || _currentInteractables.Count <= 0)
             {
                 return;
             }
@@ -73,16 +75,16 @@ namespace Capabilities
                     continue;
                 }
 
-                bool interactPressed = _controller.input.RetrieveInteractPress();
+                bool interactPressed = _controller.input.IsInteractPressed();
                 if (interactPressed)
                 {
                     data.Interactable.InteractionStart();
                 }
-                else if (_controller.input.RetrieveInteractInput())
+                else if (_controller.input.GetInteractInput())
                 {
                     data.Interactable.InteractionContinues();
                 }
-                else if (_controller.input.RetrieveInteractRelease())
+                else if (_controller.input.IsInteractReleased())
                 {
                     data.Interactable.InteractionEnd();
                 }
@@ -150,7 +152,7 @@ namespace Capabilities
                     else if (canInspectItem) // Regular inspection
                     {
                         _interactionActive = false;
-                        inspector.OpenInspect(inspectableObject, _ => StartCoroutine(DelayedInteractActivate()));
+                        // inspector.OpenInspect(inspectableObject, _ => StartCoroutine(DelayedInteractActivate()));
                     }
                 }
 
@@ -207,7 +209,7 @@ namespace Capabilities
 
         private void OnTriggerEnter(Collider collision)
         {
-            if (!interactableLayerMask.Contains(collision.gameObject.layer))
+            if (!globalInteractActive || !interactableLayerMask.Contains(collision.gameObject.layer))
             {
                 return;
             }
@@ -232,7 +234,7 @@ namespace Capabilities
 
         // private void OnTriggerStay(Collider collision)
         // {
-        //     if (!interactableLayerMask.Contains(collision.gameObject.layer))
+        //     if (!globalInteractActive || !interactableLayerMask.Contains(collision.gameObject.layer))
         //     {
         //         return;
         //     }
@@ -248,7 +250,7 @@ namespace Capabilities
 
         private void OnTriggerExit(Collider collision)
         {
-            if (!interactableLayerMask.Contains(collision.gameObject.layer))
+            if (!globalInteractActive || !interactableLayerMask.Contains(collision.gameObject.layer))
             {
                 return;
             }

@@ -129,7 +129,7 @@ namespace Capabilities
                 return;
             }
 
-            if (_controller.input.RetrieveReloadInput() && _currentAmmoCount < maxAmmoCount)
+            if (_controller.input.GetReloadInput() && _currentAmmoCount < maxAmmoCount)
             {
                 // Check if reload is possible
                 IItem item = _inventory.TryGetItem(ammoItemInfo);
@@ -143,7 +143,7 @@ namespace Capabilities
             }
 
             // Debug.DrawRay(_gunRay.origin, _gunRay.direction * gunRange, Color.green);
-            if (_controller.input.RetrieveShootInput())
+            if (_controller.input.GetShootInput())
             {
                 // Start preparing to shoot
                 _currentlyShooting = true;
@@ -227,7 +227,7 @@ namespace Capabilities
                 //     return;
                 // }
 
-                float moveInput = _controller.input.RetrieveMoveInput(gameObject).x;
+                float moveInput = _controller.input.GetMoveInput(gameObject).x;
                 if (moveInput != 0)
                 {
                     if (_walkBtnDelayCoroutine == null)
@@ -304,7 +304,7 @@ namespace Capabilities
 
         private void FixedUpdate()
         {
-            _direction.x = _controller.input.RetrieveMoveInput(gameObject).x;
+            _direction.x = _controller.input.GetMoveInput(gameObject).x;
             if (_direction.x > 0f && !_facingRight)
             {
                 _move.SwitchDirection();
@@ -349,7 +349,7 @@ namespace Capabilities
                     yield break;
                 }
 
-                moveInput = _controller.input.RetrieveMoveInput(gameObject).x;
+                moveInput = _controller.input.GetMoveInput(gameObject).x;
                 yield return null;
             }
         }

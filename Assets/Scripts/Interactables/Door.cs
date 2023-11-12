@@ -3,6 +3,7 @@ using Audio;
 using Cinemachine;
 using DG.Tweening;
 using Inspect;
+using Inspect.Views;
 using Items;
 using MyBox;
 using Rooms;
@@ -11,7 +12,7 @@ using UnityEngine;
 
 namespace Interactables
 {
-    public class Door : MonoBehaviour, IInteractableObjects, IInspectable, IItemUser
+    public class Door : MonoBehaviour, IInspectable, IItemUser
     {
         [Separator("Room Settings")]
         [SerializeField] private RoomType connectingRoom;
@@ -38,6 +39,7 @@ namespace Interactables
         [Separator("Inspection")]
         [SerializeField] private ItemInfoSO expectedItem;
         [SerializeField] private bool isInspectable;
+        [SerializeField] private View missingHandleInspectView;
         [SerializeField] private CinemachineVirtualCamera inspectVirtualCamera;
         [SerializeField] private string inspectMessage;
 
@@ -78,6 +80,8 @@ namespace Interactables
                 .Pause();
         }
 
+        private void OnDisable() {}
+
         public RoomType GetConnectingRoom()
         {
             return connectingRoom;
@@ -93,9 +97,14 @@ namespace Interactables
             closingDoorAudio.Play(transform.position);
         }
 
-
-        public void InteractionStart()
+        public void OpenDoor()
         {
+            if (_handleRemoved)
+            {
+                ViewManager.Instance.Show(missingHandleInspectView);
+                return;
+            }
+
             if (!_doorOpenSequence.IsPlaying())
             {
                 if (isLocked)
@@ -111,16 +120,6 @@ namespace Interactables
                 turningValueAudio.Play(transform.position);
                 _doorOpenSequence.PlayForward();
             }
-        }
-
-        public void InteractionContinues() {}
-        public void InteractionEnd() {}
-        public void InteractionAreaEnter() {}
-        public void InteractionAreaExit() {}
-
-        public bool IsInteractable()
-        {
-            return true;
         }
 
         public void SetLocked(bool locked, bool playLockedSound = true)

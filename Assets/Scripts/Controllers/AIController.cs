@@ -9,32 +9,37 @@ namespace Controllers
     {
         public override void SetPlayerInput(PlayerInput playerInput) {}
 
-        public override bool RetrieveInteractPress()
+        public override bool IsInteractPressed()
         {
             return true;
         }
 
-        public override bool RetrieveInteractInput()
+        public override bool GetInteractInput()
         {
             return true;
         }
 
-        public override bool RetrieveInteractRelease()
+        public override bool IsInteractReleased()
         {
             return true;
         }
 
-        public override Vector2 RetrieveMoveInput(GameObject gameObject)
+        public override Vector2 GetMoveInput(GameObject gameObject)
         {
             return Vector2.zero;
         }
 
-        public override bool RetrieveShootInput()
+        public override bool IsSprintPressed()
         {
             return false;
         }
 
-        public override bool RetrieveReloadInput()
+        public override bool GetShootInput()
+        {
+            return false;
+        }
+
+        public override bool GetReloadInput()
         {
             throw new NotImplementedException();
         }
