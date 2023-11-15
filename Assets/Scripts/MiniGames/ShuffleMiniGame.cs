@@ -36,11 +36,6 @@ namespace MiniGame
         private int _cardPositionListSize;
         private bool slideCompleted;
 
-        [ContextMenu("Configure Editor")]
-        public void ConfigureEditor()
-        {
-            //gameLayout = new ArrayLayout(gameWidth);
-        }
         public bool GameEnded()
         {
             if (_state == MiniGameState.ENDEDLOST || _state == MiniGameState.ENDEDWON)
@@ -61,7 +56,6 @@ namespace MiniGame
             while (uniqueIndices.Count < emptySpacesCount)
             {
                 int randNumber = UnityEngine.Random.Range(0, gameWidth * gameHeight);
-                Debug.Log("randNumber = " + randNumber);
 
                 uniqueIndices.Add(randNumber);
                 
@@ -88,7 +82,6 @@ namespace MiniGame
                 Vector3 objectPosition = _boardBounds.center + new Vector3(x * cellSize + _boardBounds.min.x, y * cellSize + _boardBounds.min.y, 0);
                 if (_emptySpacesIndexList.Contains(i))
                 {
-                    Debug.Log("EmptySpacesIndexList = " + i);
                     GameObject obj = Instantiate(emptySpaceObject, objectPosition, Quaternion.identity);
                     _cardObjectList.Add(obj);
                     obj.SetActive(false);
@@ -96,7 +89,6 @@ namespace MiniGame
                 }
                 else
                 {
-                    Debug.Log("NotEmptySpacesIndexList = " + i);
                     GameObject obj = Instantiate(cardObject, objectPosition, Quaternion.identity);
                     _cardObjectList.Add(obj);
                     _cardObjectList[i]?.GetComponent<ShuffleCard>().SetParent(this);
@@ -145,7 +137,6 @@ namespace MiniGame
 
         IEnumerator CardMovementSlide(int cardID, int offset, float waitTime = 2f)
         {
-            Debug.Log("Starting slide coroutine for card " + cardID);
             slideCompleted = false;
             float elapsedTime = 0;
             Vector3 startPos = _cardObjectList[cardID].transform.localPosition;
@@ -166,7 +157,6 @@ namespace MiniGame
             _cardObjectList[cardID].GetComponent<ShuffleCard>().SetID(cardID + offset);
             (_cardObjectList[cardID], _cardObjectList[cardID + offset]) = (_cardObjectList[cardID + offset], _cardObjectList[cardID]);
 
-            Debug.Log("Slide completed for card " + cardID);
 
             yield return null;
         }
@@ -218,10 +208,6 @@ namespace MiniGame
             return gameWidth * y + x;
         }
         
-        public int GenerateUniqueHex()
-        {
-            return -1;
-        }
         
         
     }

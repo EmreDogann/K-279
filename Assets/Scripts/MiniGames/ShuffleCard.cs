@@ -12,7 +12,7 @@ namespace MiniGame
         Right,
         Left
     }
-    public class ShuffleCard : MonoBehaviour, IPointerClickHandler, IDragHandler, IEndDragHandler
+    public class ShuffleCard : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         public int ID;
         public ShuffleMiniGame parentGame;
@@ -72,10 +72,6 @@ namespace MiniGame
         {
             return this.ID;
         }
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            //Debug.Log(eventData.position);
-            //parentGame.Shuffle(ID);
-        }
+        
     }
 }
