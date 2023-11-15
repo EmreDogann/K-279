@@ -56,15 +56,17 @@ namespace MiniGame
         {
             
             if (cardObject == null || emptySpaceObject == null) return;
-            while (_emptySpacesIndexList.Count < emptySpacesCount)
+
+            HashSet<int> uniqueIndices = new HashSet<int>();
+            while (uniqueIndices.Count < emptySpacesCount)
             {
-                int randNumber = UnityEngine.Random.Range(0, _cardPositionListSize);
-                if (!_emptySpacesIndexList.Contains(randNumber))
-                {
-                    _emptySpacesIndexList.Add(randNumber);
-                }
+                int randNumber = UnityEngine.Random.Range(0, gameWidth * gameHeight);
+                Debug.Log("randNumber = " + randNumber);
+
+                uniqueIndices.Add(randNumber);
                 
             }
+            _emptySpacesIndexList = new List<int>(uniqueIndices);
 
             _boardBounds = new Bounds(drawCenterTransform.position, new Vector2(cellSize * (gameWidth), cellSize * (gameHeight)));
 
@@ -84,18 +86,9 @@ namespace MiniGame
                 int x = i % gameWidth;
                 int y = i / gameWidth;
                 Vector3 objectPosition = _boardBounds.center + new Vector3(x * cellSize + _boardBounds.min.x, y * cellSize + _boardBounds.min.y, 0);
-                bool empty = false;
-                for (int j = 0; j < emptySpacesCount; ++j)
+                if (_emptySpacesIndexList.Contains(i))
                 {
-                    if (i == _emptySpacesIndexList[j])
-                    {
-                        empty = true;
-                        break;
-                    }
-                        
-                }
-                if (empty)
-                {
+                    Debug.Log("EmptySpacesIndexList = " + i);
                     GameObject obj = Instantiate(emptySpaceObject, objectPosition, Quaternion.identity);
                     _cardObjectList.Add(obj);
                     obj.SetActive(false);
@@ -103,6 +96,7 @@ namespace MiniGame
                 }
                 else
                 {
+                    Debug.Log("NotEmptySpacesIndexList = " + i);
                     GameObject obj = Instantiate(cardObject, objectPosition, Quaternion.identity);
                     _cardObjectList.Add(obj);
                     _cardObjectList[i]?.GetComponent<ShuffleCard>().SetParent(this);
@@ -140,19 +134,7 @@ namespace MiniGame
                 {
 
                     _emptySpacesIndexList[i] = cardID;
-                    _cardObjectList[cardID].GetComponent<ShuffleCard>().SetID(cardID + offset);
-                    (_cardObjectList[cardID], _cardObjectList[cardID + offset]) = (_cardObjectList[cardID + offset], _cardObjectList[cardID]);
-                    //GameObject temp = _cardObjectList[cardID];
-                    //GameObject temp2 = _cardObjectList[cardID + offset];
-                    //_cardObjectList[cardID] = temp2;
-                    //_cardObjectList[cardID + offset] = temp;
-
-                    //StartCoroutine(CardMovementSlide(cardID, offset, 0.5f));
-
-                    //_cardObjectList[cardID + offset].transform.localPosition = _cardObjectList[cardID].transform.localPosition;
-                    (_cardObjectList[cardID].transform.localPosition, _cardObjectList[cardID + offset].transform.localPosition) =
-                        (_cardObjectList[cardID + offset].transform.localPosition, _cardObjectList[cardID].transform.localPosition);
-
+                    StartCoroutine(CardMovementSlide(cardID, offset, 0.5f));
                     CheckForWinCase();
                     return true;
                 }
@@ -161,14 +143,38 @@ namespace MiniGame
             return false;
         }
 
+        IEnumerator CardMovementSlide(int cardID, int offset, float waitTime = 2f)
+        {
+            Debug.Log("Starting slide coroutine for card " + cardID);
+            slideCompleted = false;
+            float elapsedTime = 0;
+            Vector3 startPos = _cardObjectList[cardID].transform.localPosition;
+            Vector3 finalPos = _cardObjectList[cardID + offset].transform.localPosition;
+
+            _cardObjectList[cardID + offset].transform.localPosition = _cardObjectList[cardID].transform.localPosition;
+
+            while (elapsedTime < waitTime)
+            {
+                _cardObjectList[cardID].transform.localPosition = Vector3.Lerp(startPos, finalPos, elapsedTime / waitTime);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            slideCompleted = true;
+            _cardObjectList[cardID].transform.localPosition = finalPos;
+
+            
+            _cardObjectList[cardID].GetComponent<ShuffleCard>().SetID(cardID + offset);
+            (_cardObjectList[cardID], _cardObjectList[cardID + offset]) = (_cardObjectList[cardID + offset], _cardObjectList[cardID]);
+
+            Debug.Log("Slide completed for card " + cardID);
+
+            yield return null;
+        }
+
         public void CheckForWinCase()
         {
             for (int i = 0; i < _objectiveIndexList.Count; ++i)
             {
-                //Debug.Log("_emptySpacesIndexList[0] = " + _emptySpacesIndexList[0] +
-                //    "_emptySpacesIndexList[1] = " + _emptySpacesIndexList[1] +
-                //    "_emptySpacesIndexList[2] = " + _emptySpacesIndexList[2] +
-                //    " | _objectiveIndexList = " + _objectiveIndexList[i]);
                 if (!_emptySpacesIndexList.Contains(_objectiveIndexList[i]))
                 {
                     return;
@@ -217,26 +223,7 @@ namespace MiniGame
             return -1;
         }
         
-        IEnumerator CardMovementSlide(int cardID, int offset, float waitTime = 2f)
-        {
-            Debug.Log("Starting slide coroutine for card " + cardID);
-            slideCompleted = false;
-            float elapsedTime = 0;
-            Vector3 currentPos = _cardObjectList[cardID].transform.localPosition;
-            Vector3 finalPos = _cardObjectList[cardID + offset].transform.localPosition;
-            while (elapsedTime < waitTime)
-            {
-                _cardObjectList[cardID].transform.localPosition = Vector3.Lerp(currentPos, 
-                    finalPos, elapsedTime / waitTime);
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
-            slideCompleted = true;
-            _cardObjectList[cardID].transform.localPosition = finalPos;
-            Debug.Log("Slide completed for card " + cardID);
-
-            yield return null;
-        }
+        
     }
 }
 
