@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using Items;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
@@ -9,11 +11,10 @@ namespace Inspect.Views
     {
         // [SerializeField] private bool overrideCameraPriority;
         // [ConditionalField(nameof(overrideCameraPriority))] [SerializeField] private int cameraPriority;
-        [SerializeField] private TextAnimatorUpdate textAnimator;
+        [SerializeField] private ItemTextAnimator itemTextAnimator;
 
-        [TextArea(3, 5)]
-        [SerializeField] private string dialogueToDisplay;
-
+        private Action<bool> _currentCallback;
+        private IItem _currentItem;
         private InputSystemUIInputModule _uiInputModule;
         private bool _isShowing;
 
@@ -21,6 +22,12 @@ namespace Inspect.Views
         {
             base.Initialize();
             _uiInputModule = EventSystem.current.GetComponent<InputSystemUIInputModule>();
+        }
+
+        public void SetupPickup(IItem item, Action<bool> callback)
+        {
+            _currentCallback = callback;
+            _currentItem = item;
         }
 
         private void Update()
@@ -33,8 +40,9 @@ namespace Inspect.Views
             if (_uiInputModule.submit.action.WasPressedThisFrame() ||
                 _uiInputModule.leftClick.action.WasPressedThisFrame())
             {
-                if (textAnimator.SkipAnimation())
+                if (itemTextAnimator.SkipAnimation())
                 {
+                    _currentCallback?.Invoke(true);
                     ViewManager.Instance.Back();
                 }
             }
@@ -42,8 +50,12 @@ namespace Inspect.Views
 
         protected override IEnumerator Show()
         {
-            vCam.gameObject.SetActive(true);
-            textAnimator.StartAnimation(dialogueToDisplay);
+            if (vCam != null)
+            {
+                vCam.gameObject.SetActive(true);
+            }
+
+            itemTextAnimator.StartAnimation(_currentItem.GetItemInfo());
             // Wait one frame so input does not trigger right away.
             yield return null;
             _isShowing = true;
@@ -51,8 +63,12 @@ namespace Inspect.Views
 
         protected override IEnumerator Hide()
         {
-            vCam.gameObject.SetActive(false);
-            textAnimator.StopAnimation();
+            if (vCam != null)
+            {
+                vCam.gameObject.SetActive(false);
+            }
+
+            itemTextAnimator.StopAnimation();
             _isShowing = false;
             yield break;
         }

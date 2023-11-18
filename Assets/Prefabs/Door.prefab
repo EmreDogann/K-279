@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 2687446678122933772}
   - component: {fileID: 7626391866964606603}
   - component: {fileID: 2723921302126863670}
-  - component: {fileID: 1499240339100412114}
+  - component: {fileID: 6141634133354568825}
   m_Layer: 7
   m_Name: Door
   m_TagString: Untagged
@@ -149,9 +149,7 @@ MonoBehaviour:
   openEasing: 4
   expectedItem: {fileID: 11400000, guid: 5ddb81db6ec1c7c42be612cf86e00016, type: 2}
   isInspectable: 0
-  missingHandleInspectView: {fileID: 0}
-  inspectVirtualCamera: {fileID: 1459622638176061924}
-  inspectMessage: 
+  missingHandleInspectViewTrigger: {fileID: 6141634133354568825}
   isLocked: 0
 --- !u!65 &7626391866964606603
 BoxCollider:
@@ -191,7 +189,7 @@ MonoBehaviour:
   <IsInteractable>k__BackingField: 1
   <IsHoverable>k__BackingField: 0
   door: {fileID: 2687446678122933772}
---- !u!114 &1499240339100412114
+--- !u!114 &6141634133354568825
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,14 +198,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3567890794709096586}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c645ea06658547cd87740bc582ffd6aa, type: 3}
+  m_Script: {fileID: 11500000, guid: d4db900963ec4fc48e1fe56390597f28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   vCam: {fileID: 1459622638176061924}
-  textAnimator: {fileID: 0}
-  dialogueToDisplay: 'The Valve is missing.
+  dialogueToDisplay: 'The valve is missing.
 
-    I cannot open the door...'
+    I cannot open this door...'
 --- !u!1 &5261271606054929343
 GameObject:
   m_ObjectHideFlags: 0

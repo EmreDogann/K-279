@@ -41,18 +41,6 @@ namespace Inspect
             }
         }
 
-        private void ShowCursor()
-        {
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = true;
-        }
-
-        private void HideCursor()
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-
         public bool IsOnlyView()
         {
             return Instance._history.Count == 0;

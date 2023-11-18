@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Inspect
 {
-    public class ViewTrigger : MonoBehaviour
+    public class ViewTriggerDebug : MonoBehaviour
     {
         [SerializeField] private View view;
 

@@ -19,7 +19,10 @@ namespace Inspect.Views
 
         public virtual void Initialize()
         {
-            vCam.gameObject.SetActive(false);
+            if (vCam != null)
+            {
+                vCam.gameObject.SetActive(false);
+            }
         }
 
         public void OpenView()

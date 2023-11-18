@@ -3,7 +3,7 @@ using Audio;
 using Cinemachine;
 using DG.Tweening;
 using Inspect;
-using Inspect.Views;
+using Inspect.Views.Triggers;
 using Items;
 using MyBox;
 using Rooms;
@@ -39,9 +39,7 @@ namespace Interactables
         [Separator("Inspection")]
         [SerializeField] private ItemInfoSO expectedItem;
         [SerializeField] private bool isInspectable;
-        [SerializeField] private View missingHandleInspectView;
-        [SerializeField] private CinemachineVirtualCamera inspectVirtualCamera;
-        [SerializeField] private string inspectMessage;
+        [SerializeField] private ViewTrigger missingHandleInspectViewTrigger;
 
         [Separator("Door State")]
         [ReadOnly] [SerializeField] private bool isLocked;
@@ -60,8 +58,6 @@ namespace Interactables
             _child = transform.GetChild(0);
             _startingRotation = _child.localEulerAngles;
             _valveStartingRotation = turningValve.localEulerAngles;
-
-            inspectVirtualCamera.gameObject.SetActive(false);
 
             _doorOpenSequence = DOTween.Sequence();
             _doorOpenSequence
@@ -101,7 +97,8 @@ namespace Interactables
         {
             if (_handleRemoved)
             {
-                ViewManager.Instance.Show(missingHandleInspectView);
+                missingHandleInspectViewTrigger.TriggerView();
+                // ViewManager.Instance.Show(missingHandleInspectViewTrigger);
                 return;
             }
 
@@ -154,12 +151,12 @@ namespace Interactables
 
         public CinemachineVirtualCamera GetCameraAngle()
         {
-            return inspectVirtualCamera;
+            return null;
         }
 
         public string GetMessage()
         {
-            return inspectMessage;
+            return "";
         }
 
         public bool IsInspectable()

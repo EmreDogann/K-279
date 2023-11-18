@@ -1,4 +1,5 @@
-﻿using Items;
+﻿using Events;
+using Items;
 using UnityEngine;
 
 namespace Interaction.Interactables
@@ -7,6 +8,7 @@ namespace Interaction.Interactables
     public class ItemInteractable : InteractableBase
     {
         [SerializeField] private Item item;
+        [SerializeField] private ItemEventChannelSO itemInteractedEvent;
 
         private void Awake()
         {
@@ -23,6 +25,7 @@ namespace Interaction.Interactables
         public override void OnStartInteract()
         {
             base.OnStartInteract();
+            itemInteractedEvent.Raise(item);
             // item.OpenDoor();
         }
 

@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using Cinemachine;
+using Inspect.Views.Triggers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
@@ -10,9 +12,6 @@ namespace Inspect.Views
         // [SerializeField] private bool overrideCameraPriority;
         // [ConditionalField(nameof(overrideCameraPriority))] [SerializeField] private int cameraPriority;
         [SerializeField] private TextAnimatorUpdate textAnimator;
-
-        [TextArea(3, 5)]
-        [SerializeField] private string dialogueToDisplay;
 
         private InputSystemUIInputModule _uiInputModule;
         private bool _isShowing;
@@ -40,10 +39,31 @@ namespace Inspect.Views
             }
         }
 
+        private void OnEnable()
+        {
+            DialogueViewTrigger.TriggerDialogueView += OnTriggerDialogueView;
+        }
+
+        private void OnDisable()
+        {
+            DialogueViewTrigger.TriggerDialogueView -= OnTriggerDialogueView;
+        }
+
+        private void OnTriggerDialogueView(CinemachineVirtualCamera vCamNew, string messageToDisplay)
+        {
+            vCam = vCamNew;
+            textAnimator.SetMessage(messageToDisplay);
+            ViewManager.Instance.Show(this);
+        }
+
         protected override IEnumerator Show()
         {
-            vCam.gameObject.SetActive(true);
-            textAnimator.StartAnimation(dialogueToDisplay);
+            if (vCam != null)
+            {
+                vCam.gameObject.SetActive(true);
+            }
+
+            textAnimator.StartAnimation();
             // Wait one frame so input does not trigger right away.
             yield return null;
             _isShowing = true;
@@ -51,7 +71,11 @@ namespace Inspect.Views
 
         protected override IEnumerator Hide()
         {
-            vCam.gameObject.SetActive(false);
+            if (vCam != null)
+            {
+                vCam.gameObject.SetActive(false);
+            }
+
             textAnimator.StopAnimation();
             _isShowing = false;
             yield break;

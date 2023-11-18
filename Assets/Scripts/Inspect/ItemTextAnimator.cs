@@ -1,21 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Events;
+using Items;
+using Lights;
 using MyBox;
+using ScriptableObjects;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Inspect
 {
     // A variant of 'TextAnimator' which uses the Update() method rather than coroutines.
-    public class TextAnimatorUpdate : MonoBehaviour
+    public class ItemTextAnimator : MonoBehaviour
     {
-        [SerializeField] private Camera playerCam;
-        [SerializeField] private Camera inspectCam;
-
+        [SerializeField] private Image itemImage;
         [SerializeField] private TextMeshProUGUI textMesh;
 
         [Separator("Animation")]
+        [SerializeField] private float fadeDuration;
         [Tooltip("Characters to show per second")]
         [SerializeField] private float textAnimationSpeed;
         [Tooltip("Character to show per second when reaching ellipsis")]
@@ -36,15 +39,18 @@ namespace Inspect
 
         private readonly char[] _punctuation = { ',', '.', '-', '?', '!' };
 
+        private IItem _currentItem;
+
         private float _currentTime;
         private float _waitTime;
 
         private void Start()
         {
-            if (inspectCam == null)
-            {
-                Debug.LogError("Inspect cam must be assigned!");
-            }
+            textMesh.gameObject.SetActive(true);
+            textMesh.gameObject.SetActive(false);
+
+            itemImage.gameObject.SetActive(true);
+            itemImage.gameObject.SetActive(false);
         }
 
         public void SetMessage(string message)
@@ -54,19 +60,19 @@ namespace Inspect
             _messageIndex = -1;
         }
 
-        public void StartAnimation(string text = null)
+        public void StartAnimation(ItemInfoSO itemInfo)
         {
             pauseEvent.Raise(true);
-            ToggleInspectCam(true);
 
             textMesh.gameObject.SetActive(true);
 
-            if (text != null)
-            {
-                SetMessage(text);
-            }
+            itemImage.gameObject.SetActive(true);
+            itemImage.sprite = itemInfo.inspectImage;
+
+            SetMessage($"Picked up <b>{itemInfo.itemName}</b>");
 
             NextMessage();
+            LightManager.Instance.ToggleLights(false, fadeDuration);
         }
 
         public bool SkipAnimation()
@@ -91,18 +97,14 @@ namespace Inspect
 
         public void StopAnimation()
         {
-            ToggleInspectCam(false);
-
             textMesh.text = string.Empty;
             textMesh.gameObject.SetActive(false);
 
-            pauseEvent.Raise(false);
-        }
+            itemImage.gameObject.SetActive(false);
 
-        private void ToggleInspectCam(bool active)
-        {
-            playerCam.gameObject.SetActive(!active);
-            inspectCam.gameObject.SetActive(active);
+            LightManager.Instance.ToggleLights(true, fadeDuration);
+
+            pauseEvent.Raise(false);
         }
 
         private void NextMessage()

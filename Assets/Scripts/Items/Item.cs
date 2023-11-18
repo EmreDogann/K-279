@@ -9,8 +9,8 @@ namespace Items
 
         private bool _isAvailable;
 
-        public event ConsumeHandler OnConsumed;
-        event ConsumeHandler IItem.OnConsumed
+        public event ItemHandler OnConsumed;
+        event ItemHandler IItem.OnConsumed
         {
             add => OnConsumed += value;
             remove => OnConsumed -= value;

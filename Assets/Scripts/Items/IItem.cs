@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Items
 {
-    public delegate void ConsumeHandler(IItem item);
+    public delegate void ItemHandler(IItem item);
 
     public interface IItem
     {
-        event ConsumeHandler OnConsumed;
+        event ItemHandler OnConsumed;
 
         public ItemInfoSO GetItemInfo();
         public float GetResourceQuantity();

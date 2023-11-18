@@ -53,6 +53,8 @@ MonoBehaviour:
   <IsInteractable>k__BackingField: 0
   <IsHoverable>k__BackingField: 0
   item: {fileID: 8292517588833917477}
+  itemInteractedEvent: {fileID: 11400000, guid: cbbfe4b158e314744a547fd12e46db87,
+    type: 2}
 --- !u!114 &8292517588833917477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +185,7 @@ GameObject:
   - component: {fileID: 8268171911209262641}
   - component: {fileID: 5496305641066792769}
   - component: {fileID: 1850445001630841457}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
