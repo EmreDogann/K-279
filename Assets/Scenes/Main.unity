@@ -674,7 +674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f453f694addf4275988fac205bc91968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BoundingShape2D: {fileID: 1128976651}
+  m_BoundingShape2D: {fileID: 0}
   m_Damping: 0
   m_MaxWindowSize: 0
 --- !u!114 &147622453
@@ -1107,7 +1107,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 172.36299, y: 6.57759, z: -19.1}
+  m_LocalPosition: {x: 174.58525, y: 6.5775948, z: -19.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1409,6 +1409,58 @@ Transform:
   m_Children: []
   m_Father: {fileID: 295559528}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &431313528 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5521708913095295725, guid: 2478209f45b2a6e45aff0975ea873352,
+    type: 3}
+  m_PrefabInstance: {fileID: 100160254207592782}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &431313531 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3624608388718716694, guid: 2478209f45b2a6e45aff0975ea873352,
+    type: 3}
+  m_PrefabInstance: {fileID: 100160254207592782}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 431313528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed91bc91bf6e4c80955d9309e20fc00e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &431313534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 431313528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bfe9d84caf34da1963c7e40a9c908d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HoldDuration>k__BackingField: 0
+  <HoldInteract>k__BackingField: 0
+  <IsInteractable>k__BackingField: 1
+  <IsHoverable>k__BackingField: 1
+  fuseSlot: {fileID: 431313531}
+--- !u!114 &431313535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 431313528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4db900963ec4fc48e1fe56390597f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vCam: {fileID: 1879145406}
+  dialogueToDisplay: 'The fuse is missing...
+
+    Need to find one to turn the power
+    back on.'
 --- !u!1 &476694462
 GameObject:
   m_ObjectHideFlags: 0
@@ -3372,12 +3424,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1312adb402299408289bcc142dfeba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!66 &1128976651 stripped
-CompositeCollider2D:
-  m_CorrespondingSourceObject: {fileID: 8034907003481865277, guid: 2478209f45b2a6e45aff0975ea873352,
-    type: 3}
-  m_PrefabInstance: {fileID: 100160254207592782}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1154501149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5246,7 +5292,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1101833160182211789, guid: 856ae4877cfce244aa2eecbb0d4e270b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -5682,6 +5729,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 295559528}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1879145406 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3185232511656141039, guid: 2478209f45b2a6e45aff0975ea873352,
+    type: 3}
+  m_PrefabInstance: {fileID: 100160254207592782}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1880456539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6431,10 +6490,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3624608388718716694, guid: 2478209f45b2a6e45aff0975ea873352,
+        type: 3}
+      propertyPath: missingFuseViewTrigger
+      value: 
+      objectReference: {fileID: 431313535}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5521708913095295725, guid: 2478209f45b2a6e45aff0975ea873352,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 431313534}
+    - targetCorrespondingSourceObject: {fileID: 5521708913095295725, guid: 2478209f45b2a6e45aff0975ea873352,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 431313535}
   m_SourcePrefab: {fileID: 100100000, guid: 2478209f45b2a6e45aff0975ea873352, type: 3}
 --- !u!4 &123134348251011630
 Transform:
@@ -8121,7 +8193,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 198236687736752655, guid: 6847508ad3b0c924c9c207e981d9e4c6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

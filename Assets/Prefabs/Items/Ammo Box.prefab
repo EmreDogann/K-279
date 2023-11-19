@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 4929259812571253960}
   - component: {fileID: 4838877940051921743}
   - component: {fileID: 6725029445455102088}
-  - component: {fileID: 1101833160182211789}
+  - component: {fileID: 6451521727422267842}
   m_Layer: 7
   m_Name: Ammo Box
   m_TagString: Untagged
@@ -153,7 +153,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.2561283, y: 1, z: 2.2352624}
   m_Center: {x: 0.03979218, y: 0, z: 0.091594934}
---- !u!114 &1101833160182211789
+--- !u!114 &6451521727422267842
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -162,10 +162,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 3229440970882805500}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 880c5aa26a3b463e8c5bae591bf7099a, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c077c13d0704a64a3a74e583d32d861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInteractable: 1
+  <HoldDuration>k__BackingField: 0
+  <HoldInteract>k__BackingField: 0
+  <IsInteractable>k__BackingField: 1
+  <IsHoverable>k__BackingField: 1
+  item: {fileID: 4838877940051921743}
+  itemInteractedEvent: {fileID: 11400000, guid: cbbfe4b158e314744a547fd12e46db87,
+    type: 2}
 --- !u!1 &3553252947934711763
 GameObject:
   m_ObjectHideFlags: 0
