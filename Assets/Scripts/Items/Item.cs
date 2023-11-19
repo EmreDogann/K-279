@@ -26,16 +26,6 @@ namespace Items
             return itemInfo;
         }
 
-        public float GetResourceQuantity()
-        {
-            return itemInfo.resourceQuantity;
-        }
-
-        public Transform GetTransform()
-        {
-            return transform;
-        }
-
         public void Pickup()
         {
             gameObject.SetActive(false);

@@ -1,4 +1,5 @@
 ﻿using System;
+using AYellowpaper;
 using Controllers;
 using Events;
 using UnityEngine;
@@ -10,6 +11,8 @@ namespace Interaction
     public class MouseInteraction : MonoBehaviour
     {
         [SerializeField] private InputController inputHandler;
+        [SerializeField] private InterfaceReference<IInteractor, MonoBehaviour> interactionHandler;
+
         [SerializeField] private MouseCursorGraphic cursorGraphic;
 
         [Tooltip("The distance from the character that the player can interact with in world space units.")]
@@ -19,6 +22,9 @@ namespace Interaction
         [SerializeField] private bool blockedByUI;
         [SerializeField] private LayerMask mask;
 
+        [SerializeField] private BoolEventListener _gamePausedEvent;
+        [SerializeField] private BoolEventListener _interactionBlockerEvent;
+
         private InteractableBase _hoverTarget;
         private InteractableBase _activeTarget;
         private RaycastHit _hit;
@@ -26,7 +32,7 @@ namespace Interaction
         private bool _isInRange = true;
 
         private bool _isPaused;
-        private BoolEventListener _onGamePausedEvent;
+        private bool _isInteractionBlocked;
 
         public static Action<InteractableBase> OnInteract;
         public static Action<InteractableBase> OnHover;
@@ -36,22 +42,48 @@ namespace Interaction
         {
             _mainCamera = Camera.main;
 
-            _onGamePausedEvent = GetComponent<BoolEventListener>();
+            if (interactionHandler.Value == null)
+            {
+                interactionHandler.Value = GetComponent<IInteractor>();
+            }
+        }
+
+        private void Reset()
+        {
+            interactionHandler.Value = GetComponent<IInteractor>();
         }
 
         private void OnEnable()
         {
-            _onGamePausedEvent.Response.AddListener(OnGamePause);
+            _gamePausedEvent.Response.AddListener(OnGamePause);
+            _interactionBlockerEvent.Response.AddListener(OnInteractionBlocker);
         }
 
         private void OnDisable()
         {
-            _onGamePausedEvent.Response.RemoveListener(OnGamePause);
+            _gamePausedEvent.Response.RemoveListener(OnGamePause);
+            _interactionBlockerEvent.Response.RemoveListener(OnInteractionBlocker);
         }
+
+        private void OnGamePause(bool isPaused)
+        {
+            _isPaused = isPaused;
+        }
+
+        private void OnInteractionBlocker(bool shouldBlockInteractions)
+        {
+            _isInteractionBlocked = shouldBlockInteractions;
+        }
+
+        private bool IsBlockedByUI()
+        {
+            return blockedByUI && EventSystem.current.IsPointerOverGameObject();
+        }
+
 
         private void Update()
         {
-            if (!_isPaused && IsInInteractionRange())
+            if (!_isPaused && IsInInteractionRange() && !_isInteractionBlocked)
             {
                 CheckForInteraction();
             }
@@ -107,14 +139,14 @@ namespace Interaction
                     return null;
                 }
 
-                _activeTarget.OnInteract();
+                _activeTarget.OnInteract(interactionHandler.Value);
             }
             else
             {
                 if (inputHandler.IsInteractPressed())
                 {
                     _activeTarget = _hoverTarget;
-                    _activeTarget?.OnStartInteract();
+                    _activeTarget?.OnStartInteract(interactionHandler.Value);
 
                     OnInteract?.Invoke(_activeTarget);
 
@@ -127,7 +159,7 @@ namespace Interaction
 
         private void StopInteraction()
         {
-            _activeTarget.OnEndInteract();
+            _activeTarget.OnEndInteract(interactionHandler.Value);
             _activeTarget = null;
         }
 
@@ -168,26 +200,16 @@ namespace Interaction
 
             if (_hoverTarget != null && _hoverTarget.IsHoverable)
             {
-                _hoverTarget.OnEndHover();
+                _hoverTarget.OnEndHover(interactionHandler.Value);
             }
 
             if (newTarget != null && newTarget.IsHoverable)
             {
-                newTarget.OnStartHover();
+                newTarget.OnStartHover(interactionHandler.Value);
             }
 
             OnHover?.Invoke(newTarget);
             _hoverTarget = newTarget;
-        }
-
-        private void OnGamePause(bool isPaused)
-        {
-            _isPaused = isPaused;
-        }
-
-        private bool IsBlockedByUI()
-        {
-            return blockedByUI && EventSystem.current.IsPointerOverGameObject();
         }
     }
 }

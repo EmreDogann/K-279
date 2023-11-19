@@ -9,8 +9,6 @@ namespace Inspect.Views
 {
     public class PickupView : View
     {
-        // [SerializeField] private bool overrideCameraPriority;
-        // [ConditionalField(nameof(overrideCameraPriority))] [SerializeField] private int cameraPriority;
         [SerializeField] private ItemTextAnimator itemTextAnimator;
 
         private Action<bool> _currentCallback;

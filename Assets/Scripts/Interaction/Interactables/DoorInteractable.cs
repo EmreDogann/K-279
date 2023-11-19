@@ -18,18 +18,23 @@ namespace Interaction.Interactables
             door = GetComponent<Door>();
         }
 
-        public override void OnStartHover() {}
+        public override void OnStartHover(IInteractor interactor) {}
 
-        public override void OnStartInteract()
+        public override void OnStartInteract(IInteractor interactor)
         {
-            base.OnStartInteract();
-            door.OpenDoor();
+            base.OnStartInteract(interactor);
+            switch (interactor.ResolveInteraction(door))
+            {
+                case ItemUserInteractionType.Default:
+                    door.OpenDoor();
+                    break;
+            }
         }
 
-        public override void OnInteract() {}
+        public override void OnInteract(IInteractor interactor) {}
 
-        public override void OnEndInteract() {}
+        public override void OnEndInteract(IInteractor interactor) {}
 
-        public override void OnEndHover() {}
+        public override void OnEndHover(IInteractor interactor) {}
     }
 }

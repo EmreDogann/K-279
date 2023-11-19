@@ -2,7 +2,7 @@ using System;
 using Audio;
 using Cinemachine;
 using DG.Tweening;
-using Inspect;
+using Events;
 using Inspect.Views.Triggers;
 using Items;
 using MyBox;
@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Interactables
 {
-    public class Door : MonoBehaviour, IInspectable, IItemUser
+    public class Door : MonoBehaviour, IItemUser
     {
         [Separator("Room Settings")]
         [SerializeField] private RoomType connectingRoom;
@@ -39,10 +39,15 @@ namespace Interactables
         [Separator("Inspection")]
         [SerializeField] private ItemInfoSO expectedItem;
         [SerializeField] private bool isInspectable;
-        [SerializeField] private ViewTrigger missingHandleInspectViewTrigger;
+        [SerializeField] private CinemachineVirtualCamera doorCameraAngle;
+        [SerializeField] private ViewTrigger missingHandleViewTrigger;
+        [SerializeField] private ViewTrigger lockedDoorViewTrigger;
 
         [Separator("Door State")]
         [ReadOnly] [SerializeField] private bool isLocked;
+
+        [Separator("Events")]
+        [SerializeField] private BoolEventChannelSO interactionBlocker;
 
         private bool _handleRemoved;
         private Vector3 _valveStartingRotation;
@@ -70,13 +75,15 @@ namespace Interactables
                     .SetEase(openEasing)
                     .OnComplete(() =>
                     {
-                        OnRoomSwitching?.Invoke(connectingRoom, -1.0f, () => { _doorOpenSequence.SmoothRewind(); });
+                        OnRoomSwitching?.Invoke(connectingRoom, -1.0f, () =>
+                        {
+                            _doorOpenSequence.SmoothRewind();
+                            interactionBlocker?.Raise(false);
+                        });
                     }))
                 .SetAutoKill(false)
                 .Pause();
         }
-
-        private void OnDisable() {}
 
         public RoomType GetConnectingRoom()
         {
@@ -97,7 +104,7 @@ namespace Interactables
         {
             if (_handleRemoved)
             {
-                missingHandleInspectViewTrigger.TriggerView();
+                missingHandleViewTrigger.TriggerView();
                 // ViewManager.Instance.Show(missingHandleInspectViewTrigger);
                 return;
             }
@@ -114,6 +121,7 @@ namespace Interactables
                     return;
                 }
 
+                interactionBlocker?.Raise(true);
                 turningValueAudio.Play(transform.position);
                 _doorOpenSequence.PlayForward();
             }
@@ -151,7 +159,7 @@ namespace Interactables
 
         public CinemachineVirtualCamera GetCameraAngle()
         {
-            return null;
+            return doorCameraAngle;
         }
 
         public string GetMessage()
@@ -173,11 +181,6 @@ namespace Interactables
         public bool HasItem()
         {
             return false;
-        }
-
-        public bool ShouldPlayInspectAnimation()
-        {
-            return true;
         }
 
         public bool TryItem(IItem item)

@@ -1,5 +1,4 @@
 ﻿using ScriptableObjects;
-using UnityEngine;
 
 namespace Items
 {
@@ -10,8 +9,6 @@ namespace Items
         event ItemHandler OnConsumed;
 
         public ItemInfoSO GetItemInfo();
-        public float GetResourceQuantity();
-        public Transform GetTransform();
         public void Pickup();
         public void Consume();
     }

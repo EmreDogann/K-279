@@ -19,28 +19,28 @@ namespace Interaction
 
         public event Action OnInteracted;
 
-        public virtual void OnStartHover()
+        public virtual void OnStartHover(IInteractor interactor)
         {
             // Debug.Log("Start Hovered: " + gameObject.name);
         }
 
-        public virtual void OnStartInteract()
+        public virtual void OnStartInteract(IInteractor interactor)
         {
             OnInteracted?.Invoke();
             // Debug.Log("Start Interacted: " + gameObject.name);
         }
 
-        public virtual void OnInteract()
+        public virtual void OnInteract(IInteractor interactor)
         {
             // Debug.Log("Interacted: " + gameObject.name);
         }
 
-        public virtual void OnEndInteract()
+        public virtual void OnEndInteract(IInteractor interactor)
         {
             // Debug.Log("End Interacted: " + gameObject.name);
         }
 
-        public virtual void OnEndHover()
+        public virtual void OnEndHover(IInteractor interactor)
         {
             // Debug.Log("End Hovered: " + gameObject.name);
         }

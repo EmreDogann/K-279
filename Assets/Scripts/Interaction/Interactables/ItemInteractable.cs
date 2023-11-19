@@ -20,19 +20,18 @@ namespace Interaction.Interactables
             item = GetComponent<Item>();
         }
 
-        public override void OnStartHover() {}
+        public override void OnStartHover(IInteractor interactor) {}
 
-        public override void OnStartInteract()
+        public override void OnStartInteract(IInteractor interactor)
         {
-            base.OnStartInteract();
+            base.OnStartInteract(interactor);
             itemInteractedEvent.Raise(item);
-            // item.OpenDoor();
         }
 
-        public override void OnInteract() {}
+        public override void OnInteract(IInteractor interactor) {}
 
-        public override void OnEndInteract() {}
+        public override void OnEndInteract(IInteractor interactor) {}
 
-        public override void OnEndHover() {}
+        public override void OnEndHover(IInteractor interactor) {}
     }
 }

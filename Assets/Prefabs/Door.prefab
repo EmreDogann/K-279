@@ -149,8 +149,11 @@ MonoBehaviour:
   openEasing: 4
   expectedItem: {fileID: 11400000, guid: 5ddb81db6ec1c7c42be612cf86e00016, type: 2}
   isInspectable: 0
-  missingHandleInspectViewTrigger: {fileID: 6141634133354568825}
+  doorCameraAngle: {fileID: 1459622638176061924}
+  missingHandleViewTrigger: {fileID: 6141634133354568825}
+  lockedDoorViewTrigger: {fileID: 0}
   isLocked: 0
+  interactionBlocker: {fileID: 11400000, guid: aff584daae737d641a53234227844f2a, type: 2}
 --- !u!65 &7626391866964606603
 BoxCollider:
   m_ObjectHideFlags: 0

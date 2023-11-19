@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Events;
 using Inspect.Views;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ namespace Inspect
 {
     public class ViewManager : MonoBehaviour
     {
+        [SerializeField] private BoolEventChannelSO viewInteractionBlocker;
+
         private readonly Stack<View> _history = new Stack<View>();
 
         private View _currentView;
@@ -106,6 +109,11 @@ namespace Inspect
             view.Open(false);
 
             Instance._currentView = view;
+
+            if (Instance._currentView.CanBlockInteractions())
+            {
+                viewInteractionBlocker?.Raise(true);
+            }
         }
 
         public void Back()
@@ -113,6 +121,12 @@ namespace Inspect
             if (IsOnlyView())
             {
                 Instance._currentView.Close();
+
+                if (Instance._currentView.CanBlockInteractions())
+                {
+                    viewInteractionBlocker?.Raise(false);
+                }
+
                 Instance._currentView = null;
                 return;
             }
@@ -122,6 +136,11 @@ namespace Inspect
             Instance._currentView = Instance._history.Pop();
 
             Instance._currentView.Open(true);
+
+            if (Instance._currentView.CanBlockInteractions())
+            {
+                viewInteractionBlocker?.Raise(true);
+            }
         }
     }
 }

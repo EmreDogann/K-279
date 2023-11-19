@@ -7,6 +7,8 @@ namespace Inspect.Views
 {
     public class View : MonoBehaviour
     {
+        [SerializeField] private bool blockInteractions;
+
         [SerializeField] protected CinemachineVirtualCamera vCam;
         // [SerializeField] private bool overrideCameraPriority;
         // [ConditionalField(nameof(overrideCameraPriority))] [SerializeField] private int cameraPriority;
@@ -23,6 +25,11 @@ namespace Inspect.Views
             {
                 vCam.gameObject.SetActive(false);
             }
+        }
+
+        public bool CanBlockInteractions()
+        {
+            return blockInteractions;
         }
 
         public void OpenView()

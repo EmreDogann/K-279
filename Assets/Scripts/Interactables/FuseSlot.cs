@@ -1,6 +1,5 @@
 using System;
 using Cinemachine;
-using Inspect;
 using Items;
 using MyBox;
 using ScriptableObjects;
@@ -8,7 +7,7 @@ using UnityEngine;
 
 namespace Interactables
 {
-    public class FuseSlot : MonoBehaviour, IInteractableObjects, IInspectable, IItemUser
+    public class FuseSlot : MonoBehaviour, IInteractableObjects, IItemUser
     {
         [field: Separator("Interaction")]
         [field: SerializeField] public bool Interactable { get; set; } = true;
@@ -72,11 +71,6 @@ namespace Interactables
         public bool HasItem()
         {
             return _fuseItem != null;
-        }
-
-        public bool ShouldPlayInspectAnimation()
-        {
-            return true;
         }
 
         public bool TryItem(IItem item)

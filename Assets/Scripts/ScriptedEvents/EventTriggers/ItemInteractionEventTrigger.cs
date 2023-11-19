@@ -1,6 +1,5 @@
 ﻿using System;
 using Cinemachine;
-using Inspect;
 using Interactables;
 using Items;
 using MyBox;
@@ -9,7 +8,7 @@ using UnityEngine;
 
 namespace ScriptedEvents.EventTriggers
 {
-    public class ItemInteractionEventTrigger : MonoBehaviour, IEventTrigger, IInteractableObjects, IInspectable,
+    public class ItemInteractionEventTrigger : MonoBehaviour, IEventTrigger, IInteractableObjects,
         IItemUser
     {
         [Separator("Optional Values")]
