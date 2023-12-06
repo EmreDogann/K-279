@@ -4,6 +4,7 @@ using Capabilities.Movement;
 using Cinemachine;
 using Controllers;
 using DG.Tweening;
+using EnemyAI;
 using Events;
 using GameEntities;
 using Items;
@@ -370,6 +371,7 @@ namespace Capabilities
 
             //Done playing!
             FireGunshot();
+            AudioAlert.Trigger(AudioAlertType.Dangerous, transform);
             _shotCoolDownTimer = 0;
         }
     }
