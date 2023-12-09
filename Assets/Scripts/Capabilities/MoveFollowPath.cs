@@ -172,5 +172,15 @@ namespace Capabilities
             _body.velocity = Vector3.zero;
             _desiredVelocity = Vector3.zero;
         }
+
+        public SplineContainer GetPlayerPath()
+        {
+            return _path;
+        }
+
+        public int GetCurrentPathIndex()
+        {
+            return _currentPathIndex;
+        }
     }
 }
