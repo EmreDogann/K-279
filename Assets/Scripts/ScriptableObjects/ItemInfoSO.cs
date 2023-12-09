@@ -7,6 +7,5 @@ namespace ScriptableObjects
     {
         public Sprite inspectImage;
         public string itemName;
-        public float resourceQuantity;
     }
 }

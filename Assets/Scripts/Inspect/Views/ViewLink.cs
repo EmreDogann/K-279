@@ -16,7 +16,7 @@ namespace Inspect.Views
                 view.OnViewClose += ViewClosed;
             }
 
-            UIManager.OnViewSwap += ViewShown;
+            ViewManager.OnViewSwap += ViewShown;
         }
 
         public void OnDestroy()
@@ -27,7 +27,7 @@ namespace Inspect.Views
                 view.OnViewClose -= ViewClosed;
             }
 
-            UIManager.OnViewSwap -= ViewShown;
+            ViewManager.OnViewSwap -= ViewShown;
         }
 
         public void ViewOpened(View viewToOpen)
@@ -40,7 +40,7 @@ namespace Inspect.Views
 
         public void ViewClosed(View viewToClose)
         {
-            if (UIManager.Instance.IsOnlyView())
+            if (ViewManager.Instance.IsOnlyView())
             {
                 Close();
             }

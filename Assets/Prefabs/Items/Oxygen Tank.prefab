@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7477514277828132604}
   - component: {fileID: 8494495759862493657}
   - component: {fileID: 297104351490745396}
-  - component: {fileID: 198236687736752655}
+  - component: {fileID: 3220766820315546745}
   m_Layer: 7
   m_Name: Oxygen Tank
   m_TagString: Untagged
@@ -68,9 +68,9 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.2561283, y: 1, z: 2.2352624}
-  m_Center: {x: 0.03979218, y: 0, z: 0.091594934}
---- !u!114 &198236687736752655
+  m_Size: {x: 1.4057312, y: 3.5467262, z: 1.3815284}
+  m_Center: {x: 0.01510632, y: 1.7703605, z: -0.008744955}
+--- !u!114 &3220766820315546745
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -79,10 +79,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 3056945305945761950}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 880c5aa26a3b463e8c5bae591bf7099a, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c077c13d0704a64a3a74e583d32d861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInteractable: 1
+  <HoldDuration>k__BackingField: 0
+  <HoldInteract>k__BackingField: 0
+  <IsInteractable>k__BackingField: 1
+  <IsHoverable>k__BackingField: 1
+  item: {fileID: 8494495759862493657}
+  itemInteractedEvent: {fileID: 11400000, guid: cbbfe4b158e314744a547fd12e46db87,
+    type: 2}
 --- !u!1 &7038808231683666766
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +256,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 128
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -298,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ff22a7fd2d64da6ba293de6a23760a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomCanControl: 0
+  roomCanControl: 1
 --- !u!114 &3547485325016105005
 MonoBehaviour:
   m_ObjectHideFlags: 0

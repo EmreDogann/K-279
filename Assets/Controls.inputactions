@@ -51,22 +51,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Click",
+                    "name": "Sprint",
                     "type": "Button",
-                    "id": "05d8efc3-cb1f-44e4-a8ca-7b7c78117180",
+                    "id": "c6b46bd6-9c98-455f-a9c7-33240be4bd01",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "CursorMove",
-                    "type": "Value",
-                    "id": "42ef0d68-9138-4daf-be9b-68b5c6ae7681",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -226,23 +217,12 @@
                 },
                 {
                     "name": "",
-                    "id": "5a1aef7c-37fc-4c05-8ad8-b81b7d31f85e",
-                    "path": "<Mouse>/leftButton",
+                    "id": "b1426aa1-d355-405c-9d3e-a743564a9bea",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Click",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c578addb-7ce3-412c-b34c-73073e79856b",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "CursorMove",
+                    "groups": "",
+                    "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

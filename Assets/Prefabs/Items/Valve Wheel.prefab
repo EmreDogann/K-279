@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2600793160856632658}
-  - component: {fileID: 4513131967636997043}
+  - component: {fileID: 5452765863801143771}
   - component: {fileID: 8292517588833917477}
   - component: {fileID: 2480975044411633114}
   m_Layer: 7
@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2600793160856632658
 Transform:
   m_ObjectHideFlags: 0
@@ -36,7 +36,7 @@ Transform:
   - {fileID: 9075798164470642371}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4513131967636997043
+--- !u!114 &5452765863801143771
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,10 +45,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2336952833739822332}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 880c5aa26a3b463e8c5bae591bf7099a, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c077c13d0704a64a3a74e583d32d861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isInteractable: 1
+  <HoldDuration>k__BackingField: 0
+  <HoldInteract>k__BackingField: 0
+  <IsInteractable>k__BackingField: 0
+  <IsHoverable>k__BackingField: 0
+  item: {fileID: 8292517588833917477}
+  itemInteractedEvent: {fileID: 11400000, guid: cbbfe4b158e314744a547fd12e46db87,
+    type: 2}
 --- !u!114 &8292517588833917477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,7 +185,7 @@ GameObject:
   - component: {fileID: 8268171911209262641}
   - component: {fileID: 5496305641066792769}
   - component: {fileID: 1850445001630841457}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}

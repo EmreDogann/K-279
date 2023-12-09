@@ -3,7 +3,7 @@ Shader "Universal Render Pipeline/Custom/DitherLit"
     Properties
     {
         // Dither Properties
-        [SliderInt] _NoiseType("Noise Type", Int) = 0
+        [IntRange] _NoiseType("Noise Type", Int) = 1
         [NoScaleOffset] _NoiseMap("Noise Map", 2D) = "white" {}
         [Toggle] _UseRampTex("Use Ramp Texture", Int) = 0
         _ColorRampMap("Color Ramp Map", 2D) = "white" {}

@@ -6,11 +6,12 @@ namespace Controllers
     public abstract class InputController : ScriptableObject
     {
         public abstract void SetPlayerInput(PlayerInput playerInput);
-        public abstract Vector2 RetrieveMoveInput(GameObject game);
-        public abstract bool RetrieveShootInput();
-        public abstract bool RetrieveReloadInput();
-        public abstract bool RetrieveInteractPress();
-        public abstract bool RetrieveInteractInput();
-        public abstract bool RetrieveInteractRelease();
+        public abstract Vector2 GetMoveInput(GameObject gameObj);
+        public abstract bool IsSprintPressed();
+        public abstract bool GetShootInput();
+        public abstract bool GetReloadInput();
+        public abstract bool IsInteractPressed();
+        public abstract bool GetInteractInput();
+        public abstract bool IsInteractReleased();
     }
 }

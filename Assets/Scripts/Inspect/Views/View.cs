@@ -1,33 +1,35 @@
 ﻿using System;
 using System.Collections;
-using Inspect.Views.Transitions;
+using Cinemachine;
 using UnityEngine;
 
 namespace Inspect.Views
 {
-    [RequireComponent(typeof(CanvasGroup))]
     public class View : MonoBehaviour
     {
-        [Tooltip("Don't hide this view when other views are added ontop.")]
-        [SerializeField] private bool alwaysShow;
+        [SerializeField] private bool blockInteractions;
 
-        [SerializeField] private MenuTransitionFactory menuTransitionFactory;
-        protected Coroutine _coroutine;
+        [SerializeField] protected CinemachineVirtualCamera vCam;
+        // [SerializeField] private bool overrideCameraPriority;
+        // [ConditionalField(nameof(overrideCameraPriority))] [SerializeField] private int cameraPriority;
 
-        protected bool _isActive;
-        private MenuTransition _menuTransition;
-        public CanvasGroup CanvasGroup { get; private set; }
+        private Coroutine _coroutine;
+        private bool _isActive;
 
         public Action<View> OnViewOpen;
         public Action<View> OnViewClose;
 
         public virtual void Initialize()
         {
-            CanvasGroup = GetComponent<CanvasGroup>();
-            CanvasGroup.blocksRaycasts = false;
+            if (vCam != null)
+            {
+                vCam.gameObject.SetActive(false);
+            }
+        }
 
-            _menuTransition = menuTransitionFactory.CreateTransition();
-            _menuTransition.Initialize(this);
+        public bool CanBlockInteractions()
+        {
+            return blockInteractions;
         }
 
         public void OpenView()
@@ -35,10 +37,9 @@ namespace Inspect.Views
             Open(false);
         }
 
-        internal virtual void Open(bool beingReopened)
+        internal virtual void Open(bool beingReopened, int camPriority = 0)
         {
             _isActive = true;
-            gameObject.SetActive(_isActive);
             OnViewOpen?.Invoke(this);
 
             if (_coroutine != null)
@@ -68,7 +69,7 @@ namespace Inspect.Views
                 StopCoroutine(_coroutine);
             }
 
-            _coroutine = StartCoroutine(Hide());
+            _coroutine = StartCoroutine(WaitForHide());
         }
 
         public bool IsActive()
@@ -76,23 +77,22 @@ namespace Inspect.Views
             return _isActive;
         }
 
-        public bool ShouldAlwaysShow()
-        {
-            return alwaysShow;
-        }
-
         protected virtual IEnumerator Show()
         {
-            yield return _menuTransition.Show(this);
-            CanvasGroup.blocksRaycasts = true;
+            vCam.gameObject.SetActive(true);
+            yield break;
         }
 
         protected virtual IEnumerator Hide()
         {
-            CanvasGroup.blocksRaycasts = false;
-            yield return _menuTransition.Hide(this);
+            vCam.gameObject.SetActive(false);
+            yield break;
+        }
+
+        private IEnumerator WaitForHide()
+        {
+            yield return Hide();
             _isActive = false;
-            gameObject.SetActive(_isActive);
         }
     }
 }

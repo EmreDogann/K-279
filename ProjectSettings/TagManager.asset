@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Interactable
   - RoomBounds
+  - EventSystem
   layers:
   - Default
   - TransparentFX

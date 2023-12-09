@@ -47,6 +47,7 @@ assets/Plugins/Editor/JetBrains/*
 # Comment these out if you wish to commit the asset store tools plugins
 [Aa]ssets/AssetStoreTools*
 AssetStoreTools.meta
+[Aa]ssets/ProPixelizer*
 
 # Visual Studio cache directory
 .vs/

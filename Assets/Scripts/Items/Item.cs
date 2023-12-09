@@ -9,8 +9,8 @@ namespace Items
 
         private bool _isAvailable;
 
-        public event ConsumeHandler OnConsumed;
-        event ConsumeHandler IItem.OnConsumed
+        public event ItemHandler OnConsumed;
+        event ItemHandler IItem.OnConsumed
         {
             add => OnConsumed += value;
             remove => OnConsumed -= value;
@@ -24,16 +24,6 @@ namespace Items
         public ItemInfoSO GetItemInfo()
         {
             return itemInfo;
-        }
-
-        public float GetResourceQuantity()
-        {
-            return itemInfo.resourceQuantity;
-        }
-
-        public Transform GetTransform()
-        {
-            return transform;
         }
 
         public void Pickup()

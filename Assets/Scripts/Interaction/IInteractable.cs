@@ -7,11 +7,11 @@ namespace Interaction
         float MultipleUse { get; }
         bool IsInteractable { get; }
 
-        void OnStartHover();
+        void OnStartHover(IInteractor interactor);
 
-        void OnStartInteract();
-        void OnInteract();
-        void OnEndInteract();
-        void OnEndHover();
+        void OnStartInteract(IInteractor interactor);
+        void OnInteract(IInteractor interactor);
+        void OnEndInteract(IInteractor interactor);
+        void OnEndHover(IInteractor interactor);
     }
 }

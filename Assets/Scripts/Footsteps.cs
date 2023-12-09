@@ -36,6 +36,11 @@ public class Footsteps : MonoBehaviour
         }
     }
 
+    private void OnFootstep()
+    {
+        TriggerFootstep();
+    }
+
     private void TriggerFootstep()
     {
         int hitNum = Physics.SphereCastNonAlloc(transform.position + Vector3.up * (collisionRadius + 0.5f),

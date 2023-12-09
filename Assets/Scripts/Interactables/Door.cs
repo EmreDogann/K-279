@@ -2,7 +2,8 @@ using System;
 using Audio;
 using Cinemachine;
 using DG.Tweening;
-using Inspect;
+using Events;
+using Inspect.Views.Triggers;
 using Items;
 using MyBox;
 using Rooms;
@@ -11,7 +12,7 @@ using UnityEngine;
 
 namespace Interactables
 {
-    public class Door : MonoBehaviour, IInteractableObjects, IInspectable, IItemUser
+    public class Door : MonoBehaviour, IItemUser
     {
         [Separator("Room Settings")]
         [SerializeField] private RoomType connectingRoom;
@@ -38,11 +39,15 @@ namespace Interactables
         [Separator("Inspection")]
         [SerializeField] private ItemInfoSO expectedItem;
         [SerializeField] private bool isInspectable;
-        [SerializeField] private CinemachineVirtualCamera inspectVirtualCamera;
-        [SerializeField] private string inspectMessage;
+        [SerializeField] private CinemachineVirtualCamera doorCameraAngle;
+        [SerializeField] private ViewTrigger missingHandleViewTrigger;
+        [SerializeField] private ViewTrigger lockedDoorViewTrigger;
 
         [Separator("Door State")]
         [ReadOnly] [SerializeField] private bool isLocked;
+
+        [Separator("Events")]
+        [SerializeField] private BoolEventChannelSO interactionBlocker;
 
         private bool _handleRemoved;
         private Vector3 _valveStartingRotation;
@@ -59,8 +64,6 @@ namespace Interactables
             _startingRotation = _child.localEulerAngles;
             _valveStartingRotation = turningValve.localEulerAngles;
 
-            inspectVirtualCamera.gameObject.SetActive(false);
-
             _doorOpenSequence = DOTween.Sequence();
             _doorOpenSequence
                 .Append(turningValve
@@ -72,7 +75,11 @@ namespace Interactables
                     .SetEase(openEasing)
                     .OnComplete(() =>
                     {
-                        OnRoomSwitching?.Invoke(connectingRoom, -1.0f, () => { _doorOpenSequence.SmoothRewind(); });
+                        OnRoomSwitching?.Invoke(connectingRoom, -1.0f, () =>
+                        {
+                            _doorOpenSequence.SmoothRewind();
+                            interactionBlocker?.Raise(false);
+                        });
                     }))
                 .SetAutoKill(false)
                 .Pause();
@@ -93,9 +100,15 @@ namespace Interactables
             closingDoorAudio.Play(transform.position);
         }
 
-
-        public void InteractionStart()
+        public void OpenDoor()
         {
+            if (_handleRemoved)
+            {
+                missingHandleViewTrigger.TriggerView();
+                // ViewManager.Instance.Show(missingHandleInspectViewTrigger);
+                return;
+            }
+
             if (!_doorOpenSequence.IsPlaying())
             {
                 if (isLocked)
@@ -108,19 +121,10 @@ namespace Interactables
                     return;
                 }
 
+                interactionBlocker?.Raise(true);
                 turningValueAudio.Play(transform.position);
                 _doorOpenSequence.PlayForward();
             }
-        }
-
-        public void InteractionContinues() {}
-        public void InteractionEnd() {}
-        public void InteractionAreaEnter() {}
-        public void InteractionAreaExit() {}
-
-        public bool IsInteractable()
-        {
-            return true;
         }
 
         public void SetLocked(bool locked, bool playLockedSound = true)
@@ -155,12 +159,12 @@ namespace Interactables
 
         public CinemachineVirtualCamera GetCameraAngle()
         {
-            return inspectVirtualCamera;
+            return doorCameraAngle;
         }
 
         public string GetMessage()
         {
-            return inspectMessage;
+            return "";
         }
 
         public bool IsInspectable()
@@ -177,11 +181,6 @@ namespace Interactables
         public bool HasItem()
         {
             return false;
-        }
-
-        public bool ShouldPlayInspectAnimation()
-        {
-            return true;
         }
 
         public bool TryItem(IItem item)

@@ -80,7 +80,7 @@ namespace Capabilities
                 return;
             }
 
-            _direction.x = _controller.input.RetrieveMoveInput(gameObject).x;
+            _direction.x = _controller.input.GetMoveInput(gameObject).x;
             animator.SetBool(_isWalking, _direction.x != 0);
             animator.SetBool(_isShooting, false);
             //if (_direction.x > 0 && !_facingRight)

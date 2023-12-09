@@ -268,9 +268,9 @@
 					float3 output = SAMPLE_TEXTURE2D(_ColorRampTex, sampler_ColorRampTex, float2(ramp, 0.5f));
             	#else
             		// float3 output = lerp(_BG, _FG, round(ramp));
-            		float3 output = lerp(_MG, _FG, step(_MGThreshold, abs(lum - ditherLum)));
-            		output = lerp(_BG, output, ramp);
-            		// float3 output = lerp(_BG, col, round(ramp)); // No thresholding
+            		// float3 output = lerp(_MG, _FG, step(_MGThreshold, abs(lum - ditherLum)));
+            		// output = lerp(_BG, output, ramp);
+            		float3 output = lerp(_BG, sourceColor, ramp); // No thresholding
             	#endif
 
 				return float4(output, 1.0f);
