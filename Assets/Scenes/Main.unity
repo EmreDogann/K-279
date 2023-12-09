@@ -124,6 +124,93 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &7156927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4cb743af35246bc83133053f2237526, type: 3}
+  m_Name: Random Delay
+  m_EditorClassIdentifier: 
+  graph: {fileID: 142221047}
+  position: {x: -1368, y: -24}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 7156927}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 7156927}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 7156927}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: delayFunction
+        node: {fileID: 245477001}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  delayFunction: {fileID: 0}
+  useTimeScale: 1
+  minTime: 0.1
+  maxTime: 0.5
+--- !u!114 &19354068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59a02fab2e92c0d47950ad7bba211e8e, type: 3}
+  m_Name: Refill Oxygen Tanks
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 1059067006}
+  - {fileID: 839970613}
+  - {fileID: 1305218725}
+  - {fileID: 1977301602}
+  - {fileID: 1440674654}
+  - {fileID: 1031297890}
+  - {fileID: 449076585}
+  - {fileID: 391573089}
+  - {fileID: 1046357016}
+  - {fileID: 688642145}
+  - {fileID: 1226716530}
+  - {fileID: 166528728}
+  - {fileID: 1386007432}
+  - {fileID: 953297783}
+  - {fileID: 2006439394}
+  startNode: {fileID: 0}
+  currentNode: {fileID: 0}
 --- !u!1 &20650975
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,6 +580,65 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4931218027974088743}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &129344648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0aea3ea9c524cf8bb17bbd637535f0e, type: 3}
+  m_Name: Delay
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: 824, y: 488}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 129344648}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 955540970}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 129344648}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 416088389}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 129344648}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  delayFunction: {fileID: 0}
+  useTimeScale: 0
+  duration: 0.05
 --- !u!1 &130267116
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,6 +732,32 @@ MonoBehaviour:
   cursorImage: {fileID: 130267119}
   nonInteractableFadeValue: 0.1
   nonInteractableFadeDuration: 0.2
+--- !u!114 &142221047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59a02fab2e92c0d47950ad7bba211e8e, type: 3}
+  m_Name: Bottle Rolling Sequence
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 927078242}
+  - {fileID: 307899854}
+  - {fileID: 245477001}
+  - {fileID: 2056371984}
+  - {fileID: 362153330}
+  - {fileID: 674238683}
+  - {fileID: 519964814}
+  - {fileID: 2011107846}
+  - {fileID: 1028298509}
+  - {fileID: 732146537}
+  - {fileID: 7156927}
+  startNode: {fileID: 0}
+  currentNode: {fileID: 0}
 --- !u!1 &147622448
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,6 +900,120 @@ MonoBehaviour:
     m_FrequencyGain: 0.3
     m_Duration: 4
     m_NoiseOffsets: {x: -457.97885, y: -142.8555, z: 813.10034}
+--- !u!114 &166528728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0aea3ea9c524cf8bb17bbd637535f0e, type: 3}
+  m_Name: Delay
+  m_EditorClassIdentifier: 
+  graph: {fileID: 19354068}
+  position: {x: 1688, y: 136}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 166528728}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 1031297890}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 166528728}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 1226716530}
+        reroutePoints: []
+      - fieldName: entry
+        node: {fileID: 449076585}
+        reroutePoints: []
+      - fieldName: entry
+        node: {fileID: 1386007432}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 166528728}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  delayFunction: {fileID: 0}
+  useTimeScale: 0
+  duration: 2
+--- !u!114 &205517113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bcc7a2c0e1d4ffeaaeac3d836c9d53c, type: 3}
+  m_Name: Switch Room To Cap. Q
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: -1112, y: -8}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 205517113}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 2102141189}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 205517113}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 1720501003}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  roomType: 0
+  roomManager: {fileID: 937513559}
+  transitionTime: 0
 --- !u!114 &209405136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -742,6 +1028,80 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Asset: {fileID: -944628639613478452, guid: d1a6d78b473c6914a8ba71719a82c98d, type: 3}
   m_ActionId: 38a0ae5e-56e0-489f-b0d2-7bdbc7adb974
+--- !u!114 &245477001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a0dd966b3bf424d9f2b14a0ab2ef259, type: 3}
+  m_Name: Play Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 142221047}
+  position: {x: -1016, y: -104}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 245477001}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 307899854}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 245477001}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 2056371984}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 245477001}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: delayFunction
+        node: {fileID: 7156927}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 1
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  playModeGlobal: 1
+  audioDataList:
+  - playMode: 0
+    audio: {fileID: 11400000, guid: 9165b82f34e1ff149904f34b833f5224, type: 2}
+    transform: {fileID: 5886207161442917520}
+  - playMode: 0
+    audio: {fileID: 11400000, guid: 9165b82f34e1ff149904f34b833f5224, type: 2}
+    transform: {fileID: 5886207161442917519}
+  - playMode: 0
+    audio: {fileID: 11400000, guid: 9165b82f34e1ff149904f34b833f5224, type: 2}
+    transform: {fileID: 5886207161442917518}
+  - playMode: 0
+    audio: {fileID: 11400000, guid: 9165b82f34e1ff149904f34b833f5224, type: 2}
+    transform: {fileID: 5886207161442917517}
+  delayFunction: {fileID: 0}
 --- !u!1 &271262508
 GameObject:
   m_ObjectHideFlags: 0
@@ -1027,6 +1387,108 @@ Transform:
   - {fileID: 271262509}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &307167951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0668a81e55f94a1fa326376ee5dc952a, type: 3}
+  m_Name: Explosion Sound Scape
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: -120, y: 264}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 307167951}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 777733286}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 307167951}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 1052655870}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  submarineSoundScape: {fileID: 1647743933}
+  soundType: 0
+  shakeOverride: 2
+  minRadius: -1
+  maxRadius: -1
+--- !u!114 &307899854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0668a81e55f94a1fa326376ee5dc952a, type: 3}
+  m_Name: Trigger Sound Scape
+  m_EditorClassIdentifier: 
+  graph: {fileID: 142221047}
+  position: {x: -1512, y: -232}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 307899854}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: nodeExit
+        node: {fileID: 927078242}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 307899854}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 245477001}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  submarineSoundScape: {fileID: 1647743933}
+  soundType: 0
+  shakeOverride: 1
+  minRadius: 0.1
+  maxRadius: 1
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1264,6 +1726,69 @@ MonoBehaviour:
   ditherRenderFeature: {fileID: 9135710460360896709, guid: c40be3174f62c4acf8c1216858c64956,
     type: 2}
   alarmSound: {fileID: 11400000, guid: ae9e92fb4ea0971498a69a60d7308dc3, type: 2}
+--- !u!114 &362153330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467255ea2cbb4c9cad95e19c6655bfa0, type: 3}
+  m_Name: Trigger Animation
+  m_EditorClassIdentifier: 
+  graph: {fileID: 142221047}
+  position: {x: -440, y: 168}
+  ports:
+    keys:
+    - entry
+    - exit
+    - animFinishedEvent
+    values:
+    - _fieldName: entry
+      _node: {fileID: 362153330}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 2056371984}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 362153330}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 519964814}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: animFinishedEvent
+      _node: {fileID: 362153330}
+      _typeQualifiedName: xNodes.Nodes.TriggerAnimationNode+AnimFinishedCallback,
+        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entry
+        node: {fileID: 674238683}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  _animator: {fileID: 5886207161442917516}
+  animationName: BottleRolling
+  triggerName: RollBottle
+  waitForAnimationFinish: 0
 --- !u!1 &379328578
 GameObject:
   m_ObjectHideFlags: 0
@@ -1409,6 +1934,104 @@ Transform:
   m_Children: []
   m_Father: {fileID: 295559528}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &391573089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0f29f58176b496ebd97c9183e51e3b3, type: 3}
+  m_Name: Light State -> Normal
+  m_EditorClassIdentifier: 
+  graph: {fileID: 19354068}
+  position: {x: 1464, y: 376}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 391573089}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 2006439394}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 391573089}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  lightState: 0
+  changeMode: 0
+  fadeDuration: 0
+  afterFadeWaitDuration: 0
+--- !u!114 &416088389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0668a81e55f94a1fa326376ee5dc952a, type: 3}
+  m_Name: Explosion Sound Scape 2
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: 776, y: 728}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 416088389}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 129344648}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 416088389}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 547702113}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  submarineSoundScape: {fileID: 1647743933}
+  soundType: 0
+  shakeOverride: 2
+  minRadius: -1
+  maxRadius: -1
 --- !u!1 &431313528 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5521708913095295725, guid: 2478209f45b2a6e45aff0975ea873352,
@@ -1461,6 +2084,155 @@ MonoBehaviour:
 
     Need to find one to turn the power
     back on.'
+--- !u!114 &448282583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0f29f58176b496ebd97c9183e51e3b3, type: 3}
+  m_Name: Reset Lights to Normal
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: -1544, y: -360}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 448282583}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: nodeExit
+        node: {fileID: 553841240}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 448282583}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 2056280785}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  lightState: 0
+  changeMode: 0
+  fadeDuration: 0.3
+  afterFadeWaitDuration: 1.1
+--- !u!114 &449076585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0cb7eeaed85492eb32bc523eaa94313, type: 3}
+  m_Name: Room Lights
+  m_EditorClassIdentifier: 
+  graph: {fileID: 19354068}
+  position: {x: 2024, y: 248}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 449076585}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 166528728}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 449076585}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 1046357016}
+        reroutePoints: []
+      - fieldName: entry
+        node: {fileID: 953297783}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  roomType: 2
+  roomManager: {fileID: 937513559}
+  turnLightsOn: 1
+  switchDuration: 2
+--- !u!114 &452450655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa55f9a9b20b4847bfba5f7959ea509e, type: 3}
+  m_Name: Set Active Flickering
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: -1368, y: 1048}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 452450655}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 689199361}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 452450655}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  flickeringLights:
+  - flickerComponent: {fileID: 8584498244034415627}
+    setActive: 1
 --- !u!1 &476694462
 GameObject:
   m_ObjectHideFlags: 0
@@ -1509,6 +2281,65 @@ MonoBehaviour:
   vCam: {fileID: 0}
   beforeWaitDuration: 1
   afterWaitDuration: 1
+--- !u!114 &519964814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0aea3ea9c524cf8bb17bbd637535f0e, type: 3}
+  m_Name: Delay
+  m_EditorClassIdentifier: 
+  graph: {fileID: 142221047}
+  position: {x: 107.66328, y: 159.73083}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 519964814}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 362153330}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 519964814}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 2011107846}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 519964814}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  delayFunction: {fileID: 0}
+  useTimeScale: 1
+  duration: 0.1
 --- !u!1 &533895708
 GameObject:
   m_ObjectHideFlags: 0
@@ -1608,6 +2439,118 @@ LightingSettings:
   m_PVRTiledBaking: 0
   m_NumRaysToShootPerTexel: -1
   m_RespectSceneVisibilityWhenBakingGI: 0
+--- !u!114 &547702113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0aea3ea9c524cf8bb17bbd637535f0e, type: 3}
+  m_Name: Delay
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: 1240, y: 792}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 547702113}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 416088389}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 547702113}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 1559766820}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 547702113}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  delayFunction: {fileID: 0}
+  useTimeScale: 0
+  duration: 1.5
+--- !u!114 &553841240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2952604c54f64515866db2ea82c0cd15, type: 3}
+  m_Name: Start
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: -1832, y: -312}
+  ports:
+    keys:
+    - entry
+    - exit
+    - nodeExit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 553841240}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 553841240}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: nodeExit
+      _node: {fileID: 553841240}
+      _typeQualifiedName: xNodes.Nodes.StartNode+StartNodeOutput, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entry
+        node: {fileID: 448282583}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
 --- !u!1 &554510338
 GameObject:
   m_ObjectHideFlags: 0
@@ -2036,6 +2979,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1756468856}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &579141678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59a02fab2e92c0d47950ad7bba211e8e, type: 3}
+  m_Name: First Apparition Appearance
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 1957825810}
+  - {fileID: 1048987189}
+  startNode: {fileID: 0}
+  currentNode: {fileID: 0}
 --- !u!114 &582731052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2050,6 +3010,160 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Asset: {fileID: -944628639613478452, guid: d1a6d78b473c6914a8ba71719a82c98d, type: 3}
   m_ActionId: ed48ab52-6e92-45a0-a977-eb7ef0e56421
+--- !u!114 &674238683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f84e2306a9ab4c7fac69ff0e88a25e6c, type: 3}
+  m_Name: Stop Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 142221047}
+  position: {x: -440, y: 408}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 674238683}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: animFinishedEvent
+        node: {fileID: 362153330}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 674238683}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  audio: {fileID: 11400000, guid: 3afdd7608c8b92844a5c4b769f76675a, type: 2}
+  stopAllInstances: 0
+  fadeOut: 0
+  fadeOutDuration: 0
+--- !u!114 &688642145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b2c39446c604b2e8909679df493307a, type: 3}
+  m_Name: Fade Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 19354068}
+  position: {x: 536, y: -392}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 688642145}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 1305218725}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 688642145}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  fadeDirection: 0
+  audio: {fileID: 11400000, guid: 6b28f7659ec72854e830743e96f64da9, type: 2}
+  allInstances: 1
+  volume: 0.1
+  fadeDuration: 5
+--- !u!114 &689199361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0aea3ea9c524cf8bb17bbd637535f0e, type: 3}
+  m_Name: Delay
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: -1704, y: 1048}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 689199361}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 1466854145}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 689199361}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 452450655}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 689199361}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  delayFunction: {fileID: 0}
+  useTimeScale: 1
+  duration: 1
 --- !u!1 &694371976
 GameObject:
   m_ObjectHideFlags: 0
@@ -2391,12 +3505,212 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 8584498244034415621}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 2028528572}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aeb4b67aeb6f4e77895ac82f0c8ba950, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &719326086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59a02fab2e92c0d47950ad7bba211e8e, type: 3}
+  m_Name: Wake Up Sequence
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 1355968587}
+  - {fileID: 448282583}
+  - {fileID: 205517113}
+  - {fileID: 2056280785}
+  - {fileID: 2102141189}
+  - {fileID: 1720501003}
+  - {fileID: 955540970}
+  - {fileID: 307167951}
+  - {fileID: 1052655870}
+  - {fileID: 129344648}
+  - {fileID: 416088389}
+  - {fileID: 547702113}
+  - {fileID: 1559766820}
+  - {fileID: 1709676303}
+  - {fileID: 877756464}
+  - {fileID: 1986091026}
+  - {fileID: 783475357}
+  - {fileID: 2048228947}
+  - {fileID: 1095787610}
+  - {fileID: 777733286}
+  - {fileID: 0}
+  - {fileID: 553841240}
+  - {fileID: 1466854145}
+  - {fileID: 452450655}
+  - {fileID: 1570161705}
+  - {fileID: 689199361}
+  startNode: {fileID: 0}
+  currentNode: {fileID: 0}
+--- !u!114 &732146537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a0dd966b3bf424d9f2b14a0ab2ef259, type: 3}
+  m_Name: Play Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 142221047}
+  position: {x: 1192, y: 376}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 732146537}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 1028298509}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 732146537}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 732146537}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 1
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  playModeGlobal: 3
+  audioDataList:
+  - playMode: 0
+    audio: {fileID: 11400000, guid: 9231e464731f69f42aa25b0837139370, type: 2}
+    transform: {fileID: 0}
+  delayFunction: {fileID: 0}
+--- !u!114 &777733286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00c278e4ef974654b7c43bb8b23dc178, type: 3}
+  m_Name: Set To Transform
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: -488, y: 184}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 777733286}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 1720501003}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 777733286}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 307167951}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  targetPositionSpace: 0
+  targetRotationSpace: 1
+  gameObject: {fileID: 1723301996}
+  targetTransform: {fileID: 9097725084458757336}
+--- !u!114 &783475357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0f29f58176b496ebd97c9183e51e3b3, type: 3}
+  m_Name: Switch Lights to Alarm
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: 1928, y: 1560}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 783475357}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 1986091026}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 783475357}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 2048228947}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  lightState: 1
+  changeMode: 2
+  fadeDuration: 0.3
+  afterFadeWaitDuration: 1.1
 --- !u!1 &792420324
 GameObject:
   m_ObjectHideFlags: 0
@@ -2428,101 +3742,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &792436652
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 792436653}
-  - component: {fileID: 792436654}
-  - component: {fileID: 792436655}
-  - component: {fileID: 792436656}
-  - component: {fileID: 792436657}
-  m_Layer: 0
-  m_Name: Event Sequencer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &792436653
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 792436652}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &792436654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 792436652}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4bca94e397abf24ab5c12578d41e95e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  graph: {fileID: 0}
-  triggerOnStart: 1
-  eventTrigger: {fileID: 0}
---- !u!114 &792436655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 792436652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4bca94e397abf24ab5c12578d41e95e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  graph: {fileID: 0}
-  triggerOnStart: 0
-  eventTrigger: {fileID: 1835333744}
---- !u!114 &792436656
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 792436652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4bca94e397abf24ab5c12578d41e95e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  graph: {fileID: 0}
-  triggerOnStart: 0
-  eventTrigger: {fileID: 1702832333}
---- !u!114 &792436657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 792436652}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4bca94e397abf24ab5c12578d41e95e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  graph: {fileID: 0}
-  triggerOnStart: 0
-  eventTrigger: {fileID: 715917912}
 --- !u!1 &798827824
 GameObject:
   m_ObjectHideFlags: 0
@@ -2800,6 +4019,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &839970613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0484add2a124c73ab1364adde6f8ceb, type: 3}
+  m_Name: Pause Game
+  m_EditorClassIdentifier: 
+  graph: {fileID: 19354068}
+  position: {x: -280, y: -248}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 839970613}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: nodeExit
+        node: {fileID: 1059067006}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 839970613}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 1305218725}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  freezeMode: 0
+  pauseEvent: {fileID: 11400000, guid: c4e820fd8becde94d91f53738c352eaa, type: 2}
 --- !u!1 &862360453
 GameObject:
   m_ObjectHideFlags: 0
@@ -2891,6 +4158,68 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backgroundRectTransform: {fileID: 862360454}
   textMeshPro: {fileID: 1620239701}
+--- !u!114 &877756464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a0dd966b3bf424d9f2b14a0ab2ef259, type: 3}
+  m_Name: Low Oxygen Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: 1416, y: 1256}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 877756464}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 1709676303}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 877756464}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 1986091026}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 877756464}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 1
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  playModeGlobal: 1
+  audioDataList:
+  - playMode: 0
+    audio: {fileID: 11400000, guid: 9231e464731f69f42aa25b0837139370, type: 2}
+    transform: {fileID: 9097725084458757336}
+  delayFunction: {fileID: 0}
 --- !u!1 &920644063
 GameObject:
   m_ObjectHideFlags: 0
@@ -2975,6 +4304,59 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 0
+--- !u!114 &927078242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2952604c54f64515866db2ea82c0cd15, type: 3}
+  m_Name: Start
+  m_EditorClassIdentifier: 
+  graph: {fileID: 142221047}
+  position: {x: -1800, y: -200}
+  ports:
+    keys:
+    - nodeExit
+    - entry
+    - exit
+    values:
+    - _fieldName: nodeExit
+      _node: {fileID: 927078242}
+      _typeQualifiedName: xNodes.Nodes.StartNode+StartNodeOutput, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entry
+        node: {fileID: 307899854}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: entry
+      _node: {fileID: 927078242}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 927078242}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
 --- !u!1 &937513557
 GameObject:
   m_ObjectHideFlags: 0
@@ -3038,6 +4420,209 @@ MonoBehaviour:
   - {fileID: 543450651859795682}
   - {fileID: 8379200903076653580}
   currentRoom: {fileID: 0}
+--- !u!114 &953297783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13133e4a530a404fba2489e24588c4bb, type: 3}
+  m_Name: Set "First Apparition Appearance" Trigger Active
+  m_EditorClassIdentifier: 
+  graph: {fileID: 19354068}
+  position: {x: 2616, y: 88}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 953297783}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 449076585}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 953297783}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  gameObjects:
+  - gameObject: {fileID: 2028528572}
+    setActive: 1
+--- !u!114 &955540970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a0dd966b3bf424d9f2b14a0ab2ef259, type: 3}
+  m_Name: Explosion Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: 328, y: 520}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 955540970}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 1052655870}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 955540970}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 129344648}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 955540970}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 1
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  playModeGlobal: 1
+  audioDataList:
+  - playMode: 0
+    audio: {fileID: 11400000, guid: 7adb8ab2c64fa8b4e8a616865eed02da, type: 2}
+    transform: {fileID: 9097725084458757335}
+  delayFunction: {fileID: 0}
+--- !u!1 &955721555
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 955721560}
+  - component: {fileID: 955721559}
+  - component: {fileID: 955721558}
+  - component: {fileID: 955721557}
+  - component: {fileID: 955721556}
+  m_Layer: 0
+  m_Name: Event Sequencer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &955721556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955721555}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4bca94e397abf24ab5c12578d41e95e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  graph: {fileID: 579141678}
+  triggerOnStart: 0
+  eventTrigger: {fileID: 715917912}
+--- !u!114 &955721557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955721555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4bca94e397abf24ab5c12578d41e95e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  graph: {fileID: 19354068}
+  triggerOnStart: 0
+  eventTrigger: {fileID: 1702832333}
+--- !u!114 &955721558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955721555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4bca94e397abf24ab5c12578d41e95e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  graph: {fileID: 142221047}
+  triggerOnStart: 0
+  eventTrigger: {fileID: 1835333744}
+--- !u!114 &955721559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955721555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4bca94e397abf24ab5c12578d41e95e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  triggerOnStart: 1
+  eventTrigger: {fileID: 0}
+--- !u!4 &955721560
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955721555}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &979125280
 GameObject:
   m_ObjectHideFlags: 0
@@ -3214,6 +4799,386 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1756468856}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1028298509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0aea3ea9c524cf8bb17bbd637535f0e, type: 3}
+  m_Name: Delay
+  m_EditorClassIdentifier: 
+  graph: {fileID: 142221047}
+  position: {x: 915.2868, y: 322.6463}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 1028298509}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 2011107846}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1028298509}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 732146537}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 1028298509}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  delayFunction: {fileID: 0}
+  useTimeScale: 1
+  duration: 5
+--- !u!114 &1031297890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0aea3ea9c524cf8bb17bbd637535f0e, type: 3}
+  m_Name: Delay
+  m_EditorClassIdentifier: 
+  graph: {fileID: 19354068}
+  position: {x: 1363.5627, y: 93.918655}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 1031297890}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 1440674654}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1031297890}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 166528728}
+        reroutePoints: []
+      - fieldName: entry
+        node: {fileID: 2006439394}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 1031297890}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  delayFunction: {fileID: 0}
+  useTimeScale: 0
+  duration: 4
+--- !u!114 &1046357016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0484add2a124c73ab1364adde6f8ceb, type: 3}
+  m_Name: Unpause Game
+  m_EditorClassIdentifier: 
+  graph: {fileID: 19354068}
+  position: {x: 2616, y: 376}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 1046357016}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 449076585}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1046357016}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  freezeMode: 1
+  pauseEvent: {fileID: 11400000, guid: c4e820fd8becde94d91f53738c352eaa, type: 2}
+--- !u!114 &1048987189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467255ea2cbb4c9cad95e19c6655bfa0, type: 3}
+  m_Name: Trigger Animation
+  m_EditorClassIdentifier: 
+  graph: {fileID: 579141678}
+  position: {x: 2472, y: -88}
+  ports:
+    keys:
+    - animFinishedEvent
+    - entry
+    - exit
+    values:
+    - _fieldName: animFinishedEvent
+      _node: {fileID: 1048987189}
+      _typeQualifiedName: xNodes.Nodes.TriggerAnimationNode+AnimFinishedCallback,
+        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: entry
+      _node: {fileID: 1048987189}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: nodeExit
+        node: {fileID: 1957825810}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1048987189}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  _animator: {fileID: 0}
+  animationName: 
+  triggerName: 
+  waitForAnimationFinish: 0
+--- !u!114 &1052655870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0aea3ea9c524cf8bb17bbd637535f0e, type: 3}
+  m_Name: Delay
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: 376, y: 296}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 1052655870}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 307167951}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1052655870}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 955540970}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 1052655870}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  delayFunction: {fileID: 0}
+  useTimeScale: 0
+  duration: 0.1
+--- !u!114 &1059067006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2952604c54f64515866db2ea82c0cd15, type: 3}
+  m_Name: Start
+  m_EditorClassIdentifier: 
+  graph: {fileID: 19354068}
+  position: {x: -456, y: -200}
+  ports:
+    keys:
+    - nodeExit
+    - entry
+    - exit
+    values:
+    - _fieldName: nodeExit
+      _node: {fileID: 1059067006}
+      _typeQualifiedName: xNodes.Nodes.StartNode+StartNodeOutput, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entry
+        node: {fileID: 839970613}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: entry
+      _node: {fileID: 1059067006}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1059067006}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+--- !u!114 &1095787610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0484add2a124c73ab1364adde6f8ceb, type: 3}
+  m_Name: Unpause Game
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: 2968, y: 1704}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 1095787610}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 2048228947}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1095787610}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  freezeMode: 1
+  pauseEvent: {fileID: 11400000, guid: c4e820fd8becde94d91f53738c352eaa, type: 2}
 --- !u!1 &1098556866
 GameObject:
   m_ObjectHideFlags: 0
@@ -3495,6 +5460,172 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1226716530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b2c39446c604b2e8909679df493307a, type: 3}
+  m_Name: Fade Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 19354068}
+  position: {x: 1848, y: -152}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 1226716530}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 166528728}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1226716530}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  fadeDirection: 1
+  audio: {fileID: 11400000, guid: 6b28f7659ec72854e830743e96f64da9, type: 2}
+  allInstances: 1
+  volume: 1
+  fadeDuration: 5
+--- !u!114 &1305218725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0cb7eeaed85492eb32bc523eaa94313, type: 3}
+  m_Name: Room Lights
+  m_EditorClassIdentifier: 
+  graph: {fileID: 19354068}
+  position: {x: 120, y: -168}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 1305218725}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 839970613}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1305218725}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 1977301602}
+        reroutePoints: []
+      - fieldName: entry
+        node: {fileID: 688642145}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  roomType: 2
+  roomManager: {fileID: 937513559}
+  turnLightsOn: 0
+  switchDuration: 2
+--- !u!114 &1355968587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5787b2461d90cae4b924a89398060381, type: 3}
+  m_Name: Setup Hallway lights for Wake Up Sequence
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: -2248, y: 376}
+  ports:
+    keys: []
+    values: []
+  width: 1398
+  height: 914
+--- !u!114 &1386007432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13133e4a530a404fba2489e24588c4bb, type: 3}
+  m_Name: Disable Flickering Light
+  m_EditorClassIdentifier: 
+  graph: {fileID: 19354068}
+  position: {x: 1863.0667, y: 497.13812}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 1386007432}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 166528728}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1386007432}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  gameObjects:
+  - gameObject: {fileID: 100160254207592783}
+    setActive: 0
 --- !u!114 &1440051791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3540,6 +5671,116 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1440674654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a0dd966b3bf424d9f2b14a0ab2ef259, type: 3}
+  m_Name: Play Hiss Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 19354068}
+  position: {x: 843.5628, y: 34.918655}
+  ports:
+    keys:
+    - delayFunction
+    - entry
+    - exit
+    values:
+    - _fieldName: delayFunction
+      _node: {fileID: 1440674654}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 1
+      _dynamic: 0
+    - _fieldName: entry
+      _node: {fileID: 1440674654}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 1977301602}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1440674654}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 1031297890}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  playModeGlobal: 3
+  audioDataList:
+  - playMode: 0
+    audio: {fileID: 11400000, guid: f5450decdcbb0f24cb6ff7694f4d130d, type: 2}
+    transform: {fileID: 0}
+  delayFunction: {fileID: 0}
+--- !u!114 &1466854145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c916811e9df6e3343b01dbe86c36ed77, type: 3}
+  m_Name: When Exiting Crew Quarters...
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: -2168, y: 536}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 1466854145}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1466854145}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 1570161705}
+        reroutePoints: []
+      - fieldName: entry
+        node: {fileID: 689199361}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  eventTrigger:
+    _underlyingValue: {fileID: 5886207161442917514}
 --- !u!114 &1543670846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3650,6 +5891,126 @@ MonoBehaviour:
   ellipsisSpeed: 3
   punctuationWaitTime: 0.5
   pauseEvent: {fileID: 11400000, guid: c4e820fd8becde94d91f53738c352eaa, type: 2}
+--- !u!114 &1559766820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a0dd966b3bf424d9f2b14a0ab2ef259, type: 3}
+  m_Name: Door Open Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: 984, y: 1048}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 1559766820}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 547702113}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1559766820}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 1709676303}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 1559766820}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 1
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  playModeGlobal: 1
+  audioDataList:
+  - playMode: 0
+    audio: {fileID: 11400000, guid: c9dac489cc734a349a3372f28ee971dc, type: 2}
+    transform: {fileID: 9097725084458757335}
+  delayFunction: {fileID: 0}
+--- !u!114 &1570161705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13133e4a530a404fba2489e24588c4bb, type: 3}
+  m_Name: Set Active Lights
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: -1704, y: 456}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 1570161705}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 1466854145}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1570161705}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  gameObjects:
+  - gameObject: {fileID: 8584498244034415629}
+    setActive: 0
+  - gameObject: {fileID: 8584498244034415628}
+    setActive: 1
+  - gameObject: {fileID: 8584498244034415626}
+    setActive: 1
+  - gameObject: {fileID: 8584498244034415625}
+    setActive: 0
+  - gameObject: {fileID: 8584498244034415622}
+    setActive: 0
+  - gameObject: {fileID: 8584498244034415623}
+    setActive: 0
+  - gameObject: {fileID: 8584498244034415624}
+    setActive: 0
 --- !u!1 &1575304212
 GameObject:
   m_ObjectHideFlags: 0
@@ -4757,6 +7118,124 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1709676303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0aea3ea9c524cf8bb17bbd637535f0e, type: 3}
+  m_Name: Delay
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: 1544, y: 1032}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 1709676303}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 1559766820}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1709676303}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 877756464}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 1709676303}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  delayFunction: {fileID: 0}
+  useTimeScale: 0
+  duration: 1
+--- !u!114 &1720501003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0aea3ea9c524cf8bb17bbd637535f0e, type: 3}
+  m_Name: Delay
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: -760, y: 56}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 1720501003}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 205517113}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1720501003}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 777733286}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 1720501003}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  delayFunction: {fileID: 0}
+  useTimeScale: 0
+  duration: 4
 --- !u!1 &1723301996
 GameObject:
   m_ObjectHideFlags: 0
@@ -5965,6 +8444,59 @@ MonoBehaviour:
       Layer
       must be: WaterCollision'
     Type: 1
+--- !u!114 &1957825810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2952604c54f64515866db2ea82c0cd15, type: 3}
+  m_Name: Start
+  m_EditorClassIdentifier: 
+  graph: {fileID: 579141678}
+  position: {x: 2232, y: -72}
+  ports:
+    keys:
+    - nodeExit
+    - entry
+    - exit
+    values:
+    - _fieldName: nodeExit
+      _node: {fileID: 1957825810}
+      _typeQualifiedName: xNodes.Nodes.StartNode+StartNodeOutput, Assembly-CSharp,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      connections:
+      - fieldName: entry
+        node: {fileID: 1048987189}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 1
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: entry
+      _node: {fileID: 1957825810}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1957825810}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
 --- !u!1 &1960134375
 GameObject:
   m_ObjectHideFlags: 0
@@ -6143,6 +8675,124 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlLight: {fileID: 2145880478}
+--- !u!114 &1977301602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0aea3ea9c524cf8bb17bbd637535f0e, type: 3}
+  m_Name: Delay
+  m_EditorClassIdentifier: 
+  graph: {fileID: 19354068}
+  position: {x: 536, y: -88}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 1977301602}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 1305218725}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1977301602}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 1440674654}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 1977301602}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  delayFunction: {fileID: 0}
+  useTimeScale: 0
+  duration: 2
+--- !u!114 &1986091026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0aea3ea9c524cf8bb17bbd637535f0e, type: 3}
+  m_Name: Delay
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: 1912, y: 1320}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 1986091026}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 877756464}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 1986091026}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 783475357}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 1986091026}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  delayFunction: {fileID: 0}
+  useTimeScale: 0
+  duration: 1
 --- !u!1 &2004793692
 GameObject:
   m_ObjectHideFlags: 0
@@ -6228,6 +8878,351 @@ Transform:
   m_Children: []
   m_Father: {fileID: 330585546}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2006439394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13133e4a530a404fba2489e24588c4bb, type: 3}
+  m_Name: Set Active Lights
+  m_EditorClassIdentifier: 
+  graph: {fileID: 19354068}
+  position: {x: 904, y: 344}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 2006439394}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 1031297890}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 2006439394}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 391573089}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  gameObjects:
+  - gameObject: {fileID: 8584498244034415629}
+    setActive: 1
+  - gameObject: {fileID: 8584498244034415628}
+    setActive: 1
+  - gameObject: {fileID: 8584498244034415626}
+    setActive: 1
+  - gameObject: {fileID: 8584498244034415625}
+    setActive: 1
+  - gameObject: {fileID: 8584498244034415622}
+    setActive: 1
+  - gameObject: {fileID: 8584498244034415623}
+    setActive: 1
+  - gameObject: {fileID: 8584498244034415624}
+    setActive: 1
+--- !u!114 &2011107846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a0dd966b3bf424d9f2b14a0ab2ef259, type: 3}
+  m_Name: Play Sound
+  m_EditorClassIdentifier: 
+  graph: {fileID: 142221047}
+  position: {x: 409.91345, y: 237.54898}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 2011107846}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 519964814}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 2011107846}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 1028298509}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 2011107846}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 1
+      _typeConstraint: 1
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  playModeGlobal: 1
+  audioDataList:
+  - playMode: 0
+    audio: {fileID: 11400000, guid: 3afdd7608c8b92844a5c4b769f76675a, type: 2}
+    transform: {fileID: 5886207161442917515}
+  delayFunction: {fileID: 0}
+--- !u!1 &2028528572 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6988749897208492396, guid: c1c97929653bb97429538a944b00265b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8584498244034415621}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2048228947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0aea3ea9c524cf8bb17bbd637535f0e, type: 3}
+  m_Name: Delay
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: 2328, y: 1624}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 2048228947}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 783475357}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 2048228947}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 1095787610}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 2048228947}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  delayFunction: {fileID: 0}
+  useTimeScale: 0
+  duration: 1.5
+--- !u!114 &2056280785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0cb7eeaed85492eb32bc523eaa94313, type: 3}
+  m_Name: Turn of Cap. Q's Lights
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: -1160, y: -360}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 2056280785}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 448282583}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 2056280785}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 2102141189}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  roomType: 0
+  roomManager: {fileID: 937513559}
+  turnLightsOn: 0
+  switchDuration: 0
+--- !u!114 &2056371984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0aea3ea9c524cf8bb17bbd637535f0e, type: 3}
+  m_Name: Delay
+  m_EditorClassIdentifier: 
+  graph: {fileID: 142221047}
+  position: {x: -472, y: -56}
+  ports:
+    keys:
+    - entry
+    - exit
+    - delayFunction
+    values:
+    - _fieldName: entry
+      _node: {fileID: 2056371984}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 245477001}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 2056371984}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 362153330}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: delayFunction
+      _node: {fileID: 2056371984}
+      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  delayFunction: {fileID: 0}
+  useTimeScale: 1
+  duration: 0.25
+--- !u!114 &2102141189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0484add2a124c73ab1364adde6f8ceb, type: 3}
+  m_Name: Pause Game
+  m_EditorClassIdentifier: 
+  graph: {fileID: 719326086}
+  position: {x: -824, y: -200}
+  ports:
+    keys:
+    - entry
+    - exit
+    values:
+    - _fieldName: entry
+      _node: {fileID: 2102141189}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: exit
+        node: {fileID: 2056280785}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: exit
+      _node: {fileID: 2102141189}
+      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      connections:
+      - fieldName: entry
+        node: {fileID: 205517113}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  entry: 0
+  exit: 0
+  state: 0
+  freezeMode: 0
+  pauseEvent: {fileID: 11400000, guid: c4e820fd8becde94d91f53738c352eaa, type: 2}
 --- !u!114 &2118476268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6508,6 +9503,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 431313535}
   m_SourcePrefab: {fileID: 100100000, guid: 2478209f45b2a6e45aff0975ea873352, type: 3}
+--- !u!1 &100160254207592783 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1863988710295400838, guid: 2478209f45b2a6e45aff0975ea873352,
+    type: 3}
+  m_PrefabInstance: {fileID: 100160254207592782}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &123134348251011630
 Transform:
   m_ObjectHideFlags: 0
@@ -8563,6 +11564,54 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa73b14c5646fa14bb811c1d8cd21d63, type: 3}
+--- !u!114 &5886207161442917514 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6900738074437935279, guid: aa73b14c5646fa14bb811c1d8cd21d63,
+    type: 3}
+  m_PrefabInstance: {fileID: 5886207161442917513}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c24da40729a64e39911605ff231c93f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &5886207161442917515 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5177378985871416987, guid: aa73b14c5646fa14bb811c1d8cd21d63,
+    type: 3}
+  m_PrefabInstance: {fileID: 5886207161442917513}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &5886207161442917516 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5592442318719981469, guid: aa73b14c5646fa14bb811c1d8cd21d63,
+    type: 3}
+  m_PrefabInstance: {fileID: 5886207161442917513}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5886207161442917517 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7181114511600695553, guid: aa73b14c5646fa14bb811c1d8cd21d63,
+    type: 3}
+  m_PrefabInstance: {fileID: 5886207161442917513}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5886207161442917518 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8251320390751766733, guid: aa73b14c5646fa14bb811c1d8cd21d63,
+    type: 3}
+  m_PrefabInstance: {fileID: 5886207161442917513}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5886207161442917519 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 931583291696448034, guid: aa73b14c5646fa14bb811c1d8cd21d63,
+    type: 3}
+  m_PrefabInstance: {fileID: 5886207161442917513}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5886207161442917520 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3933069277162557767, guid: aa73b14c5646fa14bb811c1d8cd21d63,
+    type: 3}
+  m_PrefabInstance: {fileID: 5886207161442917513}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5945639233138911336
 GameObject:
   m_ObjectHideFlags: 0
@@ -9457,6 +12506,60 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1c97929653bb97429538a944b00265b, type: 3}
+--- !u!1 &8584498244034415622 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8101777237598436405, guid: c1c97929653bb97429538a944b00265b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8584498244034415621}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8584498244034415623 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1063474720325816274, guid: c1c97929653bb97429538a944b00265b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8584498244034415621}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8584498244034415624 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2932573422919915865, guid: c1c97929653bb97429538a944b00265b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8584498244034415621}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8584498244034415625 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5631400412723255194, guid: c1c97929653bb97429538a944b00265b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8584498244034415621}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8584498244034415626 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8439219831304667896, guid: c1c97929653bb97429538a944b00265b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8584498244034415621}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8584498244034415627 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6728589038145895410, guid: c1c97929653bb97429538a944b00265b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8584498244034415621}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8584498244034415626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b07692fa79dd804c8e20aed33b82356, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8584498244034415628 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6144638690600435840, guid: c1c97929653bb97429538a944b00265b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8584498244034415621}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8584498244034415629 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6314639578509643231, guid: c1c97929653bb97429538a944b00265b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8584498244034415621}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8632867330657126103
 GameObject:
   m_ObjectHideFlags: 0
@@ -9692,6 +12795,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 9097725084458757334}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &9097725084458757336 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5698366082340847321, guid: 5eb81626008dfad4f8e6fe723ab5cf0a,
+    type: 3}
+  m_PrefabInstance: {fileID: 9097725084458757334}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &9139551119156087498
 GameObject:
   m_ObjectHideFlags: 0
@@ -9735,7 +12844,7 @@ SceneRoots:
   - {fileID: 147622450}
   - {fileID: 1665893705}
   - {fileID: 1832155352}
-  - {fileID: 792436653}
+  - {fileID: 955721560}
   - {fileID: 1191720812}
   - {fileID: 838027101}
   - {fileID: 533895709}

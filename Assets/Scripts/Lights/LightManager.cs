@@ -52,7 +52,7 @@ namespace Lights
 
         private LightData _originalColors;
 
-        private void Start()
+        private void Awake()
         {
             if (Instance == null)
             {
@@ -62,7 +62,10 @@ namespace Lights
             {
                 Destroy(gameObject);
             }
+        }
 
+        private void Start()
+        {
             _originalColors = new LightData
             {
                 BgColor = ditherRenderFeature.GetBGColor(),
