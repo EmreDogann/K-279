@@ -1,16 +1,13 @@
+using System;
 using Capabilities;
 using Checks;
 using MyBox;
-using Rooms;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using ScriptableObjects.Rooms;
 using Unity.Mathematics;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using UnityEngine.ProBuilder.Shapes;
 using UnityEngine.Splines;
 using UnityHFSM;
+using Random = UnityEngine.Random;
 
 namespace EnemyAI
 {
@@ -20,7 +17,7 @@ namespace EnemyAI
         INVESTIGATE,
         PATROL,
         CHASE,
-        ATTACK,
+        ATTACK
     }
     public enum EnemyRoom
     {
@@ -30,7 +27,6 @@ namespace EnemyAI
     }
     public class StalkerAI : MonoBehaviour
     {
-
         [Separator("Investigate Parameters")]
         [SerializeField] private float timeToEscalation = 2f;
         [SerializeField] private float investigateDuration = 5f;
@@ -68,32 +64,37 @@ namespace EnemyAI
         private Vector2 _direction, patrolStartPosition;
 
         private int _currentPathIndex;
-        private float _patrolOffset = 0f;
+        private float _patrolOffset;
         private bool _facingRight;
+
         private void OnEnable()
         {
             AudioAlert.OnTriggerAudioAlert += AudioAlert_OnTriggerAudioAlert;
         }
+
         private void OnDisable()
         {
             AudioAlert.OnTriggerAudioAlert -= AudioAlert_OnTriggerAudioAlert;
         }
+
         private void AudioAlert_OnTriggerAudioAlert(AudioAlertType arg1, Transform arg2)
         {
             if (_fsm.ActiveState.name == EnemyStates.WANDER)
             {
                 Debug.Log("AudioAlertOne");
                 _fsm.Trigger("AudioAlertOne");
-            } else if (_fsm.ActiveState.name == EnemyStates.INVESTIGATE)
+            }
+            else if (_fsm.ActiveState.name == EnemyStates.INVESTIGATE)
             {
-                
                 Debug.Log("AudioAlertTwo");
                 _fsm.Trigger("AudioAlertTwo");
-            } else if (_fsm.ActiveState.name == EnemyStates.PATROL)
+            }
+            else if (_fsm.ActiveState.name == EnemyStates.PATROL)
             {
                 Debug.Log("AudioAlertThree");
                 _fsm.Trigger("AudioAlertThree");
             }
+
             playerTransform = arg2;
         }
 
@@ -108,39 +109,37 @@ namespace EnemyAI
 
         private void Start()
         {
-
             _fsm = new StateMachine<EnemyStates>();
 
             // Defining FSM states
 
             // WANDER
             _fsm.AddState(EnemyStates.WANDER, new State<EnemyStates>(
-                onEnter: state => {
+                state =>
+                {
                     // Make stalker sprite invisible in wandering state
                     _stalkerSprite.enabled = false;
 
                     // Place stalker in random room
                     Array enumValArray = Enum.GetValues(typeof(RoomType));
-                    _currentRoom = (RoomType) enumValArray.GetValue(UnityEngine.Random.Range(0, enumValArray.Length));
-
+                    _currentRoom = (RoomType)enumValArray.GetValue(Random.Range(0, enumValArray.Length));
                 },
-                onLogic: state => {
+                state =>
+                {
                     // Does nothing right now
                 },
                 canExit: state => state.timer.Elapsed > timeToEscalation, needsExitTime: true
-                ));
+            ));
 
             // INVESTIGATE
             _fsm.AddState(EnemyStates.INVESTIGATE, new State<EnemyStates>(
-                onLogic: state => {
-                    Debug.Log("Investigate: " + state.timer.Elapsed);
-
-                }, 
+                onLogic: state => { Debug.Log("Investigate: " + state.timer.Elapsed); },
                 canExit: state => state.timer.Elapsed > timeToEscalation, needsExitTime: true));
 
             // PATROL
             _fsm.AddState(EnemyStates.PATROL, new State<EnemyStates>(
-                onEnter: state => {
+                state =>
+                {
                     // Make enemy visible when it starts to chase
                     _stalkerSprite.enabled = true;
 
@@ -148,34 +147,30 @@ namespace EnemyAI
                     _path = playerTransform.GetComponent<MoveFollowPath>().GetPlayerPath();
                     _currentPathIndex = playerTransform.GetComponent<MoveFollowPath>().GetCurrentPathIndex();
                 },
-                onLogic: state =>
+                state => { Patrol(); },
+                state =>
                 {
-
-                    Patrol();
-                },
-                onExit: state => {
                     _direction.x = 0;
                     _body.velocity = Vector3.zero;
                     _desiredVelocity = Vector3.zero;
                 }
-                ));
+            ));
 
             // CHASE
             _fsm.AddState(EnemyStates.CHASE, new State<EnemyStates>(
-                onLogic: state => {
-
-                    ChasePlayer();
-                    },
-                onExit: state => {
+                onLogic: state => { ChasePlayer(); },
+                onExit: state =>
+                {
                     _direction.x = 0;
                     _body.velocity = Vector3.zero;
                     _desiredVelocity = Vector3.zero;
                 }
-                ));
+            ));
 
             // ATTACK
             _fsm.AddState(EnemyStates.ATTACK, new State<EnemyStates>(
-                onLogic: state => {
+                onLogic: state =>
+                {
                     // Does nothing right now
                 }));
 
@@ -186,15 +181,21 @@ namespace EnemyAI
             // Set FSM transitions with conditions
 
             // WANDER <==> INVESTIGATE
-            _fsm.AddTriggerTransition("AudioAlertOne", new Transition<EnemyStates>(EnemyStates.WANDER, EnemyStates.INVESTIGATE));
-            _fsm.AddTransition(new TransitionAfter<EnemyStates>(EnemyStates.INVESTIGATE, EnemyStates.WANDER, investigateDuration));
+            _fsm.AddTriggerTransition("AudioAlertOne",
+                new Transition<EnemyStates>(EnemyStates.WANDER, EnemyStates.INVESTIGATE));
+            _fsm.AddTransition(new TransitionAfter<EnemyStates>(EnemyStates.INVESTIGATE, EnemyStates.WANDER,
+                investigateDuration));
             // INVESTIGATE <==> PATROL
-            _fsm.AddTriggerTransition("AudioAlertTwo", new Transition<EnemyStates>(EnemyStates.INVESTIGATE, EnemyStates.PATROL));
-            _fsm.AddTransition(new TransitionAfter<EnemyStates>(EnemyStates.PATROL, EnemyStates.INVESTIGATE, patrolDuration));
+            _fsm.AddTriggerTransition("AudioAlertTwo",
+                new Transition<EnemyStates>(EnemyStates.INVESTIGATE, EnemyStates.PATROL));
+            _fsm.AddTransition(new TransitionAfter<EnemyStates>(EnemyStates.PATROL, EnemyStates.INVESTIGATE,
+                patrolDuration));
 
             // PATROL <==> CHASE
-            _fsm.AddTriggerTransition("AudioAlertThree", new Transition<EnemyStates>(EnemyStates.PATROL, EnemyStates.CHASE));
-            _fsm.AddTransition(new Transition<EnemyStates>(EnemyStates.PATROL, EnemyStates.CHASE, transition => {
+            _fsm.AddTriggerTransition("AudioAlertThree",
+                new Transition<EnemyStates>(EnemyStates.PATROL, EnemyStates.CHASE));
+            _fsm.AddTransition(new Transition<EnemyStates>(EnemyStates.PATROL, EnemyStates.CHASE, transition =>
+            {
                 if (useLineOfSight)
                 {
                     //Transition to Chase state if player becomes visible in front of stalker
@@ -208,19 +209,22 @@ namespace EnemyAI
                     {
                         rayOfSight.direction = transform.right * -1;
                     }
+
                     RaycastHit hitInfo;
                     bool isHit = Physics.Raycast(rayOfSight, out hitInfo, rangeOfSight, layerToCatch);
                     return isHit;
-                } else
-                {
-                    return Vector3.Distance(transform.position, playerTransform.position) < rangeOfSight;
                 }
+
+                return Vector3.Distance(transform.position, playerTransform.position) < rangeOfSight;
             }));
-            _fsm.AddTransition(new TransitionAfter<EnemyStates>(EnemyStates.CHASE, EnemyStates.PATROL, abandonChaseDuration));
-            
+            _fsm.AddTransition(new TransitionAfter<EnemyStates>(EnemyStates.CHASE, EnemyStates.PATROL,
+                abandonChaseDuration));
+
             // CHASE <==> ATTACK
-            _fsm.AddTransition(new TransitionAfter<EnemyStates>(EnemyStates.CHASE, EnemyStates.ATTACK, 0.5f, transition => Vector3.Distance(transform.position, playerTransform.position) < attackRange));
-            _fsm.AddTransition(new TransitionAfter<EnemyStates>(EnemyStates.ATTACK, EnemyStates.CHASE, 0.5f, transition => Vector3.Distance(transform.position, playerTransform.position) > attackRange));
+            _fsm.AddTransition(new TransitionAfter<EnemyStates>(EnemyStates.CHASE, EnemyStates.ATTACK, 0.5f,
+                transition => Vector3.Distance(transform.position, playerTransform.position) < attackRange));
+            _fsm.AddTransition(new TransitionAfter<EnemyStates>(EnemyStates.ATTACK, EnemyStates.CHASE, 0.5f,
+                transition => Vector3.Distance(transform.position, playerTransform.position) > attackRange));
 
             // Testing: Transitions for directly testing states by chaning current state enum value
             //_fsm.AddTransitionFromAny(EnemyStates.WANDER, transition => currentEnemyState == EnemyStates.WANDER);
@@ -232,6 +236,7 @@ namespace EnemyAI
             // Initialize FSMs
             _fsm.Init();
         }
+
         private void Update()
         {
             _fsm.OnLogic();
@@ -249,8 +254,9 @@ namespace EnemyAI
                     if (_facingRight)
                     {
                         SwitchSpriteDirection();
-                    } 
-                } else
+                    }
+                }
+                else
                 {
                     _direction.x = 1;
 
@@ -287,15 +293,18 @@ namespace EnemyAI
             }
             else
             {
-                transform.position = Vector3.MoveTowards(transform.position, playerTransform.position, chaseSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, playerTransform.position,
+                    chaseSpeed * Time.deltaTime);
             }
         }
+
         private void Patrol()
         {
             if (_facingRight)
             {
                 _direction.x = 1;
-            } else
+            }
+            else
             {
                 _direction.x = -1;
             }
@@ -336,7 +345,8 @@ namespace EnemyAI
 
 
                 _desiredVelocity = forward * Mathf.Max(patrolSpeed - _ground.Friction, 0f);
-            } else
+            }
+            else
             {
                 _patrolOffset += 0.1f;
 
@@ -346,10 +356,12 @@ namespace EnemyAI
                     SwitchSpriteDirection();
                     _patrolOffset = 0f;
                 }
-                Vector3 targetPosition = new Vector3(transform.position.x + patrolRange * _direction.x, transform.position.y, transform.position.z);
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition, patrolSpeed * Time.deltaTime);
+
+                Vector3 targetPosition = new Vector3(transform.position.x + patrolRange * _direction.x,
+                    transform.position.y, transform.position.z);
+                transform.position =
+                    Vector3.MoveTowards(transform.position, targetPosition, patrolSpeed * Time.deltaTime);
             }
-            
         }
 
         private void FixedUpdate()
@@ -367,7 +379,5 @@ namespace EnemyAI
             _stalkerSprite.gameObject.transform.Rotate(0, -180, 0, Space.Self);
             _facingRight = !_facingRight;
         }
-        
     }
 }
-

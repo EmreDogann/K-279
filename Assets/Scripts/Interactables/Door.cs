@@ -6,8 +6,8 @@ using Events;
 using Inspect.Views.Triggers;
 using Items;
 using MyBox;
-using Rooms;
 using ScriptableObjects;
+using ScriptableObjects.Rooms;
 using UnityEngine;
 
 namespace Interactables

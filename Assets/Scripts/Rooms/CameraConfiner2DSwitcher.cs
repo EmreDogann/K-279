@@ -15,14 +15,24 @@ namespace Rooms
         private void Awake()
         {
             _confiner2D = GetComponent<CinemachineConfiner2D>();
+        }
+
+        private void OnEnable()
+        {
+            Room.OnRoomPrepare += OnRoomPrepare;
+            RoomManager.OnPlayerSwitchingRoomsEditor += OnPlayerSwitchingRooms_Editor;
 
 #if UNITY_EDITOR
             EditorApplication.playModeStateChanged += Editor_RemoveConfiner;
 #endif
         }
 
+
         private void OnDisable()
         {
+            Room.OnRoomPrepare -= OnRoomPrepare;
+            RoomManager.OnPlayerSwitchingRoomsEditor -= OnPlayerSwitchingRooms_Editor;
+
 #if UNITY_EDITOR
             EditorApplication.playModeStateChanged -= Editor_RemoveConfiner;
 #endif
@@ -38,6 +48,16 @@ namespace Rooms
             }
         }
 #endif
+
+        private void OnPlayerSwitchingRooms_Editor(Collider2D collider)
+        {
+            SwitchConfinerTarget(collider);
+        }
+
+        private void OnRoomPrepare(RoomData roomData)
+        {
+            SwitchConfinerTarget(roomData.cameraBounds);
+        }
 
         public void RemoveConfiner()
         {

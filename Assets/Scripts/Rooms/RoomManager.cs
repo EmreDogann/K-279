@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using AYellowpaper.SerializedCollections;
 using Interactables;
 using Lights;
 using MyBox;
+using SceneLoading;
+using ScriptableObjects.Rooms;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -15,21 +18,63 @@ namespace Rooms
     public class RoomManager : MonoBehaviour
     {
         [SerializeField] private float roomLoadWaitTime;
-        [SerializeField] private CameraConfiner2DSwitcher cameraConfiner2DSwitcher;
 
         [Separator("Room Settings")]
         [SerializeField] private bool loadStartingRoomOnAwake;
         [SerializeField] private RoomType startingRoom;
         [SerializeField] private RoomType startingRoomEnteringFrom;
 
+
         [SerializeField] private List<Room> rooms;
         [ReadOnly] [SerializeField] private Room currentRoom;
 
+        private SerializedDictionary<RoomType, RoomConfig> _roomTypeToRoomConfig;
         private bool _switchingInProgress;
 
         private void Awake()
         {
-            rooms = GetComponentsInChildren<Room>(true).ToList();
+            Room.OnRoomCreate += OnRoomLoaded;
+            Room.OnRoomDestroy += OnRoomDestroy;
+        }
+
+        private void OnRoomLoaded(Room loadedRoom)
+        {
+            bool containsRoom = false;
+            foreach (Room room in rooms)
+            {
+                if (room.GetRoomType() == loadedRoom.GetRoomType())
+                {
+                    containsRoom = true;
+                    break;
+                }
+            }
+
+            if (!containsRoom)
+            {
+                rooms.Add(loadedRoom);
+            }
+        }
+
+        private void OnRoomDestroy(Room destroyRoom)
+        {
+            int index = 0;
+            foreach (Room room in rooms)
+            {
+                if (room.GetRoomType() == destroyRoom.GetRoomType())
+                {
+                    break;
+                }
+
+                index++;
+            }
+
+            rooms.RemoveAt(index);
+        }
+
+        private void OnDestroy()
+        {
+            Room.OnRoomCreate -= OnRoomLoaded;
+            Room.OnRoomDestroy -= OnRoomDestroy;
         }
 
         private void Start()
@@ -39,7 +84,13 @@ namespace Rooms
                 return;
             }
 
-            GameObject player = GameObject.FindWithTag("Player");
+            GameObject player = GameState.Instance.GetPlayer;
+            if (player == null)
+            {
+                Debug.LogError("ERROR: PlayerToRoom(): Player reference not found in GameState!");
+                return;
+            }
+
             currentRoom = loadStartingRoomOnAwake
                 ? GetRoom(startingRoom)
                 : GetRoomAtPoint(player.transform.position);
@@ -52,13 +103,7 @@ namespace Rooms
             {
                 currentRoom.ActivateRoom(startingRoomEnteringFrom, loadStartingRoomOnAwake);
                 PlayDoorAmbiances(currentRoom.GetDoors());
-                cameraConfiner2DSwitcher.SwitchConfinerTarget(currentRoom.GetCameraBounds());
             }
-        }
-
-        private void OnValidate()
-        {
-            rooms = GetComponentsInChildren<Room>(true).ToList();
         }
 
         private void OnEnable()
@@ -108,14 +153,49 @@ namespace Rooms
 
         public void SwitchRoom(RoomType roomType, float transitionWaitTime = -1.0f, Action roomSwitchedCallback = null)
         {
+            Room roomTarget = null;
             foreach (Room room in rooms)
             {
                 if (room.GetRoomType() == roomType)
                 {
-                    StartCoroutine(TransitionRooms(room, transitionWaitTime, roomSwitchedCallback));
+                    roomTarget = room;
                     break;
                 }
             }
+
+            if (roomTarget != null)
+            {
+                StartCoroutine(TransitionRooms(roomTarget, transitionWaitTime, roomSwitchedCallback));
+            }
+            else
+            {
+                StartCoroutine(WaitForRoomLoad(roomType, transitionWaitTime, roomSwitchedCallback));
+            }
+        }
+
+        private IEnumerator WaitForRoomLoad(RoomType roomType, float transitionWaitTime = -1.0f,
+            Action roomSwitchedCallback = null)
+        {
+            string currentScene = currentRoom.gameObject.scene.path;
+            _roomTypeToRoomConfig.TryGetValue(roomType, out RoomConfig roomConfig);
+
+            bool isLoadFinished = false;
+            if (roomConfig != null && roomConfig.owningScene != null)
+            {
+                SceneLoaderManager.Instance.LoadSceneAsync(roomConfig.owningScene.SceneName, false,
+                    _ => isLoadFinished = true);
+            }
+
+            while (!isLoadFinished)
+            {
+                yield return null;
+            }
+
+            Room roomTarget = SceneManager.GetSceneByName(roomConfig.owningScene.SceneName).GetRootGameObjects()[0]
+                .GetComponent<Room>();
+
+            yield return StartCoroutine(TransitionRooms(roomTarget, transitionWaitTime, roomSwitchedCallback));
+            SceneLoaderManager.Instance.UnloadSceneAsync(currentScene);
         }
 
         private IEnumerator TransitionRooms(Room newRoom, float roomLoadWaitTimeOverride, Action roomSwitchedCallback)
@@ -129,7 +209,6 @@ namespace Rooms
                 newRoom.PrepareRoom(currentRoom.GetRoomType());
             }
 
-            cameraConfiner2DSwitcher.SwitchConfinerTarget(newRoom.GetCameraBounds());
             yield return new WaitForSecondsRealtime(roomLoadWaitTimeOverride > 0.0f
                 ? roomLoadWaitTimeOverride
                 : roomLoadWaitTime);
@@ -160,7 +239,7 @@ namespace Rooms
                     continue;
                 }
 
-                var roomAmbiences = GetRoom(door.GetConnectingRoom()).GetRoomAmbiences();
+                var roomAmbiences = _roomTypeToRoomConfig[door.GetConnectingRoom()].roomAmbiences;
 
                 foreach (RoomAmbience roomAmbience in roomAmbiences)
                 {
@@ -189,7 +268,7 @@ namespace Rooms
                     continue;
                 }
 
-                var roomAmbiences = GetRoom(door.GetConnectingRoom()).GetRoomAmbiences();
+                var roomAmbiences = _roomTypeToRoomConfig[door.GetConnectingRoom()].roomAmbiences;
 
                 foreach (RoomAmbience roomAmbience in roomAmbiences)
                 {
@@ -201,27 +280,64 @@ namespace Rooms
             }
         }
 
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            _roomTypeToRoomConfig = LoadAllRooms();
+        }
+
+        private static SerializedDictionary<RoomType, RoomConfig> LoadAllRooms()
+        {
+            string[] guids =
+                AssetDatabase.FindAssets("t:" + typeof(RoomConfig), new[] { "Assets/Scriptable Objects/Rooms" });
+            int count = guids.Length;
+            var dict = new SerializedDictionary<RoomType, RoomConfig>();
+
+            for (int n = 0; n < count; n++)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guids[n]);
+                RoomConfig roomConfig = AssetDatabase.LoadAssetAtPath<RoomConfig>(path);
+                dict[roomConfig.roomType] = roomConfig;
+            }
+
+            return dict;
+        }
+
+        public static event Action<Collider2D> OnPlayerSwitchingRoomsEditor;
+
         private void PlayerToRoom(RoomType roomType)
         {
-            GameObject player = GameObject.FindWithTag("Player");
+            GameObject player = GameState.Instance.GetPlayer;
+            if (player == null)
+            {
+                Debug.LogError("ERROR: Player reference not found in GameState!");
+                return;
+            }
+
+            bool roomFound = false;
             foreach (Room room in rooms)
             {
                 if (room.GetRoomType() == roomType)
                 {
                     // Set player to spawn point of first door in the room's list.
                     player.transform.position = room.GetDoorSpawnPoint(0);
-                    cameraConfiner2DSwitcher.SwitchConfinerTarget(room.GetCameraBounds());
+                    OnPlayerSwitchingRoomsEditor?.Invoke(room.GetCameraBounds());
+
+                    roomFound = true;
                     break;
                 }
             }
+
+            if (!roomFound)
+            {
+                Debug.LogError("ERROR: Room not found!");
+            }
         }
 
-#if UNITY_EDITOR
         [CustomEditor(typeof(RoomManager))]
         public class RoomManagerEditor : Editor
         {
             private SerializedProperty _roomLoadWaitTimeProp;
-            private SerializedProperty _cameraConfiner2DSwitcherProp;
 
             private SerializedProperty _startingRoomProp;
             private SerializedProperty _startingRoomEnteringFromProp;
@@ -237,7 +353,6 @@ namespace Rooms
             private void OnEnable()
             {
                 _roomLoadWaitTimeProp = serializedObject.FindProperty(nameof(roomLoadWaitTime));
-                _cameraConfiner2DSwitcherProp = serializedObject.FindProperty(nameof(cameraConfiner2DSwitcher));
 
                 _startingRoomProp = serializedObject.FindProperty(nameof(startingRoom));
                 _startingRoomEnteringFromProp = serializedObject.FindProperty(nameof(startingRoomEnteringFrom));
@@ -261,7 +376,6 @@ namespace Rooms
                 serializedObject.Update();
 
                 EditorGUILayout.PropertyField(_roomLoadWaitTimeProp);
-                EditorGUILayout.PropertyField(_cameraConfiner2DSwitcherProp);
 
                 EditorGUILayout.PropertyField(_loadStartingRoomOnAwakeProp);
                 if (_loadStartingRoomOnAwakeProp.boolValue)

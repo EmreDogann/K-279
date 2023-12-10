@@ -6,54 +6,38 @@ using Audio;
 using Interactables;
 using Lights;
 using MyBox;
+using ScriptableObjects.Rooms;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Splines;
 
 namespace Rooms
 {
-    public enum RoomType
-    {
-        CaptainQuarters,
-        CrewQuarters,
-        Engine,
-        Hallway,
-        Navigation,
-        Torpedo
-    }
-
     public class RoomData
     {
         public SplineContainer RoomPath;
         public int PathIndex;
         public Transform StartingPosition;
         public float LightFadeDuration;
-    }
-
-    [Serializable]
-    public class RoomAmbience
-    {
-        public AudioSO audio;
-        public bool playInConnectingRooms;
-        [ConditionalField(nameof(playInConnectingRooms))] public bool useOriginalAudioVolume = true;
-        [ConditionalField(nameof(playInConnectingRooms))] public float connectingRoomVolume = 1.0f;
+        public Collider2D cameraBounds;
     }
 
     public class Room : MonoBehaviour
     {
-        [SerializeField] private RoomType roomType;
-        [SerializeField] private List<RoomAmbience> roomAmbiences;
+        [SerializeField] private RoomConfig roomConfig;
 
         [Separator("Lights")]
         [SerializeField] private float lightFadeDuration = 1.0f;
         [field: SerializeReference] public bool LightsOn { get; private set; } = true;
 
-        [Separator("Room Data")]
+        [Separator("Runtime Room Data")]
         [SerializeField] private Collider2D cameraBounds;
         [SerializeField] private List<Door> roomDoors;
         [SerializeField] private List<RoomLight> roomLights;
         [SerializeField] private SplineContainer roomPath;
 
+        public static event Action<Room> OnRoomCreate;
+        public static event Action<Room> OnRoomDestroy;
         public static event Action<bool, float> OnLightsSwitch;
         public static event Action<RoomData> OnRoomPrepare;
         public static event Action<RoomData> OnRoomActivate;
@@ -102,6 +86,13 @@ namespace Rooms
                     $"{name} Error: Room bounds not found! Please create a BoxCollider game object" +
                     "tagged \"RoomBounds\" that encapsulates the entire room.");
             }
+
+            OnRoomCreate?.Invoke(this);
+        }
+
+        private void OnDestroy()
+        {
+            OnRoomDestroy?.Invoke(this);
         }
 
         private void OnValidate()
@@ -140,7 +131,7 @@ namespace Rooms
 
         public RoomType GetRoomType()
         {
-            return roomType;
+            return roomConfig.roomType;
         }
 
         public Collider2D GetCameraBounds()
@@ -172,7 +163,8 @@ namespace Rooms
                     RoomPath = roomPath,
                     PathIndex = GetNearestSplineIndex(door.GetSpawnPoint().position),
                     StartingPosition = door.GetSpawnPoint(),
-                    LightFadeDuration = lightFadeDuration
+                    LightFadeDuration = lightFadeDuration,
+                    cameraBounds = cameraBounds
                 });
                 break;
             }
@@ -180,7 +172,7 @@ namespace Rooms
 
         public List<RoomAmbience> GetRoomAmbiences()
         {
-            return roomAmbiences;
+            return roomConfig.roomAmbiences;
         }
 
         public List<Door> GetDoors()
@@ -208,11 +200,12 @@ namespace Rooms
                     RoomPath = roomPath,
                     PathIndex = setPlayerPosition ? GetNearestSplineIndex(roomDoors[0].GetSpawnPoint().position) : 0,
                     StartingPosition = setPlayerPosition ? roomDoors[0].GetSpawnPoint() : null,
-                    LightFadeDuration = lightFadeDuration
+                    LightFadeDuration = lightFadeDuration,
+                    cameraBounds = cameraBounds
                 });
             }
 
-            foreach (RoomAmbience roomAmbience in roomAmbiences)
+            foreach (RoomAmbience roomAmbience in roomConfig.roomAmbiences)
             {
                 roomAmbience.audio.Play2D(true, 2.0f);
             }
@@ -244,12 +237,13 @@ namespace Rooms
                     RoomPath = roomPath,
                     PathIndex = setPlayerPosition ? GetNearestSplineIndex(door.GetSpawnPoint().position) : 0,
                     StartingPosition = setPlayerPosition ? door.GetSpawnPoint() : null,
-                    LightFadeDuration = lightFadeDuration
+                    LightFadeDuration = lightFadeDuration,
+                    cameraBounds = cameraBounds
                 });
                 break;
             }
 
-            foreach (RoomAmbience roomAmbience in roomAmbiences)
+            foreach (RoomAmbience roomAmbience in roomConfig.roomAmbiences)
             {
                 roomAmbience.audio.Play2D(true, 2.0f);
             }
@@ -269,12 +263,13 @@ namespace Rooms
                     RoomPath = roomPath,
                     PathIndex = GetNearestSplineIndex(door.GetSpawnPoint().position),
                     StartingPosition = door.GetSpawnPoint(),
-                    LightFadeDuration = lightFadeDuration
+                    LightFadeDuration = lightFadeDuration,
+                    cameraBounds = cameraBounds
                 });
                 break;
             }
 
-            foreach (RoomAmbience roomAmbience in roomAmbiences)
+            foreach (RoomAmbience roomAmbience in roomConfig.roomAmbiences)
             {
                 roomAmbience.audio.Stop(AudioHandle.Invalid, true, 2.0f);
             }
@@ -358,7 +353,5 @@ namespace Rooms
 
             return closestIndex;
         }
-
-        
     }
 }

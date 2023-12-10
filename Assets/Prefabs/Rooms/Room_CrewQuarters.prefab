@@ -2527,12 +2527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2afef4b77c4479249ada0d259afb219e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomType: 1
-  roomAmbiences:
-  - audio: {fileID: 11400000, guid: 101408abce9d2b848a276db2589ea7e1, type: 2}
-    playInConnectingRooms: 0
-    useOriginalAudioVolume: 0
-    connectingRoomVolume: 0
+  roomConfig: {fileID: 11400000, guid: dcba4a43e49aaf24a8c773d744bdaf6f, type: 2}
   lightFadeDuration: 0.5
   <LightsOn>k__BackingField: 1
   cameraBounds: {fileID: 4480491494856283307}

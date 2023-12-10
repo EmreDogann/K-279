@@ -9,6 +9,15 @@
       },
       "hash": "f9a7c863fee22b227afe9af52dff9257cbe02094"
     },
+    "com.ems.main-scene-auto-loading": {
+      "version": "https://github.com/EmreDogann/unity-main-scene-auto-loading.git#upm",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.editorcoroutines": "1.0.0"
+      },
+      "hash": "031ac01a88761647e17b5d4630732c7ed6ce1e70"
+    },
     "com.github.siccity.xnode": {
       "version": "https://github.com/EmreDogann/xNode.git",
       "depth": 0,
@@ -22,6 +31,13 @@
       "source": "git",
       "dependencies": {},
       "hash": "62d78e6122c522964787566ddd59cfc4817a9ce8"
+    },
+    "com.kylewbanks.scenerefattribute": {
+      "version": "0.10.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
     },
     "com.limworks.urpssrpackage": {
       "version": "https://github.com/JoshuaLim007/Unity-ScreenSpaceReflections-URP.git",
@@ -168,6 +184,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.editorcoroutines": {
+      "version": "1.0.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
       "depth": 1,
@@ -191,7 +214,7 @@
       }
     },
     "com.unity.ide.rider": {
-      "version": "3.0.26",
+      "version": "3.0.27",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -236,7 +259,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.recorder": {
-      "version": "4.0.1",
+      "version": "4.0.2",
       "depth": 0,
       "source": "registry",
       "dependencies": {

@@ -1,5 +1,6 @@
 using Attributes;
 using Rooms;
+using ScriptableObjects.Rooms;
 using UnityEngine;
 using xNodes.Nodes.Delay;
 

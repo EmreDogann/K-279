@@ -2,6 +2,7 @@
 using AYellowpaper;
 using Controllers;
 using Events;
+using MyBox;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -12,8 +13,6 @@ namespace Interaction
     {
         [SerializeField] private InputController inputHandler;
         [SerializeField] private InterfaceReference<IInteractor, MonoBehaviour> interactionHandler;
-
-        [SerializeField] private MouseCursorGraphic cursorGraphic;
 
         [Tooltip("The distance from the character that the player can interact with in world space units.")]
         [SerializeField] private float interactionRange;
@@ -32,11 +31,12 @@ namespace Interaction
         private bool _isInRange = true;
 
         private bool _isPaused;
-        private bool _isInteractionBlocked;
+        [ReadOnly] [SerializeField] private bool _isInteractionBlocked;
 
         public static Action<InteractableBase> OnInteract;
         public static Action<InteractableBase> OnHover;
         public static Action<InteractableBase> OnAltInteract;
+        public static Action<bool> OnInteractionStateChange;
 
         private void Awake()
         {
@@ -80,7 +80,6 @@ namespace Interaction
             return blockedByUI && EventSystem.current.IsPointerOverGameObject();
         }
 
-
         private void Update()
         {
             if (!_isPaused && IsInInteractionRange() && !_isInteractionBlocked)
@@ -100,12 +99,12 @@ namespace Interaction
 
             if (distance > interactionRange && _isInRange)
             {
-                cursorGraphic.SetInteractState(false);
+                OnInteractionStateChange?.Invoke(false);
                 _isInRange = false;
             }
             else if (distance < interactionRange && !_isInRange)
             {
-                cursorGraphic.SetInteractState(true);
+                OnInteractionStateChange?.Invoke(true);
                 _isInRange = true;
             }
 

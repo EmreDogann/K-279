@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Interaction
 {
-    public class MouseCursorGraphic : MonoBehaviour
+    public class CursorGraphic : MonoBehaviour
     {
         [SerializeField] private CursorLockMode cursorLockMode;
         [SerializeField] private bool cursorVisible;
@@ -23,6 +23,21 @@ namespace Interaction
 
             Cursor.lockState = cursorLockMode;
             Cursor.visible = cursorVisible;
+        }
+
+        private void OnEnable()
+        {
+            MouseInteraction.OnInteractionStateChange += OnInteractionStateChange;
+        }
+
+        private void OnDisable()
+        {
+            MouseInteraction.OnInteractionStateChange -= OnInteractionStateChange;
+        }
+
+        private void OnInteractionStateChange(bool isInteractionEnabled)
+        {
+            SetInteractState(isInteractionEnabled);
         }
 
         private void Update()

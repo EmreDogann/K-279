@@ -8,6 +8,7 @@ using Interaction;
 using Items;
 using Rooms;
 using ScriptableObjects;
+using ScriptableObjects.Rooms;
 using UnityEngine;
 
 namespace Capabilities

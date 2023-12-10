@@ -6,6 +6,27 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/PersistantObjects.unity
+    guid: 82ac7a9bc3348404db88306532522d1d
+  - enabled: 1
     path: Assets/Scenes/Main.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Rooms/Hallway.unity
+    guid: e700050cec61c40468fa494ef6dcacf6
+  - enabled: 1
+    path: Assets/Scenes/Rooms/Navigation.unity
+    guid: 80f9dba632f9d6d4ab8ac9f0986d47c3
+  - enabled: 1
+    path: Assets/Scenes/Rooms/Captains Quarters.unity
+    guid: 40e3c5061fb9f7a4cadebb431004993a
+  - enabled: 1
+    path: Assets/Scenes/Rooms/Crew Quarters.unity
+    guid: b64401a04be0db54cb73d474d8534565
+  - enabled: 1
+    path: Assets/Scenes/Rooms/Torpedo.unity
+    guid: ddce997e8d8e05a4b97a1ffd92e40160
+  - enabled: 1
+    path: Assets/Scenes/Rooms/Engine.unity
+    guid: 9315c92ca7c72214f8c2fb2b2aba0237
   m_configObjects: {}

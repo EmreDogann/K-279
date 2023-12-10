@@ -4,6 +4,7 @@ using Events;
 using Lights;
 using MyBox;
 using Rooms;
+using ScriptableObjects.Rooms;
 using UnityEngine;
 
 namespace ScriptedEvents.Sequences

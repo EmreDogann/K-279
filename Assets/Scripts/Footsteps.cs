@@ -14,7 +14,9 @@ public class Footsteps : MonoBehaviour
     [Separator("Camera")]
     public bool shakeCameraOnStep;
     [ConditionalField(nameof(shakeCameraOnStep))]
-    [SerializeField] private CinemachineIndependentImpulseListener impulseListener;
+    [SerializeField] private GuidReference impulseListener_GUIDRef;
+    private CinemachineIndependentImpulseListener impulseListener;
+
     [ConditionalField(nameof(shakeCameraOnStep))] [SerializeField] private CinemachineImpulseSource impulseSource;
     [ConditionalField(nameof(shakeCameraOnStep))] [SerializeField] private ScreenShakeProfile screenShakeProfile;
 
@@ -34,6 +36,29 @@ public class Footsteps : MonoBehaviour
             _footstepMaterial = footstepMesh.GetComponent<MeshRenderer>().sharedMaterial;
             _footstepMaterial.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
         }
+
+        if (impulseListener_GUIDRef.gameObject != null)
+        {
+            CinemachineIndependentImpulseListener component = impulseListener_GUIDRef.gameObject
+                .GetComponent<CinemachineIndependentImpulseListener>();
+            if (component != null)
+            {
+                impulseListener = component;
+            }
+        }
+
+
+        impulseListener_GUIDRef.OnGuidRemoved += ImpulseListener_GUIDRefOnOnGuidRemoved;
+    }
+
+    private void OnDestroy()
+    {
+        impulseListener_GUIDRef.OnGuidRemoved -= ImpulseListener_GUIDRefOnOnGuidRemoved;
+    }
+
+    private void ImpulseListener_GUIDRefOnOnGuidRemoved()
+    {
+        impulseListener = null;
     }
 
     private void OnFootstep()
@@ -57,19 +82,33 @@ public class Footsteps : MonoBehaviour
         for (int i = 0; i < hitNum; i++)
         {
             RaycastHit hit = _hits[i];
-            if (hit.transform.TryGetComponent(out ISteppable component))
+            if (hit.transform.TryGetComponent(out ISteppable steppableComponent))
             {
                 if (!play3D)
                 {
-                    component.GetSurfaceData().surfaceSound.Play2D();
+                    steppableComponent.GetSurfaceData().surfaceSound.Play2D();
                 }
                 else
                 {
-                    component.GetSurfaceData().surfaceSound.Play(transform.position);
+                    steppableComponent.GetSurfaceData().surfaceSound.Play(transform.position);
                 }
 
                 if (shakeCameraOnStep && screenShakeProfile && impulseSource)
                 {
+                    if (impulseListener_GUIDRef.gameObject != null)
+                    {
+                        CinemachineIndependentImpulseListener component = impulseListener_GUIDRef.gameObject
+                            .GetComponent<CinemachineIndependentImpulseListener>();
+                        if (component != null)
+                        {
+                            impulseListener = component;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+
                     impulseSource.m_ImpulseDefinition.m_ImpulseDuration = screenShakeProfile.impactTime;
                     impulseSource.m_DefaultVelocity = screenShakeProfile.defaultVelocity;
                     impulseListener.m_ReactionSettings.m_AmplitudeGain = screenShakeProfile.listenerAmplitude;
