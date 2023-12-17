@@ -19,7 +19,7 @@ namespace Rooms
         public int PathIndex;
         public Transform StartingPosition;
         public float LightFadeDuration;
-        public Collider2D cameraBounds;
+        public Collider2D CameraBounds;
     }
 
     public class Room : MonoBehaviour
@@ -33,7 +33,7 @@ namespace Rooms
         [Separator("Runtime Room Data")]
         [SerializeField] private Collider2D cameraBounds;
         [SerializeField] private List<Door> roomDoors;
-        [SerializeField] private List<RoomLight> roomLights;
+        [SerializeField] private List<ControlLight> controllableLights;
         [SerializeField] private SplineContainer roomPath;
 
         public static event Action<Room> OnRoomCreate;
@@ -45,6 +45,65 @@ namespace Rooms
 
         private BoxCollider _roomBounds;
 
+        private enum RoomLoggingState
+        {
+            Prepare,
+            Activate,
+            Deactivate
+        }
+
+        private bool _roomLogging;
+
+        public void SetRoomLogging(bool loggingEnabled)
+        {
+            _roomLogging = loggingEnabled;
+        }
+
+        private void TriggerRoomLogging(RoomLoggingState loggingState, bool isStateFinished)
+        {
+            if (!_roomLogging)
+            {
+                return;
+            }
+
+            switch (loggingState)
+            {
+                case RoomLoggingState.Prepare:
+                    if (!isStateFinished)
+                    {
+                        Debug.Log("Preparing room <color=orange>" + RoomType() + "</color>...");
+                    }
+                    else
+                    {
+                        Debug.Log("Room <color=orange>" + RoomType() + "</color> prepared!");
+                    }
+
+                    break;
+                case RoomLoggingState.Activate:
+                    if (!isStateFinished)
+                    {
+                        Debug.Log("Activating room <color=green>" + RoomType() + "</color>...");
+                    }
+                    else
+                    {
+                        Debug.Log("Room <color=green>" + RoomType() + "</color> activated!");
+                    }
+
+                    break;
+                case RoomLoggingState.Deactivate:
+                    if (!isStateFinished)
+                    {
+                        Debug.Log("Deactivating room <color=red>" + RoomType() + "</color>...");
+                    }
+                    else
+                    {
+                        Debug.Log("Room <color=red>" + RoomType() + "</color> deactivated!");
+                    }
+
+                    break;
+            }
+        }
+
         private void Awake()
         {
             if (roomDoors == null)
@@ -52,18 +111,18 @@ namespace Rooms
                 roomDoors = GetComponentsInChildren<Door>().ToList();
             }
 
-            if (roomLights == null)
+            if (controllableLights == null)
             {
-                roomLights = GetComponentsInChildren<RoomLight>().ToList();
+                controllableLights = GetComponentsInChildren<ControlLight>().ToList();
             }
 
             // Active then deactivate lights that start disabled so that their awake functions can get called.
-            foreach (RoomLight roomLight in roomLights)
+            foreach (ControlLight controlLight in controllableLights)
             {
-                if (!roomLight.gameObject.activeSelf)
+                if (!controlLight.gameObject.activeSelf)
                 {
-                    roomLight.gameObject.SetActive(true);
-                    roomLight.gameObject.SetActive(false);
+                    controlLight.gameObject.SetActive(true);
+                    controlLight.gameObject.SetActive(false);
                 }
             }
 
@@ -109,14 +168,14 @@ namespace Rooms
                 }
             }
 
-            var lightsFound = GetComponentsInChildren<RoomLight>();
-            if (lightsFound.Length != roomLights.Count)
+            var lightsFound = GetComponentsInChildren<ControlLight>();
+            if (lightsFound.Length != controllableLights.Count)
             {
-                foreach (RoomLight roomLight in lightsFound)
+                foreach (ControlLight controlLight in lightsFound)
                 {
-                    if (!roomLights.Contains(roomLight))
+                    if (!controllableLights.Contains(controlLight))
                     {
-                        roomLights.Add(roomLight);
+                        controllableLights.Add(controlLight);
                     }
                 }
             }
@@ -124,17 +183,17 @@ namespace Rooms
             roomPath = GetComponentInChildren<SplineContainer>();
         }
 
-        public Vector3 GetDoorSpawnPoint(int doorIndex)
+        public Vector3 DoorSpawnPoint(int doorIndex)
         {
             return roomDoors[doorIndex].GetSpawnPoint().position;
         }
 
-        public RoomType GetRoomType()
+        public RoomType RoomType()
         {
             return roomConfig.roomType;
         }
 
-        public Collider2D GetCameraBounds()
+        public Collider2D CameraBounds()
         {
             return cameraBounds;
         }
@@ -146,9 +205,12 @@ namespace Rooms
 
         public void PrepareRoom(RoomType exitingRoom)
         {
-            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.CanBeControlledByRoom()))
+            TriggerRoomLogging(RoomLoggingState.Prepare, false);
+
+            foreach (ControlLight controlLight in controllableLights.Where(roomLight =>
+                         roomLight.CanBeControlledByRoom()))
             {
-                roomLight.TurnOffLight();
+                controlLight.TurnOffLight();
             }
 
             foreach (Door door in roomDoors)
@@ -161,32 +223,37 @@ namespace Rooms
                 OnRoomPrepare?.Invoke(new RoomData
                 {
                     RoomPath = roomPath,
-                    PathIndex = GetNearestSplineIndex(door.GetSpawnPoint().position),
+                    PathIndex = NearestSplineIndex(door.GetSpawnPoint().position),
                     StartingPosition = door.GetSpawnPoint(),
                     LightFadeDuration = lightFadeDuration,
-                    cameraBounds = cameraBounds
+                    CameraBounds = cameraBounds
                 });
                 break;
             }
+
+            TriggerRoomLogging(RoomLoggingState.Prepare, true);
         }
 
-        public List<RoomAmbience> GetRoomAmbiences()
+        public List<RoomAmbience> RoomAmbiences()
         {
             return roomConfig.roomAmbiences;
         }
 
-        public List<Door> GetDoors()
+        public List<Door> Doors()
         {
             return roomDoors;
         }
 
         public void ActivateRoom(bool setPlayerPosition)
         {
+            TriggerRoomLogging(RoomLoggingState.Activate, false);
+
             if (LightsOn)
             {
-                foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.CanBeControlledByRoom()))
+                foreach (ControlLight controlLight in controllableLights.Where(roomLight =>
+                             roomLight.CanBeControlledByRoom()))
                 {
-                    roomLight.TurnOnLight(lightFadeDuration);
+                    controlLight.TurnOnLight(lightFadeDuration);
                 }
 
                 OnLightsSwitch?.Invoke(true, lightFadeDuration);
@@ -198,10 +265,10 @@ namespace Rooms
                 OnRoomActivate?.Invoke(new RoomData
                 {
                     RoomPath = roomPath,
-                    PathIndex = setPlayerPosition ? GetNearestSplineIndex(roomDoors[0].GetSpawnPoint().position) : 0,
+                    PathIndex = setPlayerPosition ? NearestSplineIndex(roomDoors[0].GetSpawnPoint().position) : 0,
                     StartingPosition = setPlayerPosition ? roomDoors[0].GetSpawnPoint() : null,
                     LightFadeDuration = lightFadeDuration,
-                    cameraBounds = cameraBounds
+                    CameraBounds = cameraBounds
                 });
             }
 
@@ -209,15 +276,20 @@ namespace Rooms
             {
                 roomAmbience.audio.Play2D(true, 2.0f);
             }
+
+            TriggerRoomLogging(RoomLoggingState.Activate, true);
         }
 
         public void ActivateRoom(RoomType exitingRoom, bool setPlayerPosition = true)
         {
+            TriggerRoomLogging(RoomLoggingState.Activate, false);
+
             if (LightsOn)
             {
-                foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.CanBeControlledByRoom()))
+                foreach (ControlLight controlLight in controllableLights.Where(roomLight =>
+                             roomLight.CanBeControlledByRoom()))
                 {
-                    roomLight.TurnOnLight(lightFadeDuration);
+                    controlLight.TurnOnLight(lightFadeDuration);
                 }
 
                 OnLightsSwitch?.Invoke(true, lightFadeDuration);
@@ -235,10 +307,10 @@ namespace Rooms
                 OnRoomActivate?.Invoke(new RoomData
                 {
                     RoomPath = roomPath,
-                    PathIndex = setPlayerPosition ? GetNearestSplineIndex(door.GetSpawnPoint().position) : 0,
+                    PathIndex = setPlayerPosition ? NearestSplineIndex(door.GetSpawnPoint().position) : 0,
                     StartingPosition = setPlayerPosition ? door.GetSpawnPoint() : null,
                     LightFadeDuration = lightFadeDuration,
-                    cameraBounds = cameraBounds
+                    CameraBounds = cameraBounds
                 });
                 break;
             }
@@ -247,10 +319,14 @@ namespace Rooms
             {
                 roomAmbience.audio.Play2D(true, 2.0f);
             }
+
+            TriggerRoomLogging(RoomLoggingState.Activate, true);
         }
 
         public Coroutine DeactivateRoom(RoomType exitingRoom)
         {
+            TriggerRoomLogging(RoomLoggingState.Deactivate, false);
+
             foreach (Door door in roomDoors)
             {
                 if (door.GetConnectingRoom() != exitingRoom)
@@ -261,10 +337,10 @@ namespace Rooms
                 OnRoomDeactivate?.Invoke(new RoomData
                 {
                     RoomPath = roomPath,
-                    PathIndex = GetNearestSplineIndex(door.GetSpawnPoint().position),
+                    PathIndex = NearestSplineIndex(door.GetSpawnPoint().position),
                     StartingPosition = door.GetSpawnPoint(),
                     LightFadeDuration = lightFadeDuration,
-                    cameraBounds = cameraBounds
+                    CameraBounds = cameraBounds
                 });
                 break;
             }
@@ -274,15 +350,17 @@ namespace Rooms
                 roomAmbience.audio.Stop(AudioHandle.Invalid, true, 2.0f);
             }
 
+            TriggerRoomLogging(RoomLoggingState.Deactivate, true);
 
             return StartCoroutine(WaitForLightsOff(lightFadeDuration));
         }
 
         public void ControlLightState(LightState state)
         {
-            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.CanBeControlledByRoom()))
+            foreach (ControlLight controlLight in controllableLights.Where(roomLight =>
+                         roomLight.CanBeControlledByRoom()))
             {
-                roomLight.ChangeLightState(state);
+                controlLight.ChangeLightState(state);
             }
         }
 
@@ -300,15 +378,17 @@ namespace Rooms
 
         private IEnumerator WaitForLightsOff(float duration)
         {
-            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.CanBeControlledByRoom()))
+            foreach (ControlLight controlLight in controllableLights.Where(roomLight =>
+                         roomLight.CanBeControlledByRoom()))
             {
-                roomLight.TurnOffLight(duration);
+                controlLight.TurnOffLight(duration);
                 OnLightsSwitch?.Invoke(false, duration);
             }
 
-            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.CanBeControlledByRoom()))
+            foreach (ControlLight controlLight in controllableLights.Where(roomLight =>
+                         roomLight.CanBeControlledByRoom()))
             {
-                while (roomLight.IsOn())
+                while (controlLight.IsOn())
                 {
                     yield return null;
                 }
@@ -317,22 +397,24 @@ namespace Rooms
 
         private IEnumerator WaitForLightsOn(float duration)
         {
-            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.CanBeControlledByRoom()))
+            foreach (ControlLight controlLight in controllableLights.Where(roomLight =>
+                         roomLight.CanBeControlledByRoom()))
             {
-                roomLight.TurnOnLight(duration);
+                controlLight.TurnOnLight(duration);
                 OnLightsSwitch?.Invoke(true, duration);
             }
 
-            foreach (RoomLight roomLight in roomLights.Where(roomLight => roomLight.CanBeControlledByRoom()))
+            foreach (ControlLight controlLight in controllableLights.Where(roomLight =>
+                         roomLight.CanBeControlledByRoom()))
             {
-                while (!roomLight.IsOn())
+                while (!controlLight.IsOn())
                 {
                     yield return null;
                 }
             }
         }
 
-        private int GetNearestSplineIndex(Vector3 point)
+        private int NearestSplineIndex(Vector3 point)
         {
             float closestDistance = Mathf.Infinity;
             int closestIndex = 0;

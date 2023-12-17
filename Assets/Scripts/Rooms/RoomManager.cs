@@ -9,6 +9,7 @@ using SceneLoading;
 using ScriptableObjects.Rooms;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -24,6 +25,7 @@ namespace Rooms
         [SerializeField] private RoomType startingRoom;
         [SerializeField] private RoomType startingRoomEnteringFrom;
 
+        [SerializeField] private bool roomLogging;
 
         [SerializeField] private List<Room> rooms;
         [ReadOnly] [SerializeField] private Room currentRoom;
@@ -42,7 +44,7 @@ namespace Rooms
             bool containsRoom = false;
             foreach (Room room in rooms)
             {
-                if (room.GetRoomType() == loadedRoom.GetRoomType())
+                if (room.RoomType() == loadedRoom.RoomType())
                 {
                     containsRoom = true;
                     break;
@@ -60,7 +62,7 @@ namespace Rooms
             int index = 0;
             foreach (Room room in rooms)
             {
-                if (room.GetRoomType() == destroyRoom.GetRoomType())
+                if (room.RoomType() == destroyRoom.RoomType())
                 {
                     break;
                 }
@@ -101,8 +103,9 @@ namespace Rooms
             }
             else
             {
+                currentRoom.SetRoomLogging(roomLogging);
                 currentRoom.ActivateRoom(startingRoomEnteringFrom, loadStartingRoomOnAwake);
-                PlayDoorAmbiances(currentRoom.GetDoors());
+                PlayDoorAmbiances(currentRoom.Doors());
             }
         }
 
@@ -122,7 +125,7 @@ namespace Rooms
 
         public Room GetRoom(RoomType roomType)
         {
-            return rooms.Find(x => x.GetRoomType() == roomType);
+            return rooms.Find(x => x.RoomType() == roomType);
         }
 
         public Room GetRoomAtPoint(Vector3 point)
@@ -153,30 +156,13 @@ namespace Rooms
 
         public void SwitchRoom(RoomType roomType, float transitionWaitTime = -1.0f, Action roomSwitchedCallback = null)
         {
-            Room roomTarget = null;
-            foreach (Room room in rooms)
-            {
-                if (room.GetRoomType() == roomType)
-                {
-                    roomTarget = room;
-                    break;
-                }
-            }
-
-            if (roomTarget != null)
-            {
-                StartCoroutine(TransitionRooms(roomTarget, transitionWaitTime, roomSwitchedCallback));
-            }
-            else
-            {
-                StartCoroutine(WaitForRoomLoad(roomType, transitionWaitTime, roomSwitchedCallback));
-            }
+            StartCoroutine(TransitionRooms(roomType, transitionWaitTime, roomSwitchedCallback));
         }
 
-        private IEnumerator WaitForRoomLoad(RoomType roomType, float transitionWaitTime = -1.0f,
+        private IEnumerator WaitForRoomLoad(RoomType roomType, Ref<Room> targetRoom, float transitionWaitTime = -1.0f,
             Action roomSwitchedCallback = null)
         {
-            string currentScene = currentRoom.gameObject.scene.path;
+            // string currentScene = currentRoom.gameObject.scene.path;
             _roomTypeToRoomConfig.TryGetValue(roomType, out RoomConfig roomConfig);
 
             bool isLoadFinished = false;
@@ -186,43 +172,69 @@ namespace Rooms
                     _ => isLoadFinished = true);
             }
 
+            Debug.Log("Waiting for room " + roomType + " to load...");
+
             while (!isLoadFinished)
             {
                 yield return null;
             }
 
-            Room roomTarget = SceneManager.GetSceneByName(roomConfig.owningScene.SceneName).GetRootGameObjects()[0]
+            Debug.Log("Room " + roomType + " is loaded!");
+
+            targetRoom.Value = SceneManager.GetSceneByName(roomConfig.owningScene.SceneName).GetRootGameObjects()[0]
                 .GetComponent<Room>();
 
-            yield return StartCoroutine(TransitionRooms(roomTarget, transitionWaitTime, roomSwitchedCallback));
-            SceneLoaderManager.Instance.UnloadSceneAsync(currentScene);
+            // yield return StartCoroutine(TransitionRooms(roomTarget, transitionWaitTime, roomSwitchedCallback));
+            // SceneLoaderManager.Instance.UnloadSceneAsync(currentScene);
         }
 
-        private IEnumerator TransitionRooms(Room newRoom, float roomLoadWaitTimeOverride, Action roomSwitchedCallback)
+        private IEnumerator TransitionRooms(RoomType newRoomType, float roomLoadWaitTimeOverride,
+            Action roomSwitchedCallback)
         {
             _switchingInProgress = true;
+            string currentScene = currentRoom.gameObject.scene.path;
 
-            if (currentRoom)
+            if (roomLogging)
             {
-                yield return currentRoom.DeactivateRoom(newRoom.GetRoomType());
-                StopDoorAmbiances(currentRoom.GetDoors());
-                newRoom.PrepareRoom(currentRoom.GetRoomType());
+                Debug.Log("Switching rooms: " + currentRoom.RoomType() + " -> " + newRoomType);
             }
+
+            Room newRoom = null;
+            foreach (Room room in rooms)
+            {
+                if (room.RoomType() == newRoomType)
+                {
+                    newRoom = room;
+                    break;
+                }
+            }
+
+            yield return currentRoom.DeactivateRoom(newRoomType);
+
+            StopDoorAmbiances(currentRoom.Doors());
+
+            // If target room cannot be found, load into memory and wait for it to be available.
+            if (newRoom == null)
+            {
+                var loadedRoomRef = new Ref<Room>();
+                yield return WaitForRoomLoad(newRoomType, loadedRoomRef, roomLoadWaitTimeOverride,
+                    roomSwitchedCallback);
+
+                newRoom = loadedRoomRef.Value;
+                newRoom.SetRoomLogging(roomLogging);
+            }
+
+            newRoom.PrepareRoom(currentRoom.RoomType());
 
             yield return new WaitForSecondsRealtime(roomLoadWaitTimeOverride > 0.0f
                 ? roomLoadWaitTimeOverride
                 : roomLoadWaitTime);
 
-            if (currentRoom)
-            {
-                newRoom.ActivateRoom(currentRoom.GetRoomType());
-            }
-            else
-            {
-                newRoom.ActivateRoom(true);
-            }
+            newRoom.ActivateRoom(currentRoom.RoomType());
 
-            PlayDoorAmbiances(newRoom.GetDoors());
+            SceneLoaderManager.Instance.UnloadSceneAsync(currentScene);
+
+            PlayDoorAmbiances(newRoom.Doors());
 
             roomSwitchedCallback?.Invoke();
             currentRoom = newRoom;
@@ -317,11 +329,11 @@ namespace Rooms
             bool roomFound = false;
             foreach (Room room in rooms)
             {
-                if (room.GetRoomType() == roomType)
+                if (room.RoomType() == roomType)
                 {
                     // Set player to spawn point of first door in the room's list.
-                    player.transform.position = room.GetDoorSpawnPoint(0);
-                    OnPlayerSwitchingRoomsEditor?.Invoke(room.GetCameraBounds());
+                    player.transform.position = room.DoorSpawnPoint(0);
+                    OnPlayerSwitchingRoomsEditor?.Invoke(room.CameraBounds());
 
                     roomFound = true;
                     break;
@@ -338,6 +350,7 @@ namespace Rooms
         public class RoomManagerEditor : Editor
         {
             private SerializedProperty _roomLoadWaitTimeProp;
+            private SerializedProperty _roomLoggingProp;
 
             private SerializedProperty _startingRoomProp;
             private SerializedProperty _startingRoomEnteringFromProp;
@@ -353,6 +366,7 @@ namespace Rooms
             private void OnEnable()
             {
                 _roomLoadWaitTimeProp = serializedObject.FindProperty(nameof(roomLoadWaitTime));
+                _roomLoggingProp = serializedObject.FindProperty(nameof(roomLogging));
 
                 _startingRoomProp = serializedObject.FindProperty(nameof(startingRoom));
                 _startingRoomEnteringFromProp = serializedObject.FindProperty(nameof(startingRoomEnteringFrom));
@@ -414,6 +428,8 @@ namespace Rooms
                     }
                 }
 
+                EditorGUILayout.PropertyField(_roomLoggingProp);
+
                 EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
 
                 EditorGUILayout.PropertyField(_roomsProp);
@@ -441,7 +457,7 @@ namespace Rooms
                 var availableRoomsNicified = new List<string>();
                 Room currentRoom = roomManager.GetRoom(selectedRoom);
 
-                foreach (Door door in currentRoom.GetDoors())
+                foreach (Door door in currentRoom.Doors())
                 {
                     availableRooms.Add(door.GetConnectingRoom().ToString());
                     availableRoomsNicified.Add(ObjectNames.NicifyVariableName(door.GetConnectingRoom().ToString()));

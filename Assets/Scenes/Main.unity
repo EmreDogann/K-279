@@ -2595,6 +2595,7 @@ MonoBehaviour:
   loadStartingRoomOnAwake: 1
   startingRoom: 2
   startingRoomEnteringFrom: 3
+  roomLogging: 0
   rooms:
   - {fileID: 2801266111139615803}
   - {fileID: 6730429435687745383}

@@ -35,7 +35,7 @@ namespace Lights
                 .Pause();
         }
 
-        public bool IsOn()
+        public override bool IsOn()
         {
             return _light.intensity > 0;
         }
@@ -108,7 +108,7 @@ namespace Lights
             }
         }
 
-        public void ChangeLightState(LightState state)
+        public override void ChangeLightState(LightState state)
         {
             _light.DOKill();
 

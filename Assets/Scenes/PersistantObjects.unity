@@ -2412,6 +2412,7 @@ MonoBehaviour:
   loadStartingRoomOnAwake: 1
   startingRoom: 2
   startingRoomEnteringFrom: 3
+  roomLogging: 1
   rooms: []
   currentRoom: {fileID: 0}
 --- !u!4 &1924647663

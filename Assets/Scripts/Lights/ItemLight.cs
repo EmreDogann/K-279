@@ -22,7 +22,7 @@ namespace Lights
             _originalIntensity = _light.intensity;
         }
 
-        public bool IsOn()
+        public override bool IsOn()
         {
             return _light.intensity > 0;
         }
@@ -75,5 +75,7 @@ namespace Lights
                 }
             }
         }
+
+        public override void ChangeLightState(LightState state) {}
     }
 }

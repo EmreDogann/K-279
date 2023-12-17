@@ -101,7 +101,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4929259812571253960
 Transform:
   m_ObjectHideFlags: 0
@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 2223799222732911307}
   - component: {fileID: 8778974438449733729}
   m_Layer: 7
-  m_Name: Point Light_1
+  m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ff22a7fd2d64da6ba293de6a23760a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomCanControl: 0
+  roomCanControl: 1
 --- !u!114 &8778974438449733729
 MonoBehaviour:
   m_ObjectHideFlags: 0

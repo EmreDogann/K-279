@@ -56,7 +56,7 @@ namespace Rooms
 
         private void OnRoomPrepare(RoomData roomData)
         {
-            SwitchConfinerTarget(roomData.cameraBounds);
+            SwitchConfinerTarget(roomData.CameraBounds);
         }
 
         public void RemoveConfiner()
