@@ -159,10 +159,8 @@ namespace Rooms
             StartCoroutine(TransitionRooms(roomType, transitionWaitTime, roomSwitchedCallback));
         }
 
-        private IEnumerator WaitForRoomLoad(RoomType roomType, Ref<Room> targetRoom, float transitionWaitTime = -1.0f,
-            Action roomSwitchedCallback = null)
+        private IEnumerator WaitForRoomLoad(RoomType roomType, Ref<Room> targetRoom)
         {
-            // string currentScene = currentRoom.gameObject.scene.path;
             _roomTypeToRoomConfig.TryGetValue(roomType, out RoomConfig roomConfig);
 
             bool isLoadFinished = false;
@@ -183,9 +181,6 @@ namespace Rooms
 
             targetRoom.Value = SceneManager.GetSceneByName(roomConfig.owningScene.SceneName).GetRootGameObjects()[0]
                 .GetComponent<Room>();
-
-            // yield return StartCoroutine(TransitionRooms(roomTarget, transitionWaitTime, roomSwitchedCallback));
-            // SceneLoaderManager.Instance.UnloadSceneAsync(currentScene);
         }
 
         private IEnumerator TransitionRooms(RoomType newRoomType, float roomLoadWaitTimeOverride,
@@ -217,8 +212,7 @@ namespace Rooms
             if (newRoom == null)
             {
                 var loadedRoomRef = new Ref<Room>();
-                yield return WaitForRoomLoad(newRoomType, loadedRoomRef, roomLoadWaitTimeOverride,
-                    roomSwitchedCallback);
+                yield return WaitForRoomLoad(newRoomType, loadedRoomRef);
 
                 newRoom = loadedRoomRef.Value;
                 newRoom.SetRoomLogging(roomLogging);
@@ -232,13 +226,12 @@ namespace Rooms
 
             newRoom.ActivateRoom(currentRoom.RoomType());
 
-            SceneLoaderManager.Instance.UnloadSceneAsync(currentScene);
-
             PlayDoorAmbiances(newRoom.Doors());
 
             roomSwitchedCallback?.Invoke();
             currentRoom = newRoom;
 
+            SceneLoaderManager.Instance.UnloadSceneAsync(currentScene);
             _switchingInProgress = false;
         }
 

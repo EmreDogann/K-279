@@ -77,12 +77,17 @@ namespace Interactables
                     {
                         OnRoomSwitching?.Invoke(connectingRoom, -1.0f, () =>
                         {
-                            _doorOpenSequence.SmoothRewind();
+                            // _doorOpenSequence.SmoothRewind();
                             interactionBlocker?.Raise(false);
                         });
                     }))
                 .SetAutoKill(false)
                 .Pause();
+        }
+
+        private void OnDestroy()
+        {
+            _doorOpenSequence.Kill();
         }
 
         public RoomType GetConnectingRoom()

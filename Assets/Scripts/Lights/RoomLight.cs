@@ -35,6 +35,11 @@ namespace Lights
                 .Pause();
         }
 
+        private void OnDestroy()
+        {
+            _light.DOKill();
+        }
+
         public override bool IsOn()
         {
             return _light.intensity > 0;
