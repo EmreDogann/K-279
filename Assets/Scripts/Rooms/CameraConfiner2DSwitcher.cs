@@ -20,6 +20,8 @@ namespace Rooms
         private void OnEnable()
         {
             Room.OnRoomPrepare += OnRoomPrepare;
+            Room.OnRoomActivate +=
+                OnRoomPrepare; // Not optimal because this means it will basically set it twice back-to-back, but works perfectly fine for now.
             RoomManager.OnPlayerSwitchingRoomsEditor += OnPlayerSwitchingRooms_Editor;
 
 #if UNITY_EDITOR
@@ -31,6 +33,7 @@ namespace Rooms
         private void OnDisable()
         {
             Room.OnRoomPrepare -= OnRoomPrepare;
+            Room.OnRoomActivate -= OnRoomPrepare;
             RoomManager.OnPlayerSwitchingRoomsEditor -= OnPlayerSwitchingRooms_Editor;
 
 #if UNITY_EDITOR

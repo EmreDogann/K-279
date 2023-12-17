@@ -1009,8 +1009,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemInteractedEvent: {fileID: 1723302019}
-  pickupView: {fileID: 0}
-  itemUserView: {fileID: 0}
+  pickupView_GUIDRef:
+    serializedGuid: 6e07ee612bc0464b865f06a36de499e2
+    cachedName: Item Pickup Inspection
+    cachedScene: {fileID: 102900000, guid: 82ac7a9bc3348404db88306532522d1d, type: 3}
+  itemUserView_GUIDRef:
+    serializedGuid: 53a78976f115ee44b583052e562c7849
+    cachedName: Item User View
+    cachedScene: {fileID: 102900000, guid: 82ac7a9bc3348404db88306532522d1d, type: 3}
   inventory: {fileID: 1723302007}
 --- !u!114 &1723302009
 MonoBehaviour:

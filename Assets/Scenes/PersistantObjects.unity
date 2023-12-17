@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 130267119}
   - component: {fileID: 130267121}
   m_Layer: 0
-  m_Name: Crosshair
+  m_Name: Cursor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -740,6 +740,7 @@ GameObject:
   m_Component:
   - component: {fileID: 476694463}
   - component: {fileID: 476694464}
+  - component: {fileID: 476694465}
   m_Layer: 0
   m_Name: Item User View
   m_TagString: Untagged
@@ -778,6 +779,19 @@ MonoBehaviour:
   vCam: {fileID: 0}
   beforeWaitDuration: 1
   afterWaitDuration: 1
+--- !u!114 &476694465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476694462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62e63db8581b9f04582e664bca1aee02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedGuid: 53a78976f115ee44b583052e562c7849
 --- !u!1 &533895708
 GameObject:
   m_ObjectHideFlags: 0
@@ -1009,7 +1023,7 @@ GameObject:
   - component: {fileID: 920644065}
   - component: {fileID: 920644066}
   m_Layer: 0
-  m_Name: Screen-Space Inspect Camera
+  m_Name: Object/Dialogue Inspection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1345,6 +1359,7 @@ GameObject:
   - component: {fileID: 1544221616}
   - component: {fileID: 1544221618}
   - component: {fileID: 1544221617}
+  - component: {fileID: 1544221619}
   m_Layer: 0
   m_Name: Item Pickup Inspection
   m_TagString: Untagged
@@ -1429,6 +1444,19 @@ MonoBehaviour:
   ellipsisSpeed: 3
   punctuationWaitTime: 0.5
   pauseEvent: {fileID: 11400000, guid: c4e820fd8becde94d91f53738c352eaa, type: 2}
+--- !u!114 &1544221619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544221612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62e63db8581b9f04582e664bca1aee02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializedGuid: 6e07ee612bc0464b865f06a36de499e2
 --- !u!1 &1575304212
 GameObject:
   m_ObjectHideFlags: 0
@@ -2182,7 +2210,7 @@ GameObject:
   - component: {fileID: 1707495057}
   - component: {fileID: 1707495056}
   m_Layer: 0
-  m_Name: Screen-Space Game Camera
+  m_Name: Crosshair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -38,14 +38,14 @@ namespace UI
             View viewActive = ViewManager.Instance.GetCurrentView();
             OnCancelEvent?.Invoke(viewActive);
 
-            if (!viewActive)
-            {
-                // ViewManager.Instance.Show<PauseMenuView>();
-            }
-            else
-            {
-                ViewManager.Instance.Back();
-            }
+            // if (!viewActive)
+            // {
+            // ViewManager.Instance.Show<PauseMenuView>();
+            // }
+            // else
+            // {
+            // ViewManager.Instance.Back();
+            // }
         }
     }
 }
