@@ -1,5 +1,5 @@
 ﻿using UnityEditor;
-using UnityEngine;
+using Editor = UnityEditor.Editor;
 
 [CustomEditor(typeof(GuidComponent))]
 public class GuidComponentDrawer : Editor
@@ -12,7 +12,7 @@ public class GuidComponentDrawer : Editor
         {
             guidComp = (GuidComponent)target;
         }
-       
+
         // Draw label
         EditorGUILayout.LabelField("Guid:", guidComp.GetGuid().ToString());
     }

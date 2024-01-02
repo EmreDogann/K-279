@@ -1,13 +1,13 @@
 {
   "dependencies": {
     "com.domybest.mybox": {
-      "version": "https://github.com/Deadcows/MyBox.git",
+      "version": "https://github.com/Deadcows/MyBox.git#UIToolkit-support",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "com.unity.ugui": "1.0.0"
       },
-      "hash": "f9a7c863fee22b227afe9af52dff9257cbe02094"
+      "hash": "db5b8378c4875597b3364454bb90c9ebf2e31f82"
     },
     "com.ems.main-scene-auto-loading": {
       "version": "https://github.com/EmreDogann/unity-main-scene-auto-loading.git#upm",
@@ -247,6 +247,13 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.2.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.probuilder": {
       "version": "5.1.1",
       "depth": 0,
@@ -372,6 +379,13 @@
         "com.unity.collections": "0.9.0-preview.6"
       },
       "hash": "4986c28517ace563c06985334bf4b17429aa5997"
+    },
+    "com.wooshii.hierarchydecorator": {
+      "version": "https://github.com/WooshiiDev/HierarchyDecorator.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "dab20ee1bdf86442f5eeeac29fbee752a99fe1ab"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
@@ -503,7 +517,7 @@
     },
     "com.unity.modules.uielements": {
       "version": "1.0.0",
-      "depth": 0,
+      "depth": 1,
       "source": "builtin",
       "dependencies": {
         "com.unity.modules.ui": "1.0.0",

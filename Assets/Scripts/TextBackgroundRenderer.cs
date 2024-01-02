@@ -1,9 +1,9 @@
 using TMPro;
 using UnityEngine;
-using Utils;
+using Utils.Extensions;
 
 /*
- * READ BEFORE USING!!!a
+ * READ BEFORE USING!!!
  * For this to work properly,
  * the text object muse be a child of the background rect transform.
  *

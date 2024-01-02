@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/Scripts/SceneHandling/Editor/UI/Styles/ButtonImage.uss?fileID=7433441132597879392&amp;guid=1d7d7e6dd26717c47930d28601095910&amp;type=3#ButtonImage" />
+    <Style src="project://database/Assets/AdvancedSceneManager/System/Editor/UI/SceneManagerWindow/Styles/SceneManagerWindow.uss?fileID=7433441132597879392&amp;guid=344072e549a415e4c881969338448e8f&amp;type=3#SceneManagerWindow" />
+    <ui:VisualElement name="sceneItem" style="flex-grow: 0; flex-direction: row; flex-shrink: 0;">
+        <ui:Button text="\uf0c9" parse-escape-sequences="true" display-tooltip-when-elided="true" name="reorder-handle" enable-rich-text="true" class="unity-button-image" style="flex-shrink: 0; flex-grow: 0; -unity-font-definition: resource(&apos;Font Awesome 6 Free-Solid-900 SDF&apos;); display: none;" />
+        <ui:VisualElement style="flex-grow: 1; display: flex;">
+            <uie:ObjectField type="UnityEditor.SceneAsset, UnityEditor.CoreModule" allow-scene-objects="false" name="rawSceneAssetField" style="display: none; visibility: hidden;" />
+            <SceneHandling.Editor.UI.Controls.ManagedSceneField focusable="true" name="managedSceneField" />
+        </ui:VisualElement>
+        <ui:Button text="\uf1f8" parse-escape-sequences="true" display-tooltip-when-elided="true" name="deleteManagedSceneButton" style="-unity-font-definition: resource(&apos;Font Awesome 6 Free-Solid-900 SDF&apos;); visibility: visible; display: none;" />
+    </ui:VisualElement>
+</ui:UXML>

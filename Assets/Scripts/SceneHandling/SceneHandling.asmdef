@@ -1,0 +1,18 @@
+{
+    "name": "SceneHandling",
+    "rootNamespace": "",
+    "references": [
+        "GUID:12e98dc14e0628a4ea33331724eeb343"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Newtonsoft.Json.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

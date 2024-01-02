@@ -5,10 +5,9 @@ using AYellowpaper.SerializedCollections;
 using Interactables;
 using Lights;
 using MyBox;
-using SceneLoading;
+using SceneHandling;
 using ScriptableObjects.Rooms;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Utils;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -166,7 +165,7 @@ namespace Rooms
             bool isLoadFinished = false;
             if (roomConfig != null && roomConfig.owningScene != null)
             {
-                SceneLoaderManager.Instance.LoadSceneAsync(roomConfig.owningScene.SceneName, false,
+                SceneManager.LoadSceneAsync(roomConfig.owningScene.SceneName, false,
                     _ => isLoadFinished = true);
             }
 
@@ -179,7 +178,8 @@ namespace Rooms
 
             Debug.Log("Room " + roomType + " is loaded!");
 
-            targetRoom.Value = SceneManager.GetSceneByName(roomConfig.owningScene.SceneName).GetRootGameObjects()[0]
+            targetRoom.Value = UnityEngine.SceneManagement.SceneManager.GetSceneByName(roomConfig.owningScene.SceneName)
+                .GetRootGameObjects()[0]
                 .GetComponent<Room>();
         }
 
@@ -231,7 +231,7 @@ namespace Rooms
             roomSwitchedCallback?.Invoke();
             currentRoom = newRoom;
 
-            SceneLoaderManager.Instance.UnloadSceneAsync(currentScene);
+            SceneManager.UnloadSceneAsync(currentScene);
             _switchingInProgress = false;
         }
 
@@ -312,7 +312,7 @@ namespace Rooms
 
         private void PlayerToRoom(RoomType roomType)
         {
-            GameObject player = GameState.Instance.GetPlayer;
+            GameObject player = GameObject.FindWithTag("Player");
             if (player == null)
             {
                 Debug.LogError("ERROR: Player reference not found in GameState!");
@@ -339,126 +339,6 @@ namespace Rooms
             }
         }
 
-        [CustomEditor(typeof(RoomManager))]
-        public class RoomManagerEditor : Editor
-        {
-            private SerializedProperty _roomLoadWaitTimeProp;
-            private SerializedProperty _roomLoggingProp;
-
-            private SerializedProperty _startingRoomProp;
-            private SerializedProperty _startingRoomEnteringFromProp;
-            private SerializedProperty _loadStartingRoomOnAwakeProp;
-
-            private SerializedProperty _roomsProp;
-            private SerializedProperty _currentRoomProp;
-
-            private int _selectedIndex;
-            private string[] _availableOptions = {};
-            private string[] _availableOptionsNicified = {};
-
-            private void OnEnable()
-            {
-                _roomLoadWaitTimeProp = serializedObject.FindProperty(nameof(roomLoadWaitTime));
-                _roomLoggingProp = serializedObject.FindProperty(nameof(roomLogging));
-
-                _startingRoomProp = serializedObject.FindProperty(nameof(startingRoom));
-                _startingRoomEnteringFromProp = serializedObject.FindProperty(nameof(startingRoomEnteringFrom));
-                _loadStartingRoomOnAwakeProp = serializedObject.FindProperty(nameof(loadStartingRoomOnAwake));
-
-                _roomsProp = serializedObject.FindProperty(nameof(rooms));
-                _currentRoomProp = serializedObject.FindProperty(nameof(currentRoom));
-
-                (_availableOptions, _availableOptionsNicified) =
-                    GetAvailableRooms((RoomType)_startingRoomProp.enumValueIndex);
-                _selectedIndex = EditorPrefs.GetInt("RoomManager_StartingRoomSelectedDoor");
-            }
-
-            private void OnDisable()
-            {
-                EditorPrefs.SetInt("RoomManager_StartingRoomSelectedDoor", _selectedIndex);
-            }
-
-            public override void OnInspectorGUI()
-            {
-                serializedObject.Update();
-
-                EditorGUILayout.PropertyField(_roomLoadWaitTimeProp);
-
-                EditorGUILayout.PropertyField(_loadStartingRoomOnAwakeProp);
-                if (_loadStartingRoomOnAwakeProp.boolValue)
-                {
-                    EditorGUI.BeginChangeCheck();
-
-                    EditorGUILayout.PropertyField(_startingRoomProp);
-
-                    if (EditorGUI.EndChangeCheck())
-                    {
-                        (_availableOptions, _availableOptionsNicified) =
-                            GetAvailableRooms((RoomType)_startingRoomProp.enumValueIndex);
-
-                        Enum.TryParse(_availableOptions[0], out RoomType startingDoor);
-                        _startingRoomEnteringFromProp.enumValueIndex = (int)startingDoor;
-                        _selectedIndex = 0;
-                    }
-
-                    if (_availableOptions.Length <= 0)
-                    {
-                        GUIStyle labelStyle = new GUIStyle();
-                        labelStyle.alignment = TextAnchor.MiddleCenter;
-                        labelStyle.normal.textColor = Color.red;
-                        EditorGUILayout.LabelField("Room does not have any doors! Cannot spawn here!", labelStyle);
-                    }
-                    else
-                    {
-                        EditorGUI.BeginChangeCheck();
-                        _selectedIndex = EditorGUILayout.Popup(_startingRoomEnteringFromProp.displayName,
-                            _selectedIndex, _availableOptionsNicified);
-                        if (EditorGUI.EndChangeCheck())
-                        {
-                            Enum.TryParse(_availableOptions[_selectedIndex], out RoomType startingDoor);
-                            _startingRoomEnteringFromProp.enumValueIndex = (int)startingDoor;
-                        }
-                    }
-                }
-
-                EditorGUILayout.PropertyField(_roomLoggingProp);
-
-                EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
-
-                EditorGUILayout.PropertyField(_roomsProp);
-                EditorGUI.BeginDisabledGroup(true);
-                EditorGUILayout.PropertyField(_currentRoomProp);
-                EditorGUI.BeginDisabledGroup(false);
-
-                EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
-                foreach (RoomType roomType in Enum.GetValues(typeof(RoomType)))
-                {
-                    if (GUILayout.Button("Player  ->  " + ObjectNames.NicifyVariableName(roomType.ToString())))
-                    {
-                        ((RoomManager)serializedObject.targetObject).PlayerToRoom(roomType);
-                    }
-                }
-
-                serializedObject.ApplyModifiedProperties();
-            }
-
-            private Tuple<string[], string[]> GetAvailableRooms(RoomType selectedRoom)
-            {
-                RoomManager roomManager = (RoomManager)serializedObject.targetObject;
-
-                var availableRooms = new List<string>();
-                var availableRoomsNicified = new List<string>();
-                Room currentRoom = roomManager.GetRoom(selectedRoom);
-
-                foreach (Door door in currentRoom.Doors())
-                {
-                    availableRooms.Add(door.GetConnectingRoom().ToString());
-                    availableRoomsNicified.Add(ObjectNames.NicifyVariableName(door.GetConnectingRoom().ToString()));
-                }
-
-                return new Tuple<string[], string[]>(availableRooms.ToArray(), availableRoomsNicified.ToArray());
-            }
-        }
 #endif
     }
 }

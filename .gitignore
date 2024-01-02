@@ -38,16 +38,17 @@ Bin.meta
 ![Aa]ssets/**/*.meta
 
 # Ignore Jetbrains Plugin
-Assets/Plugins/Editor/JetBrains.meta
-Assets/Plugins/Editor/JetBrains/*
+[Aa]ssets/Plugins/Editor/JetBrains.meta
+[Aa]ssets/Plugins/Editor/JetBrains/*
 JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll.meta
-assets/Plugins/Editor/JetBrains.meta
-assets/Plugins/Editor/JetBrains/*
+[Aa]ssets/Plugins/Editor/ScriptInspector3/*
+[Aa]ssets/Plugins/Editor/ScriptInspector3.meta
 
 # Comment these out if you wish to commit the asset store tools plugins
 [Aa]ssets/AssetStoreTools*
 AssetStoreTools.meta
 [Aa]ssets/ProPixelizer*
+[Aa]ssets/AdvancedSceneManager*
 
 # Visual Studio cache directory
 .vs/

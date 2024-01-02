@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: bc897a58436843dfa926f0170708551a
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_ViewDataDictionary: {instanceID: 0}
+  - rootView: {fileID: 9197481963319205126, guid: b39e276599d518543abf4cea6664025d,
+      type: 3}
+  - sceneTemplate: {fileID: 9197481963319205126, guid: 280fe2a75b9911942926d8e4600f075f,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

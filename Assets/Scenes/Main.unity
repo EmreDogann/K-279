@@ -164,7 +164,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 7156927}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: delayFunction
@@ -211,37 +211,6 @@ MonoBehaviour:
   - {fileID: 2006439394}
   startNode: {fileID: 0}
   currentNode: {fileID: 0}
---- !u!1 &20650975
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 20650976}
-  m_Layer: 0
-  m_Name: ========== LEVEL ==========
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &20650976
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 20650975}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &30811007
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,7 +288,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 129344648}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
@@ -410,7 +379,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 166528728}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
@@ -518,7 +487,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 245477001}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: delayFunction
@@ -802,8 +771,6 @@ MonoBehaviour:
   exit: 0
   state: 0
   submarineSoundScape: {fileID: 0}
-  soundType: 0
-  shakeOverride: 2
   minRadius: -1
   maxRadius: -1
 --- !u!114 &307899854
@@ -853,8 +820,6 @@ MonoBehaviour:
   exit: 0
   state: 0
   submarineSoundScape: {fileID: 0}
-  soundType: 0
-  shakeOverride: 1
   minRadius: 0.1
   maxRadius: 1
 --- !u!114 &362153330
@@ -903,8 +868,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: animFinishedEvent
       _node: {fileID: 362153330}
-      _typeQualifiedName: xNodes.Nodes.TriggerAnimationNode+AnimFinishedCallback,
-        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      _typeQualifiedName: xNode.Nodes.TriggerAnimationNode+AnimFinishedCallback,
+        Nodes, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: entry
         node: {fileID: 674238683}
@@ -1162,8 +1127,6 @@ MonoBehaviour:
   exit: 0
   state: 0
   submarineSoundScape: {fileID: 0}
-  soundType: 0
-  shakeOverride: 2
   minRadius: -1
   maxRadius: -1
 --- !u!1 &431313528 stripped
@@ -1413,7 +1376,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 519964814}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
@@ -1536,7 +1499,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 547702113}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
@@ -1589,8 +1552,8 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: nodeExit
       _node: {fileID: 553841240}
-      _typeQualifiedName: xNodes.Nodes.StartNode+StartNodeOutput, Assembly-CSharp,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      _typeQualifiedName: xNode.Nodes.StartNode+StartNodeOutput, Nodes, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: entry
         node: {fileID: 448282583}
@@ -2073,7 +2036,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 689199361}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
@@ -2182,7 +2145,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 732146537}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 0
@@ -2298,37 +2261,6 @@ MonoBehaviour:
   changeMode: 2
   fadeDuration: 0.3
   afterFadeWaitDuration: 1.1
---- !u!1 &792420324
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 792420325}
-  m_Layer: 0
-  m_Name: ========== CAMERAS ==========
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &792420325
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 792420324}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -2472,7 +2404,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 877756464}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 0
@@ -2510,8 +2442,8 @@ MonoBehaviour:
     values:
     - _fieldName: nodeExit
       _node: {fileID: 927078242}
-      _typeQualifiedName: xNodes.Nodes.StartNode+StartNodeOutput, Assembly-CSharp,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      _typeQualifiedName: xNode.Nodes.StartNode+StartNodeOutput, Nodes, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: entry
         node: {fileID: 307899854}
@@ -2696,7 +2628,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 955540970}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 0
@@ -2761,7 +2693,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   graph: {fileID: 19354068}
   triggerOnStart: 0
-  eventTrigger: {fileID: 1702832333}
+  eventTrigger: {fileID: 0}
 --- !u!114 &955721558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3032,7 +2964,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 1028298509}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
@@ -3094,7 +3026,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 1031297890}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
@@ -3174,8 +3106,8 @@ MonoBehaviour:
     values:
     - _fieldName: animFinishedEvent
       _node: {fileID: 1048987189}
-      _typeQualifiedName: xNodes.Nodes.TriggerAnimationNode+AnimFinishedCallback,
-        Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      _typeQualifiedName: xNode.Nodes.TriggerAnimationNode+AnimFinishedCallback,
+        Nodes, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
       _connectionType: 0
@@ -3255,7 +3187,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 1052655870}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
@@ -3290,8 +3222,8 @@ MonoBehaviour:
     values:
     - _fieldName: nodeExit
       _node: {fileID: 1059067006}
-      _typeQualifiedName: xNodes.Nodes.StartNode+StartNodeOutput, Assembly-CSharp,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      _typeQualifiedName: xNode.Nodes.StartNode+StartNodeOutput, Nodes, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: entry
         node: {fileID: 839970613}
@@ -3611,7 +3543,7 @@ MonoBehaviour:
     values:
     - _fieldName: delayFunction
       _node: {fileID: 1440674654}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 0
@@ -3745,7 +3677,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 1559766820}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 0
@@ -4030,7 +3962,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 1709676303}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
@@ -4089,7 +4021,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 1720501003}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
@@ -4357,8 +4289,8 @@ MonoBehaviour:
     values:
     - _fieldName: nodeExit
       _node: {fileID: 1957825810}
-      _typeQualifiedName: xNodes.Nodes.StartNode+StartNodeOutput, Assembly-CSharp,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      _typeQualifiedName: xNode.Nodes.StartNode+StartNodeOutput, Nodes, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       connections:
       - fieldName: entry
         node: {fileID: 1048987189}
@@ -4612,7 +4544,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 1977301602}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
@@ -4671,7 +4603,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 1986091026}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
@@ -4791,7 +4723,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 2011107846}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 0
@@ -4859,7 +4791,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 2048228947}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
@@ -4968,7 +4900,7 @@ MonoBehaviour:
       _dynamic: 0
     - _fieldName: delayFunction
       _node: {fileID: 2056371984}
-      _typeQualifiedName: xNodes.Nodes.Delay.BaseDelayNode, Assembly-CSharp, Version=0.0.0.0,
+      _typeQualifiedName: xNode.Nodes.Delay.BaseDelayNode, Nodes, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
       connections: []
       _direction: 1
@@ -5832,10 +5764,8 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 832575519}
-  - {fileID: 792420325}
   - {fileID: 955721560}
   - {fileID: 1191720812}
-  - {fileID: 20650976}
   - {fileID: 937513558}
   - {fileID: 1960134382}
   - {fileID: 1756468856}

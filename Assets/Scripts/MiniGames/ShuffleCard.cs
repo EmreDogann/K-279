@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using MiniGames;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -18,11 +17,13 @@ namespace MiniGame
         public ShuffleMiniGame parentGame;
 
         #region FIELDS
+
         private Grid grid;
 
-        
         #endregion
-        #region  IDragHandler - IEndDragHandler
+
+        #region IDragHandler - IEndDragHandler
+
         public void OnEndDrag(PointerEventData eventData)
         {
             //Debug.Log("Press position + " + eventData.pressPosition);
@@ -33,10 +34,7 @@ namespace MiniGame
         }
 
         //It must be implemented otherwise IEndDragHandler won't work 
-        public void OnDrag(PointerEventData eventData)
-        {
-
-        }
+        public void OnDrag(PointerEventData eventData) {}
 
         private DraggedDirection GetDragDirection(Vector3 dragVector)
         {
@@ -45,33 +43,35 @@ namespace MiniGame
             DraggedDirection draggedDir;
             if (positiveX > positiveY)
             {
-                draggedDir = (dragVector.x > 0) ? DraggedDirection.Right : DraggedDirection.Left;
+                draggedDir = dragVector.x > 0 ? DraggedDirection.Right : DraggedDirection.Left;
             }
             else
             {
-                draggedDir = (dragVector.y > 0) ? DraggedDirection.Up : DraggedDirection.Down;
+                draggedDir = dragVector.y > 0 ? DraggedDirection.Up : DraggedDirection.Down;
             }
+
             //Debug.Log(draggedDir);
             return draggedDir;
         }
-        #endregion
 
+        #endregion
 
 
         public void SetParent(ShuffleMiniGame parent)
         {
             parentGame = parent;
         }
+
         public void SetID(int ID)
         {
             //parentGame = GetComponentInParent<ShuffleMiniGame>();
-            
+
             this.ID = ID;
         }
+
         public int GetID()
         {
-            return this.ID;
+            return ID;
         }
-        
     }
 }

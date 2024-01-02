@@ -1,0 +1,21 @@
+{
+    "name": "SceneHandling.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0db6541090819ea43b2230e1f7bb2128",
+        "GUID:12e98dc14e0628a4ea33331724eeb343"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Newtonsoft.Json.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_EDITOR"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
