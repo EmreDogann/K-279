@@ -4,6 +4,15 @@
     border-right-color: rgba(0, 0, 0, 0);
     border-top-color: rgba(0, 0, 0, 0);
     border-bottom-color: rgba(0, 0, 0, 0);
-    color: rgb(202, 202, 202);
+    color: rgb(231, 231, 231);
     -unity-font-style: normal;
+}
+
+.unity-button-image:hover {
+    color: rgb(255, 255, 255);
+    scale: 1.08 1.08;
+}
+
+.unity-button-image:active {
+    color: rgb(217, 217, 217);
 }

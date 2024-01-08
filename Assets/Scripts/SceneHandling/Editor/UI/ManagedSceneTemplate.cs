@@ -62,14 +62,13 @@ namespace SceneHandling.Editor.UI
 
         private void OnDeleteButton_Clicked()
         {
-            SceneManagerAssets.DeleteAsset(managedScene.Guid);
+            SceneManagerAssets.DeleteAsset(managedScene);
         }
 
         public void OnDestroy()
         {
             UnbindGUI();
-            // SceneManagerAssets.DeleteAsset(managedScene.Guid);
-            SceneManagerSettings.Instance.managedScenes.Remove(managedScene);
+            SceneManagerAssets.DeleteAsset(managedScene);
         }
     }
 }

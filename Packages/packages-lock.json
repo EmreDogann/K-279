@@ -387,6 +387,13 @@
       "dependencies": {},
       "hash": "dab20ee1bdf86442f5eeeac29fbee752a99fe1ab"
     },
+    "jp.hadashikick.vyaml": {
+      "version": "https://github.com/hadashiA/VYaml.git?path=VYaml.Unity/Assets/VYaml#0.20.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "768fea3c68e7e0dff49e15fe5380b84a9a84ba86"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

@@ -1,0 +1,15 @@
+.collection-view__item--disabled {
+    background-color: transparent;
+}
+
+.collection-view__item--disabled:checked {
+    background-color: transparent;
+}
+
+.collection-view__item--disabled:hover {
+    background-color: var(--button-hover);
+}
+
+.collection-view__item--disabled:selected {
+    background-color: var(--button-click);
+}

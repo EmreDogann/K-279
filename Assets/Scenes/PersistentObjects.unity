@@ -476,7 +476,7 @@ GameObject:
   - component: {fileID: 284565542}
   - component: {fileID: 284565543}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -511,8 +511,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scene: {fileID: 0}
   managedScene:
-    sceneAsset: {fileID: 102900000, guid: 0f10524847f1010438443946b7d7a61d, type: 3}
-    guid: 0f10524847f1010438443946b7d7a61d
+    sceneAsset: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
+    guid: 99c9720ab356a0642a771bea13969a05
   managedSceneList:
   - sceneAsset: {fileID: 0}
     guid: 
@@ -903,7 +903,7 @@ GameObject:
   - component: {fileID: 733992453}
   - component: {fileID: 733992454}
   m_Layer: 0
-  m_Name: GameObject_1
+  m_Name: Test_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -938,8 +938,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scene: {fileID: 0}
   managedScene:
-    sceneAsset: {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
-    guid: 99c9720ab356a0642a771bea13969a05
+    sceneAsset: {fileID: 102900000, guid: 0f10524847f1010438443946b7d7a61d, type: 3}
+    guid: 0f10524847f1010438443946b7d7a61d
   managedSceneList: []
 --- !u!1 &798827824
 GameObject:

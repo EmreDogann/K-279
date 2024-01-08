@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using UnityEditor;
@@ -18,20 +17,24 @@ namespace SceneHandling
         ///     Runs the generator.
         /// </summary>
         /// <remarks>Does nothing in build.</remarks>
-        // [MenuItem("Tools/" + Constants.MenuPrefixBase + "/Generate Scene Data Maps", priority = -3130)]
-        public static void Run()
+        [MenuItem("Tools/Scene Manager/Generate Scene Data Maps", priority = -3130)]
+        public static void TestRun()
+        {
+            Run<SceneGuidToPathMapProvider>();
+            Run<ManagedSceneToRefMapProvider>();
+        }
+
+        public static void Run<T>() where T : ISceneDataMapProvider<T>, new()
         {
 #if UNITY_EDITOR
             try
             {
-                Debug.Log("Re-generating scene data maps.");
+                Debug.Log("Re-generating scene data maps...");
 
-                EnsureScaffolding();
+                EnsureScaffolding<T>();
 
-                string[] allSceneGuids = AssetDatabase.FindAssets("t:Scene");
-
-                var sceneGuidToPathMap = GenerateSceneGuidToPathMap(allSceneGuids);
-                WriteSceneGuidToPathMap(sceneGuidToPathMap);
+                var sceneGuidToPathMap = SceneDataMapProviderSurrogate<T>.GetGenerator().GenerateDataMap();
+                WriteSceneGuidToPathMap<T>(sceneGuidToPathMap);
             }
             finally
             {
@@ -41,29 +44,21 @@ namespace SceneHandling
         }
 
 #if UNITY_EDITOR
-        internal static void EnsureScaffolding()
+        internal static void EnsureScaffolding<T>() where T : ISceneDataMapProvider<T>, new()
         {
-            if (!File.Exists(SceneGuidToPathMapProvider.SavedFilePath))
+            if (!File.Exists(SceneDataMapProviderSurrogate<T>.SavedFilePath))
             {
-                File.WriteAllText(SceneGuidToPathMapProvider.SavedFilePath, "{}");
+                File.WriteAllText(SceneDataMapProviderSurrogate<T>.SavedFilePath, "{}");
             }
         }
 
-        private static Dictionary<string, string> GenerateSceneGuidToPathMap(string[] allSceneGuids)
-        {
-            var sceneGuidToPathMap = allSceneGuids.ToDictionary(
-                x => x,                       // key generator: take guids
-                AssetDatabase.GUIDToAssetPath // value generator: take paths
-            );
-            return sceneGuidToPathMap;
-        }
-
-        private static void WriteSceneGuidToPathMap(Dictionary<string, string> sceneGuidToPathMap)
+        private static void WriteSceneGuidToPathMap<T>(Dictionary<string, object> sceneGuidToPathMap)
+            where T : ISceneDataMapProvider<T>, new()
         {
             string jsonRaw = JsonConvert.SerializeObject(sceneGuidToPathMap, Formatting.Indented);
-            File.WriteAllText(SceneGuidToPathMapProvider.SavedFilePath, jsonRaw);
+            File.WriteAllText(SceneDataMapProviderSurrogate<T>.SavedFilePath, jsonRaw);
 
-            SceneGuidToPathMapProvider.DirectAssign(sceneGuidToPathMap);
+            SceneDataMapProviderSurrogate<T>.DirectAssign(sceneGuidToPathMap);
         }
 #endif
     }

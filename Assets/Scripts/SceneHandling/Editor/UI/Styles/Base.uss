@@ -1,0 +1,12 @@
+﻿:root {
+    --border-radius: 3px;
+    --button-normal: transparent;
+    --button-hover: rgba(0, 0, 0, 0.15);
+    --button-click: rgb(0, 0, 0, 0.3);
+    --button-checked: rgba(0, 0, 0, 0.15);
+    --button-border: rgba(0, 0, 0, 0.25);
+    --expander-normal: rgba(0, 0, 0, 0.15);
+    --expander-hover: rgb(90, 90, 90);
+    --expander-selected: rgb(110, 110, 110);
+    --expander-selected2: rgb(80, 80, 80);
+}

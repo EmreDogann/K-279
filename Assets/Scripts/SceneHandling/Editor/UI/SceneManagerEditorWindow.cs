@@ -1,11 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using Utils.Extensions;
 using Utils.ObservableCollections;
+using Debug = UnityEngine.Debug;
 
 namespace SceneHandling.Editor.UI
 {
@@ -16,10 +21,11 @@ namespace SceneHandling.Editor.UI
 
         private ListView _sceneAssetListView;
         private ListView _managedScenesListView;
-        private ToolbarButton _saveButton;
-        private ToolbarButton _loadButton;
-        private ToolbarButton _clearButton;
-        private ToolbarButton _initButton;
+        private ListView _sceneReferenceDependenciesListView;
+        private Button _saveButton;
+        private Button _loadButton;
+        private Button _clearButton;
+        private Button _initButton;
 
         private Button _openSettingsExplorerButton;
         private Button _openSettingsFileButton;
@@ -28,6 +34,8 @@ namespace SceneHandling.Editor.UI
         private Button _printSceneListSizeButton;
 
         private List<ManagedSceneTemplate> _sceneTemplatesList;
+
+        private List<ManagedSceneReference> _selectedSceneDependencies;
 
         internal static SceneManagerEditorWindow Instance { get; private set; }
 
@@ -46,19 +54,23 @@ namespace SceneHandling.Editor.UI
             template.style.height = new StyleLength(new Length(100, LengthUnit.Percent));
             rootVisualElement.Add(template);
 
+            #region Scene Assets View
+
             _sceneAssetListView = rootVisualElement.Q<ListView>("sceneAssetList");
-            _sceneAssetListView.makeItem += () => new ObjectField
+            _sceneAssetListView.makeItem = () => new ObjectField
             {
                 allowSceneObjects = false, objectType = typeof(SceneAsset), style = { paddingBottom = 4 }
             };
             _sceneAssetListView.itemsSource = SceneManagerSettings.Instance.scenes.GetList();
-            _sceneAssetListView.bindItem += (element, i) =>
+            _sceneAssetListView.bindItem = (element, i) =>
             {
                 ((ObjectField)element).value = SceneManagerSettings.Instance.scenes[i];
                 element.Q(className: "unity-object-field__input").SetEnabled(false);
             };
 
-            SceneManagerSettings.Instance.scenes.CollectionChanged += ScenesList_CollectionChanged;
+            #endregion
+
+            #region Managed Scenes View
 
             _sceneTemplatesList =
                 SceneManagerSettings.Instance.managedScenes?.Select((scene, _) => new ManagedSceneTemplate(scene))
@@ -86,18 +98,114 @@ namespace SceneHandling.Editor.UI
                         managedSceneTemplate.OnDestroy();
                     }
                 }
+            };
+            _managedScenesListView.selectionChanged += objects =>
+            {
+                _selectedSceneDependencies.Clear();
+                foreach (object selectedObj in objects)
+                {
+                    if (selectedObj is ManagedSceneTemplate managedSceneTemplate && managedSceneTemplate.managedScene)
+                    {
+                        int index = _sceneTemplatesList.IndexOf(managedSceneTemplate);
 
-                // EditorApplication.delayCall += () => _managedScenesListView.Rebuild();
+                        Stopwatch timer = Stopwatch.StartNew();
+                        // if (index == 0)
+                        // {
+                        // var task =
+                        //     SceneDependencyResolver.GetDependantsAsync(managedSceneTemplate.managedScene);
+                        // task.GetAwaiter().OnCompleted(() =>
+                        // {
+                        //     _selectedSceneDependencies =
+                        //         task.Result.Select(AssetDatabase.LoadAssetAtPath<SceneAsset>).ToList();
+                        //     timer.Stop();
+                        //     if (_selectedSceneDependencies.Count == 0)
+                        //     {
+                        //         Debug.LogWarning(
+                        //             $"Could not find any dependencies for {typeof(ManagedScene).Name}: {managedSceneTemplate.managedScene.Name}");
+                        //     }
+                        //
+                        //     Debug.Log(_selectedSceneDependencies.ListToString());
+                        //     // Debug.Log($"Elapsed time (ms): {timer.ElapsedMilliseconds}");
+                        //     _sceneReferenceDependenciesListView.itemsSource = _selectedSceneDependencies;
+                        //     _sceneReferenceDependenciesListView.Rebuild();
+                        // });
+                        // }
+                        // else
+                        // {
+                        var dependants = SceneDependencyResolver.GetDependants(managedSceneTemplate.managedScene);
+                        foreach (var entry in dependants)
+                        {
+                            Debug.Log($"{entry.Key}: {entry.Value.ListToString()}");
+                            // SceneAsset sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(entry.Key);
+                            foreach (string value in entry.Value)
+                            {
+                                _selectedSceneDependencies.Add(new ManagedSceneReference(AssetRefType.Scene,
+                                    managedSceneTemplate.managedScene, AssetDatabase.AssetPathToGUID(entry.Key),
+                                    value));
+                            }
+                        }
+
+                        if (_selectedSceneDependencies.Count == 0)
+                        {
+                            Debug.LogWarning(
+                                $"Could not find any dependencies for {typeof(ManagedScene).Name}: {managedSceneTemplate.managedScene.Name}");
+                        }
+
+                        timer.Stop();
+                        // Debug.Log(_selectedSceneDependencies.ListToString());
+                        Debug.Log($"Elapsed time (ms): {timer.ElapsedMilliseconds}");
+                        // }
+
+                        break;
+                    }
+                }
+
+                _sceneReferenceDependenciesListView.itemsSource = _selectedSceneDependencies;
+                _sceneReferenceDependenciesListView.Rebuild();
             };
 
-            SceneManagerSettings.Instance.managedScenes.CollectionChanged += ManagedScenesList_CollectionChanged;
+            #endregion
+
+            BindListListeners();
+
+            #region Scene Reference Dependencies View
+
+            _selectedSceneDependencies = new List<ManagedSceneReference>();
+            _sceneReferenceDependenciesListView = rootVisualElement.Q<ListView>("sceneReferenceList");
+
+            _sceneReferenceDependenciesListView.makeItem = () =>
+            {
+                VisualElement visualElement = new VisualElement { name = "inputBlocker" };
+                visualElement.AddToClassList("collection-view__item--disabled");
+
+                // visualElement.AddManipulator(new Clickable(OnSceneReferenceClicked));
+                visualElement.RegisterCallback<MouseDownEvent>(OnSceneReferenceClicked);
+
+                ObjectField objectField = new ObjectField
+                {
+                    allowSceneObjects = false, objectType = typeof(SceneAsset), style = { paddingBottom = 4 }
+                };
+
+                visualElement.Add(objectField);
+
+                return visualElement;
+            };
+            _sceneReferenceDependenciesListView.bindItem = (element, i) =>
+            {
+                ((ObjectField)element.hierarchy[0]).value = _selectedSceneDependencies[i].SceneAsset;
+                element.hierarchy[0].SetEnabled(false);
+                VisualElement inputField = element.hierarchy[0].Q(className: "unity-object-field__object");
+                inputField.pickingMode = PickingMode.Ignore;
+            };
+
+            #endregion
 
             #region Toolbar Buttons
 
-            _saveButton = rootVisualElement.Q<ToolbarButton>("saveSettings");
-            _loadButton = rootVisualElement.Q<ToolbarButton>("reloadSettings");
-            _clearButton = rootVisualElement.Q<ToolbarButton>("clearSettings");
-            _initButton = rootVisualElement.Q<ToolbarButton>("initSettings");
+            _saveButton = rootVisualElement.Q<Button>("saveSettings");
+            _loadButton = rootVisualElement.Q<Button>("reloadSettings");
+            _clearButton = rootVisualElement.Q<Button>("clearSettings");
+            _initButton = rootVisualElement.Q<Button>("initSettings");
 
             _saveButton.clicked += () =>
             {
@@ -113,19 +221,26 @@ namespace SceneHandling.Editor.UI
             };
             _clearButton.clicked += () =>
             {
+                UnbindListListeners();
                 SceneManagerSettings.Instance.Create();
+                BindListListeners();
 
                 _sceneAssetListView.itemsSource = new List<SceneAsset>();
                 _sceneAssetListView.Rebuild();
+
+                _sceneTemplatesList.Clear();
+                _managedScenesListView.Rebuild();
             };
             _initButton.clicked += () =>
             {
+                UnbindListListeners();
                 SceneManagerSettings.Instance.ResetState();
                 SceneManagerSettings.Instance.scenes = new ObservableList<SceneAsset>(AssetDatabase
                     .FindAssets("t:SceneAsset")
                     .Select(AssetDatabase.GUIDToAssetPath)
                     .Select(AssetDatabase.LoadAssetAtPath<SceneAsset>).ToList());
                 SceneManagerSettings.Instance.Save();
+                BindListListeners();
 
                 ReloadLists();
             };
@@ -160,6 +275,50 @@ namespace SceneHandling.Editor.UI
             #endregion
         }
 
+
+        private void OnSceneReferenceClicked(EventBase evt)
+        {
+            if (_sceneReferenceDependenciesListView.selectedItem is ManagedSceneReference managedSceneReference)
+            {
+                _sceneReferenceDependenciesListView.ClearSelection();
+                Scene? scene = null;
+                for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
+                {
+                    Scene tempScene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(i);
+                    if (tempScene.path.Equals(managedSceneReference.AssetRefPath))
+                    {
+                        scene = tempScene;
+                        break;
+                    }
+                }
+
+                scene ??= EditorSceneManager.OpenScene(managedSceneReference.AssetRefPath,
+                    OpenSceneMode.Additive);
+
+                bool objectRefFound = false;
+                foreach (GameObject rootObj in scene.Value.GetRootGameObjects())
+                {
+                    foreach (Transform transform in rootObj.GetComponentsInChildren<Transform>(true))
+                    {
+                        if (GlobalObjectId.GetGlobalObjectIdSlow(transform.gameObject).targetObjectId ==
+                            ulong.Parse(managedSceneReference.ObjectRefID))
+                        {
+                            objectRefFound = true;
+                            EditorGUIUtility.PingObject(transform.gameObject);
+                            break;
+                        }
+                    }
+
+                    if (objectRefFound)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            evt.StopImmediatePropagation();
+        }
+
         private void ReloadLists()
         {
             // _sceneTemplatesList =
@@ -180,6 +339,7 @@ namespace SceneHandling.Editor.UI
 
         private void ManagedScenesList_CollectionChanged(in NotifyCollectionChangedEventArgs<ManagedScene> evt)
         {
+            Debug.Log(evt.Action);
             if (evt.Action == NotifyCollectionChangedAction.Remove)
             {
                 Debug.Log($"Item removed from ManagedScenes: {evt.OldItem}");
@@ -196,6 +356,17 @@ namespace SceneHandling.Editor.UI
         }
 
         private void OnDestroy()
+        {
+            UnbindListListeners();
+        }
+
+        private void BindListListeners()
+        {
+            SceneManagerSettings.Instance.scenes.CollectionChanged += ScenesList_CollectionChanged;
+            SceneManagerSettings.Instance.managedScenes.CollectionChanged += ManagedScenesList_CollectionChanged;
+        }
+
+        private void UnbindListListeners()
         {
             SceneManagerSettings.Instance.scenes.CollectionChanged -= ScenesList_CollectionChanged;
             SceneManagerSettings.Instance.managedScenes.CollectionChanged -= ManagedScenesList_CollectionChanged;

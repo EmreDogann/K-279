@@ -90,7 +90,7 @@ namespace SceneHandling
             //                           throw new InvalidOperationException(
             //                               $"Could not get parent directory of path {managedScene.ManagedPath}"));
 
-            SaveAsset(managedScene);
+            // SaveAsset(managedScene);
 
             SceneManagerSettings.Instance.managedScenes.Add(managedScene);
             SaveSettings();
@@ -144,6 +144,17 @@ namespace SceneHandling
             return true;
         }
 
+        internal static bool DeleteAsset(ManagedScene asset)
+        {
+            if (asset)
+            {
+                return DeleteAsset(asset.Guid);
+            }
+
+            Debug.LogWarning($"Cannot delete {typeof(ManagedScene).Name} because the provided asset is null.");
+            return false;
+        }
+
         internal static bool DeleteAsset(string guid)
         {
             ManagedScene existingScene = FindManagedAsset(guid);
@@ -155,7 +166,7 @@ namespace SceneHandling
 
             SceneManagerSettings.Instance.managedScenes.Remove(existingScene);
 
-            if (!existingScene.IsEmpty)
+            if (!existingScene.HasValue)
             {
                 if (!ValidateFile(existingScene.ScenePath))
                 {

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.Serialization;
 using SceneHandling.Utility;
-using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace SceneHandling
 {
@@ -24,6 +27,7 @@ namespace SceneHandling
         ///     Get the <see cref="SceneAsset" /> that is managed by this instance.
         /// </summary>
         /// <remarks>Only available in editor.</remarks>
+        [IgnoreDataMember]
         public SceneAsset SceneAsset
         {
             get => sceneAsset as SceneAsset;
@@ -34,7 +38,8 @@ namespace SceneHandling
         /// <summary>
         ///     Is this <see cref="ManagedScene" /> assigned something?
         /// </summary>
-        public bool IsEmpty
+        [IgnoreDataMember]
+        public bool HasValue
         {
             get
             {
@@ -56,11 +61,12 @@ namespace SceneHandling
         /// <summary>
         ///     Path to the <see cref="SceneAsset" />
         /// </summary>
+        [IgnoreDataMember]
         public string ScenePath
         {
             get
             {
-                if (!IsEmpty)
+                if (!HasValue)
                 {
                     throw new Exception($"This {typeof(ManagedScene).Name} is not assigned a scene.");
                 }
@@ -81,9 +87,8 @@ namespace SceneHandling
         /// <summary>
         ///     Name of the scene asset. Without '.unity' extension.
         /// </summary>
+        [IgnoreDataMember]
         public string Name => Path.GetFileNameWithoutExtension(ScenePath);
-
-        public ManagedScene() {}
 
         /// <summary>
         ///     Creates a new <see cref="ManagedScene" /> which references the scene that has the given GUID.
@@ -156,9 +161,9 @@ namespace SceneHandling
             return new ManagedScene(guidFromMap);
         }
 
-        public static implicit operator bool(ManagedScene me)
+        public static implicit operator bool(ManagedScene managedScene)
         {
-            return me != null;
+            return managedScene != null;
         }
     }
 }

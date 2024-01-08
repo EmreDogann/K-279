@@ -18,7 +18,7 @@ namespace SceneHandling.Editor.MapGeneratorTriggers
 
             if (hasSceneChange)
             {
-                SceneDataMapsGenerator.Run();
+                SceneDataMapsGenerator.Run<SceneGuidToPathMapProvider>();
             }
         }
 

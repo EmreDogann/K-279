@@ -2,7 +2,8 @@
     "name": "SceneHandling",
     "rootNamespace": "",
     "references": [
-        "GUID:12e98dc14e0628a4ea33331724eeb343"
+        "GUID:12e98dc14e0628a4ea33331724eeb343",
+        "GUID:7053a494724a448f18e88a849a83c098"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

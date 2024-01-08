@@ -13,7 +13,8 @@ namespace SceneHandling.Editor.MapGeneratorTriggers
         {
             try
             {
-                SceneDataMapsGenerator.Run();
+                SceneDataMapsGenerator.Run<SceneGuidToPathMapProvider>();
+                SceneDataMapsGenerator.Run<ManagedSceneToRefMapProvider>();
             }
             catch (Exception ex)
             {

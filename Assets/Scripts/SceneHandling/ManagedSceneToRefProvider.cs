@@ -16,27 +16,27 @@ using UnityEditor.Build.Reporting;
 
 namespace SceneHandling
 {
-    [ScriptableObjectSingletonBase.FilePath("SceneGuidToPathMap.generated.json", Location.ProjectSettings,
+    [ScriptableObjectSingletonBase.FilePath("ManagedSceneToRefMap.generated.json", Location.ProjectSettings,
         UsageScope.EditorAndBuild)]
-    public sealed class SceneGuidToPathMapProvider : ISceneDataMapProvider<SceneGuidToPathMapProvider>,
+    public sealed class ManagedSceneToRefMapProvider : ISceneDataMapProvider<ManagedSceneToRefMapProvider>,
         ISceneDataMapGenerator
     {
-        private Dictionary<string, string> _sceneGuidToPathMap;
-        private Dictionary<string, string> _scenePathToGuidMap;
+        private Dictionary<string, List<ManagedSceneReference>> _managedSceneToRefMap;
 
-        private static SceneGuidToPathMapProvider _instance;
-        internal static SceneGuidToPathMapProvider Instance
+        private static ManagedSceneToRefMapProvider _instance;
+        internal static ManagedSceneToRefMapProvider Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new SceneGuidToPathMapProvider();
+                    _instance = new ManagedSceneToRefMapProvider();
                 }
 
                 return _instance;
             }
         }
+
 
         private static readonly ScriptableObjectSingletonBase.FilePathAttribute _filePathAttribute;
         public string SavedFilePath => _filePathAttribute != null ? _filePathAttribute.Filepath : string.Empty;
@@ -45,18 +45,15 @@ namespace SceneHandling
         /// <summary>
         ///     The scene GUID to path map.
         /// </summary>
-        public static IReadOnlyDictionary<string, string> GuidToPathMap => GetSceneGuidToPathMap();
+        public static IReadOnlyDictionary<string, List<ManagedSceneReference>> ManagedSceneToRef =>
+            GetManagedSceneToRefMap();
 
-        /// <summary>
-        ///     The scene path to GUID map.
-        /// </summary>
-        public static IReadOnlyDictionary<string, string> PathToGuidMap => GetScenePathToGuidMap();
-
-        static SceneGuidToPathMapProvider()
+        static ManagedSceneToRefMapProvider()
         {
             _filePathAttribute =
-                ScriptableObjectSingletonBase.FilePathAttribute.Retrieve(typeof(SceneGuidToPathMapProvider));
+                ScriptableObjectSingletonBase.FilePathAttribute.Retrieve(typeof(ManagedSceneToRefMapProvider));
         }
+
 
         [Preserve]
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -66,30 +63,25 @@ namespace SceneHandling
             LoadIfNotAlready();
         }
 
-        private static IReadOnlyDictionary<string, string> GetSceneGuidToPathMap()
+        private static IReadOnlyDictionary<string, List<ManagedSceneReference>> GetManagedSceneToRefMap()
         {
-            return Instance._sceneGuidToPathMap;
+            return Instance._managedSceneToRefMap;
         }
 
-        private static IReadOnlyDictionary<string, string> GetScenePathToGuidMap()
+        void ISceneDataMapProvider<ManagedSceneToRefMapProvider>.DirectAssign(
+            Dictionary<string, object> managedSceneToRefMap)
         {
-            return Instance._scenePathToGuidMap;
+            FillWith(managedSceneToRefMap);
         }
 
-        void ISceneDataMapProvider<SceneGuidToPathMapProvider>.DirectAssign(
-            Dictionary<string, object> sceneGuidToPathMap)
-        {
-            FillWith(sceneGuidToPathMap);
-        }
-
-        ISceneDataMapGenerator ISceneDataMapProvider<SceneGuidToPathMapProvider>.GetGenerator()
+        ISceneDataMapGenerator ISceneDataMapProvider<ManagedSceneToRefMapProvider>.GetGenerator()
         {
             return this;
         }
 
         private static void LoadIfNotAlready()
         {
-            if (Instance._sceneGuidToPathMap == null)
+            if (Instance._managedSceneToRefMap == null)
             {
                 Load();
             }
@@ -100,8 +92,8 @@ namespace SceneHandling
 #if UNITY_EDITOR
             if (!File.Exists(Instance.SavedFilePath))
             {
-                Debug.LogWarning("Scene GUID to path map file not found!");
-                SceneDataMapsGenerator.Run<SceneGuidToPathMapProvider>();
+                Debug.LogWarning("Managed scene to ref map file not found!");
+                SceneDataMapsGenerator.Run<ManagedSceneToRefMapProvider>();
             }
 
             try
@@ -116,7 +108,8 @@ namespace SceneHandling
                     }
                 }
 
-                var loadedData = JsonConvert.DeserializeObject<Dictionary<string, object>>(dataToLoad);
+                var loadedData =
+                    JsonConvert.DeserializeObject<Dictionary<string, List<ManagedSceneReference>>>(dataToLoad);
                 FillWith(loadedData);
             }
             catch (Exception e)
@@ -128,40 +121,58 @@ namespace SceneHandling
 
             if (genFile == null)
             {
-                Debug.LogError("Scene GUID to path map file not found!");
+                Debug.LogError("Managed scene to ref map file not found!");
 
                 return;
             }
 
-            var deserialized = JsonConvert.DeserializeObject<Dictionary<string, object>>(genFile.text);
+            var deserialized =
+                JsonConvert.DeserializeObject<Dictionary<string, List<ManagedSceneReference>>>(genFile.text);
             FillWith(deserialized);
 #endif
         }
 
-        private static void FillWith(Dictionary<string, object> sceneGuidToPathMap)
+        private static void FillWith(Dictionary<string, object> managedSceneToRefMap)
         {
-            Instance._sceneGuidToPathMap = sceneGuidToPathMap.ToDictionary(x => x.Key, x => x.Value.ToString());
-            Instance._scenePathToGuidMap = sceneGuidToPathMap.ToDictionary(x => x.Value.ToString(), x => x.Key);
+            Instance._managedSceneToRefMap =
+                managedSceneToRefMap.ToDictionary(x => x.Key, x => x.Value as List<ManagedSceneReference>);
+        }
+
+        private static void FillWith(Dictionary<string, List<ManagedSceneReference>> managedSceneToRefMap)
+        {
+            Instance._managedSceneToRefMap = managedSceneToRefMap;
         }
 
         public Dictionary<string, object> GenerateDataMap()
         {
-#if UNITY_EDITOR
-            string[] allSceneGuids = AssetDatabase.FindAssets("t:Scene");
+            var output = new Dictionary<string, object>();
+            foreach (ManagedScene managedScene in SceneManagerSettings.Instance.managedScenes)
+            {
+                var dependants = SceneDependencyResolver.GetDependants(managedScene);
 
-            var sceneGuidToPathMap = allSceneGuids.ToDictionary(
-                x => x,                                         // key generator: take guids
-                x => AssetDatabase.GUIDToAssetPath(x) as object // value generator: take paths
-            );
-            return sceneGuidToPathMap;
-#else
-            return new Dictionary<string, object>();
-#endif
+                foreach (var entry in dependants)
+                {
+                    if (!output.ContainsKey(entry.Key))
+                    {
+                        output[entry.Key] = new List<ManagedSceneReference>();
+                    }
+
+                    foreach (string value in entry.Value)
+                    {
+                        ((List<ManagedSceneReference>)output[entry.Key]).Add(new ManagedSceneReference(
+                            AssetRefType.Scene,
+                            managedScene, entry.Key,
+                            value));
+                    }
+                }
+            }
+
+            return output;
         }
     }
 
 #if UNITY_EDITOR
-    internal class GuidToPathMapBuildPreProcessor : IPreprocessBuildWithReport, IPostprocessBuildWithReport
+    internal class ManagedSceneToRefBuildPreProcessor : IPreprocessBuildWithReport, IPostprocessBuildWithReport
     {
         // Must run after MapTriggerBuildPreProcessor.cs
         public int callbackOrder => -99;
@@ -176,8 +187,8 @@ namespace SceneHandling
                 Directory.CreateDirectory(ResourcesFolder);
             }
 
-            File.Copy(SceneGuidToPathMapProvider.Instance.SavedFilePath,
-                $"{ResourcesFolder}/{Path.GetFileName(SceneGuidToPathMapProvider.Instance.SavedFilePath)}");
+            File.Copy(ManagedSceneToRefMapProvider.Instance.SavedFilePath,
+                $"{ResourcesFolder}/{Path.GetFileName(ManagedSceneToRefMapProvider.Instance.SavedFilePath)}");
         }
 
         public void OnPostprocessBuild(BuildReport report)
