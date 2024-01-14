@@ -31,34 +31,6 @@ namespace SceneHandling
             }
         }
 
-        private class SceneManagerAssetsOnWillDestroyAssets : AssetModificationProcessor
-        {
-            // Cache the type for reuse.
-            private static readonly Type _type = typeof(ManagedScene);
-
-            private static AssetDeleteResult OnWillDeleteAsset(string assetPath, RemoveAssetOptions _)
-            {
-                if (!assetPath.EndsWith(SceneManagerSettings.Instance.managedSceneExtension))
-                {
-                    return AssetDeleteResult.DidNotDelete;
-                }
-
-                Type assetType = AssetDatabase.GetMainAssetTypeAtPath(assetPath);
-                if (assetType != null && (assetType == _type || assetType.IsSubclassOf(_type)))
-                {
-                    // Delete managed scene
-                    if (DeleteAsset(assetPath))
-                    {
-                        return AssetDeleteResult.DidDelete;
-                    }
-
-                    return AssetDeleteResult.FailedDelete;
-                }
-
-                return AssetDeleteResult.DidNotDelete;
-            }
-        }
-
         public static ManagedScene FindManagedAsset(SceneAsset asset)
         {
             return SceneManagerSettings.Instance.managedScenes.FirstOrDefault(managedScene =>
@@ -222,12 +194,6 @@ namespace SceneHandling
         private static void SaveSettings()
         {
             SceneManagerSettings.Instance.Save();
-        }
-
-        private static string CreateAssetPath(string fileName)
-        {
-            return
-                $"{SceneManagerSettings.Instance.ManagedScenesPath}/{fileName}.{SceneManagerSettings.Instance.managedSceneExtension}";
         }
 #endif
     }

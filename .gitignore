@@ -49,6 +49,7 @@ JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll.meta
 AssetStoreTools.meta
 [Aa]ssets/ProPixelizer*
 [Aa]ssets/AdvancedSceneManager*
+[Aa]ssets/Settings/AdvancedSceneManager*
 
 # Visual Studio cache directory
 .vs/

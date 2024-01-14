@@ -1,13 +1,13 @@
 {
   "dependencies": {
     "com.domybest.mybox": {
-      "version": "https://github.com/Deadcows/MyBox.git#UIToolkit-support",
+      "version": "https://github.com/Deadcows/MyBox.git",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "com.unity.ugui": "1.0.0"
       },
-      "hash": "db5b8378c4875597b3364454bb90c9ebf2e31f82"
+      "hash": "44e73a8e0e6ec8c159cbd957d0e3903e4f27179f"
     },
     "com.ems.main-scene-auto-loading": {
       "version": "https://github.com/EmreDogann/unity-main-scene-auto-loading.git#upm",
@@ -16,7 +16,7 @@
       "dependencies": {
         "com.unity.editorcoroutines": "1.0.0"
       },
-      "hash": "031ac01a88761647e17b5d4630732c7ed6ce1e70"
+      "hash": "3a7ceba69f41718ed26145fe112e5d174d866ff0"
     },
     "com.github.siccity.xnode": {
       "version": "https://github.com/EmreDogann/xNode.git",
@@ -33,7 +33,7 @@
       "hash": "62d78e6122c522964787566ddd59cfc4817a9ce8"
     },
     "com.kylewbanks.scenerefattribute": {
-      "version": "0.10.0",
+      "version": "0.11.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {},

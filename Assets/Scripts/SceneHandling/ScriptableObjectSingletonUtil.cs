@@ -34,16 +34,14 @@ namespace SceneHandling
 
         private static IEnumerable<Type> FindAllPersistentTypes()
         {
-            TypeCache.TypeCollection types =
-                TypeCache.GetTypesDerivedFrom<ScriptableObjectSingletonBase.FilePathAttribute>();
+            TypeCache.TypeCollection types = TypeCache.GetTypesDerivedFrom<FilePathAttribute>();
 
             foreach (Type type in types)
             {
                 if (typeof(ScriptableObjectSingletonBase).IsAssignableFrom(type) == false)
                 {
                     Debug.LogWarning(
-                        $"Type {type} needs to inherit from {typeof(ScriptableObjectSingletonBase)} in order to Accept the attribute {typeof(ScriptableObjectSingletonBase.FilePathAttribute)}!");
-                    ;
+                        $"Type {type} needs to inherit from {typeof(ScriptableObjectSingletonBase)} in order to Accept the attribute {typeof(FilePathAttribute)}!");
                     continue;
                 }
 
@@ -125,7 +123,7 @@ namespace SceneHandling
 
         private static string GetFilePath(Type type)
         {
-            return ScriptableObjectSingletonBase.FilePathAttribute.Retrieve(type).Filepath;
+            return FilePathAttribute.Retrieve(type).Filepath;
         }
 
         private static void Setup(ScriptableObjectSingletonBase asset)
@@ -150,9 +148,8 @@ namespace SceneHandling
 
                 foreach (Type type in FindAllPersistentTypes())
                 {
-                    ScriptableObjectSingletonBase.FilePathAttribute attribute =
-                        type.GetCustomAttribute<ScriptableObjectSingletonBase.FilePathAttribute>();
-                    if (attribute.Scope == ScriptableObjectSingletonBase.FilePathAttribute.UsageScope.EditorOnly)
+                    FilePathAttribute attribute = type.GetCustomAttribute<FilePathAttribute>();
+                    if (attribute.Scope == FilePathAttribute.UsageScope.EditorOnly)
                     {
                         continue;
                     }
@@ -179,9 +176,8 @@ namespace SceneHandling
 
                 foreach (Type type in FindAllPersistentTypes())
                 {
-                    ScriptableObjectSingletonBase.FilePathAttribute attribute =
-                        type.GetCustomAttribute<ScriptableObjectSingletonBase.FilePathAttribute>();
-                    if (attribute.Scope == ScriptableObjectSingletonBase.FilePathAttribute.UsageScope.EditorOnly)
+                    FilePathAttribute attribute = type.GetCustomAttribute<FilePathAttribute>();
+                    if (attribute.Scope == FilePathAttribute.UsageScope.EditorOnly)
                     {
                         continue;
                     }

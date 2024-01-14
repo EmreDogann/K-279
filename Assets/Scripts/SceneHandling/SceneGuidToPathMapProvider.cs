@@ -4,9 +4,8 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.Scripting;
-using Location = SceneHandling.ScriptableObjectSingletonBase.FilePathAttribute.Location;
-using UsageScope = SceneHandling.ScriptableObjectSingletonBase.FilePathAttribute.UsageScope;
+using Location = SceneHandling.FilePathAttribute.Location;
+using UsageScope = SceneHandling.FilePathAttribute.UsageScope;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -16,8 +15,7 @@ using UnityEditor.Build.Reporting;
 
 namespace SceneHandling
 {
-    [ScriptableObjectSingletonBase.FilePath("SceneGuidToPathMap.generated.json", Location.ProjectSettings,
-        UsageScope.EditorAndBuild)]
+    [FilePath("SceneGuidToPathMap.generated.json", Location.ProjectSettings, UsageScope.EditorAndBuild)]
     public sealed class SceneGuidToPathMapProvider : ISceneDataMapProvider<SceneGuidToPathMapProvider>,
         ISceneDataMapGenerator
     {
@@ -38,8 +36,8 @@ namespace SceneHandling
             }
         }
 
-        private static readonly ScriptableObjectSingletonBase.FilePathAttribute _filePathAttribute;
-        public string SavedFilePath => _filePathAttribute != null ? _filePathAttribute.Filepath : string.Empty;
+        private static readonly FilePathAttribute FilePathAttribute;
+        public string SavedFilePath => FilePathAttribute != null ? FilePathAttribute.Filepath : string.Empty;
         public static string GetSavedFilePath => Instance.SavedFilePath;
 
         /// <summary>
@@ -54,13 +52,9 @@ namespace SceneHandling
 
         static SceneGuidToPathMapProvider()
         {
-            _filePathAttribute =
-                ScriptableObjectSingletonBase.FilePathAttribute.Retrieve(typeof(SceneGuidToPathMapProvider));
+            FilePathAttribute = FilePathAttribute.Retrieve(typeof(SceneGuidToPathMapProvider));
         }
 
-        [Preserve]
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        [InitializeInEditorMethod]
         internal static void Initialize()
         {
             LoadIfNotAlready();

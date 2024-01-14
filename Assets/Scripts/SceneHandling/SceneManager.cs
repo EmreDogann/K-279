@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Scripting;
 using Utils;
 #if UNITY_EDITOR
 #endif
@@ -12,7 +13,8 @@ namespace SceneHandling
     {
         public static SceneManager Instance { get; private set; }
 
-        [RuntimeInitializeOnLoadMethod]
+        [Preserve]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSplashScreen)]
         [InitializeInEditorMethod]
         private static void OnApplicationInitialize()
         {

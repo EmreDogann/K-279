@@ -1,14 +1,16 @@
 ﻿using System;
 using Utils;
 using Utils.ObservableCollections;
+using Location = SceneHandling.FilePathAttribute.Location;
+using UsageScope = SceneHandling.FilePathAttribute.UsageScope;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 namespace SceneHandling
 {
-    [FilePath(typeof(SceneManagerSettings), FilePathAttribute.Location.ProjectSettings,
-        FilePathAttribute.UsageScope.EditorAndBuild)]
+    [FilePath(typeof(SceneManagerSettings), Location.ProjectSettings, UsageScope.EditorAndBuild)]
     internal class SceneManagerSettings : ScriptableObjectSingleton<SceneManagerSettings>
     {
 #if UNITY_EDITOR
@@ -25,8 +27,6 @@ namespace SceneHandling
         public ObservableList<ManagedScene> managedScenes = new ObservableList<ManagedScene>();
 
         public string settingsRootPath = "Assets/Settings/Scene Manager";
-        public string managedSceneExtension = "asset";
-        public string ManagedScenesPath => $"{settingsRootPath}/{typeof(ManagedScene).Name}";
 
         public static void Initialize(Action callback)
         {
@@ -50,6 +50,9 @@ namespace SceneHandling
 
         private static void InitializeInternal()
         {
+            SceneGuidToPathMapProvider.Initialize();
+            ManagedSceneToRefMapProvider.Initialize();
+
             // This does a dummy get of the instance, which will trigger the instance to (lazy) load/create itself if it wasn't loaded already.
             _ = Instance;
         }

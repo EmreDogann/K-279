@@ -1,4 +1,8 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Reflection;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace SceneHandling
 {
@@ -21,4 +25,21 @@ namespace SceneHandling
         : System.Attribute
 #endif
     {}
+
+    // ReSharper disable once RedundantAttributeUsageProperty
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
+    internal class InitializationOrderAttribute : Attribute
+    {
+        public int CallbackOrder { get; private set; }
+
+        public InitializationOrderAttribute(int callbackOrder)
+        {
+            CallbackOrder = callbackOrder;
+        }
+
+        public static InitializationOrderAttribute Retrieve(Type type)
+        {
+            return type.GetCustomAttribute<InitializationOrderAttribute>();
+        }
+    }
 }
