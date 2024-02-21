@@ -81,7 +81,7 @@ namespace Utils.Extensions
             return builder.ToString();
         }
 
-        public static void Append<T>(T target, StringBuilder toBuilder)
+        private static void Append<T>(this T target, StringBuilder toBuilder)
         {
             if (target == null)
             {
@@ -89,17 +89,22 @@ namespace Utils.Extensions
             }
             else
             {
-                if (target is Object objTarget)
+                switch (target)
                 {
-                    toBuilder.Append("\"");
-                    toBuilder.Append(objTarget.name);
-                    toBuilder.Append("\" (");
-                    toBuilder.Append(target.GetType().Name);
-                    toBuilder.Append(")");
-                }
-                else
-                {
-                    toBuilder.Append(target.GetType().Name);
+                    case Object objTarget:
+                        toBuilder.Append("\"");
+                        toBuilder.Append(objTarget.name);
+                        toBuilder.Append("\" (");
+                        toBuilder.Append(target.GetType().Name);
+                        toBuilder.Append(")");
+                        break;
+                    case string stringTarget:
+                        toBuilder.Append("\"");
+                        toBuilder.Append(stringTarget);
+                        toBuilder.Append("\" (");
+                        toBuilder.Append(target.GetType().Name);
+                        toBuilder.Append(")");
+                        break;
                 }
             }
         }

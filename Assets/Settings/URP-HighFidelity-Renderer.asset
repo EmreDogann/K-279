@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Active: 1
   renderPassEvent: 240
   settings:
-    showInSceneView: 0
+    showInSceneView: 1
     worldSpaceDither: 1
     filterMode: 1
     supersample: 0

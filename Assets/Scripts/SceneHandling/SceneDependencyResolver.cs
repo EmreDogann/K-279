@@ -1,4 +1,7 @@
-﻿using SceneHandling.Utility;
+﻿using System.Collections.Concurrent;
+using System.Linq;
+using System.Threading.Tasks;
+using SceneHandling.Utility;
 using Utils.Extensions;
 using Debug = UnityEngine.Debug;
 
@@ -27,33 +30,40 @@ namespace SceneHandling
             }
 
             string[] dependencyGuids = FindPossibleDependants(nameFilter, searchFolder);
-            var dependencyAssets = ResolveDependants(managedScene, dependencyGuids);
+            var guidToAssetPath = dependencyGuids
+                .Select(e => new KeyValuePair<string, string>(e, AssetDatabase.GUIDToAssetPath(e)))
+                .ToList();
 
+            var dependencyAssets = ResolveDependant(managedScene, guidToAssetPath);
             return dependencyAssets;
         }
 
-        // internal static Task<List<string>> GetDependantsAsync(ManagedScene managedScene, string nameFilter = "",
-        //     string searchFolder = "")
-        // {
-        //     if (!managedScene || !managedScene.SceneAsset)
-        //     {
-        //         Debug.LogWarning("Cannot find references because selected object is null!");
-        //         return null;
-        //     }
-        //
-        //     // Stopwatch timer = Stopwatch.StartNew();
-        //     string[] dependencyGuids = FindPossibleDependants(nameFilter, searchFolder);
-        //     // timer.Stop();
-        //     // Debug.Log($"Find Assets Elapsed Time (ms): {timer.ElapsedMilliseconds}");
-        //
-        //     // timer.Restart();
-        //     var dependencyAssets = ResolveDependantsAsync(managedScene, dependencyGuids);
-        //     // timer.Stop();
-        //     // Debug.Log($"Resolve Dependants Elapsed Time (ms): {timer.ElapsedMilliseconds}");
-        //
-        //     return dependencyAssets;
-        //     // return dependencyAssets.Result.Select(AssetDatabase.LoadAssetAtPath<T>).ToList();
-        // }
+        internal static Task<Dictionary<string, List<string>>> GetDependantsAsync(ManagedScene managedScene,
+            string nameFilter = "",
+            string searchFolder = "")
+        {
+            if (!managedScene || !managedScene.SceneAsset)
+            {
+                Debug.LogWarning("Cannot find references because selected object is null!");
+                return null;
+            }
+
+            // Stopwatch timer = Stopwatch.StartNew();
+            string[] dependencyGuids = FindPossibleDependants(nameFilter, searchFolder);
+            // timer.Stop();
+            // Debug.Log($"Find Assets Elapsed Time (ms): {timer.ElapsedMilliseconds}");
+
+            // timer.Restart();
+
+            var dependencyAssets = ResolveDependantAsync(managedScene,
+                dependencyGuids.Select(e => new KeyValuePair<string, string>(e, AssetDatabase.GUIDToAssetPath(e)))
+                    .ToList());
+            // timer.Stop();
+            // Debug.Log($"Resolve Dependants Elapsed Time (ms): {timer.ElapsedMilliseconds}");
+
+            return dependencyAssets;
+            // return dependencyAssets.Result.Select(AssetDatabase.LoadAssetAtPath<T>).ToList();
+        }
 
         private static string[] FindPossibleDependants(string nameFilter = "", string searchFolder = "")
         {
@@ -66,23 +76,23 @@ namespace SceneHandling
 #endif
         }
 
-        private static Dictionary<string, List<string>> ResolveDependants(ManagedScene managedScene,
-            IReadOnlyCollection<string> guids,
+        // assetPaths: Key - GUID, Value: Asset Path
+        private static Dictionary<string, List<string>> ResolveDependant(ManagedScene managedScene,
+            IReadOnlyCollection<KeyValuePair<string, string>> assetPaths,
             int maxRecursionLength = 3)
         {
 #if UNITY_EDITOR
             string sceneGuid = managedScene.Guid;
-
             var assets = new Dictionary<string, List<string>>();
 
-            foreach (string guid in guids)
+            foreach (var assetPath in assetPaths)
             {
-                string assetPath = AssetDatabase.GUIDToAssetPath(guid);
                 YamlParser yamlParser;
                 try
                 {
                     yamlParser =
-                        new YamlParser(new ReadOnlySequence<byte>(Encoding.UTF8.GetBytes(File.ReadAllText(assetPath))));
+                        new YamlParser(
+                            new ReadOnlySequence<byte>(Encoding.UTF8.GetBytes(File.ReadAllText(assetPath.Value))));
                     // Skip to start of file (to the tag of the first document).
                     yamlParser.SkipAfter(ParseEventType.StreamStart);
                 }
@@ -133,15 +143,14 @@ namespace SceneHandling
                                     // Debug.Log($"Found GUID: {value}");
                                     prevFileID = currentFileID;
 
-                                    if (assets.ContainsKey(assetPath))
+                                    if (assets.ContainsKey(assetPath.Key))
                                     {
-                                        assets[assetPath].Add(owningGO);
+                                        assets[assetPath.Key].Add(owningGO);
                                     }
                                     else
                                     {
-                                        var objList = new List<string>();
-                                        objList.Add(owningGO);
-                                        assets.Add(guid, objList);
+                                        var objList = new List<string> { owningGO };
+                                        assets.Add(assetPath.Key, objList);
                                     }
                                 }
 
@@ -164,101 +173,43 @@ namespace SceneHandling
 #endif
         }
 
-        // private static Task<List<string>> ResolveDependantsAsync(ManagedScene managedScene,
-        //     IReadOnlyCollection<string> guids,
-        //     int maxRecursionLength = 3)
-        // {
-        //     string sceneGuid = managedScene.Guid;
-        //
-        //     var assets = new ConcurrentBag<string>();
-        //
-        //     var assetPathsFromGuid = guids.Select(AssetDatabase.GUIDToAssetPath).ToList();
-        //
-        //     var task = Task.Run(() =>
-        //     {
-        //         Parallel.ForEach(assetPathsFromGuid, assetPath =>
-        //         {
-        //             StreamReader lineReader = new StreamReader(assetPath);
-        //             YamlStream yaml = new YamlStream();
-        //             try
-        //             {
-        //                 yaml.Load(lineReader);
-        //             }
-        //             catch (Exception e)
-        //             {
-        //                 Debug.Log($"{assetPath}: {e}");
-        //                 return;
-        //             }
-        //
-        //             foreach (YamlDocument doc in yaml.Documents)
-        //             {
-        //                 string fileID = doc.RootNode.Tag.Value[(doc.RootNode.Tag.Value.LastIndexOf(':') + 1)..];
-        //                 // 114 = "MonoBehaviour" Class ID -> https://docs.unity3d.com/Manual/ClassIDReference.html
-        //                 if (!fileID.Equals("114"))
-        //                 {
-        //                     continue;
-        //                 }
-        //
-        //                 YamlMappingNode mapping = (YamlMappingNode)doc.RootNode;
-        //
-        //                 // Example: Anchor: 2126224321, Tag: MonoBehaviour
-        //                 // Debug.Log($"Anchor: {mapping.Anchor}, Tag: {UnityYAMLClassID.IDToType[int.Parse(fileID)]}");
-        //                 YamlMappingNode mappingWithStrippedHeader = (YamlMappingNode)mapping.Children[0].Value;
-        //                 // Skip the first 5 default values for a monobehaviour -> https://docs.unity3d.com/2022.3/Documentation/Manual/YAMLSceneExample.html
-        //                 // I think there are actually 10 default values we could skip, but the docs above only show 5, so better to play it on the safe side.
-        //                 if (ParseChildren(mappingWithStrippedHeader.Children, sceneGuid, maxRecursionLength, 5))
-        //                 {
-        //                     assets.Add(assetPath);
-        //                 }
-        //             }
-        //         });
-        //
-        //         return assets.ToList();
-        //     });
-        //
-        //     return task;
-        // }
+        private static Task<Dictionary<string, List<string>>> ResolveDependantAsync(ManagedScene managedScene,
+            IReadOnlyCollection<KeyValuePair<string, string>> guidToAssetPath,
+            int maxRecursionLength = 3)
+        {
+            var assets = new ConcurrentDictionary<string, ConcurrentBag<string>>();
 
-        // private static bool ParseChildren(IOrderedDictionary<YamlNode, YamlNode> childrenMap, string targetGuid,
-        //     int recursionLimit, int startIndex = 0)
-        // {
-        //     if (recursionLimit == 0)
-        //     {
-        //         // Debug.LogWarning("Reached Max Recursion Limit!");
-        //         return false;
-        //     }
-        //
-        //     for (int i = startIndex; i < childrenMap.Count; i++)
-        //     {
-        //         (YamlNode key, YamlNode value) = childrenMap[i];
-        //         // Debug.Log($"{key}: {value}, {value.NodeType}");
-        //         switch (value.NodeType)
-        //         {
-        //             case YamlNodeType.Mapping:
-        //                 if (ParseChildren(((YamlMappingNode)value).Children, targetGuid, recursionLimit - 1))
-        //                 {
-        //                     return true;
-        //                 }
-        //
-        //                 break;
-        //             case YamlNodeType.Scalar:
-        //                 if (key.ToString().Contains("guid"))
-        //                 {
-        //                     string guidValue = value.ToString();
-        //                     if (guidValue.IsValidGuid() && guidValue.Equals(targetGuid))
-        //                     {
-        //                         Debug.Log($"Found GUID! {key}: {value}");
-        //                         return true;
-        //                     }
-        //                 }
-        //
-        //                 break;
-        //         }
-        //
-        //         // Debug.Log(((YamlScalarNode)entry.Key).Value);
-        //     }
-        //
-        //     return false;
-        // }
+            var task = Task.Run(() =>
+            {
+                Parallel.ForEach(guidToAssetPath, entry =>
+                {
+                    var dependants = ResolveDependant(managedScene, new[] { entry }, maxRecursionLength);
+                    foreach (var dependant in dependants)
+                    {
+                        if (assets.TryGetValue(dependant.Key, out var asset))
+                        {
+                            foreach (string value in dependant.Value)
+                            {
+                                if (!asset.Contains(value))
+                                {
+                                    asset.Add(value);
+                                }
+                            }
+
+                            assets.TryGetValue(dependant.Key, out var existing);
+                            assets.TryUpdate(dependant.Key, asset, existing);
+                        }
+                        else
+                        {
+                            assets.TryAdd(dependant.Key, new ConcurrentBag<string>(dependant.Value));
+                        }
+                    }
+                });
+
+                return assets.ToDictionary(entry => entry.Key, entry => entry.Value.ToList());
+            });
+
+            return task;
+        }
     }
 }

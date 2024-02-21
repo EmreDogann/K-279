@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scenes:
     list:
-    - {fileID: 102900000, guid: 1dd8f94d6beac5642a7e377bc9165a82, type: 3}
+    - {fileID: 102900000, guid: 8e855e5b4282732468a517da6bb95020, type: 3}
     - {fileID: 102900000, guid: cbffd398304640d4ab3cb4e7f79b7bdf, type: 3}
     - {fileID: 102900000, guid: 76635b856d46593498d486a865203344, type: 3}
     - {fileID: 102900000, guid: 0ad62d312b15063489bd01a22c89b0e8, type: 3}
@@ -53,4 +53,3 @@ MonoBehaviour:
     - sceneAsset: {fileID: 102900000, guid: 0f10524847f1010438443946b7d7a61d, type: 3}
       guid: 0f10524847f1010438443946b7d7a61d
   settingsRootPath: Assets/Settings/Scene Manager
-  managedSceneExtension: asset

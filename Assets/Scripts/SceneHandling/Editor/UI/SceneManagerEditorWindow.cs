@@ -8,7 +8,6 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
-using Utils.Extensions;
 using Utils.ObservableCollections;
 using Debug = UnityEngine.Debug;
 
@@ -106,55 +105,53 @@ namespace SceneHandling.Editor.UI
                 {
                     if (selectedObj is ManagedSceneTemplate managedSceneTemplate && managedSceneTemplate.managedScene)
                     {
-                        int index = _sceneTemplatesList.IndexOf(managedSceneTemplate);
+                        // int index = _sceneTemplatesList.IndexOf(managedSceneTemplate);
 
                         Stopwatch timer = Stopwatch.StartNew();
-                        // if (index == 0)
-                        // {
-                        // var task =
-                        //     SceneDependencyResolver.GetDependantsAsync(managedSceneTemplate.managedScene);
-                        // task.GetAwaiter().OnCompleted(() =>
-                        // {
-                        //     _selectedSceneDependencies =
-                        //         task.Result.Select(AssetDatabase.LoadAssetAtPath<SceneAsset>).ToList();
-                        //     timer.Stop();
-                        //     if (_selectedSceneDependencies.Count == 0)
-                        //     {
-                        //         Debug.LogWarning(
-                        //             $"Could not find any dependencies for {typeof(ManagedScene).Name}: {managedSceneTemplate.managedScene.Name}");
-                        //     }
-                        //
-                        //     Debug.Log(_selectedSceneDependencies.ListToString());
-                        //     // Debug.Log($"Elapsed time (ms): {timer.ElapsedMilliseconds}");
-                        //     _sceneReferenceDependenciesListView.itemsSource = _selectedSceneDependencies;
-                        //     _sceneReferenceDependenciesListView.Rebuild();
-                        // });
-                        // }
-                        // else
-                        // {
-                        var dependants = SceneDependencyResolver.GetDependants(managedSceneTemplate.managedScene);
-                        foreach (var entry in dependants)
+                        var task =
+                            SceneDependencyResolver.GetDependantsAsync(managedSceneTemplate.managedScene);
+                        task.GetAwaiter().OnCompleted(() =>
                         {
-                            Debug.Log($"{entry.Key}: {entry.Value.ListToString()}");
-                            // SceneAsset sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(entry.Key);
-                            foreach (string value in entry.Value)
+                            foreach (var entry in task.Result)
                             {
-                                _selectedSceneDependencies.Add(new ManagedSceneReference(AssetRefType.Scene,
-                                    managedSceneTemplate.managedScene, AssetDatabase.AssetPathToGUID(entry.Key),
-                                    value));
+                                // Debug.Log($"{entry.Key}: {entry.Value.ListToString()}");
+                                foreach (string value in entry.Value)
+                                {
+                                    _selectedSceneDependencies.Add(new ManagedSceneReference(AssetRefType.Scene,
+                                        managedSceneTemplate.managedScene, entry.Key, value));
+                                }
                             }
-                        }
 
-                        if (_selectedSceneDependencies.Count == 0)
-                        {
-                            Debug.LogWarning(
-                                $"Could not find any dependencies for {typeof(ManagedScene).Name}: {managedSceneTemplate.managedScene.Name}");
-                        }
+                            timer.Stop();
+                            if (_selectedSceneDependencies.Count == 0)
+                            {
+                                Debug.LogWarning(
+                                    $"Could not find any dependencies for {typeof(ManagedScene).Name}: {managedSceneTemplate.managedScene.Name}");
+                            }
+
+                            _sceneReferenceDependenciesListView.itemsSource = _selectedSceneDependencies;
+                            _sceneReferenceDependenciesListView.Rebuild();
+                        });
+
+                        // var dependants = SceneDependencyResolver.GetDependants(managedSceneTemplate.managedScene);
+                        // foreach (var entry in dependants)
+                        // {
+                        //     Debug.Log($"{entry.Key}: {entry.Value.ListToString()}");
+                        //     foreach (string value in entry.Value)
+                        //     {
+                        //         _selectedSceneDependencies.Add(new ManagedSceneReference(AssetRefType.Scene,
+                        //             managedSceneTemplate.managedScene, entry.Key, value));
+                        //     }
+                        // }
+                        //
+                        // if (_selectedSceneDependencies.Count == 0)
+                        // {
+                        //     Debug.LogWarning(
+                        //         $"Could not find any dependencies for {typeof(ManagedScene).Name}: {managedSceneTemplate.managedScene.Name}");
+                        // }
 
                         timer.Stop();
-                        // Debug.Log(_selectedSceneDependencies.ListToString());
                         Debug.Log($"Elapsed time (ms): {timer.ElapsedMilliseconds}");
-                        // }
 
                         break;
                     }

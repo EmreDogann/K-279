@@ -342,7 +342,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.textmeshpro": {
-      "version": "3.0.6",
+      "version": "3.0.8",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -388,11 +388,11 @@
       "hash": "dab20ee1bdf86442f5eeeac29fbee752a99fe1ab"
     },
     "jp.hadashikick.vyaml": {
-      "version": "https://github.com/hadashiA/VYaml.git?path=VYaml.Unity/Assets/VYaml#0.20.0",
+      "version": "https://github.com/hadashiA/VYaml.git?path=VYaml.Unity/Assets/VYaml#0.24.0",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "768fea3c68e7e0dff49e15fe5380b84a9a84ba86"
+      "hash": "fef8dd721c6ee9f9cf0be84d5bd82e794e58485f"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
