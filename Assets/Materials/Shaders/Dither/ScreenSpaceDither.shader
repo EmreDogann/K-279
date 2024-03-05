@@ -178,6 +178,15 @@
 				);
 			}
 
+			// Z buffer to linear depth.
+			// Does NOT correctly handle oblique view frustums.
+			// Does NOT work with orthographic projection.
+			// zBufferParam = { (f-n)/n, 1, (f-n)/n*f, 1/f }
+			float LinearEyeDepthInverse(float depth, float4 zBufferParam)
+			{
+				return (zBufferParam.z * depth + zBufferParam.w);
+			}
+
             float4 Fragment(Varyings input) : SV_Target
             {
                 float3 sourceColor = SAMPLE_TEXTURE2D(_BlitTexture, sampler_BlitTexture, input.texcoord).rgb;
@@ -185,7 +194,7 @@
             	int ditherType = round(SAMPLE_TEXTURE2D(_GBuffer1, sampler_GBuffer1, input.texcoord).g * 10);
 
             	float4 ditherColor;
-            	#if ENABLE_WORLD_SPACE_DITHER
+            	// #if ENABLE_WORLD_SPACE_DITHER
             		float2 UV = input.texcoord;
 					// Sample the depth from the Camera depth texture.
 					#if UNITY_REVERSED_Z
@@ -194,7 +203,7 @@
 						// Adjust Z to match NDC for OpenGL ([-1, 1])
 						real depth = lerp(UNITY_NEAR_CLIP_VALUE, 1, SampleSceneDepth(UV));
 					#endif
-					// depth = Linear01Depth(depth, _ZBufferParams);
+					// depth = LinearEyeDepthInverse(depth, _ZBufferParams);
 
 					float3 worldPos = ComputeWorldSpacePosition(UV, depth, UNITY_MATRIX_I_VP);
 					float3 localPos = TransformWorldToObject(worldPos);
@@ -240,22 +249,22 @@
 					{
 						ditherColor = SAMPLE_DITHER_TEX(_BayerNoiseTex, projectionUV);
 					}
-				#else
-					float3 dir = normalize(lerp(lerp(_BL, _TL, input.texcoord.y), lerp(_BR, _TR, input.texcoord.y), input.texcoord.x));
-					if (ditherType == 0 || ditherType == 1) // Blue Noise
-					{
-						ditherColor = cubeProject(_BlueNoiseTex, sampler_BlueNoiseTex, _BlueNoiseTex_TexelSize.xy, dir);
-					} else if (ditherType == 2) // White Noise
-					{
-						ditherColor = cubeProject(_WhiteNoiseTex, sampler_WhiteNoiseTex, _WhiteNoiseTex_TexelSize.xy, dir);
-					} else if (ditherType == 3) // Interleaved-Gradient Noise
-					{
-						ditherColor = cubeProject(_IGNoiseTex, sampler_IGNoiseTex, _IGNoiseTex_TexelSize.xy, dir);
-					} else if (ditherType == 4) // Bayer Noise
-					{
-						ditherColor = cubeProject(_BayerNoiseTex, sampler_BayerNoiseTex, _BayerNoiseTex_TexelSize.xy, dir);
-					}
-				#endif
+				// #else
+				// 	float3 dir = normalize(lerp(lerp(_BL, _TL, input.texcoord.y), lerp(_BR, _TR, input.texcoord.y), input.texcoord.x));
+				// 	if (ditherType == 0 || ditherType == 1) // Blue Noise
+				// 	{
+				// 		ditherColor = cubeProject(_BlueNoiseTex, sampler_BlueNoiseTex, _BlueNoiseTex_TexelSize.xy, dir);
+				// 	} else if (ditherType == 2) // White Noise
+				// 	{
+				// 		ditherColor = cubeProject(_WhiteNoiseTex, sampler_WhiteNoiseTex, _WhiteNoiseTex_TexelSize.xy, dir);
+				// 	} else if (ditherType == 3) // Interleaved-Gradient Noise
+				// 	{
+				// 		ditherColor = cubeProject(_IGNoiseTex, sampler_IGNoiseTex, _IGNoiseTex_TexelSize.xy, dir);
+				// 	} else if (ditherType == 4) // Bayer Noise
+				// 	{
+				// 		ditherColor = cubeProject(_BayerNoiseTex, sampler_BayerNoiseTex, _BayerNoiseTex_TexelSize.xy, dir);
+				// 	}
+				// #endif
             	float ditherLum = Luminance(ditherColor);
                 float lum = Luminance(sourceColor);
 

@@ -219,7 +219,7 @@ MonoBehaviour:
     worldSpaceDither: 1
     filterMode: 1
     supersample: 0
-    highQualityDitherFiltering: 0
+    highQualityDitherFiltering: 1
     blueDitherTex: {fileID: 2800000, guid: 0dafe293c44a19f4a95c8bbbf5cc6da6, type: 3}
     whiteDitherTex: {fileID: 2800000, guid: 741a4bc96b66e7640abf342e299698dc, type: 3}
     interleavedGradientDitherTex: {fileID: 2800000, guid: 8d5f695c3a19e4643a6fdee750689b0f,

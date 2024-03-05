@@ -3,7 +3,7 @@ Shader "Universal Render Pipeline/Custom/DitherLit"
     Properties
     {
         // Dither Properties
-        [IntRange] _NoiseType("Noise Type", Int) = 1
+        [IntRange] _NoiseType("Noise Type", Range(0, 4)) = 1
         [NoScaleOffset] _NoiseMap("Noise Map", 2D) = "white" {}
         [Toggle] _UseRampTex("Use Ramp Texture", Int) = 0
         _ColorRampMap("Color Ramp Map", 2D) = "white" {}
@@ -545,5 +545,5 @@ Shader "Universal Render Pipeline/Custom/DitherLit"
     }
 
     FallBack "Hidden/Universal Render Pipeline/FallbackError"
-    CustomEditor "Editor.DitherLitShader"
+    CustomEditor "Utils.Editor.DitherLitShader"
 }
