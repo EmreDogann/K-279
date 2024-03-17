@@ -7,7 +7,7 @@
       "dependencies": {
         "com.unity.ugui": "1.0.0"
       },
-      "hash": "44e73a8e0e6ec8c159cbd957d0e3903e4f27179f"
+      "hash": "e56483d404441832a982cca63b3f1b7af3616a7a"
     },
     "com.ems.main-scene-auto-loading": {
       "version": "https://github.com/EmreDogann/unity-main-scene-auto-loading.git#upm",
@@ -16,7 +16,7 @@
       "dependencies": {
         "com.unity.editorcoroutines": "1.0.0"
       },
-      "hash": "3a7ceba69f41718ed26145fe112e5d174d866ff0"
+      "hash": "657fb841b74c54b08d3ee49a8e663da87ce52329"
     },
     "com.github.siccity.xnode": {
       "version": "https://github.com/EmreDogann/xNode.git",
@@ -30,7 +30,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "62d78e6122c522964787566ddd59cfc4817a9ce8"
+      "hash": "b49ea1a91ed93352e6f19b13809983188016c622"
     },
     "com.kylewbanks.scenerefattribute": {
       "version": "0.11.0",
@@ -44,7 +44,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "8d6ef2aceb8b0957efebff28d6d46c8b6e456841"
+      "hash": "353c5a037936bd747d82ba233781ff695fdac9c7"
     },
     "com.quickeye.icon-browser": {
       "version": "https://github.com/ErnSur/unity-editor-icons.git",
@@ -378,14 +378,14 @@
       "dependencies": {
         "com.unity.collections": "0.9.0-preview.6"
       },
-      "hash": "4986c28517ace563c06985334bf4b17429aa5997"
+      "hash": "2945c0b264f2d2cfab110c6201dcce436c8c46e8"
     },
     "com.wooshii.hierarchydecorator": {
       "version": "https://github.com/WooshiiDev/HierarchyDecorator.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "dab20ee1bdf86442f5eeeac29fbee752a99fe1ab"
+      "hash": "2590c6a14a7230b8571383c379124c32d0712090"
     },
     "jp.hadashikick.vyaml": {
       "version": "https://github.com/hadashiA/VYaml.git?path=VYaml.Unity/Assets/VYaml#0.24.0",
