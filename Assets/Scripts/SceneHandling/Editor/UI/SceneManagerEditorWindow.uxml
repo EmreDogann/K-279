@@ -26,5 +26,8 @@
         <ui:ScrollView style="flex-grow: 0; margin-top: 8px; flex-shrink: 1;">
             <ui:ListView name="sceneAssetList" show-border="true" show-foldout-header="true" header-title="Scene Assets" show-bound-collection-size="false" style="margin-top: 0; display: flex; flex-shrink: 0; flex-grow: 0; min-height: 42px;" />
         </ui:ScrollView>
+        <ui:VisualElement style="flex-grow: 1; justify-content: flex-end; flex-shrink: 0; padding-top: 0; margin-top: 8px;">
+            <ui:Toggle label="Enabled" name="enabledSceneHandling" style="align-self: flex-start; align-items: stretch; justify-content: flex-start; flex-direction: row;" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

@@ -21,12 +21,21 @@ namespace SceneHandling
         public ObservableList<SceneAsset> scenes = new ObservableList<SceneAsset>();
 #endif
 
+        internal bool EnableSceneHandling;
+
         /// <summary>
         ///     All scenes that are managed/referenced by the <see cref="SceneManager" />, or referenced in scene via a <see cref="ManagedScene" /> field.
         /// </summary>
         public ObservableList<ManagedScene> managedScenes = new ObservableList<ManagedScene>();
 
+        public ObservableList<SceneGroup> sceneGroups = new ObservableList<SceneGroup>();
+
         public string settingsRootPath = "Assets/Settings/Scene Manager";
+
+        public bool IsEnabled()
+        {
+            return EnableSceneHandling;
+        }
 
         public static void Initialize(Action callback)
         {

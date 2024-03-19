@@ -28,6 +28,11 @@ namespace SceneHandling.Editor
             SceneManager.OnInitialized += OnInitialized;
         }
 
+        public static void Repaint()
+        {
+            UnityToolbarExtender.ToolbarExtender.Repaint();
+        }
+
         private static void OnInitialized()
         {
             UnityToolbarExtender.ToolbarExtender.LeftToolbarGUI.Add(DrawToolbar);
@@ -42,10 +47,12 @@ namespace SceneHandling.Editor
             GUIContent content = isOrWillEnterPlaymode
                 ? EditorGUIUtility.IconContent("PlayButton On", "Stop Play")
                 : EditorGUIUtility.TrIconContent("PlayButton", "Play with Scene Preset");
-
-            if (GUILayout.Toggle(isOrWillEnterPlaymode, content, ToolbarStyles.CommandButtonStyle))
+            using (new EditorGUI.DisabledScope(!SceneManagerSettings.Instance.IsEnabled()))
             {
-                // TODO: Enter Play mode using Scene Presets...
+                if (GUILayout.Toggle(isOrWillEnterPlaymode, content, ToolbarStyles.CommandButtonStyle))
+                {
+                    // TODO: Enter Play mode using Scene Presets...
+                }
             }
         }
     }

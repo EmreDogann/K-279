@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Scripting;
@@ -25,14 +26,33 @@ namespace SceneHandling
                     Instance = new SceneManager();
                 }
 
-                InitializeEditor();
-
                 OnInitialized?.Invoke();
+
+                EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+                EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
             });
         }
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static void LoadStartupScenes() {}
+        private static void OnPlayModeStateChanged(PlayModeStateChange state)
+        {
+            Debug.Log("Play Mode Changed..." + state);
+            switch (state)
+            {
+                case PlayModeStateChange.EnteredEditMode:
+                    break;
+                case PlayModeStateChange.ExitingEditMode:
+                    break;
+                case PlayModeStateChange.EnteredPlayMode:
+                    break;
+                case PlayModeStateChange.ExitingPlayMode:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        }
+
+        // [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        // private static void LoadStartupScenes() {}
 
         // #if UNITY_STANDALONE && !UNITY_EDITOR
 //         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -45,9 +65,9 @@ namespace SceneHandling
 //         }
 // #endif
 
-        private static void InitializeEditor() {}
-
         public static event Action OnInitialized;
+
+        public static void LoadSceneGroup(SceneGroup sceneGroup, bool setActive, Action<bool> onLoadComplete = null) {}
 
         public static void LoadSceneAsync(string scenePath, bool setActive, Action<bool> onLoadComplete = null)
         {

@@ -32,6 +32,8 @@ namespace SceneHandling.Editor.UI
         private Button _removeListItemsButton;
         private Button _printSceneListSizeButton;
 
+        private Toggle _enabledSceneHandling;
+
         private List<ManagedSceneTemplate> _sceneTemplatesList;
 
         private List<ManagedSceneReference> _selectedSceneDependencies;
@@ -268,6 +270,17 @@ namespace SceneHandling.Editor.UI
             {
                 Debug.Log($"Scene List Size {SceneManagerSettings.Instance.scenes.Count}");
             };
+
+            #endregion
+
+            #region Footer
+
+            _enabledSceneHandling = rootVisualElement.Q<Toggle>("enabledSceneHandling");
+            _enabledSceneHandling.RegisterValueChangedCallback(evt =>
+            {
+                SceneManagerSettings.Instance.EnableSceneHandling = evt.newValue;
+                ToolbarExtender.Repaint();
+            });
 
             #endregion
         }
