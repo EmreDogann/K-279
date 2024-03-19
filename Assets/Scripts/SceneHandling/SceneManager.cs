@@ -26,6 +26,8 @@ namespace SceneHandling
                 }
 
                 InitializeEditor();
+
+                OnInitialized?.Invoke();
             });
         }
 
@@ -44,6 +46,8 @@ namespace SceneHandling
 // #endif
 
         private static void InitializeEditor() {}
+
+        public static event Action OnInitialized;
 
         public static void LoadSceneAsync(string scenePath, bool setActive, Action<bool> onLoadComplete = null)
         {

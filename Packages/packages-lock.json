@@ -16,7 +16,7 @@
       "dependencies": {
         "com.unity.editorcoroutines": "1.0.0"
       },
-      "hash": "657fb841b74c54b08d3ee49a8e663da87ce52329"
+      "hash": "055cf7c1a565cec1fa088c6c1c4669509c861ad4"
     },
     "com.github.siccity.xnode": {
       "version": "https://github.com/EmreDogann/xNode.git",
@@ -33,7 +33,7 @@
       "hash": "b49ea1a91ed93352e6f19b13809983188016c622"
     },
     "com.kylewbanks.scenerefattribute": {
-      "version": "0.11.0",
+      "version": "0.11.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -45,6 +45,13 @@
       "source": "git",
       "dependencies": {},
       "hash": "353c5a037936bd747d82ba233781ff695fdac9c7"
+    },
+    "com.marijnzwemmer.unity-toolbar-extender": {
+      "version": "https://github.com/marijnz/unity-toolbar-extender.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "dbd76ed996483d219c39d240f785b1790aa039ed"
     },
     "com.quickeye.icon-browser": {
       "version": "https://github.com/ErnSur/unity-editor-icons.git",
